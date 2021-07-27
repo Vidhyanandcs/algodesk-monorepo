@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
+          scope: '@algodesk'
       - run: npm ci
       - run: npm publish
         env:
