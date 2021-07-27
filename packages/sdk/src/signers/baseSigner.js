@@ -1,9 +1,7 @@
-import * as sdk from "algosdk";
 
-class BaseSigner {
+
+export class BaseSigner {
     constructor(name) {
 
     }
 }
-
-export default BaseSigner;

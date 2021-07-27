@@ -1,6 +1,6 @@
-import BaseSigner from "./baseSigner";
+import {BaseSigner} from "./baseSigner";
 
-class AlgoSigner extends BaseSigner{
+export class AlgoSigner extends BaseSigner{
     constructor() {
         super();
     }
@@ -26,5 +26,3 @@ class AlgoSigner extends BaseSigner{
         return rawSignedTxn;
     }
 }
-
-export default AlgoSigner;

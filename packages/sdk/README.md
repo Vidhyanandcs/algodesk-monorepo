@@ -1,11 +1,11 @@
-# `algoclient`
+# `@algodesk/sdk`
 
 > TODO: description
 
 ## Usage
 
 ```
-const algoclient = require('algoclient');
+const sdk = require('@algodesk/sdk');
 
 // TODO: DEMONSTRATE API
 ```

@@ -1,7 +1,6 @@
-import * as sdk from "algosdk";
-import BaseSigner from "./baseSigner";
+import {BaseSigner} from "./baseSigner";
 
-class WalletSigner extends BaseSigner{
+export class WalletSigner extends BaseSigner{
     constructor(wallet) {
         super();
         this.wallet = wallet;
@@ -18,5 +17,3 @@ class WalletSigner extends BaseSigner{
         return signedRawTxn;
     }
 }
-
-export default WalletSigner;
