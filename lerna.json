@@ -9,9 +9,9 @@
     "run": {
       "npmClient": "yarn"
     },
-    "publish": {
+    "version": {
       "conventionalCommits": true,
-      "message": "chore(release): publish",
+      "message": "chore(version): bump",
       "registry": "https://npm.pkg.github.com/"
     }
   }

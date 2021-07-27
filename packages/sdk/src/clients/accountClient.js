@@ -1,7 +1,6 @@
-import BaseClient from "./baseClient";
-import * as sdk from "algosdk";
+import {BaseClient} from "./baseClient";
 
-class AccountClient extends BaseClient{
+export class AccountClient extends BaseClient{
     constructor(name) {
         super(name);
     }
@@ -10,5 +9,3 @@ class AccountClient extends BaseClient{
         return await this.getClient().accountInformation(address).do();
     }
 }
-
-export default AccountClient;

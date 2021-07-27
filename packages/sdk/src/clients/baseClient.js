@@ -3,7 +3,7 @@ import {SIGNERS, networks} from "../constants";
 import WalletSigner from "../signers/walletSigner";
 import AlgoSigner from "../signers/algoSigner";
 
-class BaseClient {
+export class BaseClient {
     constructor(name, signer, wallet) {
         this.selectNetwork(name);
         this.selectSigner(signer, wallet);
@@ -88,5 +88,3 @@ class BaseClient {
         return transaction;
     }
 }
-
-export default BaseClient;

@@ -1,8 +1,8 @@
-import BaseClient from "./baseClient";
+import {BaseClient} from "./baseClient";
 import * as sdk from "algosdk";
 import {processApplicationInputs} from "../utils";
 
-class ApplicationClient extends BaseClient{
+export class ApplicationClient extends BaseClient{
     constructor(name, signer, wallet) {
         super(name, signer, wallet);
     }
@@ -62,5 +62,3 @@ class ApplicationClient extends BaseClient{
         return await this.sendTxn(unsignedTxn);
     }
 }
-
-export default ApplicationClient;
