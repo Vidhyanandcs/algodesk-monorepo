@@ -77,14 +77,13 @@ export class BaseClient {
 
     async sendTxn(unsignedTxn) {
         const signer = this.getSigner()
-        if (!signer) {
-            throw "signer not configured";
-            return;
-        }
-
         const rawSignedTxn = await signer.signTxn(unsignedTxn);
+        return  await this.getClient().sendRawTransaction(rawSignedTxn).do();
+    }
 
-        const transaction = await this.getClient().sendRawTransaction(rawSignedTxn).do();
-        return transaction;
+    async sendGroupTxns(unsignedTxns) {
+        const signer = this.getSigner()
+        const rawSignedTxns = await signer.signGroupTxns(unsignedTxns);
+        return  await this.getClient().sendRawTransaction(rawSignedTxns).do();
     }
 }
