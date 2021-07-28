@@ -1,4 +1,5 @@
 import {prepareNote} from "./coreUtils";
+import {encode} from "hi-base32";
 
 export function processApplicationArgs(appArgs) {
     if (!appArgs) {
@@ -63,4 +64,8 @@ export function processApplicationInputs(appArgs = [], foreignAccounts = [], for
 export function getUintProgram(compiledProgramResult) {
     const uintProgram = new Uint8Array(Buffer.from(compiledProgramResult, "base64"));
     return uintProgram;
+}
+
+export function encodeTxId(hash) {
+    return encode(hash).slice(0, 52);
 }

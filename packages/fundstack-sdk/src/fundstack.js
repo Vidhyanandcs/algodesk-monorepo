@@ -1,8 +1,8 @@
-import {AlgoDesk, getUintProgram, processApplicationArgs} from "@algodesk/sdk";
-import {FUND_OPERATIONS} from "./constant";
+import {getDurationBetweenBlocks, getUintProgram, processApplicationArgs, AlgoDesk, LogicSigner} from "@algodesk/sdk";
+import {FUND_OPERATIONS, FUND_PHASE} from "./constant";
 import * as sdk from "algosdk";
-import {getContracts} from "./contracts";
-import {LogicSigner} from "@algodesk/sdk/src/signers/logicSigner";
+import {getFundState, getGlobalState} from "./utils";
+import {globalStateKeys} from "./state";
 
 export class FundStack {
     constructor(name, signer, wallet) {
@@ -90,5 +90,101 @@ export class FundStack {
         const signedRawTxn3 = new LogicSigner().signTxn(compiledEscrow.result, unsignedTransactionsGroup[2])
 
         return await this.algodesk.applicationClient.send([signedRawTxn1, signedRawTxn2, signedRawTxn3]);
+    }
+
+    async get(fundId) {
+        let fund = await this.algodesk.applicationClient.get(fundId);
+        fund.globalState = getGlobalState(fund);
+        fund.published = getFundState(fund) >= 3;
+
+        const companyDetailsTxId = fund.globalState[globalStateKeys.company_details];
+
+        const [status, company] = await Promise.all([this.getStatus(fund.globalState), this.getCompany(companyDetailsTxId)]);
+
+        fund = {
+            ...fund,
+            status,
+            company
+        }
+
+        return fund;
+    }
+
+    async getCompany(companyDetailsTxId) {
+        const tx = await this.algodesk.applicationClient.getTransaction(companyDetailsTxId);
+        const {note} = tx;
+        return  JSON.parse(atob(note));
+    }
+
+    async getStatus(globalState) {
+        const networkParams = await this.algodesk.applicationClient.getNetworkParams();
+        const currentRound = networkParams.firstRound;
+
+        const regStart = globalState[globalStateKeys.reg_starts_at];
+        const regEnd = globalState[globalStateKeys.reg_ends_at];
+
+        const saleStart = globalState[globalStateKeys.sale_starts_at];
+        const saleEnd = globalState[globalStateKeys.sale_ends_at];
+
+        const claimStart = globalState[globalStateKeys.claim_after];
+        const claimEnd = claimStart + 76800;//add 4 days
+
+        let phase = 0;
+
+        if (currentRound < regStart) {
+            phase = FUND_PHASE.BEFORE_REGISTRATION;
+        }
+        else if(currentRound >= regStart && currentRound <= regEnd) {
+            phase = FUND_PHASE.DURING_REGISTRATION;
+        }
+        else if(currentRound > regEnd && currentRound < saleStart) {
+            phase = FUND_PHASE.BEFORE_SALE;
+        }
+        else if(currentRound >= saleStart && currentRound <= saleEnd) {
+            phase = FUND_PHASE.DURING_SALE;
+        }
+        else if(currentRound > saleEnd && currentRound < claimStart) {
+            phase = FUND_PHASE.BEFORE_CLAIM;
+        }
+        else if(currentRound >= claimStart && currentRound <= claimEnd) {
+            phase = FUND_PHASE.DURING_CLAIM;
+        }
+        else if(currentRound > claimEnd) {
+            phase = FUND_PHASE.COMPLETED;
+        }
+
+        const registration = {
+            start: getDurationBetweenBlocks(regStart, currentRound),
+            end: getDurationBetweenBlocks(regEnd, currentRound),
+            pending: phase <= FUND_PHASE.BEFORE_REGISTRATION,
+            active: phase == FUND_PHASE.DURING_REGISTRATION,
+            completed: phase > FUND_PHASE.DURING_REGISTRATION
+        };
+
+        const sale = {
+            start: getDurationBetweenBlocks(saleStart, currentRound),
+            end: getDurationBetweenBlocks(saleEnd, currentRound),
+            pending: phase <= FUND_PHASE.BEFORE_SALE,
+            active: phase == FUND_PHASE.DURING_SALE,
+            completed: phase > FUND_PHASE.DURING_SALE
+        };
+
+        const claim = {
+            start: getDurationBetweenBlocks(claimStart, currentRound),
+            end: getDurationBetweenBlocks(claimEnd, currentRound),
+            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
+            active: phase == FUND_PHASE.DURING_CLAIM,
+            completed: phase > FUND_PHASE.DURING_CLAIM
+        };
+
+        const status = {
+            registration,
+            sale,
+            phase,
+            claim,
+            date: Date.now()
+        }
+
+        return status;
     }
 }

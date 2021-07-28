@@ -68,4 +68,8 @@ export class ApplicationClient extends BaseClient{
         const programBytes = encoder.encode(programSource);
         return await client.compile(programBytes).do();
     }
+
+    async get(id) {
+        return await this.getClient().getApplicationByID(id).do();
+    }
 }

@@ -1,5 +1,4 @@
-import {AccountClient, ApplicationClient, PaymentClient} from "./clients";
-import {AssetClient} from "./clients/assetClient";
+import {AccountClient, ApplicationClient, PaymentClient, AssetClient} from "./clients";
 
 export class AlgoDesk {
     constructor(name, signer, wallet) {

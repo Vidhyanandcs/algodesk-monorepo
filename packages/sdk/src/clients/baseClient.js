@@ -1,7 +1,6 @@
 import * as sdk from "algosdk";
 import {SIGNERS, networks} from "../constants";
-import WalletSigner from "../signers/walletSigner";
-import AlgoSigner from "../signers/algoSigner";
+import {WalletSigner, AlgoSigner} from "../signers";
 
 export class BaseClient {
     constructor(name, signer, wallet) {
@@ -99,5 +98,10 @@ export class BaseClient {
 
     async send(rawSignedTxns) {
         return await this.getClient().sendRawTransaction(rawSignedTxns).do();
+    }
+
+    async getTransaction(id) {
+        const {transactions} = await this.getIndexer().searchForTransactions().txid(id).do();
+        return transactions[0];
     }
 }
