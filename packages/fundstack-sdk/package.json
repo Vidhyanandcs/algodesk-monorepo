@@ -7,12 +7,13 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "node download.js && webpack --config webpack.config.js",
     "test": "jest"
   },
   "dependencies": {
     "@algodesk/sdk": "^1.1.2",
-    "algosdk": "^1.10.1"
+    "algosdk": "^1.10.1",
+    "raw-loader": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",

@@ -75,15 +75,29 @@ export class BaseClient {
         return this.signer;
     }
 
-    async sendTxn(unsignedTxn) {
+    async signTxn(unsignedTxn) {
         const signer = this.getSigner()
         const rawSignedTxn = await signer.signTxn(unsignedTxn);
-        return  await this.getClient().sendRawTransaction(rawSignedTxn).do();
+        return rawSignedTxn;
+    }
+
+    async sendTxn(unsignedTxn) {
+        const rawSignedTxn = this.signTxn(unsignedTxn);
+        return await this.send(rawSignedTxn);
+    }
+
+    async signGroupTxns(unsignedTxns) {
+        const signer = this.getSigner()
+        const rawSignedTxns = await signer.signGroupTxns(unsignedTxns);
+        return rawSignedTxns;
     }
 
     async sendGroupTxns(unsignedTxns) {
-        const signer = this.getSigner()
-        const rawSignedTxns = await signer.signGroupTxns(unsignedTxns);
-        return  await this.getClient().sendRawTransaction(rawSignedTxns).do();
+        const rawSignedTxns = this.signGroupTxns(unsignedTxns);
+        return await this.send(rawSignedTxns);
+    }
+
+    async send(rawSignedTxns) {
+        return await this.getClient().sendRawTransaction(rawSignedTxns).do();
     }
 }

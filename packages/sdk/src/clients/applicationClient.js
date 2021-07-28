@@ -61,4 +61,11 @@ export class ApplicationClient extends BaseClient{
         const unsignedTxn = this.prepareInvokeTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
         return await this.sendTxn(unsignedTxn);
     }
+
+    async compileProgram(programSource) {
+        const client = this.getClient();
+        const encoder = new TextEncoder();
+        const programBytes = encoder.encode(programSource);
+        return await client.compile(programBytes).do();
+    }
 }

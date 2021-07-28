@@ -16,4 +16,14 @@ export class WalletSigner extends BaseSigner{
         const signedRawTxn = unsignedTxn.signTxn(sk);
         return signedRawTxn;
     }
+
+    async signGroupTxns(unsignedTxns) {
+        const signedTxns = [];
+
+        unsignedTxns.forEach((unsignedTxn) => {
+            signedTxns.push(this.signTxn(unsignedTxn));
+        });
+
+        return signedTxns;
+    }
 }

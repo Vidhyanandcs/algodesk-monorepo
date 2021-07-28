@@ -59,3 +59,8 @@ export function processApplicationInputs(appArgs = [], foreignAccounts = [], for
         note: prepareNote(note)
     };
 }
+
+export function getUintProgram(compiledProgramResult) {
+    const uintProgram = new Uint8Array(Buffer.from(compiledProgramResult, "base64"));
+    return uintProgram;
+}

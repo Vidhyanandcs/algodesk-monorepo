@@ -12,5 +12,6 @@ export const FUND_OPERATIONS = {
     REGISTER: 'register',
     INVEST: 'invest',
     INVESTOR_CLAIM: 'investor_claim',
-    INVESTOR_WITHDRAW : 'investor_withdraw'
+    INVESTOR_WITHDRAW : 'investor_withdraw',
+    SET_ESCROW: 'set_escrow'
 }
