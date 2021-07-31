@@ -7,7 +7,7 @@ export class AssetClient extends BaseClient{
         super(name, signer, wallet);
     }
 
-    async getAsset(id) {
+    async get(id) {
         const asset = await this.getClient().getAssetByID(id).do();
         return asset;
     }
@@ -15,7 +15,7 @@ export class AssetClient extends BaseClient{
     async prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo) {
         const networkParams = await this.getNetworkParams();
 
-        const asset = await this.getAsset(assetId);
+        const asset = await this.get(assetId);
         amount = amount * Math.pow(10, asset.params.decimals);
 
         if(note) {

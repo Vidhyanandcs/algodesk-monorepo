@@ -4,6 +4,7 @@ import * as sdk from "algosdk";
 import {getFundState, getGlobalState} from "./utils";
 import {globalStateKeys} from "./state";
 import atob from 'atob';
+import {getContracts} from "./contracts";
 
 export class FundStack {
     constructor(name, signer, wallet) {
@@ -65,7 +66,7 @@ export class FundStack {
         const unsignedTransactions = [];
         const {id: fundId, escrow, asset} = fund;
 
-        const compiledEscrow = this.compileEscrow(fund);
+        const compiledEscrow = await this.compileEscrow(fund);
 
         let appArgs = [FUND_OPERATIONS.SET_ESCROW, sdk.decodeAddress(escrow.address).publicKey];
         appArgs = processApplicationArgs(appArgs);
@@ -99,16 +100,30 @@ export class FundStack {
         fund.published = getFundState(fund) >= 3;
 
         const companyDetailsTxId = fund.globalState[globalStateKeys.company_details];
+        const assetId = fund.globalState[globalStateKeys.asset_id];
+        const escrowAddress = fund.globalState[globalStateKeys.escrow];
 
-        const [status, company] = await Promise.all([this.getStatus(fund.globalState), this.getCompany(companyDetailsTxId)]);
+        const [status, company, asset, escrow] = await Promise.all([this.getStatus(fund.globalState), this.getCompany(companyDetailsTxId), this.getAsset(assetId), this.getEscrow(escrowAddress)]);
 
         fund = {
             ...fund,
             status,
-            company
+            company,
+            asset,
+            escrow
         }
 
         return fund;
+    }
+
+    async getEscrow(address) {
+        const escrowAccount = await this.algodesk.accountClient.getAccountInformation(address);
+        escrowAccount.balance = sdk.microalgosToAlgos(escrowAccount.amount);
+        return escrowAccount;
+    }
+
+    async getAsset(assetId) {
+        return await this.algodesk.assetClient.get(assetId);
     }
 
     async getCompany(companyDetailsTxId) {
