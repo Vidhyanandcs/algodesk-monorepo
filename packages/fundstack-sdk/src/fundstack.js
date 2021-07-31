@@ -3,6 +3,7 @@ import {FUND_OPERATIONS, FUND_PHASE} from "./constant";
 import * as sdk from "algosdk";
 import {getFundState, getGlobalState} from "./utils";
 import {globalStateKeys} from "./state";
+import atob from 'atob';
 
 export class FundStack {
     constructor(name, signer, wallet) {

@@ -1,6 +1,7 @@
 import {globalStateKeys, localStateKeys} from "./state";
 import * as sdk from "algosdk";
 import {encodeTxId} from "@algodesk/sdk";
+import atob from 'atob';
 
 export function getFundState(fund) {
     const {globalState} = fund;

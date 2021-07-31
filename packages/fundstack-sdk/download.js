@@ -1,5 +1,5 @@
-const https = require('https');
-const fs = require('fs');
+import https from 'https';
+import fs from 'fs';
 
 const contractsServer = 'https://contracts.fundstack.io';
 const download = (url, dest, callback) => {
