@@ -1,6 +1,6 @@
 {
   "name": "@algodesk/fundstack-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "> TODO: description",
   "author": "algodesk-io <admin@algodesk.io>",
   "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
@@ -12,7 +12,7 @@
     "test": "jest --config ./jest.config.js"
   },
   "dependencies": {
-    "@algodesk/sdk": "^1.1.4",
+    "@algodesk/sdk": "^1.1.5",
     "algosdk": "^1.10.1",
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
