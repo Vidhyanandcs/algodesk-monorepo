@@ -1,4 +1,4 @@
-import {prepareNote} from "./coreUtils";
+import {encodeText} from "./coreUtils";
 import {encode} from "hi-base32";
 
 export function processApplicationArgs(appArgs) {
@@ -57,7 +57,7 @@ export function processApplicationInputs(appArgs = [], foreignAccounts = [], for
         foreignAccounts: processApplicationForeignAccounts(foreignAccounts),
         foreignApps: processApplicationForeignApps(foreignApps),
         foreignAssets: processApplicationForeignAssets(foreignAssets),
-        note: prepareNote(note)
+        note: encodeText(note)
     };
 }
 

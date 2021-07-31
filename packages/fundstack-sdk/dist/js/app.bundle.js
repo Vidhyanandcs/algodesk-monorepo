@@ -452,7 +452,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AccountClient),\n/* harmony export */   \"AlgoDesk\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AlgoDesk),\n/* harmony export */   \"AlgoSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AlgoSigner),\n/* harmony export */   \"ApplicationClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.ApplicationClient),\n/* harmony export */   \"AssetClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AssetClient),\n/* harmony export */   \"BLOCK_TIME\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BLOCK_TIME),\n/* harmony export */   \"BaseClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BaseClient),\n/* harmony export */   \"BaseSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BaseSigner),\n/* harmony export */   \"LogicSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.LogicSigner),\n/* harmony export */   \"PaymentClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.PaymentClient),\n/* harmony export */   \"SIGNERS\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.SIGNERS),\n/* harmony export */   \"WalletSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.WalletSigner),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.encodeTxId),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.getDurationBetweenBlocks),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.getUintProgram),\n/* harmony export */   \"networks\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.networks),\n/* harmony export */   \"port\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.port),\n/* harmony export */   \"prepareNote\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.prepareNote),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationInputs),\n/* harmony export */   \"token\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.token)\n/* harmony export */ });\n/* harmony import */ var _src_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/main */ \"../sdk/src/main.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AccountClient),\n/* harmony export */   \"AlgoDesk\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AlgoDesk),\n/* harmony export */   \"AlgoSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AlgoSigner),\n/* harmony export */   \"ApplicationClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.ApplicationClient),\n/* harmony export */   \"AssetClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.AssetClient),\n/* harmony export */   \"BLOCK_TIME\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BLOCK_TIME),\n/* harmony export */   \"BaseClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BaseClient),\n/* harmony export */   \"BaseSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.BaseSigner),\n/* harmony export */   \"LogicSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.LogicSigner),\n/* harmony export */   \"PaymentClient\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.PaymentClient),\n/* harmony export */   \"SIGNERS\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.SIGNERS),\n/* harmony export */   \"WalletSigner\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.WalletSigner),\n/* harmony export */   \"encodeText\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.encodeText),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.encodeTxId),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.getDurationBetweenBlocks),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.getUintProgram),\n/* harmony export */   \"networks\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.networks),\n/* harmony export */   \"port\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.port),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.processApplicationInputs),\n/* harmony export */   \"token\": () => (/* reexport safe */ _src_main__WEBPACK_IMPORTED_MODULE_0__.token)\n/* harmony export */ });\n/* harmony import */ var _src_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/main */ \"../sdk/src/main.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/index.js?");
 
 /***/ }),
 
@@ -474,7 +474,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* binding */ AccountClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n\nclass AccountClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name) {\n    super(name);\n  }\n\n  async getAccountInformation(address) {\n    return await this.getClient().accountInformation(address).do();\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/accountClient.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* binding */ AccountClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n\nclass AccountClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name) {\n    super(name);\n  }\n\n  async getAccountInformation(address) {\n    return await this.getClient().accountInformation(address).do();\n  }\n\n  async getCreatedAssets(address) {\n    const accountInfo = await this.getAccountInformation(address);\n    const createdAssets = accountInfo['created-assets'];\n    createdAssets.forEach(asset => {\n      asset.id = asset.index;\n    });\n    return createdAssets;\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/accountClient.js?");
 
 /***/ }),
 
@@ -496,7 +496,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AssetClient\": () => (/* binding */ AssetClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n/* harmony import */ var algosdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! algosdk */ \"../../node_modules/algosdk/dist/browser/algosdk.min.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ \"../sdk/src/utils/index.js\");\n\n\n\nclass AssetClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name, signer, wallet) {\n    super(name, signer, wallet);\n  }\n\n  async get(id) {\n    const asset = await this.getClient().getAssetByID(id).do();\n    return asset;\n  }\n\n  async prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n    const asset = await this.get(assetId);\n    amount = amount * Math.pow(10, asset.params.decimals);\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.prepareNote)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, networkParams, rekeyTo);\n  }\n\n  async transfer(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo) {\n    const unsignedTxn = this.prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/assetClient.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AssetClient\": () => (/* binding */ AssetClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n/* harmony import */ var algosdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! algosdk */ \"../../node_modules/algosdk/dist/browser/algosdk.min.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ \"../sdk/src/utils/index.js\");\n/* provided dependency */ var Buffer = __webpack_require__(/*! ../../node_modules/buffer/index.js */ \"../../node_modules/buffer/index.js\")[\"Buffer\"];\n\n\n\nclass AssetClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name, signer, wallet) {\n    super(name, signer, wallet);\n  }\n\n  async get(id) {\n    const asset = await this.getClient().getAssetByID(id).do();\n    return asset;\n  }\n\n  async prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n    const asset = await this.get(assetId);\n    amount = amount * Math.pow(10, asset.params.decimals);\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.encodeText)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, networkParams, rekeyTo);\n  }\n\n  async transfer(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo) {\n    const unsignedTxn = await this.prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n  async prepareCreateTxn(from, note, total, decimals = 0, defaultFrozen = false, manager, reserve, freeze, clawback, unitName, assetName, assetUrl, assetMetadataHash, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.encodeText)(note);\n    }\n\n    total = parseInt(total);\n    decimals = parseInt(decimals);\n\n    if (assetMetadataHash) {\n      assetMetadataHash = new Uint8Array(Buffer.from(assetMetadataHash));\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makeAssetCreateTxnWithSuggestedParams(from, note, total, decimals, defaultFrozen, manager, reserve, freeze, clawback, unitName, assetName, assetUrl, assetMetadataHash, networkParams, rekeyTo);\n  }\n\n  async create(from, note, total, decimals, defaultFrozen, manager, reserve, freeze, clawback, unitName, assetName, assetUrl, assetMetadataHash, rekeyTo) {\n    const unsignedTxn = await this.prepareCreateTxn(from, note, total, decimals, defaultFrozen, manager, reserve, freeze, clawback, unitName, assetName, assetUrl, assetMetadataHash, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n  async prepareModifyTxn(from, note, assetId, manager, reserve, freeze, clawback, strictEmptyAddressChecking = false, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.encodeText)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makeAssetConfigTxnWithSuggestedParams(from, note, assetId, manager, reserve, freeze, clawback, networkParams, strictEmptyAddressChecking, rekeyTo);\n  }\n\n  async modify(from, note, assetId, manager, reserve, freeze, clawback, strictEmptyAddressChecking, rekeyTo) {\n    const unsignedTxn = await this.prepareModifyTxn(from, note, assetId, manager, reserve, freeze, clawback, strictEmptyAddressChecking, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n  async prepareDestroyTxn(from, note, assetId, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.encodeText)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makeAssetDestroyTxnWithSuggestedParams(from, note, assetId, networkParams, rekeyTo);\n  }\n\n  async destroy(from, note, assetId, rekeyTo) {\n    const unsignedTxn = await this.prepareDestroyTxn(from, note, assetId, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/assetClient.js?");
 
 /***/ }),
 
@@ -529,7 +529,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"PaymentClient\": () => (/* binding */ PaymentClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n/* harmony import */ var algosdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! algosdk */ \"../../node_modules/algosdk/dist/browser/algosdk.min.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ \"../sdk/src/utils/index.js\");\n\n\n\nclass PaymentClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name, signer, wallet) {\n    super(name, signer, wallet);\n  }\n\n  async preparePaymentTxn(from, to, amount, closeRemainderTo, note, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n    amount = algosdk__WEBPACK_IMPORTED_MODULE_1__.algosToMicroalgos(amount);\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.prepareNote)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makePaymentTxnWithSuggestedParams(from, to, amount, closeRemainderTo, note, networkParams, rekeyTo);\n  }\n\n  async payment(from, to, amount, closeRemainderTo, note, rekeyTo) {\n    const unsignedTxn = this.preparePaymentTxn(from, to, amount, closeRemainderTo, note, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/paymentClient.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"PaymentClient\": () => (/* binding */ PaymentClient)\n/* harmony export */ });\n/* harmony import */ var _baseClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseClient */ \"../sdk/src/clients/baseClient.js\");\n/* harmony import */ var algosdk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! algosdk */ \"../../node_modules/algosdk/dist/browser/algosdk.min.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ \"../sdk/src/utils/index.js\");\n\n\n\nclass PaymentClient extends _baseClient__WEBPACK_IMPORTED_MODULE_0__.BaseClient {\n  constructor(name, signer, wallet) {\n    super(name, signer, wallet);\n  }\n\n  async preparePaymentTxn(from, to, amount, closeRemainderTo, note, rekeyTo) {\n    const networkParams = await this.getNetworkParams();\n    amount = algosdk__WEBPACK_IMPORTED_MODULE_1__.algosToMicroalgos(amount);\n\n    if (note) {\n      note = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.encodeText)(note);\n    }\n\n    return algosdk__WEBPACK_IMPORTED_MODULE_1__.makePaymentTxnWithSuggestedParams(from, to, amount, closeRemainderTo, note, networkParams, rekeyTo);\n  }\n\n  async payment(from, to, amount, closeRemainderTo, note, rekeyTo) {\n    const unsignedTxn = this.preparePaymentTxn(from, to, amount, closeRemainderTo, note, rekeyTo);\n    return await this.sendTxn(unsignedTxn);\n  }\n\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/clients/paymentClient.js?");
 
 /***/ }),
 
@@ -562,7 +562,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.AccountClient),\n/* harmony export */   \"ApplicationClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.ApplicationClient),\n/* harmony export */   \"AssetClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.AssetClient),\n/* harmony export */   \"BaseClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.BaseClient),\n/* harmony export */   \"PaymentClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.PaymentClient),\n/* harmony export */   \"BLOCK_TIME\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.BLOCK_TIME),\n/* harmony export */   \"SIGNERS\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.SIGNERS),\n/* harmony export */   \"networks\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.networks),\n/* harmony export */   \"port\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.port),\n/* harmony export */   \"token\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.token),\n/* harmony export */   \"AlgoSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.AlgoSigner),\n/* harmony export */   \"BaseSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.BaseSigner),\n/* harmony export */   \"LogicSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.LogicSigner),\n/* harmony export */   \"WalletSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.WalletSigner),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.encodeTxId),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.getDurationBetweenBlocks),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.getUintProgram),\n/* harmony export */   \"prepareNote\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.prepareNote),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationInputs),\n/* harmony export */   \"AlgoDesk\": () => (/* reexport safe */ _algodesk__WEBPACK_IMPORTED_MODULE_4__.AlgoDesk)\n/* harmony export */ });\n/* harmony import */ var _clients__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./clients */ \"../sdk/src/clients/index.js\");\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ \"../sdk/src/constants/index.js\");\n/* harmony import */ var _signers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signers */ \"../sdk/src/signers/index.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ \"../sdk/src/utils/index.js\");\n/* harmony import */ var _algodesk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./algodesk */ \"../sdk/src/algodesk.js\");\n\n\n\n\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AccountClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.AccountClient),\n/* harmony export */   \"ApplicationClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.ApplicationClient),\n/* harmony export */   \"AssetClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.AssetClient),\n/* harmony export */   \"BaseClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.BaseClient),\n/* harmony export */   \"PaymentClient\": () => (/* reexport safe */ _clients__WEBPACK_IMPORTED_MODULE_0__.PaymentClient),\n/* harmony export */   \"BLOCK_TIME\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.BLOCK_TIME),\n/* harmony export */   \"SIGNERS\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.SIGNERS),\n/* harmony export */   \"networks\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.networks),\n/* harmony export */   \"port\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.port),\n/* harmony export */   \"token\": () => (/* reexport safe */ _constants__WEBPACK_IMPORTED_MODULE_1__.token),\n/* harmony export */   \"AlgoSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.AlgoSigner),\n/* harmony export */   \"BaseSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.BaseSigner),\n/* harmony export */   \"LogicSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.LogicSigner),\n/* harmony export */   \"WalletSigner\": () => (/* reexport safe */ _signers__WEBPACK_IMPORTED_MODULE_2__.WalletSigner),\n/* harmony export */   \"encodeText\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.encodeText),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.encodeTxId),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.getDurationBetweenBlocks),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.getUintProgram),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_3__.processApplicationInputs),\n/* harmony export */   \"AlgoDesk\": () => (/* reexport safe */ _algodesk__WEBPACK_IMPORTED_MODULE_4__.AlgoDesk)\n/* harmony export */ });\n/* harmony import */ var _clients__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./clients */ \"../sdk/src/clients/index.js\");\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ \"../sdk/src/constants/index.js\");\n/* harmony import */ var _signers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signers */ \"../sdk/src/signers/index.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ \"../sdk/src/utils/index.js\");\n/* harmony import */ var _algodesk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./algodesk */ \"../sdk/src/algodesk.js\");\n\n\n\n\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/main.js?");
 
 /***/ }),
 
@@ -628,7 +628,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"processApplicationArgs\": () => (/* binding */ processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* binding */ processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* binding */ processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* binding */ processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* binding */ processApplicationInputs),\n/* harmony export */   \"getUintProgram\": () => (/* binding */ getUintProgram),\n/* harmony export */   \"encodeTxId\": () => (/* binding */ encodeTxId)\n/* harmony export */ });\n/* harmony import */ var _coreUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./coreUtils */ \"../sdk/src/utils/coreUtils.js\");\n/* harmony import */ var hi_base32__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hi-base32 */ \"../../node_modules/hi-base32/src/base32.js\");\n/* provided dependency */ var Buffer = __webpack_require__(/*! ../../node_modules/buffer/index.js */ \"../../node_modules/buffer/index.js\")[\"Buffer\"];\n\n\nfunction processApplicationArgs(appArgs) {\n  if (!appArgs) {\n    appArgs = [];\n  }\n\n  const appArgsUint = [];\n  appArgs.forEach(arg => {\n    appArgsUint.push(new Uint8Array(Buffer.from(arg)));\n  });\n  return appArgsUint;\n}\nfunction processApplicationForeignAccounts(foreignAccounts) {\n  if (!foreignAccounts) {\n    foreignAccounts = [];\n  }\n\n  return foreignAccounts;\n}\nfunction processApplicationForeignApps(foreignApps) {\n  if (!foreignApps) {\n    foreignApps = [];\n  }\n\n  const foreignAppsNumber = [];\n  foreignApps.forEach(arg => {\n    foreignAppsNumber.push(parseInt(arg));\n  });\n  return foreignAppsNumber;\n}\nfunction processApplicationForeignAssets(foreignAssets) {\n  if (!foreignAssets) {\n    foreignAssets = [];\n  }\n\n  const foreignAssetsNumber = [];\n  foreignAssets.forEach(arg => {\n    foreignAssetsNumber.push(parseInt(arg));\n  });\n  return foreignAssetsNumber;\n}\nfunction processApplicationInputs(appArgs = [], foreignAccounts = [], foreignApps = [], foreignAssets = [], note = \"\") {\n  return {\n    appArgs: processApplicationArgs(appArgs),\n    foreignAccounts: processApplicationForeignAccounts(foreignAccounts),\n    foreignApps: processApplicationForeignApps(foreignApps),\n    foreignAssets: processApplicationForeignAssets(foreignAssets),\n    note: (0,_coreUtils__WEBPACK_IMPORTED_MODULE_0__.prepareNote)(note)\n  };\n}\nfunction getUintProgram(compiledProgramResult) {\n  const uintProgram = new Uint8Array(Buffer.from(compiledProgramResult, \"base64\"));\n  return uintProgram;\n}\nfunction encodeTxId(hash) {\n  return (0,hi_base32__WEBPACK_IMPORTED_MODULE_1__.encode)(hash).slice(0, 52);\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/applicationUtils.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"processApplicationArgs\": () => (/* binding */ processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* binding */ processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* binding */ processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* binding */ processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* binding */ processApplicationInputs),\n/* harmony export */   \"getUintProgram\": () => (/* binding */ getUintProgram),\n/* harmony export */   \"encodeTxId\": () => (/* binding */ encodeTxId)\n/* harmony export */ });\n/* harmony import */ var _coreUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./coreUtils */ \"../sdk/src/utils/coreUtils.js\");\n/* harmony import */ var hi_base32__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hi-base32 */ \"../../node_modules/hi-base32/src/base32.js\");\n/* provided dependency */ var Buffer = __webpack_require__(/*! ../../node_modules/buffer/index.js */ \"../../node_modules/buffer/index.js\")[\"Buffer\"];\n\n\nfunction processApplicationArgs(appArgs) {\n  if (!appArgs) {\n    appArgs = [];\n  }\n\n  const appArgsUint = [];\n  appArgs.forEach(arg => {\n    appArgsUint.push(new Uint8Array(Buffer.from(arg)));\n  });\n  return appArgsUint;\n}\nfunction processApplicationForeignAccounts(foreignAccounts) {\n  if (!foreignAccounts) {\n    foreignAccounts = [];\n  }\n\n  return foreignAccounts;\n}\nfunction processApplicationForeignApps(foreignApps) {\n  if (!foreignApps) {\n    foreignApps = [];\n  }\n\n  const foreignAppsNumber = [];\n  foreignApps.forEach(arg => {\n    foreignAppsNumber.push(parseInt(arg));\n  });\n  return foreignAppsNumber;\n}\nfunction processApplicationForeignAssets(foreignAssets) {\n  if (!foreignAssets) {\n    foreignAssets = [];\n  }\n\n  const foreignAssetsNumber = [];\n  foreignAssets.forEach(arg => {\n    foreignAssetsNumber.push(parseInt(arg));\n  });\n  return foreignAssetsNumber;\n}\nfunction processApplicationInputs(appArgs = [], foreignAccounts = [], foreignApps = [], foreignAssets = [], note = \"\") {\n  return {\n    appArgs: processApplicationArgs(appArgs),\n    foreignAccounts: processApplicationForeignAccounts(foreignAccounts),\n    foreignApps: processApplicationForeignApps(foreignApps),\n    foreignAssets: processApplicationForeignAssets(foreignAssets),\n    note: (0,_coreUtils__WEBPACK_IMPORTED_MODULE_0__.encodeText)(note)\n  };\n}\nfunction getUintProgram(compiledProgramResult) {\n  const uintProgram = new Uint8Array(Buffer.from(compiledProgramResult, \"base64\"));\n  return uintProgram;\n}\nfunction encodeTxId(hash) {\n  return (0,hi_base32__WEBPACK_IMPORTED_MODULE_1__.encode)(hash).slice(0, 52);\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/applicationUtils.js?");
 
 /***/ }),
 
@@ -639,7 +639,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"prepareNote\": () => (/* binding */ prepareNote),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* binding */ getDurationBetweenBlocks)\n/* harmony export */ });\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ \"../sdk/src/constants/index.js\");\n // import Duration from 'duration';\n\nfunction prepareNote(note) {\n  const enc = new TextEncoder();\n  return enc.encode(note);\n}\nfunction getDurationBetweenBlocks(futureRound, currentRound) {\n  const sec = Math.round((futureRound - currentRound) * _constants__WEBPACK_IMPORTED_MODULE_0__.BLOCK_TIME);\n  const start = new Date();\n  const end = new Date(start.getTime() + sec * 1000); // const duration = new Duration(start, end);\n  //\n  // return duration;\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/coreUtils.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"encodeText\": () => (/* binding */ encodeText),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* binding */ getDurationBetweenBlocks)\n/* harmony export */ });\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ \"../sdk/src/constants/index.js\");\n/* harmony import */ var duration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! duration */ \"../../node_modules/duration/index.js\");\n\n\nfunction encodeText(text) {\n  const enc = new TextEncoder();\n  return enc.encode(text);\n}\nfunction getDurationBetweenBlocks(futureRound, currentRound) {\n  const sec = Math.round((futureRound - currentRound) * _constants__WEBPACK_IMPORTED_MODULE_0__.BLOCK_TIME);\n  const start = new Date();\n  const end = new Date(start.getTime() + sec * 1000);\n  const duration = new duration__WEBPACK_IMPORTED_MODULE_1__(start, end);\n  return duration;\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/coreUtils.js?");
 
 /***/ }),
 
@@ -650,7 +650,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _coreUtils__WEBPACK_IMPORTED_MODULE_0__.getDurationBetweenBlocks),\n/* harmony export */   \"prepareNote\": () => (/* reexport safe */ _coreUtils__WEBPACK_IMPORTED_MODULE_0__.prepareNote),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.encodeTxId),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.getUintProgram),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationInputs)\n/* harmony export */ });\n/* harmony import */ var _coreUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./coreUtils */ \"../sdk/src/utils/coreUtils.js\");\n/* harmony import */ var _applicationUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./applicationUtils */ \"../sdk/src/utils/applicationUtils.js\");\n\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"encodeText\": () => (/* reexport safe */ _coreUtils__WEBPACK_IMPORTED_MODULE_0__.encodeText),\n/* harmony export */   \"getDurationBetweenBlocks\": () => (/* reexport safe */ _coreUtils__WEBPACK_IMPORTED_MODULE_0__.getDurationBetweenBlocks),\n/* harmony export */   \"encodeTxId\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.encodeTxId),\n/* harmony export */   \"getUintProgram\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.getUintProgram),\n/* harmony export */   \"processApplicationArgs\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationArgs),\n/* harmony export */   \"processApplicationForeignAccounts\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignAccounts),\n/* harmony export */   \"processApplicationForeignApps\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignApps),\n/* harmony export */   \"processApplicationForeignAssets\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationForeignAssets),\n/* harmony export */   \"processApplicationInputs\": () => (/* reexport safe */ _applicationUtils__WEBPACK_IMPORTED_MODULE_1__.processApplicationInputs)\n/* harmony export */ });\n/* harmony import */ var _coreUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./coreUtils */ \"../sdk/src/utils/coreUtils.js\");\n/* harmony import */ var _applicationUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./applicationUtils */ \"../sdk/src/utils/applicationUtils.js\");\n\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../sdk/src/utils/index.js?");
 
 /***/ }),
 
@@ -1105,6 +1105,17 @@ eval("\n\nexports.randomBytes = exports.rng = exports.pseudoRandomBytes = export
 
 /***/ }),
 
+/***/ "../../node_modules/d/index.js":
+/*!*************************************!*\
+  !*** ../../node_modules/d/index.js ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isValue         = __webpack_require__(/*! type/value/is */ \"../../node_modules/type/value/is.js\")\n  , isPlainFunction = __webpack_require__(/*! type/plain-function/is */ \"../../node_modules/type/plain-function/is.js\")\n  , assign          = __webpack_require__(/*! es5-ext/object/assign */ \"../../node_modules/es5-ext/object/assign/index.js\")\n  , normalizeOpts   = __webpack_require__(/*! es5-ext/object/normalize-options */ \"../../node_modules/es5-ext/object/normalize-options.js\")\n  , contains        = __webpack_require__(/*! es5-ext/string/#/contains */ \"../../node_modules/es5-ext/string/\\u0000#/contains/index.js\");\n\nvar d = (module.exports = function (dscr, value/*, options*/) {\n\tvar c, e, w, options, desc;\n\tif (arguments.length < 2 || typeof dscr !== \"string\") {\n\t\toptions = value;\n\t\tvalue = dscr;\n\t\tdscr = null;\n\t} else {\n\t\toptions = arguments[2];\n\t}\n\tif (isValue(dscr)) {\n\t\tc = contains.call(dscr, \"c\");\n\t\te = contains.call(dscr, \"e\");\n\t\tw = contains.call(dscr, \"w\");\n\t} else {\n\t\tc = w = true;\n\t\te = false;\n\t}\n\n\tdesc = { value: value, configurable: c, enumerable: e, writable: w };\n\treturn !options ? desc : assign(normalizeOpts(options), desc);\n});\n\nd.gs = function (dscr, get, set/*, options*/) {\n\tvar c, e, options, desc;\n\tif (typeof dscr !== \"string\") {\n\t\toptions = set;\n\t\tset = get;\n\t\tget = dscr;\n\t\tdscr = null;\n\t} else {\n\t\toptions = arguments[3];\n\t}\n\tif (!isValue(get)) {\n\t\tget = undefined;\n\t} else if (!isPlainFunction(get)) {\n\t\toptions = get;\n\t\tget = set = undefined;\n\t} else if (!isValue(set)) {\n\t\tset = undefined;\n\t} else if (!isPlainFunction(set)) {\n\t\toptions = set;\n\t\tset = undefined;\n\t}\n\tif (isValue(dscr)) {\n\t\tc = contains.call(dscr, \"c\");\n\t\te = contains.call(dscr, \"e\");\n\t} else {\n\t\tc = true;\n\t\te = false;\n\t}\n\n\tdesc = { get: get, set: set, configurable: c, enumerable: e };\n\treturn !options ? desc : assign(normalizeOpts(options), desc);\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/d/index.js?");
+
+/***/ }),
+
 /***/ "../../node_modules/define-properties/index.js":
 /*!*****************************************************!*\
   !*** ../../node_modules/define-properties/index.js ***!
@@ -1220,6 +1231,17 @@ eval("var randomBytes = __webpack_require__(/*! randombytes */ \"../../node_modu
 
 "use strict";
 eval("module.exports = JSON.parse('{\"modp1\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff\"},\"modp2\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece65381ffffffffffffffff\"},\"modp5\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca237327ffffffffffffffff\"},\"modp14\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aacaa68ffffffffffffffff\"},\"modp15\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a93ad2caffffffffffffffff\"},\"modp16\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c934063199ffffffffffffffff\"},\"modp17\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dcc4024ffffffffffffffff\"},\"modp18\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff\"}}');\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/diffie-hellman/lib/primes.json?");
+
+/***/ }),
+
+/***/ "../../node_modules/duration/index.js":
+/*!********************************************!*\
+  !*** ../../node_modules/duration/index.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar d           = __webpack_require__(/*! d */ \"../../node_modules/d/index.js\")\n  , pad         = __webpack_require__(/*! es5-ext/number/#/pad */ \"../../node_modules/es5-ext/number/\\u0000#/pad.js\")\n  , date        = __webpack_require__(/*! es5-ext/date/valid-date */ \"../../node_modules/es5-ext/date/valid-date.js\")\n  , daysInMonth = __webpack_require__(/*! es5-ext/date/#/days-in-month */ \"../../node_modules/es5-ext/date/\\u0000#/days-in-month.js\")\n  , copy        = __webpack_require__(/*! es5-ext/date/#/copy */ \"../../node_modules/es5-ext/date/\\u0000#/copy.js\")\n  , dfloor      = __webpack_require__(/*! es5-ext/date/#/floor-day */ \"../../node_modules/es5-ext/date/\\u0000#/floor-day.js\")\n  , mfloor      = __webpack_require__(/*! es5-ext/date/#/floor-month */ \"../../node_modules/es5-ext/date/\\u0000#/floor-month.js\")\n  , yfloor      = __webpack_require__(/*! es5-ext/date/#/floor-year */ \"../../node_modules/es5-ext/date/\\u0000#/floor-year.js\")\n  , toInteger   = __webpack_require__(/*! es5-ext/number/to-integer */ \"../../node_modules/es5-ext/number/to-integer.js\")\n  , toPosInt    = __webpack_require__(/*! es5-ext/number/to-pos-integer */ \"../../node_modules/es5-ext/number/to-pos-integer.js\")\n  , isValue     = __webpack_require__(/*! es5-ext/object/is-value */ \"../../node_modules/es5-ext/object/is-value.js\");\n\nvar abs = Math.abs, format, toPrimitive, getYear, Duration, getCalcData;\n\nformat = __webpack_require__(/*! es5-ext/string/format-method */ \"../../node_modules/es5-ext/string/format-method.js\")({\n\ty: function () { return String(abs(this.year)); },\n\tm: function () { return pad.call(abs(this.month), 2); },\n\td: function () { return pad.call(abs(this.day), 2); },\n\tH: function () { return pad.call(abs(this.hour), 2); },\n\tM: function () { return pad.call(abs(this.minute), 2); },\n\tS: function () { return pad.call(abs(this.second), 2); },\n\tL: function () { return pad.call(abs(this.millisecond), 3); },\n\n\tms: function () { return String(abs(this.months)); },\n\tds: function () { return String(abs(this.days)); },\n\tHs: function () { return String(abs(this.hours)); },\n\tMs: function () { return String(abs(this.minutes)); },\n\tSs: function () { return String(abs(this.seconds)); },\n\tLs: function () { return String(abs(this.milliseconds)); },\n\n\tsign: function () { return this.to < this.from ? \"-\" : \"\"; }\n});\n\ngetCalcData = function (duration) {\n\treturn duration.to < duration.from\n\t\t? { to: duration.from, from: duration.to, sign: -1 }\n\t\t: { to: duration.to, from: duration.from, sign: 1 };\n};\n\nDuration = module.exports = function (from, to) {\n\t// Make it both constructor and factory\n\tif (!(this instanceof Duration)) return new Duration(from, to);\n\n\tthis.from = date(from);\n\tthis.to = isValue(to) ? date(to) : new Date();\n};\n\nDuration.prototype = Object.create(Object.prototype, {\n\tvalueOf: d((toPrimitive = function () { return this.to - this.from; })),\n\tmillisecond: d.gs(function () { return this.milliseconds % 1000; }),\n\tsecond: d.gs(function () { return this.seconds % 60; }),\n\tminute: d.gs(function () { return this.minutes % 60; }),\n\thour: d.gs(function () { return this.hours % 24; }),\n\tday: d.gs(function () {\n\t\tvar data = getCalcData(this);\n\t\tvar toDays = data.to.getDate(), fromDays = data.from.getDate();\n\t\tvar isToLater =\n\t\t\tdata.to - dfloor.call(copy.call(data.to)) >=\n\t\t\tdata.from - dfloor.call(copy.call(data.from));\n\t\tvar result;\n\t\tif (toDays > fromDays) {\n\t\t\tresult = toDays - fromDays;\n\t\t\tif (!isToLater) --result;\n\t\t\treturn data.sign * result;\n\t\t}\n\t\tif (toDays === fromDays && isToLater) {\n\t\t\treturn 0;\n\t\t}\n\t\tresult = isToLater ? toDays : toDays - 1;\n\t\tresult += daysInMonth.call(data.from) - data.from.getDate();\n\t\treturn data.sign * result;\n\t}),\n\tmonth: d.gs(function () {\n\t\tvar data = getCalcData(this);\n\t\treturn (\n\t\t\tdata.sign *\n\t\t\t(((12 - data.from.getMonth() + data.to.getMonth()) % 12) -\n\t\t\t\t(data.from - mfloor.call(copy.call(data.from)) >\n\t\t\t\t\tdata.to - mfloor.call(copy.call(data.to))))\n\t\t);\n\t}),\n\tyear: d.gs(\n\t\t(getYear = function () {\n\t\t\tvar data = getCalcData(this);\n\t\t\treturn (\n\t\t\t\tdata.sign *\n\t\t\t\t(data.to.getFullYear() -\n\t\t\t\t\tdata.from.getFullYear() -\n\t\t\t\t\t(data.from - yfloor.call(copy.call(data.from)) >\n\t\t\t\t\t\tdata.to - yfloor.call(copy.call(data.to))))\n\t\t\t);\n\t\t})\n\t),\n\n\tmilliseconds: d.gs(toPrimitive, null),\n\tseconds: d.gs(function () { return toInteger(this.valueOf() / 1000); }),\n\tminutes: d.gs(function () { return toInteger(this.valueOf() / (1000 * 60)); }),\n\thours: d.gs(function () { return toInteger(this.valueOf() / (1000 * 60 * 60)); }),\n\tdays: d.gs(function () { return toInteger(this.valueOf() / (1000 * 60 * 60 * 24)); }),\n\tmonths: d.gs(function () {\n\t\tvar data = getCalcData(this);\n\t\treturn (\n\t\t\tdata.sign *\n\t\t\t((data.to.getFullYear() - data.from.getFullYear()) * 12 +\n\t\t\t\tdata.to.getMonth() -\n\t\t\t\tdata.from.getMonth() -\n\t\t\t\t(data.from - mfloor.call(copy.call(data.from)) >\n\t\t\t\t\tdata.to - mfloor.call(copy.call(data.to))))\n\t\t);\n\t}),\n\tyears: d.gs(getYear),\n\n\t_resolveSign: d(function (isNonZero) {\n\t\tif (!isNonZero) return \"\";\n\t\treturn this.to < this.from ? \"-\" : \"\";\n\t}),\n\t_toStringDefaultDate: d(function (threshold, s, isNonZero) {\n\t\tif (!this.days && threshold < 0) return this._resolveSign(isNonZero) + s;\n\t\tif (threshold-- <= 0) s = abs((isNonZero = this.day)) + \"d\" + (s ? \" \" : \"\") + s;\n\t\tif (!this.months && threshold < 0) return this._resolveSign(isNonZero) + s;\n\t\tif (threshold-- <= 0) s = abs((isNonZero = this.month)) + \"m\" + (s ? \" \" : \"\") + s;\n\t\tif (this.years || threshold >= 0) {\n\t\t\ts = abs((isNonZero = this.year)) + \"y\" + (s ? \" \" : \"\") + s;\n\t\t}\n\t\treturn this._resolveSign(isNonZero) + s;\n\t}),\n\t_toStringDefault: d(function (threshold) {\n\t\tvar s = \"\", isNonZero;\n\t\tif (threshold-- <= 0) s += \".\" + pad.call(abs((isNonZero = this.millisecond)), 3);\n\t\tif (!this.seconds && threshold < 0) return this._resolveSign(isNonZero) + s;\n\t\tif (threshold-- <= 0) {\n\t\t\tisNonZero = this.second;\n\t\t\ts = (this.minutes ? pad.call(abs(isNonZero), 2) : abs(isNonZero)) + s;\n\t\t}\n\t\tif (!this.minutes && threshold < 0) return this._resolveSign(isNonZero) + s;\n\t\tif (threshold-- <= 0) {\n\t\t\tisNonZero = this.minute;\n\t\t\ts =\n\t\t\t\t(this.hours || s ? pad.call(abs(isNonZero), 2) : abs(isNonZero)) +\n\t\t\t\t(s ? \":\" : \"\") +\n\t\t\t\ts;\n\t\t}\n\t\tif (!this.hours && threshold < 0) return this._resolveSign(isNonZero) + s;\n\t\tif (threshold-- <= 0) s = pad.call(abs((isNonZero = this.hour)), 2) + (s ? \":\" : \"\") + s;\n\t\treturn this._toStringDefaultDate(threshold, s, isNonZero);\n\t}),\n\t_toString1: d(function (threshold) {\n\t\tvar tokens = [], isNonZero;\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.millisecond)) + \"ms\");\n\t\tif (!this.seconds && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.second)) + \"s\");\n\t\tif (!this.minutes && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.minute)) + \"m\");\n\t\tif (!this.hours && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.hour)) + \"h\");\n\t\tif (!this.days && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.day)) + \"d\");\n\t\tif (!this.months && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\tif (threshold-- <= 0) tokens.unshift(abs((isNonZero = this.month)) + \"m\");\n\t\tif (!this.years && threshold < 0) return this._resolveSign(isNonZero) + tokens.join(\" \");\n\t\ttokens.unshift(abs((isNonZero = this.year)) + \"y\");\n\t\treturn this._resolveSign(isNonZero) + tokens.join(\" \");\n\t}),\n\ttoString: d(function (pattern/*, threshold*/) {\n\t\tvar threshold;\n\t\tif (!isValue(pattern)) pattern = 0;\n\t\tif (isNaN(pattern)) return format.call(this, pattern);\n\t\tpattern = Number(pattern);\n\t\tthreshold = toPosInt(arguments[1]);\n\t\tif (pattern === 1) return this._toString1(threshold);\n\t\treturn this._toStringDefault(threshold);\n\t})\n});\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/duration/index.js?");
 
 /***/ }),
 
@@ -1406,6 +1428,358 @@ eval("module.exports = JSON.parse('{\"name\":\"elliptic\",\"version\":\"6.5.4\",
 
 "use strict";
 eval("\n\nvar GetIntrinsic = __webpack_require__(/*! get-intrinsic */ \"../../node_modules/get-intrinsic/index.js\");\n\nvar $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%');\nif ($gOPD) {\n\ttry {\n\t\t$gOPD([], 'length');\n\t} catch (e) {\n\t\t// IE 8 has a broken gOPD\n\t\t$gOPD = null;\n\t}\n}\n\nmodule.exports = $gOPD;\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es-abstract/helpers/getOwnPropertyDescriptor.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/\u0000#/copy.js":
+/*!**************************************************!*\
+  !*** ../../node_modules/es5-ext/date/ #/copy.js ***!
+  \**************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar getTime = Date.prototype.getTime;\n\nmodule.exports = function () { return new Date(getTime.call(this)); };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/%00#/copy.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/\u0000#/days-in-month.js":
+/*!***********************************************************!*\
+  !*** ../../node_modules/es5-ext/date/ #/days-in-month.js ***!
+  \***********************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar getMonth = Date.prototype.getMonth;\n\nmodule.exports = function () {\n\tswitch (getMonth.call(this)) {\n\t\tcase 1:\n\t\t\treturn this.getFullYear() % 4 ? 28 : 29;\n\t\tcase 3:\n\t\tcase 5:\n\t\tcase 8:\n\t\tcase 10:\n\t\t\treturn 30;\n\t\tdefault:\n\t\t\treturn 31;\n\t}\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/%00#/days-in-month.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/\u0000#/floor-day.js":
+/*!*******************************************************!*\
+  !*** ../../node_modules/es5-ext/date/ #/floor-day.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar setHours = Date.prototype.setHours;\n\nmodule.exports = function () {\n\tsetHours.call(this, 0, 0, 0, 0);\n\treturn this;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/%00#/floor-day.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/\u0000#/floor-month.js":
+/*!*********************************************************!*\
+  !*** ../../node_modules/es5-ext/date/ #/floor-month.js ***!
+  \*********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar floorDay = __webpack_require__(/*! ./floor-day */ \"../../node_modules/es5-ext/date/\\u0000#/floor-day.js\");\n\nmodule.exports = function () {\n\tfloorDay.call(this).setDate(1);\n\treturn this;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/%00#/floor-month.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/\u0000#/floor-year.js":
+/*!********************************************************!*\
+  !*** ../../node_modules/es5-ext/date/ #/floor-year.js ***!
+  \********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar floorMonth = __webpack_require__(/*! ./floor-month */ \"../../node_modules/es5-ext/date/\\u0000#/floor-month.js\");\n\nmodule.exports = function () {\n\tfloorMonth.call(this).setMonth(0);\n\treturn this;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/%00#/floor-year.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/is-date.js":
+/*!**************************************************!*\
+  !*** ../../node_modules/es5-ext/date/is-date.js ***!
+  \**************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar objToString = Object.prototype.toString, id = objToString.call(new Date());\n\nmodule.exports = function (value) {\n\treturn (\n\t\t(value && !isNaN(value) && (value instanceof Date || objToString.call(value) === id)) ||\n\t\tfalse\n\t);\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/is-date.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/date/valid-date.js":
+/*!*****************************************************!*\
+  !*** ../../node_modules/es5-ext/date/valid-date.js ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isDate = __webpack_require__(/*! ./is-date */ \"../../node_modules/es5-ext/date/is-date.js\");\n\nmodule.exports = function (value) {\n\tif (!isDate(value)) throw new TypeError(value + \" is not valid Date object\");\n\treturn value;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/date/valid-date.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/function/noop.js":
+/*!***************************************************!*\
+  !*** ../../node_modules/es5-ext/function/noop.js ***!
+  \***************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n// eslint-disable-next-line no-empty-function\nmodule.exports = function () {};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/function/noop.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/math/sign/index.js":
+/*!*****************************************************!*\
+  !*** ../../node_modules/es5-ext/math/sign/index.js ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nmodule.exports = __webpack_require__(/*! ./is-implemented */ \"../../node_modules/es5-ext/math/sign/is-implemented.js\")() ? Math.sign : __webpack_require__(/*! ./shim */ \"../../node_modules/es5-ext/math/sign/shim.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/math/sign/index.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/math/sign/is-implemented.js":
+/*!**************************************************************!*\
+  !*** ../../node_modules/es5-ext/math/sign/is-implemented.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nmodule.exports = function () {\n\tvar sign = Math.sign;\n\tif (typeof sign !== \"function\") return false;\n\treturn sign(10) === 1 && sign(-20) === -1;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/math/sign/is-implemented.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/math/sign/shim.js":
+/*!****************************************************!*\
+  !*** ../../node_modules/es5-ext/math/sign/shim.js ***!
+  \****************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nmodule.exports = function (value) {\n\tvalue = Number(value);\n\tif (isNaN(value) || value === 0) return value;\n\treturn value > 0 ? 1 : -1;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/math/sign/shim.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/number/\u0000#/pad.js":
+/*!***************************************************!*\
+  !*** ../../node_modules/es5-ext/number/ #/pad.js ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar pad      = __webpack_require__(/*! ../../string/#/pad */ \"../../node_modules/es5-ext/string/\\u0000#/pad.js\")\n  , toPosInt = __webpack_require__(/*! ../to-pos-integer */ \"../../node_modules/es5-ext/number/to-pos-integer.js\")\n  , toFixed  = Number.prototype.toFixed;\n\nmodule.exports = function (length/*, precision*/) {\n\tvar precision;\n\tlength = toPosInt(length);\n\tprecision = toPosInt(arguments[1]);\n\n\treturn pad.call(\n\t\tprecision ? toFixed.call(this, precision) : this, \"0\",\n\t\tlength + (precision ? 1 + precision : 0)\n\t);\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/number/%00#/pad.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/number/to-integer.js":
+/*!*******************************************************!*\
+  !*** ../../node_modules/es5-ext/number/to-integer.js ***!
+  \*******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar sign  = __webpack_require__(/*! ../math/sign */ \"../../node_modules/es5-ext/math/sign/index.js\")\n  , abs   = Math.abs\n  , floor = Math.floor;\n\nmodule.exports = function (value) {\n\tif (isNaN(value)) return 0;\n\tvalue = Number(value);\n\tif (value === 0 || !isFinite(value)) return value;\n\treturn sign(value) * floor(abs(value));\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/number/to-integer.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/number/to-pos-integer.js":
+/*!***********************************************************!*\
+  !*** ../../node_modules/es5-ext/number/to-pos-integer.js ***!
+  \***********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar toInteger = __webpack_require__(/*! ./to-integer */ \"../../node_modules/es5-ext/number/to-integer.js\")\n  , max       = Math.max;\n\nmodule.exports = function (value) { return max(0, toInteger(value)); };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/number/to-pos-integer.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/assign/index.js":
+/*!*********************************************************!*\
+  !*** ../../node_modules/es5-ext/object/assign/index.js ***!
+  \*********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nmodule.exports = __webpack_require__(/*! ./is-implemented */ \"../../node_modules/es5-ext/object/assign/is-implemented.js\")() ? Object.assign : __webpack_require__(/*! ./shim */ \"../../node_modules/es5-ext/object/assign/shim.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/assign/index.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/assign/is-implemented.js":
+/*!******************************************************************!*\
+  !*** ../../node_modules/es5-ext/object/assign/is-implemented.js ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nmodule.exports = function () {\n\tvar assign = Object.assign, obj;\n\tif (typeof assign !== \"function\") return false;\n\tobj = { foo: \"raz\" };\n\tassign(obj, { bar: \"dwa\" }, { trzy: \"trzy\" });\n\treturn obj.foo + obj.bar + obj.trzy === \"razdwatrzy\";\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/assign/is-implemented.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/assign/shim.js":
+/*!********************************************************!*\
+  !*** ../../node_modules/es5-ext/object/assign/shim.js ***!
+  \********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar keys  = __webpack_require__(/*! ../keys */ \"../../node_modules/es5-ext/object/keys/index.js\")\n  , value = __webpack_require__(/*! ../valid-value */ \"../../node_modules/es5-ext/object/valid-value.js\")\n  , max   = Math.max;\n\nmodule.exports = function (dest, src/*, …srcn*/) {\n\tvar error, i, length = max(arguments.length, 2), assign;\n\tdest = Object(value(dest));\n\tassign = function (key) {\n\t\ttry {\n\t\t\tdest[key] = src[key];\n\t\t} catch (e) {\n\t\t\tif (!error) error = e;\n\t\t}\n\t};\n\tfor (i = 1; i < length; ++i) {\n\t\tsrc = arguments[i];\n\t\tkeys(src).forEach(assign);\n\t}\n\tif (error !== undefined) throw error;\n\treturn dest;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/assign/shim.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/is-callable.js":
+/*!********************************************************!*\
+  !*** ../../node_modules/es5-ext/object/is-callable.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("// Deprecated\n\n\n\nmodule.exports = function (obj) { return typeof obj === \"function\"; };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/is-callable.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/is-value.js":
+/*!*****************************************************!*\
+  !*** ../../node_modules/es5-ext/object/is-value.js ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar _undefined = __webpack_require__(/*! ../function/noop */ \"../../node_modules/es5-ext/function/noop.js\")(); // Support ES3 engines\n\nmodule.exports = function (val) { return val !== _undefined && val !== null; };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/is-value.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/keys/index.js":
+/*!*******************************************************!*\
+  !*** ../../node_modules/es5-ext/object/keys/index.js ***!
+  \*******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nmodule.exports = __webpack_require__(/*! ./is-implemented */ \"../../node_modules/es5-ext/object/keys/is-implemented.js\")() ? Object.keys : __webpack_require__(/*! ./shim */ \"../../node_modules/es5-ext/object/keys/shim.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/keys/index.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/keys/is-implemented.js":
+/*!****************************************************************!*\
+  !*** ../../node_modules/es5-ext/object/keys/is-implemented.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nmodule.exports = function () {\n\ttry {\n\t\tObject.keys(\"primitive\");\n\t\treturn true;\n\t} catch (e) {\n\t\treturn false;\n\t}\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/keys/is-implemented.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/keys/shim.js":
+/*!******************************************************!*\
+  !*** ../../node_modules/es5-ext/object/keys/shim.js ***!
+  \******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isValue = __webpack_require__(/*! ../is-value */ \"../../node_modules/es5-ext/object/is-value.js\");\n\nvar keys = Object.keys;\n\nmodule.exports = function (object) { return keys(isValue(object) ? Object(object) : object); };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/keys/shim.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/normalize-options.js":
+/*!**************************************************************!*\
+  !*** ../../node_modules/es5-ext/object/normalize-options.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isValue = __webpack_require__(/*! ./is-value */ \"../../node_modules/es5-ext/object/is-value.js\");\n\nvar forEach = Array.prototype.forEach, create = Object.create;\n\nvar process = function (src, obj) {\n\tvar key;\n\tfor (key in src) obj[key] = src[key];\n};\n\n// eslint-disable-next-line no-unused-vars\nmodule.exports = function (opts1/*, …options*/) {\n\tvar result = create(null);\n\tforEach.call(arguments, function (options) {\n\t\tif (!isValue(options)) return;\n\t\tprocess(Object(options), result);\n\t});\n\treturn result;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/normalize-options.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/object/valid-value.js":
+/*!********************************************************!*\
+  !*** ../../node_modules/es5-ext/object/valid-value.js ***!
+  \********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isValue = __webpack_require__(/*! ./is-value */ \"../../node_modules/es5-ext/object/is-value.js\");\n\nmodule.exports = function (value) {\n\tif (!isValue(value)) throw new TypeError(\"Cannot use null or undefined\");\n\treturn value;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/object/valid-value.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/contains/index.js":
+/*!**************************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/contains/index.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nmodule.exports = __webpack_require__(/*! ./is-implemented */ \"../../node_modules/es5-ext/string/\\u0000#/contains/is-implemented.js\")() ? String.prototype.contains : __webpack_require__(/*! ./shim */ \"../../node_modules/es5-ext/string/\\u0000#/contains/shim.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/contains/index.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/contains/is-implemented.js":
+/*!***********************************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/contains/is-implemented.js ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar str = \"razdwatrzy\";\n\nmodule.exports = function () {\n\tif (typeof str.contains !== \"function\") return false;\n\treturn str.contains(\"dwa\") === true && str.contains(\"foo\") === false;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/contains/is-implemented.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/contains/shim.js":
+/*!*************************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/contains/shim.js ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar indexOf = String.prototype.indexOf;\n\nmodule.exports = function (searchString/*, position*/) {\n\treturn indexOf.call(this, searchString, arguments[1]) > -1;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/contains/shim.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/pad.js":
+/*!***************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/pad.js ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar toInteger = __webpack_require__(/*! ../../number/to-integer */ \"../../node_modules/es5-ext/number/to-integer.js\")\n  , value     = __webpack_require__(/*! ../../object/valid-value */ \"../../node_modules/es5-ext/object/valid-value.js\")\n  , repeat    = __webpack_require__(/*! ./repeat */ \"../../node_modules/es5-ext/string/\\u0000#/repeat/index.js\")\n  , abs       = Math.abs\n  , max       = Math.max;\n\nmodule.exports = function (fill/*, length*/) {\n\tvar self = String(value(this)), sLength = self.length, length = arguments[1];\n\n\tlength = isNaN(length) ? 1 : toInteger(length);\n\tfill = repeat.call(String(fill), abs(length));\n\tif (length >= 0) return fill.slice(0, max(0, length - sLength)) + self;\n\treturn self + (sLength + length >= 0 ? \"\" : fill.slice(length + sLength));\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/pad.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/repeat/index.js":
+/*!************************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/repeat/index.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nmodule.exports = __webpack_require__(/*! ./is-implemented */ \"../../node_modules/es5-ext/string/\\u0000#/repeat/is-implemented.js\")() ? String.prototype.repeat : __webpack_require__(/*! ./shim */ \"../../node_modules/es5-ext/string/\\u0000#/repeat/shim.js\");\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/repeat/index.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/repeat/is-implemented.js":
+/*!*********************************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/repeat/is-implemented.js ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar str = \"foo\";\n\nmodule.exports = function () {\n\tif (typeof str.repeat !== \"function\") return false;\n\treturn str.repeat(2) === \"foofoo\";\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/repeat/is-implemented.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/\u0000#/repeat/shim.js":
+/*!***********************************************************!*\
+  !*** ../../node_modules/es5-ext/string/ #/repeat/shim.js ***!
+  \***********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("// Thanks\n// @rauchma http://www.2ality.com/2014/01/efficient-string-repeat.html\n// @mathiasbynens https://github.com/mathiasbynens/String.prototype.repeat/blob/4a4b567def/repeat.js\n\n\n\nvar value     = __webpack_require__(/*! ../../../object/valid-value */ \"../../node_modules/es5-ext/object/valid-value.js\")\n  , toInteger = __webpack_require__(/*! ../../../number/to-integer */ \"../../node_modules/es5-ext/number/to-integer.js\");\n\nmodule.exports = function (count) {\n\tvar str = String(value(this)), result;\n\tcount = toInteger(count);\n\tif (count < 0) throw new RangeError(\"Count must be >= 0\");\n\tif (!isFinite(count)) throw new RangeError(\"Count must be < ∞\");\n\n\tresult = \"\";\n\twhile (count) {\n\t\tif (count % 2) result += str;\n\t\tif (count > 1) str += str;\n\t\t// eslint-disable-next-line no-bitwise\n\t\tcount >>= 1;\n\t}\n\treturn result;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/%00#/repeat/shim.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/es5-ext/string/format-method.js":
+/*!**********************************************************!*\
+  !*** ../../node_modules/es5-ext/string/format-method.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isCallable = __webpack_require__(/*! ../object/is-callable */ \"../../node_modules/es5-ext/object/is-callable.js\")\n  , value      = __webpack_require__(/*! ../object/valid-value */ \"../../node_modules/es5-ext/object/valid-value.js\")\n  , call       = Function.prototype.call;\n\nmodule.exports = function (fmap) {\n\tfmap = Object(value(fmap));\n\treturn function (pattern) {\n\t\tvar context = this;\n\t\tvalue(context);\n\t\tpattern = String(pattern);\n\t\treturn pattern.replace(/%([a-zA-Z]+)|\\\\([\\u0000-\\uffff])/g, function (\n\t\t\tmatch,\n\t\t\ttoken,\n\t\t\tescapeChar\n\t\t) {\n\t\t\tvar t, result;\n\t\t\tif (escapeChar) return escapeChar;\n\t\t\tt = token;\n\t\t\twhile (t && !(result = fmap[t])) t = t.slice(0, -1);\n\t\t\tif (!result) return match;\n\t\t\tif (isCallable(result)) result = call.call(result, context);\n\t\t\treturn result + token.slice(t.length);\n\t\t});\n\t};\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/es5-ext/string/format-method.js?");
 
 /***/ }),
 
@@ -2404,6 +2778,61 @@ eval("// Copyright Joyent, Inc. and other Node contributors.\n//\n// Permission 
 
 "use strict";
 eval("// Copyright Joyent, Inc. and other Node contributors.\n//\n// Permission is hereby granted, free of charge, to any person obtaining a\n// copy of this software and associated documentation files (the\n// \"Software\"), to deal in the Software without restriction, including\n// without limitation the rights to use, copy, modify, merge, publish,\n// distribute, sublicense, and/or sell copies of the Software, and to permit\n// persons to whom the Software is furnished to do so, subject to the\n// following conditions:\n//\n// The above copyright notice and this permission notice shall be included\n// in all copies or substantial portions of the Software.\n//\n// THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS\n// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN\n// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,\n// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR\n// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE\n// USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n\n/*<replacement>*/\n\nvar Buffer = __webpack_require__(/*! safe-buffer */ \"../../node_modules/safe-buffer/index.js\").Buffer;\n/*</replacement>*/\n\nvar isEncoding = Buffer.isEncoding || function (encoding) {\n  encoding = '' + encoding;\n  switch (encoding && encoding.toLowerCase()) {\n    case 'hex':case 'utf8':case 'utf-8':case 'ascii':case 'binary':case 'base64':case 'ucs2':case 'ucs-2':case 'utf16le':case 'utf-16le':case 'raw':\n      return true;\n    default:\n      return false;\n  }\n};\n\nfunction _normalizeEncoding(enc) {\n  if (!enc) return 'utf8';\n  var retried;\n  while (true) {\n    switch (enc) {\n      case 'utf8':\n      case 'utf-8':\n        return 'utf8';\n      case 'ucs2':\n      case 'ucs-2':\n      case 'utf16le':\n      case 'utf-16le':\n        return 'utf16le';\n      case 'latin1':\n      case 'binary':\n        return 'latin1';\n      case 'base64':\n      case 'ascii':\n      case 'hex':\n        return enc;\n      default:\n        if (retried) return; // undefined\n        enc = ('' + enc).toLowerCase();\n        retried = true;\n    }\n  }\n};\n\n// Do not cache `Buffer.isEncoding` when checking encoding names as some\n// modules monkey-patch it to support additional encodings\nfunction normalizeEncoding(enc) {\n  var nenc = _normalizeEncoding(enc);\n  if (typeof nenc !== 'string' && (Buffer.isEncoding === isEncoding || !isEncoding(enc))) throw new Error('Unknown encoding: ' + enc);\n  return nenc || enc;\n}\n\n// StringDecoder provides an interface for efficiently splitting a series of\n// buffers into a series of JS strings without breaking apart multi-byte\n// characters.\nexports.StringDecoder = StringDecoder;\nfunction StringDecoder(encoding) {\n  this.encoding = normalizeEncoding(encoding);\n  var nb;\n  switch (this.encoding) {\n    case 'utf16le':\n      this.text = utf16Text;\n      this.end = utf16End;\n      nb = 4;\n      break;\n    case 'utf8':\n      this.fillLast = utf8FillLast;\n      nb = 4;\n      break;\n    case 'base64':\n      this.text = base64Text;\n      this.end = base64End;\n      nb = 3;\n      break;\n    default:\n      this.write = simpleWrite;\n      this.end = simpleEnd;\n      return;\n  }\n  this.lastNeed = 0;\n  this.lastTotal = 0;\n  this.lastChar = Buffer.allocUnsafe(nb);\n}\n\nStringDecoder.prototype.write = function (buf) {\n  if (buf.length === 0) return '';\n  var r;\n  var i;\n  if (this.lastNeed) {\n    r = this.fillLast(buf);\n    if (r === undefined) return '';\n    i = this.lastNeed;\n    this.lastNeed = 0;\n  } else {\n    i = 0;\n  }\n  if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);\n  return r || '';\n};\n\nStringDecoder.prototype.end = utf8End;\n\n// Returns only complete characters in a Buffer\nStringDecoder.prototype.text = utf8Text;\n\n// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer\nStringDecoder.prototype.fillLast = function (buf) {\n  if (this.lastNeed <= buf.length) {\n    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);\n    return this.lastChar.toString(this.encoding, 0, this.lastTotal);\n  }\n  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);\n  this.lastNeed -= buf.length;\n};\n\n// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a\n// continuation byte. If an invalid byte is detected, -2 is returned.\nfunction utf8CheckByte(byte) {\n  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;\n  return byte >> 6 === 0x02 ? -1 : -2;\n}\n\n// Checks at most 3 bytes at the end of a Buffer in order to detect an\n// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)\n// needed to complete the UTF-8 character (if applicable) are returned.\nfunction utf8CheckIncomplete(self, buf, i) {\n  var j = buf.length - 1;\n  if (j < i) return 0;\n  var nb = utf8CheckByte(buf[j]);\n  if (nb >= 0) {\n    if (nb > 0) self.lastNeed = nb - 1;\n    return nb;\n  }\n  if (--j < i || nb === -2) return 0;\n  nb = utf8CheckByte(buf[j]);\n  if (nb >= 0) {\n    if (nb > 0) self.lastNeed = nb - 2;\n    return nb;\n  }\n  if (--j < i || nb === -2) return 0;\n  nb = utf8CheckByte(buf[j]);\n  if (nb >= 0) {\n    if (nb > 0) {\n      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;\n    }\n    return nb;\n  }\n  return 0;\n}\n\n// Validates as many continuation bytes for a multi-byte UTF-8 character as\n// needed or are available. If we see a non-continuation byte where we expect\n// one, we \"replace\" the validated continuation bytes we've seen so far with\n// a single UTF-8 replacement character ('\\ufffd'), to match v8's UTF-8 decoding\n// behavior. The continuation byte check is included three times in the case\n// where all of the continuation bytes for a character exist in the same buffer.\n// It is also done this way as a slight performance increase instead of using a\n// loop.\nfunction utf8CheckExtraBytes(self, buf, p) {\n  if ((buf[0] & 0xC0) !== 0x80) {\n    self.lastNeed = 0;\n    return '\\ufffd';\n  }\n  if (self.lastNeed > 1 && buf.length > 1) {\n    if ((buf[1] & 0xC0) !== 0x80) {\n      self.lastNeed = 1;\n      return '\\ufffd';\n    }\n    if (self.lastNeed > 2 && buf.length > 2) {\n      if ((buf[2] & 0xC0) !== 0x80) {\n        self.lastNeed = 2;\n        return '\\ufffd';\n      }\n    }\n  }\n}\n\n// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.\nfunction utf8FillLast(buf) {\n  var p = this.lastTotal - this.lastNeed;\n  var r = utf8CheckExtraBytes(this, buf, p);\n  if (r !== undefined) return r;\n  if (this.lastNeed <= buf.length) {\n    buf.copy(this.lastChar, p, 0, this.lastNeed);\n    return this.lastChar.toString(this.encoding, 0, this.lastTotal);\n  }\n  buf.copy(this.lastChar, p, 0, buf.length);\n  this.lastNeed -= buf.length;\n}\n\n// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a\n// partial character, the character's bytes are buffered until the required\n// number of bytes are available.\nfunction utf8Text(buf, i) {\n  var total = utf8CheckIncomplete(this, buf, i);\n  if (!this.lastNeed) return buf.toString('utf8', i);\n  this.lastTotal = total;\n  var end = buf.length - (total - this.lastNeed);\n  buf.copy(this.lastChar, 0, end);\n  return buf.toString('utf8', i, end);\n}\n\n// For UTF-8, a replacement character is added when ending on a partial\n// character.\nfunction utf8End(buf) {\n  var r = buf && buf.length ? this.write(buf) : '';\n  if (this.lastNeed) return r + '\\ufffd';\n  return r;\n}\n\n// UTF-16LE typically needs two bytes per character, but even if we have an even\n// number of bytes available, we need to check if we end on a leading/high\n// surrogate. In that case, we need to wait for the next two bytes in order to\n// decode the last character properly.\nfunction utf16Text(buf, i) {\n  if ((buf.length - i) % 2 === 0) {\n    var r = buf.toString('utf16le', i);\n    if (r) {\n      var c = r.charCodeAt(r.length - 1);\n      if (c >= 0xD800 && c <= 0xDBFF) {\n        this.lastNeed = 2;\n        this.lastTotal = 4;\n        this.lastChar[0] = buf[buf.length - 2];\n        this.lastChar[1] = buf[buf.length - 1];\n        return r.slice(0, -1);\n      }\n    }\n    return r;\n  }\n  this.lastNeed = 1;\n  this.lastTotal = 2;\n  this.lastChar[0] = buf[buf.length - 1];\n  return buf.toString('utf16le', i, buf.length - 1);\n}\n\n// For UTF-16LE we do not explicitly append special replacement characters if we\n// end on a partial character, we simply let v8 handle that.\nfunction utf16End(buf) {\n  var r = buf && buf.length ? this.write(buf) : '';\n  if (this.lastNeed) {\n    var end = this.lastTotal - this.lastNeed;\n    return r + this.lastChar.toString('utf16le', 0, end);\n  }\n  return r;\n}\n\nfunction base64Text(buf, i) {\n  var n = (buf.length - i) % 3;\n  if (n === 0) return buf.toString('base64', i);\n  this.lastNeed = 3 - n;\n  this.lastTotal = 3;\n  if (n === 1) {\n    this.lastChar[0] = buf[buf.length - 1];\n  } else {\n    this.lastChar[0] = buf[buf.length - 2];\n    this.lastChar[1] = buf[buf.length - 1];\n  }\n  return buf.toString('base64', i, buf.length - n);\n}\n\nfunction base64End(buf) {\n  var r = buf && buf.length ? this.write(buf) : '';\n  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);\n  return r;\n}\n\n// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)\nfunction simpleWrite(buf) {\n  return buf.toString(this.encoding);\n}\n\nfunction simpleEnd(buf) {\n  return buf && buf.length ? this.write(buf) : '';\n}\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/string_decoder/lib/string_decoder.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/type/function/is.js":
+/*!**********************************************!*\
+  !*** ../../node_modules/type/function/is.js ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isPrototype = __webpack_require__(/*! ../prototype/is */ \"../../node_modules/type/prototype/is.js\");\n\nmodule.exports = function (value) {\n\tif (typeof value !== \"function\") return false;\n\n\tif (!hasOwnProperty.call(value, \"length\")) return false;\n\n\ttry {\n\t\tif (typeof value.length !== \"number\") return false;\n\t\tif (typeof value.call !== \"function\") return false;\n\t\tif (typeof value.apply !== \"function\") return false;\n\t} catch (error) {\n\t\treturn false;\n\t}\n\n\treturn !isPrototype(value);\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/type/function/is.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/type/object/is.js":
+/*!********************************************!*\
+  !*** ../../node_modules/type/object/is.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isValue = __webpack_require__(/*! ../value/is */ \"../../node_modules/type/value/is.js\");\n\n// prettier-ignore\nvar possibleTypes = { \"object\": true, \"function\": true, \"undefined\": true /* document.all */ };\n\nmodule.exports = function (value) {\n\tif (!isValue(value)) return false;\n\treturn hasOwnProperty.call(possibleTypes, typeof value);\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/type/object/is.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/type/plain-function/is.js":
+/*!****************************************************!*\
+  !*** ../../node_modules/type/plain-function/is.js ***!
+  \****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isFunction = __webpack_require__(/*! ../function/is */ \"../../node_modules/type/function/is.js\");\n\nvar classRe = /^\\s*class[\\s{/}]/, functionToString = Function.prototype.toString;\n\nmodule.exports = function (value) {\n\tif (!isFunction(value)) return false;\n\tif (classRe.test(functionToString.call(value))) return false;\n\treturn true;\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/type/plain-function/is.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/type/prototype/is.js":
+/*!***********************************************!*\
+  !*** ../../node_modules/type/prototype/is.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar isObject = __webpack_require__(/*! ../object/is */ \"../../node_modules/type/object/is.js\");\n\nmodule.exports = function (value) {\n\tif (!isObject(value)) return false;\n\ttry {\n\t\tif (!value.constructor) return false;\n\t\treturn value.constructor.prototype === value;\n\t} catch (error) {\n\t\treturn false;\n\t}\n};\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/type/prototype/is.js?");
+
+/***/ }),
+
+/***/ "../../node_modules/type/value/is.js":
+/*!*******************************************!*\
+  !*** ../../node_modules/type/value/is.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n// ES3 safe\nvar _undefined = void 0;\n\nmodule.exports = function (value) { return value !== _undefined && value !== null; };\n\n\n//# sourceURL=webpack://@algodesk/fundstack-sdk/../../node_modules/type/value/is.js?");
 
 /***/ }),
 

@@ -1,9 +1,9 @@
 import {BLOCK_TIME} from "../constants";
-// import Duration from 'duration';
+import Duration from 'duration';
 
-export function prepareNote(note) {
+export function encodeText(text) {
     const enc = new TextEncoder();
-    return  enc.encode(note);
+    return  enc.encode(text);
 }
 
 export function getDurationBetweenBlocks(futureRound, currentRound) {
@@ -12,7 +12,7 @@ export function getDurationBetweenBlocks(futureRound, currentRound) {
     const start = new Date();
     const end = new Date(start.getTime() + (sec * 1000));
 
-    // const duration = new Duration(start, end);
-    //
-    // return duration;
+    const duration = new Duration(start, end);
+
+    return duration;
 }

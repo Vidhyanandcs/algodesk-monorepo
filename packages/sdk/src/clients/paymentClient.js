@@ -1,6 +1,6 @@
 import {BaseClient} from "./baseClient";
 import * as sdk from "algosdk";
-import {prepareNote} from "../utils";
+import {encodeText} from "../utils";
 
 export class PaymentClient extends BaseClient{
     constructor(name, signer, wallet) {
@@ -12,7 +12,7 @@ export class PaymentClient extends BaseClient{
 
         amount = sdk.algosToMicroalgos(amount);
         if(note) {
-            note = prepareNote(note);
+            note = encodeText(note);
         }
 
         return sdk.makePaymentTxnWithSuggestedParams(from, to, amount, closeRemainderTo, note, networkParams, rekeyTo);
