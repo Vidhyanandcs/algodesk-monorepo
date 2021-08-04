@@ -1,5 +1,4 @@
 import path from 'path';
-import webpack from 'webpack';
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
 
 import { fileURLToPath } from 'url';
@@ -14,40 +13,35 @@ Object.defineProperty(global, '__dirname', {
 });
 
 export default {
-    mode: "development",
-    node: {
-        __dirname: true
-    },
-    entry: {
-        app: ['./index.js']
-    },
+    mode: 'production',
+    entry: './src/index.ts',
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'js/[name].bundle.js'
+        filename: 'algodesk-sdk.min.js',
+        path: path.resolve(__dirname, 'dist/browser'),
+        library: {
+            type: 'umd',
+            name: 'algodesk-sdk',
+        },
+        clean: true
     },
+    devtool: 'source-map',
     resolve: {
-        extensions: ['.js']
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js)$/,
-                exclude: /(node_modules)/,
-                use: ['babel-loader'],
-            },
-            {
-                test: /\.m?js/,
-                resolve: {
-                    fullySpecified: false
-                }
-            }
-        ]
+        extensions: ['.ts', '.js'],
     },
     plugins: [
         new NodePolyfillPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-            'KEY': JSON.stringify("VALUE"),
-        })
     ],
-}
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                options: {
+                    configFile: path.resolve(__dirname, 'tsconfig-browser.json'),
+                },
+            },
+
+            { test: /\.js$/, loader: 'source-map-loader' },
+        ]
+    },
+};
