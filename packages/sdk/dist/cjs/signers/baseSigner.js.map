@@ -1,1 +1,0 @@
-{"version":3,"file":"baseSigner.js","sourceRoot":"","sources":["../../../src/signers/baseSigner.ts"],"names":[],"mappings":";;;AAEA,MAAa,UAAU;IACnB;IAEA,CAAC;IAED,KAAK,CAAC,OAAO,CAAC,WAAwB;QAClC,MAAM,IAAI,KAAK,CAAC,gCAAgC,CAAC,CAAC;IACtD,CAAC;IAED,KAAK,CAAC,aAAa,CAAC,YAA2B;QAC3C,MAAM,IAAI,KAAK,CAAC,gCAAgC,CAAC,CAAC;IACtD,CAAC;CAEJ;AAbD,gCAaC"}
