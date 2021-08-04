@@ -14,7 +14,7 @@ Object.defineProperty(global, '__dirname', {
 
 export default {
     mode: 'production',
-    entry: './src/index.ts',
+    entry: './index.ts',
     output: {
         filename: 'algodesk-sdk.min.js',
         path: path.resolve(__dirname, 'dist/browser'),
@@ -40,7 +40,6 @@ export default {
                     configFile: path.resolve(__dirname, 'tsconfig-browser.json'),
                 },
             },
-
             { test: /\.js$/, loader: 'source-map-loader' },
         ]
     },
