@@ -18,6 +18,6 @@ export function getUintProgram(compiledProgramResult: string): Uint8Array {
     return  new Uint8Array(Buffer.from(compiledProgramResult, "base64"));
 }
 
-export function encodeTxId(hash: string): string {
+export function encodeTxId(hash: any): string {
     return encode(hash).slice(0, 52);
 }
