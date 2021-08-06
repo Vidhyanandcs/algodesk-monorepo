@@ -1,14 +1,14 @@
 import {BaseSigner} from "./baseSigner";
-import {Transaction} from "algosdk";
+import {Account, Transaction} from "algosdk";
 
 export class WalletSigner extends BaseSigner{
-    wallet;
+    private wallet: Account;
 
     constructor() {
         super();
     }
 
-    setWallet(wallet): void {
+    setWallet(wallet: Account): void {
         this.wallet = wallet;
     }
 
@@ -19,7 +19,6 @@ export class WalletSigner extends BaseSigner{
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
         const sk:Uint8Array = this.getSecretKey();
-        console.log(sk);
         const signedRawTxn: Uint8Array = unsignedTxn.signTxn(sk);
         return signedRawTxn;
     }

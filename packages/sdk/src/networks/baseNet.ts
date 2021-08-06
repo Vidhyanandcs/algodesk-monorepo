@@ -27,15 +27,11 @@ export class BaseNet {
         this.indexerToken = indexerToken;
     }
 
-    getLabel(): string {
-        return this.label;
-    }
-
     getClient(): Algodv2{
         return new sdk.Algodv2(this.algodToken, this.algod, this.port);
     }
 
-    getIndexer(): Indexer {
+    getIndexer(): IndexerClient {
         return new sdk.Indexer(this.indexerToken, this.indexer, this.port);
     }
 }
