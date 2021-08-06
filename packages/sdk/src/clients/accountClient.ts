@@ -23,4 +23,9 @@ export class AccountClient extends BaseClient{
 
         return createdAssets;
     }
+
+    async getApplicationTransactions(address: string, appId: number) {
+        const {transactions} = await this.indexer.searchForTransactions().applicationID(appId).address(address).do();
+        return transactions;
+    }
 }

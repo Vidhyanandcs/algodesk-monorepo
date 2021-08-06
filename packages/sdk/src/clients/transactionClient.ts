@@ -31,4 +31,9 @@ export class TransactionClient extends BaseClient{
         const txDetails = await this.client.pendingTransactionInformation(txId).do();
         return txDetails;
     }
+
+    async get(txId: string): Promise<any> {
+        const {transactions} = await this.indexer.searchForTransactions().txid(txId).do();
+        return transactions[0];
+    }
 }
