@@ -1,8 +1,8 @@
-import {BaseSigner} from "./baseSigner";
+import {Signer} from "./signer";
 import * as sdk from "algosdk";
 import LogicSig from "algosdk/dist/types/src/logicsig";
 
-export class LogicSigner extends BaseSigner{
+export class LogicSigner extends Signer{
     constructor() {
         super();
     }

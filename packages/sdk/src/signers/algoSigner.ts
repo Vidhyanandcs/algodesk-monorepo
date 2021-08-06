@@ -1,7 +1,7 @@
-import {BaseSigner} from "./baseSigner";
+import {Signer} from "./signer";
 import {Transaction} from "algosdk";
 
-export class BrowserAlgoSigner extends BaseSigner{
+export class BrowserAlgoSigner extends Signer{
 
     constructor() {
         super();

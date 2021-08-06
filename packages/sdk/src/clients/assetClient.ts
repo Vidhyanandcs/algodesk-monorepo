@@ -4,11 +4,11 @@ import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
 import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {BaseSigner} from "../signers";
+import {Signer} from "../signers";
 
 export class AssetClient extends BaseClient{
     private transactionClient: TransactionClient;
-    constructor(client: Algodv2, indexer: IndexerClient, signer: BaseSigner) {
+    constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         super(client, indexer, signer);
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }

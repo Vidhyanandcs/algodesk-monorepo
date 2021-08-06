@@ -1,7 +1,7 @@
-import {BaseSigner} from "./baseSigner";
+import {Signer} from "./signer";
 import {Account, Transaction} from "algosdk";
 
-export class WalletSigner extends BaseSigner{
+export class WalletSigner extends Signer{
     private wallet: Account;
 
     constructor() {

@@ -1,6 +1,6 @@
 import {Transaction} from "algosdk";
 
-export class BaseSigner {
+export class Signer {
     constructor() {
 
     }

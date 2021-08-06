@@ -1,10 +1,10 @@
 import {BaseClient} from "./baseClient";
 import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {BaseSigner} from "../signers";
+import {Signer} from "../signers";
 
 export class AccountClient extends BaseClient{
-    constructor(client: Algodv2, indexer: IndexerClient, signer: BaseSigner) {
+    constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         super(client, indexer, signer);
     }
 

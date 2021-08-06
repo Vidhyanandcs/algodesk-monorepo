@@ -1,23 +1,22 @@
-import {BaseNet, getNetwork} from "./networks";
+import {Network, getNetwork} from "./network";
 import {AccountClient} from "./clients/accountClient";
 import {ApplicationClient, AssetClient} from "./clients";
-import {BaseSigner} from "./signers";
+import {Signer} from "./signers";
 import {NETWORKS} from "./constants";
 import {TransactionClient} from "./clients/transactionClient";
 
 export class Algodesk {
-    public network: BaseNet
+    public network: Network
     public accountClient: AccountClient;
     public assetClient: AssetClient;
     public transactionClient: TransactionClient
-    private applicationClient: ApplicationClient;
+    public applicationClient: ApplicationClient;
 
-    constructor(networkName: string = NETWORKS.MAINNET, signer: BaseSigner) {
-        this.setNetwork(networkName, signer);
+    constructor(network: Network, signer: Signer) {
+        this.setNetwork(network, signer);
     }
 
-    setNetwork(name: string, signer: BaseSigner): void {
-        const network = getNetwork(name);
+    setNetwork(network: Network, signer: Signer): void {
         const client = network.getClient();
         const indexer = network.getIndexer();
 

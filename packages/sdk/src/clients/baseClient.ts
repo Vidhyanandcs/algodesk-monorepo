@@ -1,14 +1,14 @@
 import {Algodv2, SuggestedParams, Transaction} from "algosdk";
-import {BaseSigner, getSigner} from "../signers";
+import {Signer, getSigner} from "../signers";
 import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 
 export class BaseClient {
     client: Algodv2
     indexer: IndexerClient
-    signer: BaseSigner
+    signer: Signer
 
-    constructor(client: Algodv2, indexer: IndexerClient, signer: BaseSigner) {
+    constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         this.client = client;
         this.indexer = indexer;
         this.signer = signer;

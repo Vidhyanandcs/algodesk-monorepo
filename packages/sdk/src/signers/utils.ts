@@ -1,10 +1,10 @@
 import {SIGNERS} from "../constants";
-import {BaseSigner} from "./baseSigner";
+import {Signer} from "./signer";
 import {WalletSigner} from "./walletSigner";
 import {BrowserAlgoSigner} from "./algoSigner";
 import {LogicSigner} from "./logicSigner";
 
-export function getSigner(name: string): BaseSigner{
+export function getSigner(name: string): Signer{
     if (name == SIGNERS.WALLET) {
         return new WalletSigner();
     }

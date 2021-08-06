@@ -3,12 +3,12 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, OnApplicationComplete, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {BaseSigner} from "../signers";
+import {Signer} from "../signers";
 import {processApplicationArgs} from "../utils/application";
 
 export class ApplicationClient extends BaseClient{
-    private transactionClient: TransactionClient;
-    constructor(client: Algodv2, indexer: IndexerClient, signer: BaseSigner) {
+    public transactionClient: TransactionClient;
+    constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         super(client, indexer, signer);
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
