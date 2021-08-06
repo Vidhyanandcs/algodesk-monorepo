@@ -1,8 +1,6 @@
 import {BaseClient} from "./baseClient";
 import {Algodv2, SuggestedParams} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import Status from "algosdk/dist/types/src/client/v2/algod/status";
-import PendingTransactionInformation from "algosdk/dist/types/src/client/v2/algod/pendingTransactionInformation";
 import {BaseSigner} from "../signers";
 
 export class TransactionClient extends BaseClient{
@@ -29,7 +27,7 @@ export class TransactionClient extends BaseClient{
         }
     };
 
-    async pendingTransactionInformation(txId: string): Promise<Record<string, any>> {
+    async pendingTransactionInformation(txId: string): Promise<any> {
         const txDetails = await this.client.pendingTransactionInformation(txId).do();
         return txDetails;
     }

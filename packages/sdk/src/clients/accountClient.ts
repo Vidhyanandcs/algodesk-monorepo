@@ -8,8 +8,8 @@ export class AccountClient extends BaseClient{
         super(client, indexer, signer);
     }
 
-    async getAccountInformation(address): Promise<Record<string, any>> {
-        const accountInformation: Record<string, any> = await this.client.accountInformation(address).do();
+    async getAccountInformation(address): Promise<any> {
+        const accountInformation = await this.client.accountInformation(address).do();
         return accountInformation;
     }
 

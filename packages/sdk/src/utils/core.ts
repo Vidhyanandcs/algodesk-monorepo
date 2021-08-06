@@ -1,9 +1,11 @@
 import Duration from 'duration';
 import {BLOCK_TIME} from "../constants";
 
-export function encodeText(text: string): Uint8Array {
-    const enc = new TextEncoder();
-    return  enc.encode(text);
+export function encodeText(text: string | undefined): Uint8Array | undefined {
+    if (text) {
+        const enc = new TextEncoder();
+        return enc.encode(text);
+    }
 }
 
 export function durationBetweenBlocks(futureRound: number, currentRound: number): Duration {

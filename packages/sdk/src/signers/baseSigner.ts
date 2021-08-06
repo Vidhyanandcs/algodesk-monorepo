@@ -13,7 +13,7 @@ export class BaseSigner {
         throw new Error("abstractMethod not implemented");
     }
 
-    setWallet(wallet: Record<string, any>) {
+    setWallet(wallet: any) {
         throw new Error("abstractMethod not implemented");
     }
 }
