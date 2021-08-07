@@ -1,7 +1,7 @@
 'use strict';
 
-const fundstackSdk = require('..');
+import {getContracts} from '@algodesk/fundstack-sdk';
 
-describe('@algodesk/fundstack-sdk', () => {
-    it('needs tests');
+test('api tests', async () => {
+    getContracts();
 });
