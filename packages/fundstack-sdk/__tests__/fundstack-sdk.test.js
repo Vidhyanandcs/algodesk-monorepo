@@ -1,6 +1,6 @@
 'use strict';
 
-import {getContracts} from '@algodesk/fundstack-sdk';
+import {getContracts} from '../index';
 
 test('api tests', async () => {
     getContracts();
