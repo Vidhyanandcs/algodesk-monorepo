@@ -6217,6 +6217,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+replaceall@^0.1.6:
+  version "0.1.6"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/replaceall/-/replaceall-0.1.6.tgz#81d81ac7aeb72d7f5c4942adf2697a3220688d8e"
+  integrity sha1-gdgax663LX9cSUKt8ml6MiBojY4=
+
 request@^2.88.0, request@^2.88.2:
   version "2.88.2"
   resolved "https://artifact.devsnc.com/content/groups/npm-all/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"

@@ -36,7 +36,8 @@
     "@algodesk/core": "^1.1.8",
     "algosdk": "^1.10.1",
     "atob": "^2.1.2",
-    "duration": "^0.2.2"
+    "duration": "^0.2.2",
+    "replaceall": "^0.1.6"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
