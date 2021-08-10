@@ -1,6 +1,6 @@
 import {globalStateKeys} from "../state";
 import * as sdk from "algosdk";
-import {encodeTxId} from "@algodesk/core";
+import algodeskCore from "@algodesk/core";
 import atob from 'atob';
 
 export function getFundState(fund) {
@@ -21,7 +21,7 @@ export function getGlobalState(fund) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else if (key == globalStateKeys.company_details) {
-                globalState[key] = encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
+                globalState[key] = algodeskCore.encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else {
                 globalState[key] = atob(value.bytes);

@@ -4,7 +4,9 @@
   "description": "> TODO: description",
   "author": "algodesk-io <admin@algodesk.io>",
   "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
-  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "browser": "dist/browser/fundstack-sdk.min.js",
   "license": "ISC",
   "types": "dist/types/index.d.ts",
   "files": [
@@ -18,10 +20,12 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "build": "node download.js && npm run build:clean && npm run build:esm && npm run build:browser",
+    "build": "node download.js && npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:browser",
     "build:clean": "rimraf dist/",
     "build:esm": "tsc -p ./tsconfig-esm.json && npm run build:esm-copy",
     "build:esm-copy": "copyfiles -u 1 src/**/*.teal dist/esm/src",
+    "build:cjs": "tsc -p ./tsconfig-cjs.json && npm run build:cjs-copy",
+    "build:cjs-copy": "copyfiles -u 1 src/**/*.teal dist/cjs/src",
     "build:browser": "webpack",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
@@ -46,6 +50,7 @@
     "source-map-loader": "^3.0.0",
     "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.5",
+    "ts-node": "^10.2.0",
     "webpack": "^5.48.0",
     "webpack-cli": "^4.7.2"
   }

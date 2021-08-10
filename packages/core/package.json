@@ -4,7 +4,9 @@
   "description": "> TODO: description",
   "author": "algodesk-io <admin@algodesk.io>",
   "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
-  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "browser": "dist/browser/algodesk-core.min.js",
   "license": "ISC",
   "types": "dist/types/index.d.ts",
   "files": [
@@ -18,9 +20,10 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "build": "npm run build:clean && npm run build:esm && npm run build:browser",
+    "build": "npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:browser",
     "build:clean": "rimraf dist/",
     "build:esm": "tsc -p ./tsconfig-esm.json",
+    "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "build:browser": "webpack",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },

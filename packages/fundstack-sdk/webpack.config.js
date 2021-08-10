@@ -1,18 +1,7 @@
-import path from 'path';
-import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
+const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
-import { fileURLToPath } from 'url';
-
-Object.defineProperty(global, '__dirname', {
-    __proto__: null,
-    get: () => {
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        return __dirname;
-    }
-});
-
-export default {
+module.exports = {
     mode: 'production',
     entry: './index.ts',
     output: {
