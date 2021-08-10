@@ -18,11 +18,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fundstack = __importStar(require("./src/main"));
-__exportStar(require("./src/main"), exports);
-exports.default = fundstack;
+exports.getContracts = void 0;
+const approvalJson = __importStar(require("./teal/compiled/approval.json"));
+const clearJson = __importStar(require("./teal/compiled/clear.json"));
+const escrowTeal = __importStar(require("./teal/escrow.teal"));
+function getContracts() {
+    return {
+        compiledApprovalProgram: approvalJson,
+        compiledClearProgram: clearJson,
+        escrowProgram: {
+            teal: escrowTeal
+        }
+    };
+}
+exports.getContracts = getContracts;
 //# sourceMappingURL=index.js.map

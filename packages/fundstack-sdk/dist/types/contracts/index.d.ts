@@ -1,3 +1,4 @@
+import * as escrowTeal from './teal/escrow.teal';
 export declare function getContracts(): {
     compiledApprovalProgram: {
         hash: string;
@@ -6,5 +7,8 @@ export declare function getContracts(): {
     compiledClearProgram: {
         hash: string;
         result: string;
+    };
+    escrowProgram: {
+        teal: typeof escrowTeal;
     };
 };
