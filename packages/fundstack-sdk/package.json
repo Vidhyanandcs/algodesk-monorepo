@@ -18,10 +18,11 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "build": "node download.js && npm run build:clean && npm run build:esm && npm run build:cjs && webpack",
+    "build": "node download.js && npm run build:clean && npm run build:esm && npm run build:browser",
     "build:clean": "rimraf dist/",
-    "build:cjs": "tsc -p ./tsconfig-cjs.json",
-    "build:esm": "tsc -p ./tsconfig-esm.json",
+    "build:esm": "tsc -p ./tsconfig-esm.json && npm run build:esm-copy",
+    "build:esm-copy": "copyfiles -u 1 src/**/*.teal dist/esm/src",
+    "build:browser": "webpack",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "bugs": {
@@ -36,8 +37,10 @@
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.13",
+    "copyfiles": "^2.4.1",
     "jest": "^27.0.6",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
     "source-map-loader": "^3.0.0",
     "ts-jest": "^27.0.4",

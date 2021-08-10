@@ -8,10 +8,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": "./",
-    "paths": {
-      "*" : ["./src/@types/*"]
-    }
   },
-  "include": ["src"]
+  "assets":["**/*.teal"],
+  "include": ["index.ts", "src"]
 }

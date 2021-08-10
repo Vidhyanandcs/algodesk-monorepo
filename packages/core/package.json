@@ -18,10 +18,10 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "build": "npm run build:clean && webpack && npm run build:cjs && npm run build:esm",
+    "build": "npm run build:clean && npm run build:esm && npm run build:browser",
     "build:clean": "rimraf dist/",
-    "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "build:esm": "tsc -p ./tsconfig-esm.json",
+    "build:browser": "webpack",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "bugs": {
