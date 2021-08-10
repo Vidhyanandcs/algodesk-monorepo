@@ -2,5 +2,8 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testTimeout: 20000
+  testTimeout: 20000,
+  transform: {
+    "\\.teal$": "jest-raw-loader"
+  }
 };

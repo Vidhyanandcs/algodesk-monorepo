@@ -9,6 +9,5 @@
     "esModuleInterop": true,
     "sourceMap": true,
   },
-  "assets":["**/*.teal"],
   "include": ["index.ts", "src"]
 }

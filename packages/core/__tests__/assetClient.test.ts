@@ -1,6 +1,6 @@
 'use strict';
 
-import {Algodesk, testnet, WalletSigner} from '@algodesk/core';
+import {Algodesk, testnet, WalletSigner} from '../index';
 import {Account, mnemonicToSecretKey} from 'algosdk';
 
 test('api tests', async () => {
