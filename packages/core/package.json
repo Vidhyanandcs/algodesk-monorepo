@@ -6,8 +6,6 @@
   "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
   "type": "module",
   "license": "ISC",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "files": [
     "dist/"
@@ -24,14 +22,15 @@
     "build:clean": "rimraf dist/",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "build:esm": "tsc -p ./tsconfig-esm.json",
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"
   },
   "dependencies": {
     "algosdk": "^1.10.1",
-    "duration": "^0.2.2"
+    "duration": "^0.2.2",
+    "hi-base32": "^0.5.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
