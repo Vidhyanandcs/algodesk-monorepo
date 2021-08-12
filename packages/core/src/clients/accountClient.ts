@@ -1,5 +1,5 @@
 import {BaseClient} from "./baseClient";
-import {Address, Algodv2} from "algosdk";
+import {Account, Address, Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Signer} from "../signers";
 
@@ -8,7 +8,7 @@ export class AccountClient extends BaseClient{
         super(client, indexer, signer);
     }
 
-    async getAccountInformation(address: string): Promise<any> {
+    async getAccountInformation(address: string): Promise<Record<string, any>> {
         const accountInformation = await this.client.accountInformation(address).do();
         return accountInformation;
     }

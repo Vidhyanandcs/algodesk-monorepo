@@ -18,4 +18,7 @@ test('api tests', async () => {
 
     const appDetails = await algodesk.applicationClient.get(21431880);
     expect(appDetails.id).toBe(21431880);
+
+    // const accountDetails = await algodesk.accountClient.getAccountInformation(keys.addr);
+    // console.log(accountDetails);
 });
