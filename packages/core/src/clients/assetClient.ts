@@ -14,6 +14,7 @@ export class AssetClient{
         this.client = client;
         this.indexer = indexer;
         this.signer = signer;
+        this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
     async get(id: number): Promise<any>{

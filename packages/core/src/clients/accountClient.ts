@@ -13,6 +13,7 @@ export class AccountClient{
         this.client = client;
         this.indexer = indexer;
         this.signer = signer;
+        this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
     async getAccountInformation(address: string): Promise<any> {
