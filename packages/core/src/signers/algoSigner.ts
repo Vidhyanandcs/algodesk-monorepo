@@ -1,10 +1,10 @@
-import {Signer} from "./signer";
+import {Signer} from "../types";
 import {Transaction} from "algosdk";
 
-export class BrowserAlgoSigner extends Signer{
+export class BrowserAlgoSigner implements Signer{
 
     constructor() {
-        super();
+
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {

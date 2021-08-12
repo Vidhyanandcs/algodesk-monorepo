@@ -1,6 +1,6 @@
 import {Algodv2, SuggestedParams, Transaction} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {Signer} from "../signers";
+import {Signer} from "../types";
 import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 
 export class TransactionClient{

@@ -1,5 +1,5 @@
 import {SIGNERS} from "../constants";
-import {Signer} from "./signer";
+import {Signer} from "../types";
 import {WalletSigner} from "./walletSigner";
 import {BrowserAlgoSigner} from "./algoSigner";
 import {LogicSigner} from "./logicSigner";

@@ -1,6 +1,6 @@
 import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {Signer} from "../signers";
+import {Signer} from "../types";
 import {TransactionClient} from "./transactionClient";
 
 export class AccountClient{
@@ -15,7 +15,7 @@ export class AccountClient{
         this.signer = signer;
     }
 
-    async getAccountInformation(address: string): Promise<Record<string, any>> {
+    async getAccountInformation(address: string): Promise<any> {
         const accountInformation = await this.client.accountInformation(address).do();
         return accountInformation;
     }

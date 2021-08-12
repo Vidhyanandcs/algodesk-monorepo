@@ -2,7 +2,7 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {Signer} from "../signers";
+import {Signer} from "../types";
 
 export class AssetClient{
     client: Algodv2;

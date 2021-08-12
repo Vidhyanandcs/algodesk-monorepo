@@ -1,33 +1,30 @@
-import {Signer} from "./signer";
+import {Signer} from "../types";
 import {Account, Transaction} from "algosdk";
 
-export class WalletSigner extends Signer{
+export class WalletSigner implements Signer{
     private wallet: Account;
 
-    constructor() {
-        super();
+    constructor(wallet?: Account) {
+        if (wallet) {
+            this.setWallet(wallet);
+        }
     }
 
     setWallet(wallet: Account): void {
         this.wallet = wallet;
     }
 
-    getSecretKey(): Uint8Array {
+    signTxn(unsignedTxn: Transaction): Uint8Array {
         const {sk} = this.wallet;
-        return sk;
-    }
-
-    async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
-        const sk:Uint8Array = this.getSecretKey();
         const signedRawTxn: Uint8Array = unsignedTxn.signTxn(sk);
         return signedRawTxn;
     }
 
-    async signGroupTxns(unsignedTxns: Transaction[]): Promise<Uint8Array[]> {
+    signGroupTxns(unsignedTxns: Transaction[]): Uint8Array[] {
         const signedTxns: Uint8Array[] = [];
 
-        unsignedTxns.forEach(async (unsignedTxn) => {
-            const test: Uint8Array = await this.signTxn(unsignedTxn);
+        unsignedTxns.forEach((unsignedTxn) => {
+            const test = this.signTxn(unsignedTxn);
             signedTxns.push(test);
         });
 

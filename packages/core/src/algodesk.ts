@@ -1,7 +1,7 @@
 import {Network} from "./network";
 import {AccountClient} from "./clients/accountClient";
 import {ApplicationClient, AssetClient} from "./clients";
-import {Signer} from "./signers";
+import {Signer} from "./types";
 import {TransactionClient} from "./clients/transactionClient";
 
 export class Algodesk {

@@ -12,8 +12,7 @@ test('api tests', async () => {
     testnet.setAlgodServer('https://testnet-algorand.api.purestake.io/ps2', token);
     testnet.setIndexerServer('https://testnet-algorand.api.purestake.io/idx2', token);
 
-    const walletSigner = new WalletSigner();
-    walletSigner.setWallet(keys);
+    const walletSigner = new WalletSigner(keys);
 
     const fundstack = new Fundstack(testnet, walletSigner);
 
