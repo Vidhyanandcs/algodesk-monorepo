@@ -2,6 +2,13 @@ import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Signer} from "../types";
 import {TransactionClient} from "./transactionClient";
+import {
+    Asset,
+    AssetHolding,
+    Account,
+    Application,
+    ApplicationLocalState
+} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class AccountClient{
     client: Algodv2;
@@ -16,24 +23,48 @@ export class AccountClient{
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
-    async getAccountInformation(address: string): Promise<any> {
-        const accountInformation = await this.client.accountInformation(address).do();
+    async getAccountInformation(address: string): Promise<Account> {
+        const accountInformation = await this.client.accountInformation(address).do() as Account;
         return accountInformation;
     }
 
-    async getCreatedAssets(address: string) {
-        const accountInfo = await this.getAccountInformation(address);
+    async getCreatedAssets(accountInfo: string | Account): Promise<Asset[]>{
+        if (typeof accountInfo === 'string') {
+            const address = accountInfo;
+            accountInfo = await this.getAccountInformation(address);
+        }
 
         const createdAssets = accountInfo['created-assets'];
-        createdAssets.forEach((asset) => {
-            asset.id = asset.index;
-        });
-
         return createdAssets;
     }
 
-    async getApplicationTransactions(address: string, appId: number) {
-        const {transactions} = await this.indexer.searchForTransactions().applicationID(appId).address(address).do();
-        return transactions;
+    async getHoldingAssets(accountInfo: string | Account): Promise<AssetHolding[]>{
+        if (typeof accountInfo === 'string') {
+            const address = accountInfo;
+            accountInfo = await this.getAccountInformation(address);
+        }
+
+        const createdAssets = accountInfo['assets'];
+        return createdAssets;
+    }
+
+    async getCreatedApps(accountInfo: string | Account): Promise<Application[]> {
+        if (typeof accountInfo === 'string') {
+            const address = accountInfo;
+            accountInfo = await this.getAccountInformation(address);
+        }
+
+        const createdApps = accountInfo['created-apps'];
+        return createdApps;
+    }
+
+    async getOptedApps(accountInfo: string | Account): Promise<Application[]> {
+        if (typeof accountInfo === 'string') {
+            const address = accountInfo;
+            accountInfo = await this.getAccountInformation(address);
+        }
+
+        const optedApps = accountInfo['apps-local-state'];
+        return optedApps;
     }
 }

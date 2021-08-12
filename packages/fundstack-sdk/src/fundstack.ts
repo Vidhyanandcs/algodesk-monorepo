@@ -46,7 +46,6 @@ export class Fundstack {
 
     async getEscrow(address: string) {
         const escrowAccount = await this.algodesk.accountClient.getAccountInformation(address);
-        escrowAccount.balance = sdk.microalgosToAlgos(escrowAccount.amount);
         return escrowAccount;
     }
 

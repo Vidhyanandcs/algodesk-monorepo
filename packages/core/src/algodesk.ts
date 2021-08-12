@@ -1,8 +1,7 @@
 import {Network} from "./network";
-import {AccountClient} from "./clients/accountClient";
-import {ApplicationClient, AssetClient} from "./clients";
+import {AccountClient, ApplicationClient, AssetClient, PaymentClient, TransactionClient} from "./clients";
 import {Signer} from "./types";
-import {TransactionClient} from "./clients/transactionClient";
+
 
 export class Algodesk {
     public network: Network
@@ -10,6 +9,7 @@ export class Algodesk {
     public assetClient: AssetClient;
     public transactionClient: TransactionClient
     public applicationClient: ApplicationClient;
+    public paymentClient: PaymentClient;
 
     constructor(network: Network, signer: Signer) {
         this.setNetwork(network, signer);
@@ -24,5 +24,6 @@ export class Algodesk {
         this.assetClient = new AssetClient(client, indexer, signer);
         this.applicationClient = new ApplicationClient(client, indexer, signer);
         this.transactionClient = new TransactionClient(client, indexer, signer);
+        this.paymentClient = new PaymentClient(client, indexer, signer);
     }
 }
