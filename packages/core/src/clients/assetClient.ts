@@ -1,16 +1,19 @@
-import {BaseClient} from "./baseClient";
 import {encodeText} from "../utils";
 import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
-import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {Signer} from "../signers";
 
-export class AssetClient extends BaseClient{
-    private transactionClient: TransactionClient;
+export class AssetClient{
+    client: Algodv2;
+    indexer: IndexerClient;
+    signer: Signer;
+    transactionClient: TransactionClient;
+
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
-        super(client, indexer, signer);
-        this.transactionClient = new TransactionClient(client, indexer, signer);
+        this.client = client;
+        this.indexer = indexer;
+        this.signer = signer;
     }
 
     async get(id: number): Promise<any>{
@@ -34,7 +37,7 @@ export class AssetClient extends BaseClient{
 
     async transfer(from: string, to: string, closeRemainderTo: string | undefined, revocationTarget: string | undefined, amount: number, note: string, assetId: number, rekeyTo: string | undefined): Promise<any> {
         const unsignedTxn: Transaction = await this.prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareCreateTxn(from: string, unitName: string, assetName: string, assetUrl: string | undefined, total: number, decimals: number = 0, note: string | undefined, defaultFrozen: boolean = false, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, assetMetadataHash: string | undefined, rekeyTo: string | undefined): Promise<Transaction> {
@@ -55,7 +58,7 @@ export class AssetClient extends BaseClient{
 
     async create(from: string, unitName: string, assetName: string, assetUrl: string | undefined, total: number, decimals: number = 0, note: string | undefined, defaultFrozen: boolean, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, assetMetadataHash: string | undefined, rekeyTo: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareCreateTxn(from, unitName, assetName, assetUrl, total, decimals, note, defaultFrozen, manager, reserve, freeze, clawback, assetMetadataHash, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareModifyTxn(from: string, assetId: number, note: string | undefined, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, strictEmptyAddressChecking: boolean = false, rekeyTo: string | undefined): Promise<Transaction> {
@@ -71,7 +74,7 @@ export class AssetClient extends BaseClient{
 
     async modify(from: string, assetId: number, note: string | undefined, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, strictEmptyAddressChecking: boolean = false, rekeyTo: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareModifyTxn(from, assetId, note, manager, reserve, freeze, clawback, strictEmptyAddressChecking, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareDestroyTxn(from: string, assetId: number, note: string | undefined, rekeyTo: string | undefined): Promise<Transaction> {
@@ -87,7 +90,7 @@ export class AssetClient extends BaseClient{
 
     async destroy(from: string, assetId: number, note: string | undefined, rekeyTo: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareDestroyTxn(from, assetId, note, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
 }

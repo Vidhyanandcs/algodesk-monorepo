@@ -1,4 +1,3 @@
-import {BaseClient} from "./baseClient";
 import {encodeText} from "../utils";
 import sdk, {Algodv2, OnApplicationComplete, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
@@ -6,10 +5,16 @@ import {TransactionClient} from "./transactionClient";
 import {Signer} from "../signers";
 import {processApplicationArgs} from "../utils/application";
 
-export class ApplicationClient extends BaseClient{
-    public transactionClient: TransactionClient;
+export class ApplicationClient{
+    client: Algodv2;
+    indexer: IndexerClient;
+    signer: Signer;
+    transactionClient: TransactionClient;
+
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
-        super(client, indexer, signer);
+        this.client = client;
+        this.indexer = indexer;
+        this.signer = signer;
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
@@ -28,7 +33,7 @@ export class ApplicationClient extends BaseClient{
 
     async optIn(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareOptInTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareCreateTxn(address: string, onComplete : OnApplicationComplete = sdk.OnApplicationComplete.NoOpOC, approvalProgram: Uint8Array, clearProgram: Uint8Array, localInts : number = 5, localBytes : number = 5, globalInts : number = 5, globalBytes = 5, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<Transaction> {
@@ -42,7 +47,7 @@ export class ApplicationClient extends BaseClient{
 
     async create(address: string, onComplete : OnApplicationComplete = sdk.OnApplicationComplete.NoOpOC, approvalProgram: Uint8Array, clearProgram: Uint8Array, localInts : number = 5, localBytes : number = 5, globalInts : number = 5, globalBytes = 5, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareCreateTxn(address, onComplete, approvalProgram, clearProgram, localInts, localBytes, globalInts, globalBytes, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareInvokeTxn(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<Transaction> {
@@ -56,7 +61,7 @@ export class ApplicationClient extends BaseClient{
 
     async invoke(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<any> {
         const unsignedTxn = await this.prepareInvokeTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareUpdateTxn(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<Transaction> {
@@ -70,7 +75,7 @@ export class ApplicationClient extends BaseClient{
 
     async update(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<any> {
         const unsignedTxn = await this.prepareUpdateTxn(address, appId, approvalProgram, clearProgram, appArgs, foreignAccounts, foreignApps, foreignAssets, note, lease, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async prepareDeleteTxn(address: string, appId : number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<Transaction> {
@@ -84,7 +89,7 @@ export class ApplicationClient extends BaseClient{
 
     async delete(address: string, appId : number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<any> {
         const unsignedTxn = await this.prepareDeleteTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note, lease, rekeyTo);
-        return await this.sendTxn(unsignedTxn);
+        return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
     async compileProgram(programSource: string): Promise<any> {

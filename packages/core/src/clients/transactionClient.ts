@@ -1,11 +1,17 @@
-import {BaseClient} from "./baseClient";
-import {Algodv2, SuggestedParams} from "algosdk";
+import {Algodv2, SuggestedParams, Transaction} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Signer} from "../signers";
+import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 
-export class TransactionClient extends BaseClient{
+export class TransactionClient{
+    client: Algodv2;
+    indexer: IndexerClient;
+    signer: Signer;
+
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
-        super(client, indexer, signer);
+        this.client = client;
+        this.indexer = indexer;
+        this.signer = signer;
     }
 
     async getSuggestedParams(): Promise<SuggestedParams> {
@@ -35,5 +41,15 @@ export class TransactionClient extends BaseClient{
     async get(txId: string): Promise<any> {
         const {transactions} = await this.indexer.searchForTransactions().txid(txId).do();
         return transactions[0];
+    }
+
+    async sendTxn(unsignedTxn: Transaction): Promise<SendRawTransaction> {
+        const rawSignedTxn: Uint8Array = await this.signer.signTxn(unsignedTxn);
+        return await this.client.sendRawTransaction(rawSignedTxn).do();
+    }
+
+    async sendGroupTxns(unsignedTxns: Transaction[]): Promise<SendRawTransaction> {
+        const rawSignedTxns: Uint8Array[] = await this.signer.signGroupTxns(unsignedTxns);
+        return await this.client.sendRawTransaction(rawSignedTxns).do();
     }
 }
