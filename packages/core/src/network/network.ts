@@ -13,7 +13,7 @@ export class Network {
     public algodToken: string | AlgodTokenHeader | CustomTokenHeader
     public indexerToken: string | IndexerTokenHeader | CustomTokenHeader
 
-    constructor(name: string, label: string, explorer: string, algod: string, indexer: string, port: string = '', algodToken: string | AlgodTokenHeader | CustomTokenHeader = {}, indexerToken: string | IndexerTokenHeader | CustomTokenHeader = {}) {
+    constructor(name: string, label: string, explorer: string, algod: string, indexer: string, algodToken: string | AlgodTokenHeader | CustomTokenHeader = {}, indexerToken: string | IndexerTokenHeader | CustomTokenHeader = {}, port: string = '') {
         this.name = name;
         this.label = label;
         this.explorer = explorer;
@@ -23,12 +23,12 @@ export class Network {
         this.setIndexerServer(indexer, indexerToken);
     }
 
-    setAlgodServer(url: string, algodToken: string | AlgodTokenHeader | CustomTokenHeader) {
+    setAlgodServer(url: string, algodToken: string | AlgodTokenHeader | CustomTokenHeader = {}) {
         this.algod = url;
         this.algodToken = algodToken;
     }
 
-    setIndexerServer(url: string, indexerToken: string | IndexerTokenHeader | CustomTokenHeader) {
+    setIndexerServer(url: string, indexerToken: string | IndexerTokenHeader | CustomTokenHeader = {}) {
         this.indexer = url;
         this.indexerToken = indexerToken;
     }

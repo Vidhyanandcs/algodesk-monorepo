@@ -1,10 +1,10 @@
 import {Algodv2, SuggestedParams, Transaction, modelsv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {Signer} from "../types";
+import {Signer, T_PendingTransactionResponse, T_SendTxnResponse} from "../types";
 import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
 import {
     PendingTransactionResponse,
-    PendingTransactionsResponse
+    PendingTransactionsResponse, TransactionParametersResponse
 } from "algosdk/dist/types/src/client/v2/algod/models/types";
 import PendingTransactionInformation from "algosdk/dist/types/src/client/v2/algod/pendingTransactionInformation";
 
@@ -24,21 +24,21 @@ export class TransactionClient{
         return params;
     }
 
-    async waitForConfirmation(txId: string): Promise<PendingTransactionResponse> {
+    async waitForConfirmation(txId: string): Promise<T_PendingTransactionResponse> {
         let status = await this.client.status().do();
         let lastRound = status["last-round"];
         while (true) {
             const pendingInfo = await this.client.pendingTransactionInformation(txId).do();
             if (pendingInfo["confirmed-round"] !== null && pendingInfo["confirmed-round"] > 0) {
-                return pendingInfo as PendingTransactionResponse;
+                return pendingInfo as T_PendingTransactionResponse;
             }
             lastRound++;
             await this.client.statusAfterBlock(lastRound).do();
         }
     };
 
-    async pendingTransactionInformation(txId: string): Promise<PendingTransactionResponse> {
-        const txDetails = await this.client.pendingTransactionInformation(txId).do() as PendingTransactionResponse;
+    async pendingTransactionInformation(txId: string): Promise<T_PendingTransactionResponse> {
+        const txDetails = await this.client.pendingTransactionInformation(txId).do() as T_PendingTransactionResponse;
         return txDetails;
     }
 
@@ -47,7 +47,7 @@ export class TransactionClient{
         return transactions[0];
     }
 
-    async sendTxn(unsignedTxn: Transaction): Promise<any> {
+    async sendTxn(unsignedTxn: Transaction): Promise<T_SendTxnResponse> {
         const rawSignedTxn = await this.signer.signTxn(unsignedTxn);
         return await this.client.sendRawTransaction(rawSignedTxn).do();
     }
