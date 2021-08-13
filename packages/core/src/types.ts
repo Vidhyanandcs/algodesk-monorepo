@@ -1,4 +1,4 @@
-import {AssetDestroyTxn, AssetTransferTxn, Transaction} from "algosdk";
+import {AssetDestroyTxn, AssetFreezeTxn, AssetTransferTxn, Transaction} from "algosdk";
 import { AssetParams } from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {RenameProperties} from "algosdk/dist/types/src/types/utils";
 import {AssetConfigTxn, MustHaveSuggestedParams} from "algosdk/dist/types/src/types/transactions";
@@ -39,3 +39,10 @@ export type T_ModifyAssetParams = Pick<RenameProperties<MustHaveSuggestedParams<
 }>, 'from' | 'note' | 'assetIndex' | 'manager' | 'reserve' | 'freeze' | 'clawback'> & {
     strictEmptyAddressChecking: boolean;
 }
+
+export type T_FreezeAssetParams = {
+    from: string,
+    assetIndex: number,
+    freezeAccount: string,
+    freezeState: boolean
+};

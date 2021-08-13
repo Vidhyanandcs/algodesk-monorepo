@@ -1,15 +1,23 @@
 'use strict';
 
-import {Algodesk, encodeText, T_CreateAssetParams, T_ModifyAssetParams, testnet, WalletSigner} from '../index';
-import {Account, mnemonicToSecretKey, assignGroupID, AssetDestroyTxn, AssetTransferTxn} from 'algosdk';
+import {
+    Algodesk,
+    encodeText,
+    T_CreateAssetParams,
+    T_FreezeAssetParams,
+    T_ModifyAssetParams,
+    testnet,
+    WalletSigner
+} from '../index';
+import {Account, mnemonicToSecretKey, assignGroupID, AssetDestroyTxn, AssetTransferTxn, AssetFreezeTxn} from 'algosdk';
 import {AssetTransferTransaction} from "algosdk/dist/types/src/types/transactions/asset";
 
 const mnemonic = 'quality family fork daring skirt increase arena enhance famous marble bracket kingdom huge dash hedgehog ask sport legal able rain kidney abandon theme absent elephant';
 const keys: Account = mnemonicToSecretKey(mnemonic);
 
-// const token = {"X-API-Key": '3jyPjXbQvf6E9LyEtbgKL7pKaN3qa0wW5QAecYOK'};
-// testnet.setAlgodServer('https://testnet-algorand.api.purestake.io/ps2', token);
-// testnet.setIndexerServer('https://testnet-algorand.api.purestake.io/idx2', token);
+const token = {"X-API-Key": '3jyPjXbQvf6E9LyEtbgKL7pKaN3qa0wW5QAecYOK'};
+testnet.setAlgodServer('https://testnet-algorand.api.purestake.io/ps2', token);
+testnet.setIndexerServer('https://testnet-algorand.api.purestake.io/idx2', token);
 
 const walletSigner = new WalletSigner();
 walletSigner.setWallet(keys);
@@ -101,6 +109,16 @@ test('asset client tests', async () => {
     // const asset = await algodesk.assetClient.get(15992385);
     // console.log(asset.params.nameB64);
 
+    const frzConfig: T_FreezeAssetParams = {
+        from: keys.addr,
+        assetIndex: 16000210,
+        freezeAccount: "NXZMOAZWDLTELNSVULPQZQFBDZAVZ4TYEST6IMMOFONFZMPCMCPYVDWIFM",
+        freezeState: false
+    };
+
+    const {txId} = await algodesk.assetClient.freeze(frzConfig);
+    const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    console.log(pendingTransactionInfo);
 });
 
 

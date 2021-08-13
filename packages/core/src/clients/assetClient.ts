@@ -1,8 +1,8 @@
 import {encodeText} from "../utils";
-import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
+import sdk, {Algodv2, AssetFreezeTxn, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {Signer, T_CreateAssetParams, T_ModifyAssetParams, T_SendTxnResponse} from "../types";
+import {Signer, T_FreezeAssetParams, T_CreateAssetParams, T_ModifyAssetParams, T_SendTxnResponse} from "../types";
 import {Asset, AssetParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class AssetClient{
@@ -90,4 +90,30 @@ export class AssetClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
+    async prepareFreezeTxn(params: T_FreezeAssetParams, note?: string, rekeyTo?: string): Promise<Transaction> {
+        const suggestedParams = await this.transactionClient.getSuggestedParams();
+
+        let encodedNote: Uint8Array | undefined;
+        if(note) {
+            encodedNote = encodeText(note);
+        }
+
+        return sdk.makeAssetFreezeTxnWithSuggestedParams(params.from, encodedNote, params.assetIndex, params.freezeAccount, params.freezeState, suggestedParams, rekeyTo);
+    }
+
+    async freeze(params: T_FreezeAssetParams, note?: string, rekeyTo?: string): Promise<T_SendTxnResponse> {
+        const unsignedTxn = await this.prepareFreezeTxn(params, note, rekeyTo);
+        return await this.transactionClient.sendTxn(unsignedTxn);
+    }
+
+    async revoke(from: string, assetIndex: number, revokeTarget: string, revokeReceiver: string, amount: number, note?: string): Promise<T_SendTxnResponse> {
+        const to = revokeReceiver;
+        return this.transfer(from, to, assetIndex, amount, note, undefined, revokeTarget);
+    }
+
+    async optIn(from: string, assetIndex: number, note?: string): Promise<T_SendTxnResponse> {
+        const to = from;
+        const amount = 0;
+        return this.transfer(from, to, assetIndex, amount, note);
+    }
 }
