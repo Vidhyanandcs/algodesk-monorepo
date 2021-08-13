@@ -1,7 +1,8 @@
 'use strict';
 
-import {Algodesk, testnet, WalletSigner} from '../index';
-import {Account, mnemonicToSecretKey, assignGroupID} from 'algosdk';
+import {Algodesk, encodeText, T_CreateAssetParams, T_ModifyAssetParams, testnet, WalletSigner} from '../index';
+import {Account, mnemonicToSecretKey, assignGroupID, AssetDestroyTxn, AssetTransferTxn} from 'algosdk';
+import {AssetTransferTransaction} from "algosdk/dist/types/src/types/transactions/asset";
 
 const mnemonic = 'quality family fork daring skirt increase arena enhance famous marble bracket kingdom huge dash hedgehog ask sport legal able rain kidney abandon theme absent elephant';
 const keys: Account = mnemonicToSecretKey(mnemonic);
@@ -17,7 +18,7 @@ const algodesk = new Algodesk(testnet, walletSigner);
 
 test('account client tests', async () => {
 
-    const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
+    //const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
     // const createdAssets = await algodesk.accountClient.getCreatedAssets("ZHKAFJY5CDRDZKLW72JJBMT277D2TFZZ6G6BNJA7FJICQY5EJRQ5L6VR5M");
     // console.log(createdAssets.length);
     //
@@ -49,19 +50,56 @@ test('payment client tests', async () => {
     // const transactionInfo = await algodesk.transactionClient.get("ZXLBMAZBLI34YNVLOTEITBSM6PRZDNFLAMPNZZX4KGX5ESM6WKXQ");
     // console.log(transactionInfo);
 
-    try {
-        const txn1 = await algodesk.paymentClient.preparePaymentTxn(keys.addr, keys.addr, 0);
-        const txn2 = await algodesk.paymentClient.preparePaymentTxn(keys.addr, keys.addr, 0);
+    // const txn1 = await algodesk.paymentClient.preparePaymentTxn(keys.addr, keys.addr, 0.1);
+    // const txn2 = await algodesk.paymentClient.preparePaymentTxn(keys.addr, keys.addr, 0.1);
+    //
+    // const txns = [txn1, txn2];
+    // const grpTxns = assignGroupID(txns);
+    //
+    // const txnsResponse = await algodesk.transactionClient.sendGroupTxns(grpTxns);
+    // console.log(txnsResponse);
+});
 
-        const txns = [txn1, txn2];
-        const grpTxns = assignGroupID(txns);
+test('asset client tests', async () => {
 
-        const txnsResponse = await algodesk.transactionClient.sendGroupTxns(grpTxns);
-        console.log(txnsResponse);
-    }
-    catch (e) {
-        console.log(e);
-    }
+    // const assetConfig: T_CreateAssetParams = {
+    //     creator: keys.addr,
+    //     total: 100,
+    //     decimals: 0,
+    //     name: "test asset",
+    //     unitName: "test",
+    //     manager: keys.addr,
+    //     reserve: keys.addr,
+    //     freeze: keys.addr,
+    //     clawback: keys.addr,
+    //     defaultFrozen: false,
+    //     url: "https://google.com"
+    // };
+    //
+    // const {txId} = await algodesk.assetClient.create(assetConfig, "testing");
+    // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    // console.log(pendingTransactionInfo);
+
+    // const assetConfig1: T_ModifyAssetParams = {
+    //     assetIndex: 22480818,
+    //     from: keys.addr,
+    //     strictEmptyAddressChecking: false,
+    //     freeze: undefined,
+    //     manager: keys.addr,
+    //     reserve: keys.addr,
+    //     clawback: keys.addr
+    // }
+    //
+    // const {txId} = await algodesk.assetClient.modify(assetConfig1);
+    // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    // console.log(pendingTransactionInfo);
+
+    // const {txId} = await algodesk.assetClient.destroy(keys.addr, 22462050);
+    // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    // console.log(pendingTransactionInfo);
+
+    // const asset = await algodesk.assetClient.get(15992385);
+    // console.log(asset.params.nameB64);
 
 });
 

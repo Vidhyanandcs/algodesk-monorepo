@@ -2,7 +2,8 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {Signer} from "../types";
+import {Signer, T_CreateAssetParams, T_ModifyAssetParams, T_SendTxnResponse} from "../types";
+import {Asset, AssetParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class AssetClient{
     client: Algodv2;
@@ -17,13 +18,13 @@ export class AssetClient{
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<any>{
+    async get(id: number): Promise<Asset>{
         const asset = await this.client.getAssetByID(id).do();
-        return asset;
+        return asset as Asset;
     }
 
-    async prepareTransferTxn(from: string, to: string, closeRemainderTo: string | undefined, revocationTarget: string | undefined, amount: number, note: string, assetId: number, rekeyTo: string | undefined): Promise<Transaction> {
-        const networkParams: SuggestedParams = await this.transactionClient.getSuggestedParams();
+    async prepareTransferTxn(from: string, to: string, assetId: number, amount: number, note?: string, closeRemainderTo?: string, revocationTarget?: string, rekeyTo?: string): Promise<Transaction> {
+        const suggestedParams: SuggestedParams = await this.transactionClient.getSuggestedParams();
 
         const asset: any = await this.get(assetId);
         amount = amount * Math.pow(10, asset.params.decimals);
@@ -33,63 +34,58 @@ export class AssetClient{
             encodedNote = encodeText(note);
         }
 
-        return sdk.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amount, encodedNote, assetId, networkParams, rekeyTo);
+        return sdk.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amount, encodedNote, assetId, suggestedParams, rekeyTo);
     }
 
-    async transfer(from: string, to: string, closeRemainderTo: string | undefined, revocationTarget: string | undefined, amount: number, note: string, assetId: number, rekeyTo: string | undefined): Promise<any> {
-        const unsignedTxn: Transaction = await this.prepareTransferTxn(from, to, closeRemainderTo, revocationTarget, amount, note, assetId, rekeyTo);
+    async transfer(from: string, to: string, assetId: number, amount: number, note?: string, closeRemainderTo?: string, revocationTarget?: string, rekeyTo?: string): Promise<T_SendTxnResponse> {
+        const unsignedTxn: Transaction = await this.prepareTransferTxn(from, to, assetId, amount, note, closeRemainderTo, revocationTarget, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareCreateTxn(from: string, unitName: string, assetName: string, assetUrl: string | undefined, total: number, decimals: number = 0, note: string | undefined, defaultFrozen: boolean = false, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, assetMetadataHash: string | undefined, rekeyTo: string | undefined): Promise<Transaction> {
-        const networkParams = await this.transactionClient.getSuggestedParams();
+    async prepareCreateTxn(params: T_CreateAssetParams, note?: string, rekeyTo?: string): Promise<Transaction> {
+        const suggestedParams = await this.transactionClient.getSuggestedParams();
 
         let encodedNote: Uint8Array | undefined;
         if(note) {
             encodedNote = encodeText(note);
         }
 
-        let encodedAssetMetadataHash: Uint8Array | undefined;
-        if (assetMetadataHash) {
-            encodedAssetMetadataHash = new Uint8Array(Buffer.from(assetMetadataHash));
-        }
-
-        return sdk.makeAssetCreateTxnWithSuggestedParams(from, encodedNote, total, decimals, defaultFrozen, manager, reserve, freeze, clawback, unitName, assetName, assetUrl, encodedAssetMetadataHash, networkParams, rekeyTo);
+        return sdk.makeAssetCreateTxnWithSuggestedParams(params.creator, encodedNote, params.total, params.decimals, params.defaultFrozen, params.manager, params.reserve, params.freeze, params.clawback, params.unitName, params.name, params.url, params.metadataHash, suggestedParams, rekeyTo);
     }
 
-    async create(from: string, unitName: string, assetName: string, assetUrl: string | undefined, total: number, decimals: number = 0, note: string | undefined, defaultFrozen: boolean, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, assetMetadataHash: string | undefined, rekeyTo: string | undefined): Promise<any> {
-        const unsignedTxn = await this.prepareCreateTxn(from, unitName, assetName, assetUrl, total, decimals, note, defaultFrozen, manager, reserve, freeze, clawback, assetMetadataHash, rekeyTo);
+    async create(params: T_CreateAssetParams, note?: string, rekeyTo?: string): Promise<T_SendTxnResponse> {
+        const unsignedTxn = await this.prepareCreateTxn(params, note, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareModifyTxn(from: string, assetId: number, note: string | undefined, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, strictEmptyAddressChecking: boolean = false, rekeyTo: string | undefined): Promise<Transaction> {
-        const networkParams = await this.transactionClient.getSuggestedParams();
+    async prepareModifyTxn(params: T_ModifyAssetParams, note?:string, rekeyTo?: string): Promise<Transaction> {
+        const suggestedParams = await this.transactionClient.getSuggestedParams();
 
         let encodedNote: Uint8Array | undefined;
         if(note) {
             encodedNote = encodeText(note);
         }
 
-        return sdk.makeAssetConfigTxnWithSuggestedParams(from, encodedNote, assetId, manager, reserve, freeze, clawback, networkParams, strictEmptyAddressChecking, rekeyTo);
+        return sdk.makeAssetConfigTxnWithSuggestedParams(params.from, encodedNote, params.assetIndex, params.manager, params.reserve, params.freeze, params.clawback, suggestedParams, params.strictEmptyAddressChecking, rekeyTo);
     }
 
-    async modify(from: string, assetId: number, note: string | undefined, manager: string | undefined, reserve: string | undefined, freeze: string | undefined, clawback: string | undefined, strictEmptyAddressChecking: boolean = false, rekeyTo: string | undefined): Promise<any> {
-        const unsignedTxn = await this.prepareModifyTxn(from, assetId, note, manager, reserve, freeze, clawback, strictEmptyAddressChecking, rekeyTo);
+    async modify(params: T_ModifyAssetParams, note?:string, rekeyTo?: string): Promise<any> {
+        const unsignedTxn = await this.prepareModifyTxn(params, note, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareDestroyTxn(from: string, assetId: number, note: string | undefined, rekeyTo: string | undefined): Promise<Transaction> {
-        const networkParams = await this.transactionClient.getSuggestedParams();
+    async prepareDestroyTxn(from: string, assetId: number, note?: string, rekeyTo?: string): Promise<Transaction> {
+        const suggestedParams = await this.transactionClient.getSuggestedParams();
 
         let encodedNote: Uint8Array | undefined;
         if(note) {
             encodedNote = encodeText(note);
         }
 
-        return sdk.makeAssetDestroyTxnWithSuggestedParams(from, encodedNote, assetId, networkParams, rekeyTo);
+        return sdk.makeAssetDestroyTxnWithSuggestedParams(from, encodedNote, assetId, suggestedParams, rekeyTo);
     }
 
-    async destroy(from: string, assetId: number, note: string | undefined, rekeyTo: string | undefined): Promise<any> {
+    async destroy(from: string, assetId: number, note?: string, rekeyTo?: string): Promise<T_SendTxnResponse> {
         const unsignedTxn = await this.prepareDestroyTxn(from, assetId, note, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
