@@ -2,7 +2,7 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, SuggestedParams, Transaction, TransactionParams} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {T_SendTxnResponse, Signer} from "../types";
+import {A_SendTxnResponse, Signer} from "../types";
 import PaymentTransaction from "algosdk/dist/types/src/types/transactions/payment";
 import PendingTransactionInformation from "algosdk/dist/types/src/client/v2/algod/pendingTransactionInformation";
 import {
@@ -35,7 +35,7 @@ export class PaymentClient{
         return sdk.makePaymentTxnWithSuggestedParams(from, to, amount, closeRemainderTo, encodedNote, suggestedParams, rekeyTo);
     }
 
-    async payment(from: string, to: string, amount: number, note?: string, closeRemainderTo?: string, rekeyTo?: string): Promise<T_SendTxnResponse> {
+    async payment(from: string, to: string, amount: number, note?: string, closeRemainderTo?: string, rekeyTo?: string): Promise<A_SendTxnResponse> {
         const unsignedTxn = await this.preparePaymentTxn(from, to, amount, note, closeRemainderTo, rekeyTo);
         return  await this.transactionClient.sendTxn(unsignedTxn);
     }
