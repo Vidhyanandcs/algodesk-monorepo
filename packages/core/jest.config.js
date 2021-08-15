@@ -2,8 +2,5 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testTimeout: 20000,
-  transform: {
-    "\\.teal$": "jest-raw-loader"
-  },
+  testTimeout: 20000
 };

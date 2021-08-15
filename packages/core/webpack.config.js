@@ -5,11 +5,11 @@ module.exports = {
     mode: 'production',
     entry: './index.ts',
     output: {
-        filename: 'fundstack-sdk.min.js',
+        filename: 'algodesk-core.min.js',
         path: path.resolve(__dirname, 'dist/browser'),
         library: {
             type: 'umd',
-            name: 'fundstack-sdk',
+            name: 'algodesk-core',
         },
         clean: true
     },
@@ -30,10 +30,6 @@ module.exports = {
                 },
             },
             { test: /\.js$/, loader: 'source-map-loader' },
-            {
-                test: /\.teal$/i,
-                use: 'raw-loader',
-            },
         ]
     },
 };
