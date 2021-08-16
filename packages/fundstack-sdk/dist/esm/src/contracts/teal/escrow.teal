@@ -1,0 +1,208 @@
+#pragma version 4
+txn TypeEnum
+int axfer
+==
+bnz l11
+txn TypeEnum
+int pay
+==
+bnz l3
+err
+l3:
+txn RekeyTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 2222222
+==
+&&
+&&
+gtxna 0 ApplicationArgs 0
+byte "owner_claim"
+==
+bnz l9
+gtxna 0 ApplicationArgs 0
+byte "investor_withdraw"
+==
+bnz l8
+int 1
+int 1
+==
+bnz l7
+err
+l7:
+int 0
+int 1
+==
+int 0
+int 1
+==
+&&
+b l10
+l8:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn Receiver
+==
+&&
+txn Amount
+int 0
+>
+&&
+b l10
+l9:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn Receiver
+==
+&&
+txn Amount
+int 0
+>
+&&
+l10:
+&&
+b l23
+l11:
+txn RekeyTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 2222222
+==
+&&
+&&
+txn XferAsset
+int 1111111
+==
+txn TypeEnum
+int axfer
+==
+&&
+&&
+gtxna 0 ApplicationArgs 0
+byte "set_escrow"
+==
+bnz l21
+gtxna 0 ApplicationArgs 0
+byte "investor_claim"
+==
+bnz l20
+gtxna 0 ApplicationArgs 0
+byte "owner_claim_remaining_assets"
+==
+bnz l19
+gtxna 0 ApplicationArgs 0
+byte "owner_withdraw"
+==
+bnz l18
+int 1
+int 1
+==
+bnz l17
+err
+l17:
+int 0
+int 1
+==
+int 0
+int 1
+==
+&&
+b l22
+l18:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b l22
+l19:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b l22
+l20:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b l22
+l21:
+global GroupSize
+int 3
+==
+txn GroupIndex
+int 2
+==
+&&
+txn AssetReceiver
+txn Sender
+==
+&&
+txn AssetAmount
+int 0
+==
+&&
+l22:
+&&
+l23:
