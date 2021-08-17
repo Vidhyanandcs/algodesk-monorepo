@@ -15,10 +15,15 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      min-height: 90vh;
+      height: 100vh;
       .logo {
         font-size: 25px;
         font-weight: bold;
+      }
+      .settings-button {
+        position: absolute;
+        top: 5px;
+        right: 10px;
       }
     }
   }

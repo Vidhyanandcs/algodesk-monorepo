@@ -1,6 +1,6 @@
 function LoginBackground(): JSX.Element {
     return (<div>
-        <svg className="landing-page__bg" width="661" height="573" viewBox="0 0 661 573" fill="none"
+        <svg width="661" height="573" viewBox="0 0 661 573" fill="none"
              xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.5" d="M301.972 460.59H459.711L374.445 553H217.555L301.972 460.59Z"
                   fill="#EFF1FF"></path>

@@ -1,30 +1,27 @@
 import './Login.scss';
-import {Button, Grid, makeStyles, Typography} from "@material-ui/core";
-import LoginBackground from "./background";
-import {Power} from "@material-ui/icons";
+import {Button, Grid, IconButton, makeStyles, Tooltip, Typography} from "@material-ui/core";
+import LoginBackground from "./LoginBackground";
+import {Power, Settings} from "@material-ui/icons";
+import {showSettings} from '../../redux/actions/settings';
+import {useDispatch} from "react-redux";
+import {commonStyles} from "../../utils/styles";
 
 const useStyles = makeStyles({
+    ...commonStyles,
     loginButton: {
         marginTop: 15,
-    },
-    blackButton: {
-        background: '#000',
-        '&:hover': {
-            background: '#000 !important',
-        },
-        '&:focus': {
-            background: '#000 !important',
-        }
     }
 });
 
+
 function Login(): JSX.Element {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
   return (
       <div className="login-wrapper">
           <div className="login-container">
-              <Grid container spacing={2}>
+              <Grid container>
                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                       <div className="left-section">
                         <LoginBackground></LoginBackground>
@@ -32,6 +29,17 @@ function Login(): JSX.Element {
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                       <div className="right-section">
+                          <div>
+                              <Tooltip title="Settings">
+                                  <IconButton
+                                      className="settings-button"
+                                      onClick={() => {
+                                          dispatch(showSettings());
+                                      }}>
+                                      <Settings></Settings>
+                                  </IconButton>
+                              </Tooltip>
+                          </div>
                           <div className="logo">
                               Algodesk.io
                           </div>
@@ -43,7 +51,6 @@ function Login(): JSX.Element {
                                   className={classes.loginButton + ' ' + classes.blackButton}
                                   startIcon={<Power></Power>}
                                   onClick={() => {
-
                                   }}
                               >Connect Wallet</Button>
                           </div>

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import snackbarReducer from './actions/snackbar';
+import settingsReducer from "./actions/settings";
 
 export const store = configureStore({
     reducer: {
-        snackbar: snackbarReducer
+        snackbar: snackbarReducer,
+        settings: settingsReducer
     },
 })
 
