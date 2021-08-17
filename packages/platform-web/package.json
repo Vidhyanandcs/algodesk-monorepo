@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "@algodesk/core": "^1.1.8",
+    "@material-ui/core": "^4.12.3",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/node": "^12.0.0",
@@ -12,14 +13,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "reset-css": "^5.0.1"
   },
   "scripts": {
     "start": "node_modules/.bin/react-scripts start",
     "build": "node_modules/.bin/react-scripts build",
     "test": "node_modules/.bin/react-scripts test",
-    "eject": "node_modules/.bin/react-scripts eject"
+    "yoyo": "webpack"
   },
   "eslintConfig": {
     "extends": [
@@ -38,5 +38,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.38.0",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.3.5"
   }
 }
