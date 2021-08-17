@@ -1,0 +1,25 @@
+.login-wrapper {
+  .login-container {
+    height: 100vh;
+    .left-section {
+      height: 100vh;
+      background: #f7f6ff;
+      text-align: center;
+      svg {
+        margin-top: 100px;
+      }
+    }
+    .right-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 90vh;
+      .logo {
+        font-size: 25px;
+        font-weight: bold;
+      }
+    }
+  }
+}

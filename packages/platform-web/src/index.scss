@@ -14,3 +14,10 @@
   src: url('assets/fonts/SourceSansPro-Light.otf.woff') format('woff'),
   url('assets/fonts/SourceSansPro-Light.otf.woff') format('truetype');
 }
+
+body {
+  font-family: "SourceSansPro";
+}
+* {
+  font-family: "SourceSansPro" !important;
+}
