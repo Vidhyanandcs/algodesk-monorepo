@@ -1,8 +1,37 @@
+@import '../../assets/colors';
+
 .connect-wallet-wrapper {
   .connect-wallet-container {
     .header {
       margin-bottom: 20px;
       text-align: center;
+    }
+    .body {
+      .signer {
+        padding: 30px;
+        border-bottom: 1px solid $color-light;
+        img.logo {
+          vertical-align: middle;
+          margin-right: 15px;
+          height: 30px;
+        }
+        .name {
+          vertical-align: sub;
+          font-size: 20px;
+        }
+        svg {
+          float: right;
+        }
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 24px rgb(0 0 0 / 8%);
+        }
+      }
+    }
+    .footer {
+      text-align: center;
+      margin-top: 35px;
+      margin-bottom: 20px;
     }
   }
 }
