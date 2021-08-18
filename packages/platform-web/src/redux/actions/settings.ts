@@ -9,7 +9,7 @@ const initialState: Settings = {
     show: false
 }
 
-export const snackbarSlice = createSlice({
+export const settingsSlice = createSlice({
     name: 'snackbar',
     initialState,
     reducers: {
@@ -22,5 +22,5 @@ export const snackbarSlice = createSlice({
     },
 });
 
-export const { showSettings, hideSettings } = snackbarSlice.actions
-export default snackbarSlice.reducer
+export const { showSettings, hideSettings } = settingsSlice.actions
+export default settingsSlice.reducer

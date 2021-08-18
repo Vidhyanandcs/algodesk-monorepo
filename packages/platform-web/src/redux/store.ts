@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import snackbarReducer from './actions/snackbar';
 import settingsReducer from "./actions/settings";
+import connectWalletReducer from "./actions/connectWallet";
 
 export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
-        settings: settingsReducer
+        settings: settingsReducer,
+        connectWallet: connectWalletReducer
     },
 })
 

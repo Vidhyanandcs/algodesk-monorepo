@@ -1,8 +1,8 @@
 import { Network } from "./network";
 import { NETWORKS } from "../constants";
-export const testnet = new Network('testnet', 'TestNet', 'https://testnet.algoexplorer.io', 'https://api.testnet.algoexplorer.io', 'https://api.testnet.algoexplorer.io/idx2');
-export const betanet = new Network('betanet', 'BetaNet', 'https://betanet.algoexplorer.io', 'https://api.betanet.algoexplorer.io', 'https://api.betanet.algoexplorer.io/idx2');
-export const mainnet = new Network('mainnet', 'MainNet', 'https://algoexplorer.io', 'https://api.algoexplorer.io', 'https://api.algoexplorer.io/idx2');
+export const testnet = new Network(NETWORKS.TESTNET, 'TestNet', 'https://testnet.algoexplorer.io', 'https://api.testnet.algoexplorer.io', 'https://api.testnet.algoexplorer.io/idx2');
+export const betanet = new Network(NETWORKS.BETANET, 'BetaNet', 'https://betanet.algoexplorer.io', 'https://api.betanet.algoexplorer.io', 'https://api.betanet.algoexplorer.io/idx2');
+export const mainnet = new Network(NETWORKS.MAINNET, 'MainNet', 'https://algoexplorer.io', 'https://api.algoexplorer.io', 'https://api.algoexplorer.io/idx2');
 export function getNetwork(name) {
     if (name == NETWORKS.TESTNET) {
         return testnet;
@@ -11,5 +11,8 @@ export function getNetwork(name) {
         return betanet;
     }
     return mainnet;
+}
+export function getNetworks() {
+    return [testnet, betanet, mainnet];
 }
 //# sourceMappingURL=utils.js.map

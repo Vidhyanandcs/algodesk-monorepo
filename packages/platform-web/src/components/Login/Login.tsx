@@ -3,6 +3,7 @@ import {Button, Grid, IconButton, makeStyles, Tooltip, Typography} from "@materi
 import LoginBackground from "./LoginBackground";
 import {Power, Settings} from "@material-ui/icons";
 import {showSettings} from '../../redux/actions/settings';
+import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch} from "react-redux";
 import {commonStyles} from "../../utils/styles";
 
@@ -51,6 +52,7 @@ function Login(): JSX.Element {
                                   className={classes.loginButton + ' ' + classes.blackButton}
                                   startIcon={<Power></Power>}
                                   onClick={() => {
+                                      dispatch(showConnectWallet());
                                   }}
                               >Connect Wallet</Button>
                           </div>
