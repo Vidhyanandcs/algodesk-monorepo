@@ -9,14 +9,12 @@ import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-      <HashRouter>
-          <Provider store={store}>
-              <MuiThemeProvider theme={theme}>
-                  <App />
-              </MuiThemeProvider>
-          </Provider>
-      </HashRouter>
-  </React.StrictMode>,
+    <HashRouter>
+        <Provider store={store}>
+            <MuiThemeProvider theme={theme}>
+                <App />
+            </MuiThemeProvider>
+        </Provider>
+    </HashRouter>,
   document.getElementById('root')
 );
