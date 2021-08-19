@@ -2455,6 +2455,19 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@randlabs/communication-bridge@^1.0.0":
+  version "1.0.0"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/@randlabs/communication-bridge/-/communication-bridge-1.0.0.tgz#9b1c0f440cf88ede8d58eb2ce641982ecb32bea9"
+  integrity sha512-CuJNwtMTG1LHR1LQNWUPv+8xPUdkRY9p61wGJEp8J/N3q8djmnMySvSQlyVqLBvXsTPKmYc0ZmfXEXCpb5P5Cw==
+
+"@randlabs/myalgo-connect@^1.1.0":
+  version "1.1.0"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/@randlabs/myalgo-connect/-/myalgo-connect-1.1.0.tgz#fba9b1931cd81e90764abe993c3564a08e6d6edc"
+  integrity sha512-qdRxMNvxw9SOvu7p+qwGGILkIVj5nnbjkDCFKS3ISU46Cgwy2ZtLq/Bs2p3tMpQ7fgoUPj2NgfpyQaYGIztXFw==
+  dependencies:
+    "@randlabs/communication-bridge" "^1.0.0"
+    belter "^1.0.170"
+
 "@reduxjs/toolkit@^1.6.1":
   version "1.6.1"
   resolved "https://artifact.devsnc.com/content/groups/npm-all/@reduxjs/toolkit/-/toolkit-1.6.1.tgz#7bc83b47352a663bf28db01e79d17ba54b98ade9"
@@ -4106,6 +4119,15 @@ before-after-hook@^2.2.0:
   resolved "https://artifact.devsnc.com/content/groups/npm-all/before-after-hook/-/before-after-hook-2.2.2.tgz#a6e8ca41028d90ee2c24222f201c90956091613e"
   integrity sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==
 
+belter@^1.0.170:
+  version "1.0.173"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/belter/-/belter-1.0.173.tgz#e923490adcd21a9435ae8f683acbc9492113973f"
+  integrity sha512-wmUVEQR0igzKKO1yHT6ouGLCwzoeXFf1OsHeAk8DcCOgYtdBU8NiUlV94qx8NLFnahuwbpDqLBETfHUGXQOL8Q==
+  dependencies:
+    cross-domain-safe-weakmap "^1"
+    cross-domain-utils "^2"
+    zalgo-promise "^1"
+
 bfj@^7.0.2:
   version "7.0.2"
   resolved "https://artifact.devsnc.com/content/groups/npm-all/bfj/-/bfj-7.0.2.tgz#1988ce76f3add9ac2913fd8ba47aad9e651bfbb2"
@@ -5205,6 +5227,20 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://artifact.devsnc.com/content/groups/npm-all/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+cross-domain-safe-weakmap@^1:
+  version "1.0.29"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/cross-domain-safe-weakmap/-/cross-domain-safe-weakmap-1.0.29.tgz#0847975c27d9e1cc840f24c1745311958df98022"
+  integrity sha512-VLoUgf2SXnf3+na8NfeUFV59TRZkIJqCIATaMdbhccgtnTlSnHXkyTRwokngEGYdQXx8JbHT9GDYitgR2sdjuA==
+  dependencies:
+    cross-domain-utils "^2.0.0"
+
+cross-domain-utils@^2, cross-domain-utils@^2.0.0:
+  version "2.0.35"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/cross-domain-utils/-/cross-domain-utils-2.0.35.tgz#c82f678dfa404dbe87a9bccbaf3a6a00ad624b73"
+  integrity sha512-UYrm3t5GB8ATFSqYeikR1yqY6vEFvPU0slvGW6PLkW2yzVAg13/tytww7ylu6C9J8aZCpEho4WgxhV3uZeEw0g==
+  dependencies:
+    zalgo-promise "^1.0.11"
 
 cross-spawn@7.0.3, cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
@@ -15195,3 +15231,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://artifact.devsnc.com/content/groups/npm-all/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zalgo-promise@^1, zalgo-promise@^1.0.11:
+  version "1.0.47"
+  resolved "https://artifact.devsnc.com/content/groups/npm-all/zalgo-promise/-/zalgo-promise-1.0.47.tgz#cda98035cc97f053a1ab799277102ccb54897013"
+  integrity sha512-n6d/Gdv3Fl8l7h062WpWjpNYdDh5OFAg/e3UUqxdjbdUi4qdFcfYLJvaPIMrofmrgU7vEJ8ApLdg+yUeYCA9WQ==

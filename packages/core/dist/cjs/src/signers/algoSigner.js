@@ -37,10 +37,35 @@ class BrowserAlgoSigner {
     }
     isInstalled() {
         // @ts-ignore
-        if (AlgoSigner) {
+        if (typeof AlgoSigner !== 'undefined') {
             return true;
         }
         return false;
+    }
+    async connect() {
+        if (this.isInstalled()) {
+            const accounts = [];
+            // @ts-ignore
+            const connection = await AlgoSigner.connect();
+            // @ts-ignore
+            const wallets = await AlgoSigner.accounts({
+                ledger: "MainNet"
+            });
+            if (wallets) {
+                wallets.forEach((wallet) => {
+                    accounts.push({
+                        address: wallet.address,
+                        name: wallet.name
+                    });
+                });
+            }
+            return accounts;
+        }
+        else {
+            throw {
+                message: "Algosigner is not installed"
+            };
+        }
     }
 }
 exports.BrowserAlgoSigner = BrowserAlgoSigner;

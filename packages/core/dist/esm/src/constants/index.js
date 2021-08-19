@@ -10,5 +10,6 @@ export var SIGNERS;
     SIGNERS["WALLET"] = "wallet";
     SIGNERS["ALGO_SIGNER"] = "algo_signer";
     SIGNERS["LOGIC_SIG"] = "logic_sig";
+    SIGNERS["MY_ALGO_WALLET"] = "my_algo_wallet";
 })(SIGNERS || (SIGNERS = {}));
 //# sourceMappingURL=index.js.map

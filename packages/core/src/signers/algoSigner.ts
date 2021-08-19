@@ -1,4 +1,4 @@
-import {Signer} from "../types";
+import {Signer, SignerAccount} from "../types";
 import {Transaction} from "algosdk";
 
 export class BrowserAlgoSigner implements Signer{
@@ -49,10 +49,39 @@ export class BrowserAlgoSigner implements Signer{
 
     isInstalled(): boolean {
         // @ts-ignore
-        if (AlgoSigner) {
+        if (typeof AlgoSigner !== 'undefined') {
             return true;
         }
 
         return false;
+    }
+
+    async connect(): Promise<SignerAccount[]> {
+        if (this.isInstalled()) {
+            const accounts: SignerAccount[] = [];
+            // @ts-ignore
+            const connection = await AlgoSigner.connect();
+            // @ts-ignore
+            const wallets = await AlgoSigner.accounts({
+                ledger: "MainNet"
+            });
+
+
+            if (wallets) {
+                wallets.forEach((wallet) => {
+                    accounts.push({
+                        address: wallet.address,
+                        name: wallet.name
+                    });
+                });
+            }
+
+            return accounts;
+        }
+        else {
+            throw {
+                message: "Algosigner is not installed"
+            };
+        }
     }
 }
