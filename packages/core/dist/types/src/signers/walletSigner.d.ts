@@ -6,4 +6,5 @@ export declare class WalletSigner implements Signer {
     setWallet(wallet: Account): void;
     signTxn(unsignedTxn: Transaction): Uint8Array;
     signGroupTxns(unsignedTxns: Transaction[]): Uint8Array[];
+    isInstalled(): boolean;
 }

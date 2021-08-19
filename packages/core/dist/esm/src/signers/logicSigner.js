@@ -6,5 +6,8 @@ export class LogicSigner {
         const logicSig = sdk.makeLogicSig(new Uint8Array(Buffer.from(logic, "base64")));
         return sdk.signLogicSigTransactionObject(unsignedTxn, logicSig).blob;
     }
+    isInstalled() {
+        return true;
+    }
 }
 //# sourceMappingURL=logicSigner.js.map

@@ -23,6 +23,9 @@ class WalletSigner {
         });
         return signedTxns;
     }
+    isInstalled() {
+        return true;
+    }
 }
 exports.WalletSigner = WalletSigner;
 //# sourceMappingURL=walletSigner.js.map

@@ -32,5 +32,12 @@ export class BrowserAlgoSigner {
         });
         return rawSignedTransactions;
     }
+    isInstalled() {
+        // @ts-ignore
+        if (AlgoSigner) {
+            return true;
+        }
+        return false;
+    }
 }
 //# sourceMappingURL=algoSigner.js.map

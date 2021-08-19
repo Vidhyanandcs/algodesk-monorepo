@@ -20,5 +20,8 @@ export class WalletSigner {
         });
         return signedTxns;
     }
+    isInstalled() {
+        return true;
+    }
 }
 //# sourceMappingURL=walletSigner.js.map

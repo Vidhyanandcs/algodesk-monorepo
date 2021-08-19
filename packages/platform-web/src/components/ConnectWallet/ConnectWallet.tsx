@@ -8,7 +8,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, ArrowRightAlt} from "@material-ui/icons";
+import {Close, Power, ChevronRightSharp} from "@material-ui/icons";
 import {commonStyles} from "../../utils/styles";
 
 const useStyles = makeStyles({
@@ -66,6 +66,7 @@ function ConnectWallet(): JSX.Element {
                 <div className="connect-wallet-wrapper">
                     <div className="connect-wallet-container">
                         <div className="header">
+                            <Power fontSize={"large"} color={"primary"} className="logo"></Power>
                             <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
                                 Connect wallet
                             </Typography>
@@ -76,9 +77,9 @@ function ConnectWallet(): JSX.Element {
                         <div className="body">
                             {signers.map((signer) => {
                                 return (<div className="signer" key={signer.name}>
-                                    {signer.logo ? <img className="logo" src={signer.logo}/> : ''}
+                                    {signer.logo ? <img className="logo" src={signer.logo} alt="logo"/> : ''}
                                     <span className='name'>{signer.label}</span>
-                                    <ArrowRightAlt fontSize={"large"} color={"primary"}></ArrowRightAlt>
+                                    <ChevronRightSharp fontSize={"large"} color={"primary"}></ChevronRightSharp>
                                 </div>);
                             })}
                         </div>

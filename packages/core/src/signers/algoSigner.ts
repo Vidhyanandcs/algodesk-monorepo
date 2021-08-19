@@ -46,4 +46,13 @@ export class BrowserAlgoSigner implements Signer{
 
         return rawSignedTransactions;
     }
+
+    isInstalled(): boolean {
+        // @ts-ignore
+        if (AlgoSigner) {
+            return true;
+        }
+
+        return false;
+    }
 }

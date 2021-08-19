@@ -30,4 +30,8 @@ export class WalletSigner implements Signer{
 
         return signedTxns;
     }
+
+    isInstalled(): boolean {
+        return true;
+    }
 }
