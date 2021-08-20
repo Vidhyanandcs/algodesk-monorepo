@@ -32,7 +32,7 @@ export function setNetwork(name: string): void {
 }
 
 function Settings(): JSX.Element {
-    const [network, updateNetwork] = useState(getNetwork());
+    const [network, updateNetwork] = useState<string>(getNetwork());
 
     const settings = useSelector((state: RootState) => state.settings);
     const dispatch = useDispatch();

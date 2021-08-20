@@ -2,45 +2,76 @@
 
 .connect-wallet-wrapper {
   .connect-wallet-container {
-    .header {
-      margin-bottom: 20px;
-      text-align: center;
-      .logo {
-        border-radius: 50%;
-        padding: 10px;
-        box-shadow: 0 0 25px rgb(0 0 0 / 8%);
-        margin-bottom: 15px;
+    min-height: 400px;
+    .home-wrapper {
+      .home-container {
+        .header {
+          margin-bottom: 20px;
+          text-align: center;
+          .logo {
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 0 25px rgb(0 0 0 / 8%);
+            margin-bottom: 15px;
+          }
+        }
+        .body {
+          .signer {
+            padding: 30px;
+            border-bottom: 1px solid $color-grey-light;
+            img.logo {
+              vertical-align: middle;
+              margin-right: 15px;
+              height: 30px;
+            }
+            .name {
+              vertical-align: sub;
+              font-size: 18px;
+            }
+            svg {
+              float: right;
+            }
+            &:first-child {
+              border-top: 1px solid $color-grey-light;
+            }
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 24px rgb(0 0 0 / 8%);
+            }
+          }
+        }
+        .footer {
+          text-align: center;
+          margin-top: 35px;
+          margin-bottom: 20px;
+        }
       }
     }
-    .body {
-      .signer {
-        padding: 30px;
-        border-bottom: 1px solid $color-grey-light;
-        img.logo {
-          vertical-align: middle;
-          margin-right: 15px;
-          height: 30px;
+
+    .accounts-wrapper {
+      .accounts-container {
+        .header {
+          font-size: 20px;
+          span.name {
+            margin-left: 15px;
+          }
         }
-        .name {
-          vertical-align: sub;
-          font-size: 18px;
-        }
-        svg {
-          float: right;
-        }
-        &:first-child {
-          border-top: 1px solid $color-grey-light;
-        }
-        &:hover {
-          cursor: pointer;
-          box-shadow: 0 0 24px rgb(0 0 0 / 8%);
+        .body {
+          margin-top: 20px;
+          .account {
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            overflow-wrap: anywhere;
+            margin: 10px;
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 25px rgb(0 0 0 / 8%);
+            }
+          }
         }
       }
     }
-    .footer {
-      text-align: center;
-      margin-top: 35px;
-      margin-bottom: 20px;
-    }
+
   }
 }

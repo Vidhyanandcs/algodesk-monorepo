@@ -19,6 +19,7 @@ export const connect = createAsyncThunk(
         const {dispatch, getState} = thunkAPI;
         const appState: any = getState();
         const {network} = appState;
+        dispatch(clearAccounts());
 
         try {
             // @ts-ignore
@@ -40,6 +41,9 @@ export const connectWalletSlice = createSlice({
         },
         hideConnectWallet: (state) => {
             state.show = false;
+        },
+        clearAccounts: (state) => {
+            state.accounts = [];
         }
     },
     extraReducers: (builder) => {
@@ -51,5 +55,5 @@ export const connectWalletSlice = createSlice({
     },
 });
 
-export const { showConnectWallet, hideConnectWallet } = connectWalletSlice.actions
+export const { showConnectWallet, hideConnectWallet, clearAccounts } = connectWalletSlice.actions
 export default connectWalletSlice.reducer
