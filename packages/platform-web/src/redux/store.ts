@@ -3,13 +3,19 @@ import snackbarReducer from './actions/snackbar';
 import settingsReducer from "./actions/settings";
 import connectWalletReducer from "./actions/connectWallet";
 import networkReducer from "./actions/network";
+import loaderReducer from "./actions/loader";
+import signerReducer from "./actions/signer";
+import accountReducer from "./actions/account";
 
 export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
         settings: settingsReducer,
         connectWallet: connectWalletReducer,
-        network: networkReducer
+        network: networkReducer,
+        loader: loaderReducer,
+        signer: signerReducer,
+        account: accountReducer
     },
 });
 

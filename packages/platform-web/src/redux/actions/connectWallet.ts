@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {SignerAccount, SupportedSigner} from "@algodesk/core";
 import {handleException} from "./exception";
+import {setSigner} from './signer';
 
 
 export interface ConnectWallet {
@@ -17,11 +18,11 @@ export const connect = createAsyncThunk(
     'connectWallet/connect',
     async (signer: SupportedSigner, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
-        const appState: any = getState();
-        const {network} = appState;
-        dispatch(clearAccounts());
-
         try {
+            const appState: any = getState();
+            const {network} = appState;
+            dispatch(clearAccounts());
+            dispatch(setSigner(signer.name));
             // @ts-ignore
             const accounts = await signer.instance.connect(network.name);
             return accounts;

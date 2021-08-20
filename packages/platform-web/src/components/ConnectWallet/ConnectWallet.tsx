@@ -14,6 +14,7 @@ import {commonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {Alert} from '@material-ui/lab';
 import {useState} from "react";
+import {loadAccount} from "../../redux/actions/account";
 
 const useStyles = makeStyles({
     ...commonStyles,
@@ -35,6 +36,7 @@ function ConnectWallet(): JSX.Element {
     const signers = getSupportedSigners();
     const [view, updateView] = useState<string>('home');
     const [selectedSigner, updateSelectedSigner] = useState<SupportedSigner>(signers[0]);
+
 
     return (<div>
         {connectWallet.show ? <Dialog
@@ -112,8 +114,10 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="body">
                                     {accounts.map((account) => {
-                                        return (<div className='account' key={account.address} onClick={() => {
+                                        return (<div className='account' key={account.address} onClick={async () => {
                                             const address = account.address;
+                                            await dispatch(loadAccount(address));
+                                            dispatch(hideConnectWallet());
                                         }}>
                                             <Alert
                                                 severity="warning" icon={false}>

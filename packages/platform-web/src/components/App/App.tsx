@@ -6,6 +6,7 @@ import Settings, {getNetwork} from '../Settings/Settings';
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import {setNetwork} from '../../redux/actions/network';
 import {useDispatch} from "react-redux";
+import Loader from "../Loader/Loader";
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function App(): JSX.Element {
           <AppSnackbar></AppSnackbar>
           <Settings></Settings>
           <ConnectWallet></ConnectWallet>
+          <Loader></Loader>
       </div>
   );
 }

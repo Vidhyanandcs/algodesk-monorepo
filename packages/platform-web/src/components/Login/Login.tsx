@@ -4,8 +4,10 @@ import LoginBackground from "./LoginBackground";
 import {Power, Settings} from "@material-ui/icons";
 import {showSettings} from '../../redux/actions/settings';
 import {showConnectWallet} from '../../redux/actions/connectWallet';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {commonStyles} from "../../utils/styles";
+import {RootState} from "../../redux/store";
+import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles({
     ...commonStyles,
@@ -18,6 +20,11 @@ const useStyles = makeStyles({
 function Login(): JSX.Element {
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const account = useSelector((state: RootState) => state.account);
+    if (account.loggedIn) {
+        return (<Redirect to='/portal'></Redirect>);
+    }
 
   return (
       <div className="login-wrapper">
