@@ -31,7 +31,7 @@ export class MyAlgoWalletSigner implements Signer{
         return blobs;
     }
 
-    async connect(): Promise<SignerAccount[]> {
+    async connect(name: string): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
             const accounts: SignerAccount[] = [];
             const wallets = await this.myAlgoConnect.connect();

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SIGNERS = exports.NETWORKS = exports.BLOCK_TIME = void 0;
+exports.ALGO_SIGNER_NET = exports.SIGNERS = exports.NETWORKS = exports.BLOCK_TIME = void 0;
 exports.BLOCK_TIME = 4.5;
 var NETWORKS;
 (function (NETWORKS) {
@@ -15,4 +15,10 @@ var SIGNERS;
     SIGNERS["LOGIC_SIG"] = "logic_sig";
     SIGNERS["MY_ALGO_WALLET"] = "my_algo_wallet";
 })(SIGNERS = exports.SIGNERS || (exports.SIGNERS = {}));
+var ALGO_SIGNER_NET;
+(function (ALGO_SIGNER_NET) {
+    ALGO_SIGNER_NET["BETANET"] = "BetaNet";
+    ALGO_SIGNER_NET["TESTNET"] = "TestNet";
+    ALGO_SIGNER_NET["MAINNET"] = "MainNet";
+})(ALGO_SIGNER_NET = exports.ALGO_SIGNER_NET || (exports.ALGO_SIGNER_NET = {}));
 //# sourceMappingURL=index.js.map

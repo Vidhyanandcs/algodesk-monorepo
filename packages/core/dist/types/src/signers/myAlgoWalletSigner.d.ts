@@ -5,6 +5,6 @@ export declare class MyAlgoWalletSigner implements Signer {
     constructor();
     signTxn(unsignedTxn: Transaction): Promise<Uint8Array>;
     signGroupTxns(unsignedTxns: Transaction[]): Promise<Uint8Array[]>;
-    connect(): Promise<SignerAccount[]>;
+    connect(name: string): Promise<SignerAccount[]>;
     isInstalled(): boolean;
 }

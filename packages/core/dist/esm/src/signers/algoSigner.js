@@ -1,3 +1,4 @@
+import { ALGO_SIGNER_NET, NETWORKS } from "../constants";
 export class BrowserAlgoSigner {
     constructor() {
     }
@@ -39,14 +40,25 @@ export class BrowserAlgoSigner {
         }
         return false;
     }
-    async connect() {
+    getAlgoSignerNet(name) {
+        if (name == NETWORKS.MAINNET) {
+            return ALGO_SIGNER_NET.MAINNET;
+        }
+        if (name == NETWORKS.BETANET) {
+            return ALGO_SIGNER_NET.BETANET;
+        }
+        if (name == NETWORKS.TESTNET) {
+            return ALGO_SIGNER_NET.TESTNET;
+        }
+    }
+    async connect(name) {
         if (this.isInstalled()) {
             const accounts = [];
             // @ts-ignore
             const connection = await AlgoSigner.connect();
             // @ts-ignore
             const wallets = await AlgoSigner.accounts({
-                ledger: "MainNet"
+                ledger: this.getAlgoSignerNet(name)
             });
             if (wallets) {
                 wallets.forEach((wallet) => {

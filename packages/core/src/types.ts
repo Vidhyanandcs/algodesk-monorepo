@@ -10,7 +10,7 @@ export interface Signer {
     signGroupTxns?(unsignedTxns: Transaction[]): Uint8Array[] | Promise<Uint8Array[]>;
     signTxnByLogic?(unsignedTxn, logic: string): Promise<Uint8Array>;
     isInstalled(): boolean;
-    connect?(): Promise<SignerAccount[]>
+    connect?(name: string): Promise<SignerAccount[]>
 }
 
 export type A_SendTxnResponse = {

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BrowserAlgoSigner = void 0;
+const constants_1 = require("../constants");
 class BrowserAlgoSigner {
     constructor() {
     }
@@ -42,14 +43,25 @@ class BrowserAlgoSigner {
         }
         return false;
     }
-    async connect() {
+    getAlgoSignerNet(name) {
+        if (name == constants_1.NETWORKS.MAINNET) {
+            return constants_1.ALGO_SIGNER_NET.MAINNET;
+        }
+        if (name == constants_1.NETWORKS.BETANET) {
+            return constants_1.ALGO_SIGNER_NET.BETANET;
+        }
+        if (name == constants_1.NETWORKS.TESTNET) {
+            return constants_1.ALGO_SIGNER_NET.TESTNET;
+        }
+    }
+    async connect(name) {
         if (this.isInstalled()) {
             const accounts = [];
             // @ts-ignore
             const connection = await AlgoSigner.connect();
             // @ts-ignore
             const wallets = await AlgoSigner.accounts({
-                ledger: "MainNet"
+                ledger: this.getAlgoSignerNet(name)
             });
             if (wallets) {
                 wallets.forEach((wallet) => {

@@ -1,5 +1,6 @@
 import {Signer, SignerAccount} from "../types";
 import {Transaction} from "algosdk";
+import {ALGO_SIGNER_NET, NETWORKS} from "../constants";
 
 export class BrowserAlgoSigner implements Signer{
 
@@ -56,16 +57,27 @@ export class BrowserAlgoSigner implements Signer{
         return false;
     }
 
-    async connect(): Promise<SignerAccount[]> {
+    getAlgoSignerNet(name: string): string {
+        if (name == NETWORKS.MAINNET) {
+            return ALGO_SIGNER_NET.MAINNET
+        }
+        if (name == NETWORKS.BETANET) {
+            return ALGO_SIGNER_NET.BETANET
+        }
+        if (name == NETWORKS.TESTNET) {
+            return ALGO_SIGNER_NET.TESTNET
+        }
+    }
+
+    async connect(name: string): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
             const accounts: SignerAccount[] = [];
             // @ts-ignore
             const connection = await AlgoSigner.connect();
             // @ts-ignore
             const wallets = await AlgoSigner.accounts({
-                ledger: "MainNet"
+                ledger: this.getAlgoSignerNet(name)
             });
-
 
             if (wallets) {
                 wallets.forEach((wallet) => {

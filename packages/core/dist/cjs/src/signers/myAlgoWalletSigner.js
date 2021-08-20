@@ -26,7 +26,7 @@ class MyAlgoWalletSigner {
         });
         return blobs;
     }
-    async connect() {
+    async connect(name) {
         if (this.isInstalled()) {
             const accounts = [];
             const wallets = await this.myAlgoConnect.connect();

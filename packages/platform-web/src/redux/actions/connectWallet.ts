@@ -16,10 +16,13 @@ const initialState: ConnectWallet = {
 export const connect = createAsyncThunk(
     'connectWallet/connect',
     async (signer: SupportedSigner, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
+        const appState: any = getState();
+        const {network} = appState;
+
         try {
             // @ts-ignore
-            const accounts = await signer.instance.connect();
+            const accounts = await signer.instance.connect(network.name);
             return accounts;
         }
         catch (e) {
@@ -44,7 +47,6 @@ export const connectWalletSlice = createSlice({
             if (action.payload) {
                 state.accounts = action.payload;
             }
-            console.log(action.payload);
         })
     },
 });

@@ -3,6 +3,7 @@ import {FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup}
 import {useState} from "react";
 import {RootState} from "../../redux/store";
 import {hideSettings} from "../../redux/actions/settings";
+import {setNetwork as setNetworkAction} from "../../redux/actions/network";
 import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@material-ui/core";
 import {Close} from '@material-ui/icons';
 import {useDispatch, useSelector} from "react-redux";
@@ -63,10 +64,11 @@ function Settings(): JSX.Element {
                     <div className="settings-container">
                         <FormControl component="fieldset">
                             <FormLabel component="legend">Select network</FormLabel>
-                            <RadioGroup row value={network} onChange={(ev) => {
+                            <RadioGroup value={network} onChange={(ev) => {
                                 const network = ev.target.value;
                                 updateNetwork(network);
                                 setNetwork(network);
+                                dispatch(setNetworkAction(network));
                             }}>
                                 {networks.map((network) => {
                                     return <FormControlLabel key={network.name} value={network.name} control={<Radio color="primary"/>} label={network.label} />;

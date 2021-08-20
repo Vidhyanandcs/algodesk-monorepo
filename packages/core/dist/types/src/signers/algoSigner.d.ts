@@ -5,5 +5,6 @@ export declare class BrowserAlgoSigner implements Signer {
     signTxn(unsignedTxn: Transaction): Promise<Uint8Array>;
     signGroupTxns(unsignedTxns: Transaction[]): Promise<Uint8Array[]>;
     isInstalled(): boolean;
-    connect(): Promise<SignerAccount[]>;
+    getAlgoSignerNet(name: string): string;
+    connect(name: string): Promise<SignerAccount[]>;
 }

@@ -10,3 +10,8 @@ export declare enum SIGNERS {
     LOGIC_SIG = "logic_sig",
     MY_ALGO_WALLET = "my_algo_wallet"
 }
+export declare enum ALGO_SIGNER_NET {
+    BETANET = "BetaNet",
+    TESTNET = "TestNet",
+    MAINNET = "MainNet"
+}
