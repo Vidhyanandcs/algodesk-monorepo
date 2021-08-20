@@ -10,7 +10,7 @@ const initialState: Settings = {
 }
 
 export const settingsSlice = createSlice({
-    name: 'snackbar',
+    name: 'settings',
     initialState,
     reducers: {
         showSettings: (state ) => {

@@ -7,11 +7,10 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {hideConnectWallet} from "../../redux/actions/connectWallet";
+import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
 import {Close, Power, ChevronRightSharp} from "@material-ui/icons";
 import {commonStyles} from "../../utils/styles";
-import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
-import {showSnack} from '../../redux/actions/snackbar';
+import {getSupportedSigners} from "@algodesk/core";
 
 const useStyles = makeStyles({
     ...commonStyles,
@@ -63,19 +62,8 @@ function ConnectWallet(): JSX.Element {
                             {signers.map((signer) => {
                                 return (<div className="signer"
                                              key={signer.name}
-                                             onClick={async () => {
-                                                 try {
-                                                     // @ts-ignore
-                                                     const accounts = await signer.instance.connect();
-                                                     console.log(accounts);
-                                                 }
-                                                 catch (e) {
-                                                     console.log(e);
-                                                     dispatch(showSnack({
-                                                         severity: 'error',
-                                                         message: e.message
-                                                     }));
-                                                 }
+                                             onClick={() => {
+                                                 dispatch(connect(signer));
                                              }}
                                 >
                                     {signer.logo ? <img className="logo" src={signer.logo} alt="logo"/> : ''}
