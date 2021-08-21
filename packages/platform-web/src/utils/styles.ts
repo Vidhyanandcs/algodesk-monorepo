@@ -7,5 +7,9 @@ export const commonStyles = {
         '&:focus': {
             background: '#000 !important',
         }
+    },
+    customCard: {
+        boxShadow: 'none',
+        border: '1px solid #f2f2f2'
     }
 };
