@@ -1,9 +1,8 @@
 import * as sdk from "algosdk";
 export class Network {
-    constructor(name, label, explorer, algod, indexer, algodToken = {}, indexerToken = {}, port = '') {
+    constructor(name, label, algod, indexer, algodToken = {}, indexerToken = {}, port = '') {
         this.name = name;
         this.label = label;
-        this.explorer = explorer;
         this.port = port;
         this.setAlgodServer(algod, algodToken);
         this.setIndexerServer(indexer, indexerToken);

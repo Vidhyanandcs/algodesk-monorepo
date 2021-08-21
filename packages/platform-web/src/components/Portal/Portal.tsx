@@ -2,6 +2,7 @@ import './Portal.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
+import Header from "../Header/Header";
 
 function Portal(): JSX.Element {
 
@@ -13,7 +14,7 @@ function Portal(): JSX.Element {
   return (
       <div className="portal-wrapper">
           <div className="portal-container">
-            portal
+            <Header></Header>
           </div>
       </div>
   );

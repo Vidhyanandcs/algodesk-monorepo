@@ -1,16 +1,41 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {Algodesk, getNetwork, getSigner, A_AccountInformation} from "@algodesk/core";
+import {
+    Algodesk,
+    getNetwork,
+    getSigner,
+    A_AccountInformation
+} from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 
 
 export interface Account {
     loggedIn: boolean
-    information?: A_AccountInformation,
+    information: A_AccountInformation,
+}
+
+const information: A_AccountInformation = {
+    address: "",
+    amount: 0,
+    "amount-without-pending-rewards": 0,
+    "apps-local-state": [],
+    "apps-total-schema": {
+        "num-byte-slice": 0,
+        "num-uint": 0
+    },
+    assets: [],
+    "created-apps": [],
+    "created-assets": [],
+    "pending-rewards": 0,
+    "reward-base": 0,
+    rewards: 0,
+    round: 0,
+    status: ""
 }
 
 const initialState: Account = {
     loggedIn: false,
+    information
 }
 
 export const loadAccount = createAsyncThunk(
@@ -40,6 +65,7 @@ export const accountSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.loggedIn = false;
+            state.information = information;
         }
     },
     extraReducers: (builder) => {

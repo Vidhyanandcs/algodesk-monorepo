@@ -7,16 +7,14 @@ export class Network {
     public name: string
     public algod: string
     public label: string
-    public explorer: string
     public indexer: string
     public port: string
     public algodToken: string | AlgodTokenHeader | CustomTokenHeader
     public indexerToken: string | IndexerTokenHeader | CustomTokenHeader
 
-    constructor(name: string, label: string, explorer: string, algod: string, indexer: string, algodToken: string | AlgodTokenHeader | CustomTokenHeader = {}, indexerToken: string | IndexerTokenHeader | CustomTokenHeader = {}, port: string = '') {
+    constructor(name: string, label: string, algod: string, indexer: string, algodToken: string | AlgodTokenHeader | CustomTokenHeader = {}, indexerToken: string | IndexerTokenHeader | CustomTokenHeader = {}, port: string = '') {
         this.name = name;
         this.label = label;
-        this.explorer = explorer;
 
         this.port = port;
         this.setAlgodServer(algod, algodToken);

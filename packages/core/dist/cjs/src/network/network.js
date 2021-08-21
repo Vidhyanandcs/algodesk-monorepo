@@ -22,10 +22,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Network = void 0;
 const sdk = __importStar(require("algosdk"));
 class Network {
-    constructor(name, label, explorer, algod, indexer, algodToken = {}, indexerToken = {}, port = '') {
+    constructor(name, label, algod, indexer, algodToken = {}, indexerToken = {}, port = '') {
         this.name = name;
         this.label = label;
-        this.explorer = explorer;
         this.port = port;
         this.setAlgodServer(algod, algodToken);
         this.setIndexerServer(indexer, indexerToken);

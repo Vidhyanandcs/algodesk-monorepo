@@ -1,5 +1,33 @@
+@import "../../assets/colors";
+
+.menu-icon {
+  margin-right: 10px;
+}
 .header-wrapper {
   .header-container {
-    
+    width: 100%;
+    height: 60px;
+    box-shadow: 0 5px 6px -6px $color-grey;
+    .round-button {
+      background: #666666;
+      color: $color-light;
+      padding: 5px;
+    }
+    .logo {
+      font-size: 18px;
+      margin-left: -15px;
+      margin-top: 2px;
+      font-weight: bold;
+      svg {
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .header-action {
+      margin-top: -4px;
+    }
   }
 }

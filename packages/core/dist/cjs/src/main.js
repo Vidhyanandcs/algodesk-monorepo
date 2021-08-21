@@ -16,5 +16,6 @@ __exportStar(require("./network"), exports);
 __exportStar(require("./signers"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./algodesk"), exports);
+__exportStar(require("./explorer"), exports);
 __exportStar(require("./types"), exports);
 //# sourceMappingURL=main.js.map
