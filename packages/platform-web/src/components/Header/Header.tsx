@@ -6,12 +6,12 @@ import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
 import {useState} from "react";
 import sdk from 'algosdk';
-import {getExplorer} from "@algodesk/core";
+import {ellipseAddress} from "@algodesk/core";
+import {openAccountUrl} from "../../redux/utils";
 
 
 function Header(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
-    const network = useSelector((state: RootState) => state.network);
 
     const [anchorEl, updateAnchorEl] = useState<any>(null);
     const {address, amount} = account.information;
@@ -41,12 +41,12 @@ function Header(): JSX.Element {
                                             size={"small"}
                                         />
                                     </div>}
-                                    label={address.substr(0, 5) + '...' + address.substr(address.length - 5)}
+                                    label={ellipseAddress(address)}
                                     variant={"outlined"}
                                     onClick={(event) => {
                                         updateAnchorEl(event.currentTarget);
                                     }}
-                                    style={{fontWeight: 'bold'}}
+                                    style={{color: '#000', fontWeight: 'bold'}}
                                     deleteIcon={<ArrowDropDown />}
                                     onDelete={(event) => {
                                         updateAnchorEl(event.currentTarget.parentElement);
@@ -65,10 +65,9 @@ function Header(): JSX.Element {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
-                                        const explorer = getExplorer(network.name);
-                                                  window.open(explorer.getAccountUrl(address), '_blank');
-                                                  updateAnchorEl(null);
-                                              }}
+                                                openAccountUrl(address);
+                                                updateAnchorEl(null);
+                                          }}
                                     >
                                         <OpenInNew fontSize={"small"} className="menu-icon"></OpenInNew>
                                         View account

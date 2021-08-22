@@ -32,9 +32,11 @@
   },
   "dependencies": {
     "@randlabs/myalgo-connect": "^1.1.0",
+    "algorand-walletconnect-qrcode-modal": "^1.6.1",
     "algosdk": "^1.11.0",
     "duration": "^0.2.2",
-    "hi-base32": "^0.5.1"
+    "hi-base32": "^0.5.1",
+    "walletconnect": "^1.6.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

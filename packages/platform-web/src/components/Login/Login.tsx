@@ -5,15 +5,17 @@ import {Power, Settings} from "@material-ui/icons";
 import {showSettings} from '../../redux/actions/settings';
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch, useSelector} from "react-redux";
-import {commonStyles} from "../../utils/styles";
+import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
 
-const useStyles = makeStyles({
-    ...commonStyles,
-    loginButton: {
-        marginTop: 15,
-    }
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        loginButton: {
+            marginTop: 15,
+        }
+    };
 });
 
 

@@ -14,6 +14,7 @@ var SIGNERS;
     SIGNERS["ALGO_SIGNER"] = "algo_signer";
     SIGNERS["LOGIC_SIG"] = "logic_sig";
     SIGNERS["MY_ALGO_WALLET"] = "my_algo_wallet";
+    SIGNERS["WALLET_CONNECT"] = "wallet_connect";
 })(SIGNERS = exports.SIGNERS || (exports.SIGNERS = {}));
 var ALGO_SIGNER_NET;
 (function (ALGO_SIGNER_NET) {

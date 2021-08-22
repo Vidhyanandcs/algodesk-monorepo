@@ -50,11 +50,7 @@ export class BrowserAlgoSigner implements Signer{
 
     isInstalled(): boolean {
         // @ts-ignore
-        if (typeof AlgoSigner !== 'undefined') {
-            return true;
-        }
-
-        return false;
+        return typeof AlgoSigner !== 'undefined';
     }
 
     getAlgoSignerNet(name: string): string {

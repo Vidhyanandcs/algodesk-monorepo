@@ -7,16 +7,18 @@ import {setNetwork as setNetworkAction} from "../../redux/actions/network";
 import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@material-ui/core";
 import {Close} from '@material-ui/icons';
 import {useDispatch, useSelector} from "react-redux";
-import {commonStyles} from "../../utils/styles";
+import {getCommonStyles} from "../../utils/styles";
 import {NETWORKS, getNetworks} from '@algodesk/core';
 import {LOCAL_STORAGE} from "../../constants";
 
-const useStyles = makeStyles({
-    ...commonStyles,
-    customDialog: {
-        position: "absolute",
-        top: 100
-    }
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            position: "absolute",
+            top: 100
+        }
+    };
 });
 
 export function getNetwork(): string {

@@ -3,6 +3,45 @@
 .assets-wrapper {
   .assets-container {
     margin-top: 25px;
+    .assets {
+      margin-top: 25px;
+      .asset {
+        .asset-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        .asset-id {
+          margin-top: 5px;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .params {
+          .param {
+            margin-top: 10px;
+            .key {
+
+            }
+            .value {
+              margin-top: 5px;
+              font-size: 13px;
+              color: $color-grey-dark;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              &.clickable {
+                &:hover {
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .empty-message {
+      margin-top: 25px;
+    }
     .title {
       font-size: 25px;
       font-weight: bold;
@@ -11,31 +50,6 @@
       margin-bottom: 20px;
       border-bottom: 1px solid $color-grey-light;
     }
-    .asset {
-      .asset-name {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-      .asset-id {
-        font-size: 13px;
-        font-weight: bold;
-      }
-      .params {
-        .param {
-          margin-top: 10px;
-          .key {
 
-          }
-          .value {
-            margin-top: 5px;
-            font-size: 13px;
-            color: $color-grey-dark;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
-    }
   }
 }

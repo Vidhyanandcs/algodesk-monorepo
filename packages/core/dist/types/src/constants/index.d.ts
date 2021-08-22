@@ -8,7 +8,8 @@ export declare enum SIGNERS {
     WALLET = "wallet",
     ALGO_SIGNER = "algo_signer",
     LOGIC_SIG = "logic_sig",
-    MY_ALGO_WALLET = "my_algo_wallet"
+    MY_ALGO_WALLET = "my_algo_wallet",
+    WALLET_CONNECT = "wallet_connect"
 }
 export declare enum ALGO_SIGNER_NET {
     BETANET = "BetaNet",

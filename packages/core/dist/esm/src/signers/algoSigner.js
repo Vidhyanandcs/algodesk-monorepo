@@ -35,10 +35,7 @@ export class BrowserAlgoSigner {
     }
     isInstalled() {
         // @ts-ignore
-        if (typeof AlgoSigner !== 'undefined') {
-            return true;
-        }
-        return false;
+        return typeof AlgoSigner !== 'undefined';
     }
     getAlgoSignerNet(name) {
         if (name == NETWORKS.MAINNET) {

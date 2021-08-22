@@ -10,18 +10,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
 import {Close, Power, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
-import {commonStyles} from "../../utils/styles";
+import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {Alert} from '@material-ui/lab';
 import {useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
 
-const useStyles = makeStyles({
-    ...commonStyles,
-    customDialog: {
-        position: "absolute",
-        top: 100
-    }
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            position: "absolute",
+            top: 100
+        }
+    };
 });
 
 
