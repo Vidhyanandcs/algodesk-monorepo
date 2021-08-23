@@ -18,6 +18,6 @@ export function durationBetweenBlocks(futureRound: number, currentRound: number)
     return  new Duration(start, end);
 }
 
-export function ellipseAddress(address: string, width: number = 5): string {
+export function ellipseAddress(address: string = "", width: number = 5): string {
     return `${address.slice(0, width)}...${address.slice(-width)}`;
 }

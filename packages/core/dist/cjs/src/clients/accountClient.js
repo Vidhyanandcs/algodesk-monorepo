@@ -13,35 +13,19 @@ class AccountClient {
         const accountInformation = await this.client.accountInformation(address).do();
         return accountInformation;
     }
-    async getCreatedAssets(accountInfo) {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
+    getCreatedAssets(accountInfo) {
         const createdAssets = accountInfo['created-assets'];
         return createdAssets;
     }
-    async getHoldingAssets(accountInfo) {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
+    getHoldingAssets(accountInfo) {
         const createdAssets = accountInfo['assets'];
         return createdAssets;
     }
-    async getCreatedApps(accountInfo) {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
+    getCreatedApps(accountInfo) {
         const createdApps = accountInfo['created-apps'];
         return createdApps;
     }
-    async getOptedApps(accountInfo) {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
+    getOptedApps(accountInfo) {
         const optedApps = accountInfo['apps-local-state'];
         return optedApps;
     }

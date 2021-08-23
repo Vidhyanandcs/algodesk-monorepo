@@ -20,7 +20,7 @@ function durationBetweenBlocks(futureRound, currentRound) {
     return new duration_1.default(start, end);
 }
 exports.durationBetweenBlocks = durationBetweenBlocks;
-function ellipseAddress(address, width = 5) {
+function ellipseAddress(address = "", width = 5) {
     return `${address.slice(0, width)}...${address.slice(-width)}`;
 }
 exports.ellipseAddress = ellipseAddress;

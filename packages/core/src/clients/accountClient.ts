@@ -21,42 +21,22 @@ export class AccountClient{
         return accountInformation;
     }
 
-    async getCreatedAssets(accountInfo: string | A_AccountInformation): Promise<A_Asset[]>{
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
-
+    getCreatedAssets(accountInfo: A_AccountInformation): A_Asset[]{
         const createdAssets = accountInfo['created-assets'];
         return createdAssets;
     }
 
-    async getHoldingAssets(accountInfo: string | A_AccountInformation): Promise<A_AssetHolding[]>{
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
-
+    getHoldingAssets(accountInfo: A_AccountInformation): A_AssetHolding[]{
         const createdAssets = accountInfo['assets'];
         return createdAssets;
     }
 
-    async getCreatedApps(accountInfo: string | A_AccountInformation): Promise<A_Application[]> {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
-
+    getCreatedApps(accountInfo: A_AccountInformation): A_Application[] {
         const createdApps = accountInfo['created-apps'];
         return createdApps;
     }
 
-    async getOptedApps(accountInfo: string | A_AccountInformation): Promise<A_AppsLocalState[]> {
-        if (typeof accountInfo === 'string') {
-            const address = accountInfo;
-            accountInfo = await this.getAccountInformation(address);
-        }
-
+    getOptedApps(accountInfo: A_AccountInformation): A_AppsLocalState[] {
         const optedApps = accountInfo['apps-local-state'];
         return optedApps;
     }

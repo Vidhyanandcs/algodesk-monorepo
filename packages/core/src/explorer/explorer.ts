@@ -8,4 +8,8 @@ export class Explorer {
     getAccountUrl(address: string): string {
         return this.url + '/address/' + address;
     }
+
+    getAssetUrl(assetId: number): string {
+        return this.url + '/asset/' + assetId;
+    }
 }

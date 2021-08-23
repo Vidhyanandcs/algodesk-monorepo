@@ -8,6 +8,9 @@ class Explorer {
     getAccountUrl(address) {
         return this.url + '/address/' + address;
     }
+    getAssetUrl(assetId) {
+        return this.url + '/asset/' + assetId;
+    }
 }
 exports.Explorer = Explorer;
 //# sourceMappingURL=explorer.js.map

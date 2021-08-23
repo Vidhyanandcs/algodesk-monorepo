@@ -9,8 +9,8 @@ export declare class AccountClient {
     transactionClient: TransactionClient;
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer);
     getAccountInformation(address: string): Promise<A_AccountInformation>;
-    getCreatedAssets(accountInfo: string | A_AccountInformation): Promise<A_Asset[]>;
-    getHoldingAssets(accountInfo: string | A_AccountInformation): Promise<A_AssetHolding[]>;
-    getCreatedApps(accountInfo: string | A_AccountInformation): Promise<A_Application[]>;
-    getOptedApps(accountInfo: string | A_AccountInformation): Promise<A_AppsLocalState[]>;
+    getCreatedAssets(accountInfo: A_AccountInformation): A_Asset[];
+    getHoldingAssets(accountInfo: A_AccountInformation): A_AssetHolding[];
+    getCreatedApps(accountInfo: A_AccountInformation): A_Application[];
+    getOptedApps(accountInfo: A_AccountInformation): A_AppsLocalState[];
 }
