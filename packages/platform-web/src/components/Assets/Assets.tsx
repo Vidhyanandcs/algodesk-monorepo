@@ -5,10 +5,9 @@ import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button} fro
 import {Alert} from '@material-ui/lab';
 import {ArrowRightAlt, Add} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
-import {openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
+import {getAmountInDecimals, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
 import algosdk from "../../utils/algosdk";
-
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 function processAssetParam(value: string = ""): string {
-    return value ? ellipseAddress(value, 8) : "(None)";
+    return value ? ellipseAddress(value, 12) : "(None)";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
@@ -121,6 +120,23 @@ function Assets(): JSX.Element {
                                                   {renderAssetParam("Reserve", asset.params.reserve, information.address)}
                                                   {renderAssetParam("Freeze", asset.params.freeze, information.address)}
                                                   {renderAssetParam("Clawback", asset.params.clawback, information.address)}
+                                              </div>
+                                          </Grid>
+                                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                              <div className="params">
+                                                  <div className="param">
+                                                      <div className="key">Balance</div>
+                                                      <div className="value">{getAmountInDecimals(algosdk.algodesk.accountClient.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals), asset.params.decimals)} {asset.params['unit-name']}</div>
+                                                  </div>
+                                                  <div className="param">
+                                                      <div className="key">Url</div>
+                                                      <div className="value">{asset.params.url ? <a
+                                                          target="_blank"
+                                                          href={asset.params.url}
+                                                          rel="noreferrer"
+                                                          className={classes.primaryText}
+                                                      >{asset.params.url}</a> : '(None)'}</div>
+                                                  </div>
                                               </div>
                                           </Grid>
                                       </Grid>

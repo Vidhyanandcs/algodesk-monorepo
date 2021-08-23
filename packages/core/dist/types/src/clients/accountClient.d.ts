@@ -13,4 +13,7 @@ export declare class AccountClient {
     getHoldingAssets(accountInfo: A_AccountInformation): A_AssetHolding[];
     getCreatedApps(accountInfo: A_AccountInformation): A_Application[];
     getOptedApps(accountInfo: A_AccountInformation): A_AppsLocalState[];
+    getHoldingAsset(assetId: number, accountInfo: A_AccountInformation): A_AssetHolding;
+    getCreatedAsset(assetId: number, accountInfo: A_AccountInformation): A_Asset;
+    balanceOf(assetId: number, accountInfo: A_AccountInformation): number;
 }

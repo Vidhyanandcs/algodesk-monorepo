@@ -6,6 +6,16 @@
     .assets {
       margin-top: 25px;
       .asset {
+        .balance {
+          font-size: 18px;
+          font-weight: bold;
+        }
+        .balance-val {
+          margin-top: 10px;
+          font-weight: bold;
+          font-size: 18px;
+          color: $color-grey-dark
+        }
         .asset-name {
           font-size: 18px;
           font-weight: bold;

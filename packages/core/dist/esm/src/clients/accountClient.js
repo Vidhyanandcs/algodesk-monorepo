@@ -26,5 +26,28 @@ export class AccountClient {
         const optedApps = accountInfo['apps-local-state'];
         return optedApps;
     }
+    getHoldingAsset(assetId, accountInfo) {
+        const assets = this.getHoldingAssets(accountInfo);
+        for (const asset of assets) {
+            if (asset['asset-id'] === assetId) {
+                return asset;
+            }
+        }
+    }
+    getCreatedAsset(assetId, accountInfo) {
+        const createdAssets = this.getCreatedAssets(accountInfo);
+        for (const asset of createdAssets) {
+            if (asset.index === assetId) {
+                return asset;
+            }
+        }
+    }
+    balanceOf(assetId, accountInfo) {
+        const asset = this.getHoldingAsset(assetId, accountInfo);
+        if (asset) {
+            return asset.amount;
+        }
+        return 0;
+    }
 }
 //# sourceMappingURL=accountClient.js.map

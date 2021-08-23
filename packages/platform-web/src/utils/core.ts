@@ -1,4 +1,5 @@
 import algosdk from "./algosdk";
+import {formatNumber} from 'accounting';
 
 export function openAccountInExplorer(address: string = ""): void {
     if (address) {
@@ -12,4 +13,10 @@ export function openAssetInExplorer(assetId: number): void {
         const url = algosdk.explorer.getAssetUrl(assetId);
         window.open(url, "_blank");
     }
+}
+
+export function getAmountInDecimals(amount: number, decimals: number) {
+    return formatNumber(amount, {
+        precision: decimals
+    });
 }

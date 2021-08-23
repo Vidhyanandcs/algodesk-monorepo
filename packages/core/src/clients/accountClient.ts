@@ -40,4 +40,32 @@ export class AccountClient{
         const optedApps = accountInfo['apps-local-state'];
         return optedApps;
     }
+
+    getHoldingAsset(assetId: number, accountInfo: A_AccountInformation): A_AssetHolding {
+        const assets = this.getHoldingAssets(accountInfo);
+        for (const asset of assets) {
+            if (asset['asset-id'] === assetId) {
+                return asset;
+            }
+        }
+    }
+
+    getCreatedAsset(assetId: number, accountInfo: A_AccountInformation): A_Asset {
+        const createdAssets = this.getCreatedAssets(accountInfo);
+        for (const asset of createdAssets) {
+            if (asset.index === assetId) {
+                return asset;
+            }
+        }
+    }
+
+    balanceOf(assetId: number, accountInfo: A_AccountInformation): number {
+        const asset = this.getHoldingAsset(assetId, accountInfo);
+
+        if (asset) {
+            return asset.amount;
+        }
+
+        return 0;
+    }
 }
