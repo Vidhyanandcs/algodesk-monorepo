@@ -7,7 +7,7 @@ import {logout} from "../../redux/actions/account";
 import {useState} from "react";
 import sdk from 'algosdk';
 import {ellipseAddress} from "@algodesk/core";
-import {openAccountUrl} from "../../redux/utils";
+import {openAccountInExplorer} from "../../utils/core";
 
 
 function Header(): JSX.Element {
@@ -65,7 +65,7 @@ function Header(): JSX.Element {
                                     }}
                                 >
                                     <MenuItem onClick={() => {
-                                                openAccountUrl(address);
+                                                openAccountInExplorer(address);
                                                 updateAnchorEl(null);
                                           }}
                                     >

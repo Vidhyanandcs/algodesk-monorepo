@@ -1,10 +1,9 @@
 import './ConnectWallet.scss';
 import {
-    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography
+    IconButton, makeStyles, Typography, CircularProgress
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -39,7 +38,6 @@ function ConnectWallet(): JSX.Element {
     const [view, updateView] = useState<string>('home');
     const [selectedSigner, updateSelectedSigner] = useState<SupportedSigner>(signers[0]);
 
-
     return (<div>
         {connectWallet.show ? <Dialog
             fullWidth={true}
@@ -51,7 +49,14 @@ function ConnectWallet(): JSX.Element {
         >
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <div></div>
+                    <div>
+                        {view === 'accounts' ? <IconButton color="default" onClick={() => {
+                            updateView('home');
+                        }}>
+                            <ArrowBack />
+                        </IconButton> : ''}
+
+                    </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(hideConnectWallet())
                     }}>
@@ -100,21 +105,20 @@ function ConnectWallet(): JSX.Element {
                         {view === 'accounts' ? <div className="accounts-wrapper">
                             <div className="accounts-container">
                                 <div className="header">
-                                    <Button
-                                        size={"small"}
-                                        color="primary"
-                                        variant={"text"}
-                                        startIcon={<ArrowBack></ArrowBack>}
-                                        onClick={() => {
-                                            updateView('home');
-                                        }}>
-                                        Back
-                                    </Button>
+                                    {selectedSigner.logo ? <img className="logo" src={selectedSigner.logo} alt="logo"/> : ''}
                                     <span className="name">
                                         {selectedSigner.label}
                                     </span>
                                 </div>
                                 <div className="body">
+                                    {connectWallet.connecting ? <div className="connecting">
+                                        <CircularProgress style={{color: '#000'}}></CircularProgress>
+                                    </div> : ''}
+                                    {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
+                                        <Alert icon={false} color={"error"}>
+                                            {connectWallet.errMessage}
+                                        </Alert>
+                                    </div> : ''}
                                     {accounts.map((account) => {
                                         return (<div className='account' key={account.address} onClick={async () => {
                                             const address = account.address;

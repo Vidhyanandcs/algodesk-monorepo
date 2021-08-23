@@ -1,12 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {
-    Algodesk,
-    getNetwork,
-    getSigner,
     A_AccountInformation
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
+import algosdk from "../../utils/algosdk";
 
 
 export interface Account {
@@ -41,14 +39,10 @@ const initialState: Account = {
 export const loadAccount = createAsyncThunk(
     'account/loadAccount',
     async (address: string, thunkAPI) => {
-        const {dispatch, getState} = thunkAPI;
+        const {dispatch} = thunkAPI;
         try {
             dispatch(showLoader("Loading account information ..."));
-            const appState: any = getState();
-            const network = getNetwork(appState.network.name);
-            const signer = getSigner(appState.signer.name);
-            const algodesk = new Algodesk(network, signer);
-            const accountInfo = await algodesk.accountClient.getAccountInformation(address);
+            const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
             dispatch(hideLoader());
             return accountInfo;
         }

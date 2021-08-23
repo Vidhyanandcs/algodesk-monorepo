@@ -5,7 +5,7 @@ import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button} fro
 import {Alert} from '@material-ui/lab';
 import {ArrowRightAlt, Add} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
-import {openAccountUrl} from "../../redux/utils";
+import {openAccountInExplorer} from "../../utils/core";
 
 
 const useStyles = makeStyles((theme) => {
@@ -71,7 +71,7 @@ function Assets(): JSX.Element {
                                                   Manager
                                               </div>
                                               <div className="value clickable" onClick={() => {
-                                                  openAccountUrl(asset.params.manager);
+                                                  openAccountInExplorer(asset.params.manager);
                                               }}>
                                                   {asset.params.manager}
                                               </div>
@@ -81,7 +81,7 @@ function Assets(): JSX.Element {
                                                   Reserve
                                               </div>
                                               <div className="value clickable" onClick={() => {
-                                                  openAccountUrl(asset.params.reserve);
+                                                  openAccountInExplorer(asset.params.reserve);
                                               }}>
                                                   {asset.params.reserve}
                                               </div>
@@ -91,7 +91,7 @@ function Assets(): JSX.Element {
                                                   Freeze
                                               </div>
                                               <div className="value clickable" onClick={() => {
-                                                  openAccountUrl(asset.params.freeze);
+                                                  openAccountInExplorer(asset.params.freeze);
                                               }}>
                                                   {asset.params.freeze}
                                               </div>
@@ -101,7 +101,7 @@ function Assets(): JSX.Element {
                                                   Clawback
                                               </div>
                                               <div className="value clickable" onClick={() => {
-                                                  openAccountUrl(asset.params.clawback);
+                                                  openAccountInExplorer(asset.params.clawback);
                                               }}>
                                                   {asset.params.clawback}
                                               </div>
