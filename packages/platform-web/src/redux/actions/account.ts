@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {
-    A_AccountInformation
+    A_AccountInformation, A_Asset
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
@@ -10,6 +10,7 @@ import algosdk from "../../utils/algosdk";
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
+    createdAssets: A_Asset[]
 }
 
 const information: A_AccountInformation = {
@@ -33,7 +34,8 @@ const information: A_AccountInformation = {
 
 const initialState: Account = {
     loggedIn: false,
-    information
+    information,
+    createdAssets: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -66,6 +68,11 @@ export const accountSlice = createSlice({
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
             state.loggedIn = true;
             state.information = action.payload;
+            let createdAssets = algosdk.algodesk.accountClient.getCreatedAssets(state.information);
+            createdAssets = createdAssets.sort((a, b) => {
+                return b.index - a.index;
+            });
+            state.createdAssets = createdAssets;
         })
     },
 });

@@ -66,7 +66,8 @@ export const connectWalletSlice = createSlice({
         },
         clearAccounts: (state) => {
             state.accounts = [];
-        }
+        },
+        resetConnectWallet: state => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(connect.fulfilled, (state, action: PayloadAction<any>) => {
@@ -77,5 +78,5 @@ export const connectWalletSlice = createSlice({
     },
 });
 
-export const { showConnectWallet, hideConnectWallet, clearAccounts, walletConnecting, walletConnected, setErrorMessage } = connectWalletSlice.actions
+export const { showConnectWallet, hideConnectWallet, clearAccounts, walletConnecting, walletConnected, setErrorMessage, resetConnectWallet } = connectWalletSlice.actions
 export default connectWalletSlice.reducer

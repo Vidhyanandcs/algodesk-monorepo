@@ -26,6 +26,17 @@ const useStyles = makeStyles((theme) => {
 });
 
 
+interface ConnectWalletState{
+    view: string,
+    selectedSigner: SupportedSigner
+}
+
+const signers = getSupportedSigners();
+const initialState: ConnectWalletState = {
+    view: "home",
+    selectedSigner: signers[0]
+};
+
 function ConnectWallet(): JSX.Element {
 
     const dispatch = useDispatch();
@@ -34,9 +45,14 @@ function ConnectWallet(): JSX.Element {
     const {accounts} = connectWallet;
 
     const classes = useStyles();
-    const signers = getSupportedSigners();
-    const [view, updateView] = useState<string>('home');
-    const [selectedSigner, updateSelectedSigner] = useState<SupportedSigner>(signers[0]);
+    const [
+        { view, selectedSigner },
+        setState
+    ] = useState(initialState);
+
+    const clearState = () => {
+        setState({ ...initialState });
+    };
 
     return (<div>
         {connectWallet.show ? <Dialog
@@ -51,14 +67,16 @@ function ConnectWallet(): JSX.Element {
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
                         {view === 'accounts' ? <IconButton color="default" onClick={() => {
-                            updateView('home');
+                            // updateView('home');
+                            setState(prevState => ({ ...prevState, view: 'home' }));
                         }}>
                             <ArrowBack />
                         </IconButton> : ''}
 
                     </div>
                     <IconButton color="default" onClick={() => {
-                        dispatch(hideConnectWallet())
+                        dispatch(hideConnectWallet());
+                        clearState();
                     }}>
                         <Close />
                     </IconButton>
@@ -84,8 +102,7 @@ function ConnectWallet(): JSX.Element {
                                                      key={signer.name}
                                                      onClick={() => {
                                                          dispatch(connect(signer));
-                                                         updateView('accounts');
-                                                         updateSelectedSigner(signer);
+                                                         setState(prevState => ({ ...prevState, view: 'accounts', selectedSigner: signer }));
                                                      }}
                                         >
                                             {signer.logo ? <img className="logo" src={signer.logo} alt="logo"/> : ''}
@@ -124,6 +141,7 @@ function ConnectWallet(): JSX.Element {
                                             const address = account.address;
                                             await dispatch(loadAccount(address));
                                             dispatch(hideConnectWallet());
+                                            clearState();
                                         }}>
                                             <Alert
                                                 severity="warning" icon={false}>

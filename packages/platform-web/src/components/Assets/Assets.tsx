@@ -56,8 +56,7 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
 function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
-    const {information} = account;
-    const createdAssets = algosdk.algodesk.accountClient.getCreatedAssets(information);
+    const {information, createdAssets} = account;
     const classes = useStyles();
 
   return (
