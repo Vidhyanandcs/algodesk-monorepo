@@ -1,13 +1,15 @@
 import './Assets.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button} from "@material-ui/core";
+import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button, MenuItem, Menu} from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {ArrowRightAlt, Add} from '@material-ui/icons';
+import {Add, Menu as MenuIcon} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
 import {getAmountInDecimals, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
 import algosdk from "../../utils/algosdk";
+import {useState} from "react";
+import {setSelectedAsset} from '../../redux/actions/account';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -53,23 +55,31 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
     </div>);
 }
 
+interface AssetsState{
+    menuAnchorEl?: any
+}
+
+const initialState: AssetsState = {
+
+};
+
 function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
     const {information, createdAssets} = account;
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const [
+        { menuAnchorEl },
+        setState
+    ] = useState(initialState);
 
   return (
       <div className="assets-wrapper">
           <div className="assets-container">
               <div className="title">
                   My Assets
-                  {/*<span className="add-asset">*/}
-                  {/*  <Fab color="primary" size={"small"} variant={"extended"} style={{paddingRight: 20}}>*/}
-                  {/*    <Add/>*/}
-                  {/*    Create*/}
-                  {/*  </Fab>*/}
-                  {/*</span>*/}
               </div>
               <Button
                   color="primary"
@@ -93,10 +103,11 @@ function Assets(): JSX.Element {
                                   <CardHeader
                                       action={
                                           <div>
-                                              <IconButton color={"primary"} onClick={() => {
-
+                                              <IconButton onClick={(ev) => {
+                                                  dispatch(setSelectedAsset(asset));
+                                                  setState(prevState => ({ ...prevState, menuAnchorEl: ev.currentTarget}));
                                               }}>
-                                                  <ArrowRightAlt />
+                                                  <MenuIcon />
                                               </IconButton>
                                           </div>
                                       }
@@ -147,6 +158,21 @@ function Assets(): JSX.Element {
                   </Grid>
               </div>
           </div>
+          <Menu
+              anchorEl={menuAnchorEl}
+              open={Boolean(menuAnchorEl)}
+              onClose={() => {
+                  setState(prevState => ({ ...prevState, menuAnchorEl: null }));
+              }}
+              PaperProps={{
+                  style: {
+                      transform: 'translateX(-80px) translateY(40px)',
+                  }
+              }}
+          >
+              <MenuItem>Send assets</MenuItem>
+              <MenuItem>Modify asset</MenuItem>
+          </Menu>
       </div>
   );
 }
