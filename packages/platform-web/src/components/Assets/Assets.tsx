@@ -9,7 +9,8 @@ import {getAmountInDecimals, openAccountInExplorer, openAssetInExplorer} from ".
 import {ellipseAddress} from "@algodesk/core";
 import algosdk from "../../utils/algosdk";
 import {useState} from "react";
-import {setSelectedAsset} from '../../redux/actions/account';
+import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
+import SendAssets from "../SendAssets/SendAssets";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -75,6 +76,10 @@ function Assets(): JSX.Element {
         setState
     ] = useState(initialState);
 
+    const closeMenu = () => {
+        setState(prevState => ({ ...prevState, menuAnchorEl: undefined }));
+    }
+
   return (
       <div className="assets-wrapper">
           <div className="assets-container">
@@ -104,8 +109,8 @@ function Assets(): JSX.Element {
                                       action={
                                           <div>
                                               <IconButton onClick={(ev) => {
+                                                  setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                   dispatch(setSelectedAsset(asset));
-                                                  setState(prevState => ({ ...prevState, menuAnchorEl: ev.currentTarget}));
                                               }}>
                                                   <MenuIcon />
                                               </IconButton>
@@ -162,7 +167,7 @@ function Assets(): JSX.Element {
               anchorEl={menuAnchorEl}
               open={Boolean(menuAnchorEl)}
               onClose={() => {
-                  setState(prevState => ({ ...prevState, menuAnchorEl: null }));
+                  closeMenu();
               }}
               PaperProps={{
                   style: {
@@ -170,9 +175,12 @@ function Assets(): JSX.Element {
                   }
               }}
           >
-              <MenuItem>Send assets</MenuItem>
-              <MenuItem>Modify asset</MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('send'));
+                  closeMenu();
+              }}>Send assets</MenuItem>
           </Menu>
+          <SendAssets></SendAssets>
       </div>
   );
 }

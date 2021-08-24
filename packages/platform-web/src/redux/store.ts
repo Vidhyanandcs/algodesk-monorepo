@@ -6,6 +6,7 @@ import networkReducer from "./actions/network";
 import loaderReducer from "./actions/loader";
 import signerReducer from "./actions/signer";
 import accountReducer from "./actions/account";
+import assetActionsReducer from "./actions/assetActions";
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
         network: networkReducer,
         loader: loaderReducer,
         signer: signerReducer,
-        account: accountReducer
+        account: accountReducer,
+        assetActions: assetActionsReducer
     },
 });
 

@@ -10,8 +10,7 @@ import algosdk from "../../utils/algosdk";
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
-    createdAssets: A_Asset[],
-    selectedAsset?: A_Asset
+    createdAssets: A_Asset[]
 }
 
 const information: A_AccountInformation = {
@@ -63,9 +62,6 @@ export const accountSlice = createSlice({
         logout: (state) => {
             state.loggedIn = false;
             state.information = information;
-        },
-        setSelectedAsset: (state, action: PayloadAction<A_Asset>) => {
-            state.selectedAsset = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -81,5 +77,5 @@ export const accountSlice = createSlice({
     },
 });
 
-export const { logout, setSelectedAsset } = accountSlice.actions
+export const { logout } = accountSlice.actions
 export default accountSlice.reducer
