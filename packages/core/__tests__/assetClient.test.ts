@@ -3,9 +3,9 @@
 import {
     Algodesk,
     encodeText,
-    T_CreateAssetParams,
-    T_FreezeAssetParams,
-    T_ModifyAssetParams,
+    A_CreateAssetParams,
+    A_FreezeAssetParams,
+    A_ModifyAssetParams,
     testnet,
     WalletSigner
 } from '../index';
@@ -26,18 +26,18 @@ const algodesk = new Algodesk(testnet, walletSigner);
 
 test('account client tests', async () => {
 
-    //const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
-    // const createdAssets = await algodesk.accountClient.getCreatedAssets("ZHKAFJY5CDRDZKLW72JJBMT277D2TFZZ6G6BNJA7FJICQY5EJRQ5L6VR5M");
-    // console.log(createdAssets.length);
-    //
-    // const holdingAssets = await algodesk.accountClient.getHoldingAssets("ZHKAFJY5CDRDZKLW72JJBMT277D2TFZZ6G6BNJA7FJICQY5EJRQ5L6VR5M");
-    // console.log(holdingAssets.length);
+    const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
+    const createdAssets = await algodesk.accountClient.getCreatedAssets(accountInfo);
+    console.log(createdAssets.length);
 
-    // const createdApps = await algodesk.accountClient.getCreatedApps("AFI6D2DTPCKN6GJPJ3ZGGW72ORTFCDOEMPW2ME6I4N53B4PJ7ZT3GMGFUI");
-    // console.log(createdApps);
+    const holdingAssets = await algodesk.accountClient.getHoldingAssets(accountInfo);
+    console.log(holdingAssets.length);
 
-    // const optedApps = await algodesk.accountClient.getOptedApps(accountInfo);
-    // console.log(optedApps);
+    const createdApps = await algodesk.accountClient.getCreatedApps(accountInfo);
+    console.log(createdApps);
+
+    const optedApps = await algodesk.accountClient.getOptedApps(accountInfo);
+    console.log(optedApps);
 
 });
 
@@ -70,7 +70,7 @@ test('payment client tests', async () => {
 
 test('asset client tests', async () => {
 
-    // const assetConfig: T_CreateAssetParams = {
+    // const assetConfig: A_CreateAssetParams = {
     //     creator: keys.addr,
     //     total: 100,
     //     decimals: 0,
@@ -88,7 +88,7 @@ test('asset client tests', async () => {
     // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
     // console.log(pendingTransactionInfo);
 
-    // const assetConfig1: T_ModifyAssetParams = {
+    // const assetConfig1: A_ModifyAssetParams = {
     //     assetIndex: 22480818,
     //     from: keys.addr,
     //     strictEmptyAddressChecking: false,
@@ -109,16 +109,16 @@ test('asset client tests', async () => {
     // const asset = await algodesk.assetClient.get(15992385);
     // console.log(asset.params.nameB64);
 
-    const frzConfig: T_FreezeAssetParams = {
-        from: keys.addr,
-        assetIndex: 16000210,
-        freezeAccount: "NXZMOAZWDLTELNSVULPQZQFBDZAVZ4TYEST6IMMOFONFZMPCMCPYVDWIFM",
-        freezeState: false
-    };
-
-    const {txId} = await algodesk.assetClient.freeze(frzConfig);
-    const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
-    console.log(pendingTransactionInfo);
+    // const frzConfig: A_FreezeAssetParams = {
+    //     from: keys.addr,
+    //     assetIndex: 16000210,
+    //     freezeAccount: "NXZMOAZWDLTELNSVULPQZQFBDZAVZ4TYEST6IMMOFONFZMPCMCPYVDWIFM",
+    //     freezeState: false
+    // };
+    //
+    // const {txId} = await algodesk.assetClient.freeze(frzConfig);
+    // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    // console.log(pendingTransactionInfo);
 });
 
 
