@@ -1,5 +1,6 @@
 import algosdk from "./algosdk";
 import {formatNumber} from 'accounting';
+import {A_AccountInformation, A_Asset} from "@algodesk/core";
 
 export function openAccountInExplorer(address: string = ""): void {
     if (address) {
@@ -19,4 +20,16 @@ export function getAmountInDecimals(amount: number, decimals: number) {
     return formatNumber(amount, {
         precision: decimals
     });
+}
+
+export function getAssetBalWithTicker(asset: A_Asset, information: A_AccountInformation): string {
+    return getAmountInDecimals(algosdk.algodesk.accountClient.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals), asset.params.decimals) + ' ' + asset.params['unit-name'];
+}
+
+export function isNumber(n: any) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+export function isPositive(n: number) {
+    return n >= 0;
 }

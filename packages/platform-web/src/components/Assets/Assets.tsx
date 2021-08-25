@@ -5,9 +5,8 @@ import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button, Men
 import {Alert} from '@material-ui/lab';
 import {Add, Menu as MenuIcon} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
-import {getAmountInDecimals, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
+import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
-import algosdk from "../../utils/algosdk";
 import {useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
@@ -141,7 +140,7 @@ function Assets(): JSX.Element {
                                               <div className="params">
                                                   <div className="param">
                                                       <div className="key">Balance</div>
-                                                      <div className="value">{getAmountInDecimals(algosdk.algodesk.accountClient.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals), asset.params.decimals)} {asset.params['unit-name']}</div>
+                                                      <div className="value">{getAssetBalWithTicker(asset, information)}</div>
                                                   </div>
                                                   <div className="param">
                                                       <div className="key">Url</div>

@@ -20,4 +20,4 @@ class AlgoSdk {
     }
 }
 
-export default new AlgoSdk(NETWORKS.MAINNET, SIGNERS.MY_ALGO_WALLET);
+export default new AlgoSdk(NETWORKS.MAINNET, SIGNERS.ALGO_SIGNER);
