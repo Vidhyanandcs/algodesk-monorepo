@@ -18,6 +18,11 @@ class AlgoSdk {
         this.explorer = getExplorer(network);
         this.algodesk = new Algodesk(this.network, this.signer);
     }
+
+    changeSigner(signer: string): void {
+        this.signer = getSigner(signer);
+        this.algodesk = new Algodesk(this.network, this.signer);
+    }
 }
 
-export default new AlgoSdk(NETWORKS.MAINNET, SIGNERS.ALGO_SIGNER);
+export default new AlgoSdk(NETWORKS.MAINNET, SIGNERS.MY_ALGO_WALLET);

@@ -1,6 +1,6 @@
 import {Signer, SignerAccount} from "../types";
 import {Transaction} from "algosdk";
-import MyAlgoConnect, {Accounts} from '@randlabs/myalgo-connect';
+import MyAlgoConnect, {Accounts, AlgorandTxn} from '@randlabs/myalgo-connect';
 
 
 export class MyAlgoWalletSigner implements Signer{
@@ -11,15 +11,15 @@ export class MyAlgoWalletSigner implements Signer{
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
-        const encodedTransactionObj = unsignedTxn.toString();
-        const signedTxn = await this.myAlgoConnect.signTransaction(encodedTransactionObj);
+        const byteTxn = unsignedTxn.toByte();
+        const signedTxn = await this.myAlgoConnect.signTransaction(byteTxn);
         return signedTxn.blob;
     }
 
     async signGroupTxns(unsignedTxns: Transaction[]): Promise<Uint8Array[]> {
         const encodedTransactionObjs = [];
         unsignedTxns.forEach((unsignedTxn) => {
-            encodedTransactionObjs.push(unsignedTxn.toString());
+            encodedTransactionObjs.push(unsignedTxn.toByte());
         });
 
         const blobs = [];

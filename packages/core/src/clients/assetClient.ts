@@ -4,6 +4,7 @@ import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {Signer, A_FreezeAssetParams, A_CreateAssetParams, A_ModifyAssetParams, A_SendTxnResponse} from "../types";
 import {Asset, AssetParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import {AlgorandTxn} from "@randlabs/myalgo-connect";
 
 export class AssetClient{
     client: Algodv2;

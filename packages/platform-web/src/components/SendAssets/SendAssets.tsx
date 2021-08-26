@@ -68,7 +68,7 @@ function SendAssets(): JSX.Element {
             }));
             return;
         }
-        if (!amount || !isNumber(amount)) {
+        if (amount === undefined || amount === null || !isNumber(amount)) {
             dispatch(showSnack({
                 severity: 'error',
                 message: 'Invalid amount'
