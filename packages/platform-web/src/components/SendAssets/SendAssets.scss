@@ -5,12 +5,10 @@
     .asset-details {
       font-weight: bold;
       font-size: 18px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid $color-grey-light;
       margin-bottom: 10px;
-      text-align: center;
       .name {
         margin-bottom: 5px;
+        font-size: 20px;
       }
       .bal {
         color: $color-grey-dark;

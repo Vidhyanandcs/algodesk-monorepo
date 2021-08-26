@@ -151,6 +151,10 @@ function Assets(): JSX.Element {
                                                           className={classes.primaryText}
                                                       >{asset.params.url}</a> : '(None)'}</div>
                                                   </div>
+                                                  <div className="param">
+                                                      <div className="key">Decimals</div>
+                                                      <div className="value">{asset.params.decimals}</div>
+                                                  </div>
                                               </div>
                                           </Grid>
                                       </Grid>

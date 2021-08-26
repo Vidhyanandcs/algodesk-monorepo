@@ -24,7 +24,7 @@ class WalletConnectSigner {
             };
             requestTxns.push(requestTxn);
         });
-        const jsonReq = utils_1.formatJsonRpcRequest("algo_signTxn", requestTxns);
+        const jsonReq = utils_1.formatJsonRpcRequest("algo_signTxn", [requestTxns]);
         const signedTxns = await this.connection.sendCustomRequest(jsonReq);
         return signedTxns;
     }

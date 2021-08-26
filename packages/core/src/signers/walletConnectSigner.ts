@@ -27,7 +27,7 @@ export class WalletConnectSigner implements Signer{
             requestTxns.push(requestTxn);
         });
 
-        const jsonReq = formatJsonRpcRequest("algo_signTxn", requestTxns);
+        const jsonReq = formatJsonRpcRequest("algo_signTxn", [requestTxns]);
         const signedTxns = await this.connection.sendCustomRequest(jsonReq);
 
         return signedTxns;
