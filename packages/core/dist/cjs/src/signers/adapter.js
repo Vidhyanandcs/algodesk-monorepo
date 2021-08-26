@@ -7,23 +7,28 @@ const algoSigner_1 = require("./algoSigner");
 const logicSigner_1 = require("./logicSigner");
 const myAlgoWalletSigner_1 = require("./myAlgoWalletSigner");
 const walletConnectSigner_1 = require("./walletConnectSigner");
+const ws = new walletSigner_1.WalletSigner();
+const as = new algoSigner_1.BrowserAlgoSigner();
+const ls = new logicSigner_1.LogicSigner();
+const maws = new myAlgoWalletSigner_1.MyAlgoWalletSigner();
+const wcs = new walletConnectSigner_1.WalletConnectSigner();
 function getSigner(name) {
     if (name == constants_1.SIGNERS.WALLET) {
-        return new walletSigner_1.WalletSigner();
+        return ws;
     }
     else if (name == constants_1.SIGNERS.ALGO_SIGNER) {
-        return new algoSigner_1.BrowserAlgoSigner();
+        return as;
     }
     else if (name == constants_1.SIGNERS.LOGIC_SIG) {
-        return new logicSigner_1.LogicSigner();
+        return ls;
     }
     else if (name == constants_1.SIGNERS.MY_ALGO_WALLET) {
-        return new myAlgoWalletSigner_1.MyAlgoWalletSigner();
+        return maws;
     }
     else if (name == constants_1.SIGNERS.WALLET_CONNECT) {
-        return new walletConnectSigner_1.WalletConnectSigner();
+        return wcs;
     }
-    return new walletSigner_1.WalletSigner();
+    return ws;
 }
 exports.getSigner = getSigner;
 function getSupportedSigners() {

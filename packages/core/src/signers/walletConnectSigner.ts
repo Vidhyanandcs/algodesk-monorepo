@@ -1,45 +1,45 @@
 import {Signer, SignerAccount} from "../types";
-import {Transaction} from "algosdk";
-import MyAlgoConnect from '@randlabs/myalgo-connect';
+import {Transaction, encodeUnsignedTransaction} from "algosdk";
 import WalletConnect from "walletconnect";
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal';
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 
 
 export class WalletConnectSigner implements Signer{
-    private readonly myAlgoConnect: MyAlgoConnect;
     public bridge: string = "https://bridge.walletconnect.org";
+    public connection;
 
     constructor() {
-        this.myAlgoConnect = new MyAlgoConnect();
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
-        const encodedTransactionObj = unsignedTxn.toString();
-        const signedTxn = await this.myAlgoConnect.signTransaction(encodedTransactionObj);
-        return signedTxn.blob;
+        const signedTxns = await this.signGroupTxns([unsignedTxn]);
+        return signedTxns[0];
     }
 
     async signGroupTxns(unsignedTxns: Transaction[]): Promise<Uint8Array[]> {
-        const encodedTransactionObjs = [];
+        const requestTxns = [];
+
         unsignedTxns.forEach((unsignedTxn) => {
-            encodedTransactionObjs.push(unsignedTxn.toString());
+            const requestTxn = {
+                txn: Buffer.from(encodeUnsignedTransaction(unsignedTxn)).toString("base64")
+            };
+            requestTxns.push(requestTxn);
         });
 
-        const blobs = [];
-        const signedTxns = await this.myAlgoConnect.signTransaction(encodedTransactionObjs);
-        signedTxns.forEach((signedTxn) => {
-            blobs.push(signedTxn.blob);
-        });
+        const jsonReq = formatJsonRpcRequest("algo_signTxn", requestTxns);
+        const signedTxns = await this.connection.sendCustomRequest(jsonReq);
 
-        return blobs;
+        return signedTxns;
     }
 
     async connect(name: string): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
             const signerAccounts: SignerAccount[] = [];
 
-            const connector = new WalletConnect({ bridge: this.bridge, qrcodeModal: QRCodeModal });
-            const connection = await connector.connect();
+            const wc = new WalletConnect({ bridge: this.bridge, qrcodeModal: QRCodeModal });
+            const connection = await wc.connect();
+            this.connection = connection;
             const {accounts} = connection;
 
             accounts.forEach((account) => {

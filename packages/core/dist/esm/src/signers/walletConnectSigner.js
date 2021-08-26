@@ -1,33 +1,33 @@
-import MyAlgoConnect from '@randlabs/myalgo-connect';
+import { encodeUnsignedTransaction } from "algosdk";
 import WalletConnect from "walletconnect";
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal';
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 export class WalletConnectSigner {
     constructor() {
         this.bridge = "https://bridge.walletconnect.org";
-        this.myAlgoConnect = new MyAlgoConnect();
     }
     async signTxn(unsignedTxn) {
-        const encodedTransactionObj = unsignedTxn.toString();
-        const signedTxn = await this.myAlgoConnect.signTransaction(encodedTransactionObj);
-        return signedTxn.blob;
+        const signedTxns = await this.signGroupTxns([unsignedTxn]);
+        return signedTxns[0];
     }
     async signGroupTxns(unsignedTxns) {
-        const encodedTransactionObjs = [];
+        const requestTxns = [];
         unsignedTxns.forEach((unsignedTxn) => {
-            encodedTransactionObjs.push(unsignedTxn.toString());
+            const requestTxn = {
+                txn: Buffer.from(encodeUnsignedTransaction(unsignedTxn)).toString("base64")
+            };
+            requestTxns.push(requestTxn);
         });
-        const blobs = [];
-        const signedTxns = await this.myAlgoConnect.signTransaction(encodedTransactionObjs);
-        signedTxns.forEach((signedTxn) => {
-            blobs.push(signedTxn.blob);
-        });
-        return blobs;
+        const jsonReq = formatJsonRpcRequest("algo_signTxn", requestTxns);
+        const signedTxns = await this.connection.sendCustomRequest(jsonReq);
+        return signedTxns;
     }
     async connect(name) {
         if (this.isInstalled()) {
             const signerAccounts = [];
-            const connector = new WalletConnect({ bridge: this.bridge, qrcodeModal: QRCodeModal });
-            const connection = await connector.connect();
+            const wc = new WalletConnect({ bridge: this.bridge, qrcodeModal: QRCodeModal });
+            const connection = await wc.connect();
+            this.connection = connection;
             const { accounts } = connection;
             accounts.forEach((account) => {
                 signerAccounts.push({

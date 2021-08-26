@@ -6,24 +6,30 @@ import {LogicSigner} from "./logicSigner";
 import {MyAlgoWalletSigner} from "./myAlgoWalletSigner";
 import {WalletConnectSigner} from "./walletConnectSigner";
 
+const ws = new WalletSigner();
+const as = new BrowserAlgoSigner();
+const ls = new LogicSigner();
+const maws = new MyAlgoWalletSigner();
+const wcs = new WalletConnectSigner();
+
 export function getSigner(name: string): Signer{
     if (name == SIGNERS.WALLET) {
-        return new WalletSigner();
+        return ws;
     }
     else if (name == SIGNERS.ALGO_SIGNER) {
-        return new BrowserAlgoSigner();
+        return as;
     }
     else if (name == SIGNERS.LOGIC_SIG) {
-        return new LogicSigner();
+        return ls;
     }
     else if (name == SIGNERS.MY_ALGO_WALLET) {
-        return new MyAlgoWalletSigner();
+        return maws;
     }
     else if (name == SIGNERS.WALLET_CONNECT) {
-        return new WalletConnectSigner();
+        return wcs;
     }
 
-    return new WalletSigner();
+    return ws;
 }
 
 export interface SupportedSigner {
