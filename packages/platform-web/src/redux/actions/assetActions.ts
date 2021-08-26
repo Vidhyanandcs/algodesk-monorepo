@@ -12,7 +12,7 @@ const initialState: AssetActions = {
 }
 
 export const assetActionsSlice = createSlice({
-    name: 'loader',
+    name: 'assetActions',
     initialState,
     reducers: {
         setAction: (state, action: PayloadAction<string> ) => {

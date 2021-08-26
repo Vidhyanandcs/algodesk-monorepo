@@ -16,14 +16,18 @@ export function openAssetInExplorer(assetId: number): void {
     }
 }
 
-export function getAmountInDecimals(amount: number, decimals: number) {
-    return formatNumber(amount, {
+export function formatNumWithDecimals(num: number, decimals: number): string {
+    return formatNumber(num, {
         precision: decimals
     });
 }
 
+export function getAssetBal(asset: A_Asset, information: A_AccountInformation): number {
+    return algosdk.algodesk.accountClient.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals);
+}
+
 export function getAssetBalWithTicker(asset: A_Asset, information: A_AccountInformation): string {
-    return getAmountInDecimals(algosdk.algodesk.accountClient.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals), asset.params.decimals) + ' ' + asset.params['unit-name'];
+    return formatNumWithDecimals(getAssetBal(asset, information), asset.params.decimals) + ' ' + asset.params['unit-name'];
 }
 
 export function isNumber(n: any) {

@@ -14,8 +14,7 @@ import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
-import {Alert} from '@material-ui/lab';
-import {getAssetBalWithTicker, isNumber} from "../../utils/core";
+import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
@@ -33,10 +32,12 @@ const useStyles = makeStyles((theme) => {
 
 
 interface SendAssetState{
-
+    to: string,
+    amount: number
 }
 const initialState: SendAssetState = {
-
+    to: '',
+    amount: 0
 };
 
 function SendAssets(): JSX.Element {
@@ -51,21 +52,15 @@ function SendAssets(): JSX.Element {
 
     const classes = useStyles();
     const [
-        {},
+        {to, amount},
         setState
     ] = useState(initialState);
 
     const clearState = () => {
         setState({ ...initialState });
     };
-    
-    const toRef: React.RefObject<any> = React.createRef();
-    const amountRef: React.RefObject<any> = React.createRef();
 
     async function send() {
-        const to = toRef.current.value;
-        const amount = amountRef.current.value;
-
         if (!to || !sdk.isValidAddress(to)) {
             dispatch(showSnack({
                 severity: 'error',
@@ -88,6 +83,7 @@ function SendAssets(): JSX.Element {
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
+            clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
             dispatch(showSnack({
@@ -113,7 +109,7 @@ function SendAssets(): JSX.Element {
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        Send assets
+
                     </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(setAction(''));
@@ -129,40 +125,49 @@ function SendAssets(): JSX.Element {
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Alert color={"info"} icon={false}>
-                                    <div className="asset-name">
-                                        <div>
-                                            Asset: {selectedAsset.params.name}
-                                        </div>
-                                        <div>
-                                            Bal: {getAssetBalWithTicker(selectedAsset, information)}
-                                        </div>
+                                <div className="asset-details">
+                                    <div className="name">
+                                        {selectedAsset.params.name}
                                     </div>
-                                </Alert>
+                                    <div className="bal">
+                                        Balance: {getAssetBalWithTicker(selectedAsset, information)}
+                                    </div>
+                                </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField 
-                                    inputRef={toRef}
+                                    value={to}
+                                    onChange={(ev) => {
+                                        setState(prevState => ({...prevState, to: ev.target.value}));
+                                    }}
                                     label="To" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField label="Amount" variant="outlined"
                                            fullWidth
-                                           inputRef={amountRef}
+                                           value={amount}
+                                           onChange={(ev) => {
+                                               if (isNumber(ev.target.value)) {
+                                                   setState(prevState => ({...prevState, amount: parseInt(ev.target.value)}));
+                                               }
+                                           }}
                                            InputProps={{
-                                               endAdornment: <InputAdornment position="end" color="primary"><Button>Max</Button></InputAdornment>,
+                                               endAdornment: <InputAdornment position="end" color="primary"><Button onClick={() => {
+                                                   const totalBalance = getAssetBal(selectedAsset, information);
+                                                   setState(prevState => ({...prevState, amount: totalBalance}));
+                                               }
+                                               }>Max</Button></InputAdornment>,
                                            }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Button color={"primary"}
                                         style={{marginTop: 15}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={send}>Send</Button>
+                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                            send();
+                                }}>Send</Button>
                             </Grid>
                         </Grid>
-
-
-
                     </div>
                 </div>
             </DialogContent>
