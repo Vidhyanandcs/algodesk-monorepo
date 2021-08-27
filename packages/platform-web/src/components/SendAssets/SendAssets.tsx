@@ -33,11 +33,13 @@ const useStyles = makeStyles((theme) => {
 
 interface SendAssetState{
     to: string,
-    amount: number
+    amount: number,
+    note: string
 }
 const initialState: SendAssetState = {
     to: '',
-    amount: 0
+    amount: 0,
+    note: ''
 };
 
 function SendAssets(): JSX.Element {
@@ -52,7 +54,7 @@ function SendAssets(): JSX.Element {
 
     const classes = useStyles();
     const [
-        {to, amount},
+        {to, amount, note},
         setState
     ] = useState(initialState);
 
@@ -78,7 +80,7 @@ function SendAssets(): JSX.Element {
 
         try {
             dispatch(showLoader('Sending ...'));
-            const {txId} = await algosdk.algodesk.assetClient.transfer(information.address, to, selectedAsset.index, amount);
+            const {txId} = await algosdk.algodesk.assetClient.transfer(information.address, to, selectedAsset.index, amount, note);
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
@@ -135,16 +137,18 @@ function SendAssets(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <TextField 
+                                <TextField
+                                    required
                                     value={to}
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, to: ev.target.value}));
                                     }}
-                                    label="To" variant="outlined" rows={3} fullWidth multiline/>
+                                    label="To" variant="outlined" rows={2} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField label="Amount" variant="outlined"
                                            fullWidth
+                                           required
                                            value={amount}
                                            onChange={(ev) => {
                                                if (isNumber(ev.target.value)) {
@@ -159,6 +163,14 @@ function SendAssets(): JSX.Element {
                                                }>Max</Button></InputAdornment>,
                                            }}
                                 />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <TextField
+                                    value={note}
+                                    onChange={(ev) => {
+                                        setState(prevState => ({...prevState, note: ev.target.value}));
+                                    }}
+                                    label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Button color={"primary"}
