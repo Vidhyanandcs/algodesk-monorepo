@@ -1,8 +1,10 @@
+import { NETWORKS } from "../constants";
 export class WalletSigner {
     constructor(wallet) {
         if (wallet) {
             this.setWallet(wallet);
         }
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
     setWallet(wallet) {
         this.wallet = wallet;

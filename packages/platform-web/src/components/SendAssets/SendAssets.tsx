@@ -14,7 +14,7 @@ import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
-import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
+import {getAssetBal, getAssetBalWithTicker, getNumberInputValue, isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
@@ -90,7 +90,7 @@ function SendAssets(): JSX.Element {
             dispatch(loadAccount(information.address));
             dispatch(showSnack({
                 severity: 'success',
-                message: 'Sent successfully'
+                message: 'Assets sent successfully'
             }));
         }
         catch (e) {
@@ -151,8 +151,9 @@ function SendAssets(): JSX.Element {
                                            required
                                            value={amount}
                                            onChange={(ev) => {
-                                               if (isNumber(ev.target.value)) {
-                                                   setState(prevState => ({...prevState, amount: parseInt(ev.target.value)}));
+                                               const value = getNumberInputValue(ev.target.value);
+                                               if (value !== undefined) {
+                                                   setState(prevState => ({...prevState, amount: value}));
                                                }
                                            }}
                                            InputProps={{

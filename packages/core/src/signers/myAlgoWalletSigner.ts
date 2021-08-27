@@ -1,13 +1,16 @@
 import {Signer, SignerAccount} from "../types";
 import {Transaction} from "algosdk";
 import MyAlgoConnect, {Accounts, AlgorandTxn} from '@randlabs/myalgo-connect';
+import {NETWORKS} from "../constants";
 
 
 export class MyAlgoWalletSigner implements Signer{
     private readonly myAlgoConnect: MyAlgoConnect;
+    private supportedNetworks: string[];
 
     constructor() {
         this.myAlgoConnect = new MyAlgoConnect();
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
@@ -33,27 +36,34 @@ export class MyAlgoWalletSigner implements Signer{
 
     async connect(name: string): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
-            const accounts: SignerAccount[] = [];
-            const wallets = await this.myAlgoConnect.connect();
-            if (wallets) {
-                wallets.forEach((wallet) => {
-                    accounts.push({
-                        address: wallet.address,
-                        name: wallet.name
+            if (this.isNetworkSupported(name)) {
+                const accounts: SignerAccount[] = [];
+                const wallets = await this.myAlgoConnect.connect();
+                if (wallets) {
+                    wallets.forEach((wallet) => {
+                        accounts.push({
+                            address: wallet.address,
+                            name: wallet.name
+                        });
                     });
-                });
-            }
+                }
 
-            return accounts;
+                return accounts;
+            }
+            else {
+                throw new Error(name + " is not supported by MyAlgo Wallet");
+            }
         }
         else {
-            throw {
-                message: "MyAlgo Wallet is not installed"
-            };
+            throw new Error("MyAlgo Wallet is not installed");
         }
     }
 
     isInstalled(): boolean {
         return true;
+    }
+
+    isNetworkSupported(name: string): boolean {
+        return this.supportedNetworks.indexOf(name) !== -1;
     }
 }

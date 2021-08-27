@@ -37,3 +37,14 @@ export function isNumber(n: any) {
 export function isPositive(n: number) {
     return n >= 0;
 }
+
+export function getNumberInputValue(value: string): number {
+    if (isNumber(value)) {
+        return parseInt(value);
+    }
+    else {
+        if (!value) {
+            return 0;
+        }
+    }
+}

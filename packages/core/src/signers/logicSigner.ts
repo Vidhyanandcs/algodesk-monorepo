@@ -1,10 +1,13 @@
 import {Signer} from "../types";
 import * as sdk from "algosdk";
+import {NETWORKS} from "../constants";
 
 export class LogicSigner implements Signer{
 
-    constructor() {
+    private supportedNetworks: string[];
 
+    constructor() {
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
 
     async signTxnByLogic(unsignedTxn, logic: string): Promise<Uint8Array> {

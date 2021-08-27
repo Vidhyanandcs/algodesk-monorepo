@@ -21,8 +21,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogicSigner = void 0;
 const sdk = __importStar(require("algosdk"));
+const constants_1 = require("../constants");
 class LogicSigner {
     constructor() {
+        this.supportedNetworks = [constants_1.NETWORKS.BETANET, constants_1.NETWORKS.TESTNET, constants_1.NETWORKS.MAINNET];
     }
     async signTxnByLogic(unsignedTxn, logic) {
         const logicSig = sdk.makeLogicSig(new Uint8Array(Buffer.from(logic, "base64")));

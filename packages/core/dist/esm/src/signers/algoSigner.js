@@ -1,6 +1,7 @@
 import { ALGO_SIGNER_NET, NETWORKS } from "../constants";
 export class BrowserAlgoSigner {
     constructor() {
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
     async signTxn(unsignedTxn) {
         const byteTxn = unsignedTxn.toByte();
@@ -37,6 +38,9 @@ export class BrowserAlgoSigner {
         // @ts-ignore
         return typeof AlgoSigner !== 'undefined';
     }
+    isNetworkSupported(name) {
+        return this.supportedNetworks.indexOf(name) !== -1;
+    }
     getAlgoSignerNet(name) {
         if (name == NETWORKS.MAINNET) {
             return ALGO_SIGNER_NET.MAINNET;
@@ -50,27 +54,30 @@ export class BrowserAlgoSigner {
     }
     async connect(name) {
         if (this.isInstalled()) {
-            const accounts = [];
-            // @ts-ignore
-            const connection = await AlgoSigner.connect();
-            // @ts-ignore
-            const wallets = await AlgoSigner.accounts({
-                ledger: this.getAlgoSignerNet(name)
-            });
-            if (wallets) {
-                wallets.forEach((wallet) => {
-                    accounts.push({
-                        address: wallet.address,
-                        name: wallet.name
-                    });
+            if (this.isNetworkSupported(name)) {
+                const accounts = [];
+                // @ts-ignore
+                const connection = await AlgoSigner.connect();
+                // @ts-ignore
+                const wallets = await AlgoSigner.accounts({
+                    ledger: this.getAlgoSignerNet(name)
                 });
+                if (wallets) {
+                    wallets.forEach((wallet) => {
+                        accounts.push({
+                            address: wallet.address,
+                            name: wallet.name
+                        });
+                    });
+                }
+                return accounts;
             }
-            return accounts;
+            else {
+                throw new Error(name + " is not supported by AlgoSigner");
+            }
         }
         else {
-            throw {
-                message: "Algosigner is not installed"
-            };
+            throw new Error("Algosigner is not installed");
         }
     }
 }

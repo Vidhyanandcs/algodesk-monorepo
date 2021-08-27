@@ -9,6 +9,7 @@ export interface Signer {
     signTxnByLogic?(unsignedTxn: any, logic: string): Promise<Uint8Array>;
     isInstalled(): boolean;
     connect?(name: string): Promise<SignerAccount[]>;
+    isNetworkSupported?(name: string): boolean;
 }
 export declare type A_SendTxnResponse = {
     txId: string;

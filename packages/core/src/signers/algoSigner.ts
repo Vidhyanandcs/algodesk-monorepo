@@ -3,9 +3,10 @@ import {Transaction} from "algosdk";
 import {ALGO_SIGNER_NET, NETWORKS} from "../constants";
 
 export class BrowserAlgoSigner implements Signer{
+    private supportedNetworks: string[];
 
     constructor() {
-
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
@@ -53,6 +54,10 @@ export class BrowserAlgoSigner implements Signer{
         return typeof AlgoSigner !== 'undefined';
     }
 
+    isNetworkSupported(name: string): boolean {
+        return this.supportedNetworks.indexOf(name) !== -1;
+    }
+
     getAlgoSignerNet(name: string): string {
         if (name == NETWORKS.MAINNET) {
             return ALGO_SIGNER_NET.MAINNET
@@ -67,29 +72,32 @@ export class BrowserAlgoSigner implements Signer{
 
     async connect(name: string): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
-            const accounts: SignerAccount[] = [];
-            // @ts-ignore
-            const connection = await AlgoSigner.connect();
-            // @ts-ignore
-            const wallets = await AlgoSigner.accounts({
-                ledger: this.getAlgoSignerNet(name)
-            });
-
-            if (wallets) {
-                wallets.forEach((wallet) => {
-                    accounts.push({
-                        address: wallet.address,
-                        name: wallet.name
-                    });
+            if (this.isNetworkSupported(name)) {
+                const accounts: SignerAccount[] = [];
+                // @ts-ignore
+                const connection = await AlgoSigner.connect();
+                // @ts-ignore
+                const wallets = await AlgoSigner.accounts({
+                    ledger: this.getAlgoSignerNet(name)
                 });
-            }
 
-            return accounts;
+                if (wallets) {
+                    wallets.forEach((wallet) => {
+                        accounts.push({
+                            address: wallet.address,
+                            name: wallet.name
+                        });
+                    });
+                }
+
+                return accounts;
+            }
+            else {
+                throw new Error(name + " is not supported by AlgoSigner");
+            }
         }
         else {
-            throw {
-                message: "Algosigner is not installed"
-            };
+            throw new Error("Algosigner is not installed");
         }
     }
 }

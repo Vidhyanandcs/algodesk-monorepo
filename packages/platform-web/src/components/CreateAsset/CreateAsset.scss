@@ -1,0 +1,17 @@
+@import '../../assets/colors';
+
+.create-asset-wrapper {
+  .create-asset-container {
+    .heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .asset-manage-field {
+      textarea {
+        color: $color-grey-dark;
+        font-size: 13px;
+      }
+    }
+  }
+}

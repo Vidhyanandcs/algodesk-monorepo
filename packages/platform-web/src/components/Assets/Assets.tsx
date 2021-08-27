@@ -10,6 +10,7 @@ import {ellipseAddress} from "@algodesk/core";
 import {useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
+import CreateAsset from "../CreateAsset/CreateAsset";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -89,6 +90,9 @@ function Assets(): JSX.Element {
                   color="primary"
                   startIcon={<Add></Add>}
                   variant={"contained"}
+                  onClick={() => {
+                      dispatch(setAction('create'));
+                  }}
                   size={"large"}>
                   Create asset
               </Button>
@@ -184,6 +188,7 @@ function Assets(): JSX.Element {
               }}>Send assets</MenuItem>
           </Menu>
           <SendAssets></SendAssets>
+          <CreateAsset></CreateAsset>
       </div>
   );
 }

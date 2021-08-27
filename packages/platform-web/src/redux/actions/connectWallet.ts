@@ -29,7 +29,6 @@ export const connect = createAsyncThunk(
             dispatch(clearAccounts());
             dispatch(setSigner(signer.name));
             algosdk.changeSigner(signer.name);
-            console.log(signer.instance);
             // @ts-ignore
             const accounts = await signer.instance.connect(network.name);
             if (accounts.length === 1) {

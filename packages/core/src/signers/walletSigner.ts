@@ -1,13 +1,16 @@
 import {Signer} from "../types";
 import {Account, Transaction} from "algosdk";
+import {NETWORKS} from "../constants";
 
 export class WalletSigner implements Signer{
     private wallet: Account;
+    private supportedNetworks: string[];
 
     constructor(wallet?: Account) {
         if (wallet) {
             this.setWallet(wallet);
         }
+        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
 
     setWallet(wallet: Account): void {
