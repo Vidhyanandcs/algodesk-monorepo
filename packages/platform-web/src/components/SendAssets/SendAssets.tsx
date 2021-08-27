@@ -143,7 +143,8 @@ function SendAssets(): JSX.Element {
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, to: ev.target.value}));
                                     }}
-                                    label="To" variant="outlined" rows={2} fullWidth multiline/>
+                                    className="address-field"
+                                    label="To address" variant="outlined" rows={2} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField label="Amount" variant="outlined"

@@ -21,3 +21,10 @@ body {
 * {
   font-family: "SourceSansPro" !important;
 }
+
+.address-field {
+  textarea {
+    color: $color-grey-dark;
+    font-size: 13px;
+  }
+}

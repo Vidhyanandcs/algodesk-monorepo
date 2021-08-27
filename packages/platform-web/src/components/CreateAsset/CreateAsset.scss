@@ -8,10 +8,19 @@
       margin-bottom: 5px;
     }
     .asset-manage-field {
-      textarea {
-        color: $color-grey-dark;
-        font-size: 13px;
+      .Mui-disabled {
+        background: $color-grey-very-light;
+        &:hover {
+          cursor: not-allowed;
+        }
       }
+    }
+    .enable-switch {
+
+    }
+    .custom-tooltip {
+      margin-top: -10px;
+      float: right;
     }
   }
 }
