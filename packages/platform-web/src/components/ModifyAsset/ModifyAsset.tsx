@@ -130,7 +130,7 @@ function ModifyAsset(): JSX.Element {
                 clawback: clawback ? clawback : undefined,
                 strictEmptyAddressChecking: strictEmptyAddressChecking
             };
-            
+
             dispatch(showLoader('Modifying asset ...'));
             const {txId} = await algosdk.algodesk.assetClient.modify(assetParams, note ? note : undefined);
             dispatch(hideLoader());
@@ -170,7 +170,7 @@ function ModifyAsset(): JSX.Element {
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        Modify asset
+                        
                     </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(setAction(''));

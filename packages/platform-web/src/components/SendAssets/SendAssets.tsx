@@ -111,7 +111,7 @@ function SendAssets(): JSX.Element {
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        Send assets
+
                     </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(setAction(''));

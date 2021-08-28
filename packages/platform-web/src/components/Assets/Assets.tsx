@@ -12,6 +12,7 @@ import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
 import CreateAsset from "../CreateAsset/CreateAsset";
 import ModifyAsset from "../ModifyAsset/ModifyAsset";
+import DeleteAsset from "../DeleteAsset/DeleteAsset";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -191,10 +192,15 @@ function Assets(): JSX.Element {
                   dispatch(setAction('modify'));
                   closeMenu();
               }}>Modify asset</MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('delete'));
+                  closeMenu();
+              }}>Delete asset</MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
           <ModifyAsset></ModifyAsset>
+          <DeleteAsset></DeleteAsset>
       </div>
   );
 }
