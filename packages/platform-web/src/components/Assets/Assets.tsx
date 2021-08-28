@@ -13,6 +13,7 @@ import SendAssets from "../SendAssets/SendAssets";
 import CreateAsset from "../CreateAsset/CreateAsset";
 import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
+import FreezeAccount from "../FreezeAssets/FreezeAccount";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -196,11 +197,16 @@ function Assets(): JSX.Element {
                   dispatch(setAction('delete'));
                   closeMenu();
               }}>Delete asset</MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('freeze'));
+                  closeMenu();
+              }}>Freeze / Unfreeze</MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
           <ModifyAsset></ModifyAsset>
           <DeleteAsset></DeleteAsset>
+          <FreezeAccount></FreezeAccount>
       </div>
   );
 }
