@@ -19,6 +19,7 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
 import {CustomTooltip} from '../../utils/theme';
+import sdk from 'algosdk';
 
 interface CreateAssetState extends A_CreateAssetParams {
     note: string,
@@ -85,7 +86,7 @@ function CreateAsset(): JSX.Element {
         });
     };
 
-    function validate(name: string, unitName: string, total: number | bigint, decimals: number): void {
+    function validate(name: string, unitName: string, total: number | bigint, decimals: number, manager: string, reserve: string, freeze: string, clawback: string): void {
         let message = '';
 
         if (!name) {
@@ -106,6 +107,18 @@ function CreateAsset(): JSX.Element {
         else if (decimals === undefined || decimals === null || !isNumber(decimals)) {
             message = 'Invalid decimals';
         }
+        else if(manager && !sdk.isValidAddress(manager)) {
+            message = 'Invalid manager address';
+        }
+        else if(reserve && !sdk.isValidAddress(reserve)) {
+            message = 'Invalid reserve address';
+        }
+        else if(freeze && !sdk.isValidAddress(freeze)) {
+            message = 'Invalid freeze address';
+        }
+        else if(clawback && !sdk.isValidAddress(clawback)) {
+            message = 'Invalid clawback address';
+        }
 
         if (message) {
             throw new Error(message);
@@ -114,7 +127,7 @@ function CreateAsset(): JSX.Element {
 
     async function create() {
         try {
-            validate(name, unitName, total, decimals);
+            validate(name, unitName, total, decimals, manager, reserve, freeze, clawback);
         }
         catch (e) {
             dispatch(showSnack({
@@ -139,9 +152,8 @@ function CreateAsset(): JSX.Element {
                 unitName
             };
 
-            console.log(assetParams);
             dispatch(showLoader('Creating asset ...'));
-            const {txId} = await algosdk.algodesk.assetClient.create(assetParams);
+            const {txId} = await algosdk.algodesk.assetClient.create(assetParams, note ? note : undefined);
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);

@@ -11,6 +11,7 @@ import {useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
 import CreateAsset from "../CreateAsset/CreateAsset";
+import ModifyAsset from "../ModifyAsset/ModifyAsset";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -186,9 +187,14 @@ function Assets(): JSX.Element {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>Send assets</MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('modify'));
+                  closeMenu();
+              }}>Modify asset</MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
+          <ModifyAsset></ModifyAsset>
       </div>
   );
 }

@@ -1,0 +1,24 @@
+@import '../../assets/colors';
+
+.modify-asset-wrapper {
+  .modify-asset-container {
+    .heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .Mui-disabled {
+      background: $color-grey-light;
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+    .enable-switch {
+
+    }
+    .custom-tooltip {
+      margin-top: -10px;
+      float: right;
+    }
+  }
+}
