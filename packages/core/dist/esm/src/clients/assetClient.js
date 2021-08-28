@@ -74,9 +74,9 @@ export class AssetClient {
         const unsignedTxn = await this.prepareFreezeTxn(params, note, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
-    async revoke(from, assetIndex, revokeTarget, revokeReceiver, amount, note) {
-        const to = revokeReceiver;
-        return this.transfer(from, to, assetIndex, amount, note, undefined, revokeTarget);
+    async revoke(params, note) {
+        const to = params.revokeReceiver;
+        return this.transfer(params.from, to, params.assetIndex, params.amount, note, undefined, params.revokeTarget);
     }
     async optIn(from, assetIndex, note) {
         const to = from;

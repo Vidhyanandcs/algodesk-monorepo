@@ -2,7 +2,14 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, AssetFreezeTxn, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {Signer, A_FreezeAssetParams, A_CreateAssetParams, A_ModifyAssetParams, A_SendTxnResponse} from "../types";
+import {
+    Signer,
+    A_FreezeAssetParams,
+    A_CreateAssetParams,
+    A_ModifyAssetParams,
+    A_SendTxnResponse,
+    A_RevokeAssetParams
+} from "../types";
 import {Asset, AssetParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {AlgorandTxn} from "@randlabs/myalgo-connect";
 
@@ -107,9 +114,9 @@ export class AssetClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async revoke(from: string, assetIndex: number, revokeTarget: string, revokeReceiver: string, amount: number, note?: string): Promise<A_SendTxnResponse> {
-        const to = revokeReceiver;
-        return this.transfer(from, to, assetIndex, amount, note, undefined, revokeTarget);
+    async revoke(params: A_RevokeAssetParams, note?: string): Promise<A_SendTxnResponse> {
+        const to = params.revokeReceiver;
+        return this.transfer(params.from, to, params.assetIndex, params.amount, note, undefined, params.revokeTarget);
     }
 
     async optIn(from: string, assetIndex: number, note?: string): Promise<A_SendTxnResponse> {

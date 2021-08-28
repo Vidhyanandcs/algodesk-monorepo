@@ -59,6 +59,14 @@ export type A_FreezeAssetParams = {
     freezeState: boolean
 };
 
+export type A_RevokeAssetParams = {
+    from: string,
+    assetIndex: number,
+    revokeTarget: string,
+    revokeReceiver: string,
+    amount: number
+};
+
 
 export interface A_AccountInformation {
     address: string

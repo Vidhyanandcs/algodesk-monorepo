@@ -44,7 +44,7 @@ const initialState: ModifyAssetState = {
 
 function getTooltip(message: string): JSX.Element {
     return (<CustomTooltip className="custom-tooltip" title={message}>
-        <IconButton color={"primary"}>
+        <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
     </CustomTooltip>);
@@ -170,7 +170,7 @@ function ModifyAsset(): JSX.Element {
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        
+
                     </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(setAction(''));

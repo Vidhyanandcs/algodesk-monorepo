@@ -1,7 +1,7 @@
 import { Algodv2, Transaction } from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import { TransactionClient } from "./transactionClient";
-import { Signer, A_FreezeAssetParams, A_CreateAssetParams, A_ModifyAssetParams, A_SendTxnResponse } from "../types";
+import { Signer, A_FreezeAssetParams, A_CreateAssetParams, A_ModifyAssetParams, A_SendTxnResponse, A_RevokeAssetParams } from "../types";
 import { Asset } from "algosdk/dist/types/src/client/v2/algod/models/types";
 export declare class AssetClient {
     client: Algodv2;
@@ -20,6 +20,6 @@ export declare class AssetClient {
     destroy(from: string, assetId: number, note?: string, rekeyTo?: string): Promise<A_SendTxnResponse>;
     prepareFreezeTxn(params: A_FreezeAssetParams, note?: string, rekeyTo?: string): Promise<Transaction>;
     freeze(params: A_FreezeAssetParams, note?: string, rekeyTo?: string): Promise<A_SendTxnResponse>;
-    revoke(from: string, assetIndex: number, revokeTarget: string, revokeReceiver: string, amount: number, note?: string): Promise<A_SendTxnResponse>;
+    revoke(params: A_RevokeAssetParams, note?: string): Promise<A_SendTxnResponse>;
     optIn(from: string, assetIndex: number, note?: string): Promise<A_SendTxnResponse>;
 }

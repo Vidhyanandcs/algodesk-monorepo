@@ -12,18 +12,12 @@ import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close} from "@material-ui/icons";
-import React, {useState} from "react";
+import React from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {getCommonStyles} from "../../utils/styles";
 
-interface DeleteAssetState {
-
-}
-const initialState: DeleteAssetState = {
-
-};
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -46,19 +40,6 @@ function DeleteAsset(): JSX.Element {
     const {information} = account;
     const classes = useStyles();
 
-    const [
-        {},
-        setState
-    ] = useState({
-        ...initialState
-    });
-
-    const clearState = () => {
-        setState({
-            ...initialState
-        });
-    };
-
     async function deleteAsset(){
         try {
             dispatch(showLoader('Deleting asset ...'));
@@ -67,7 +48,6 @@ function DeleteAsset(): JSX.Element {
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
-            clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
             dispatch(showSnack({
@@ -97,7 +77,6 @@ function DeleteAsset(): JSX.Element {
                     </div>
                     <IconButton color="default" onClick={() => {
                         dispatch(setAction(''));
-                        clearState();
                     }}>
                         <Close />
                     </IconButton>
@@ -129,7 +108,6 @@ function DeleteAsset(): JSX.Element {
                                     <Button color={"default"} variant={"outlined"} size={"large"}
                                             onClick={() => {
                                                 dispatch(setAction(''));
-                                                clearState();
                                             }}
                                             style={{marginRight: 15}}
                                     >Cancel</Button>

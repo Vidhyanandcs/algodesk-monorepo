@@ -49,7 +49,7 @@ const initialState: CreateAssetState = {
 
 function getTooltip(message: string): JSX.Element {
     return (<CustomTooltip className="custom-tooltip" title={message}>
-        <IconButton color={"primary"}>
+        <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
     </CustomTooltip>);

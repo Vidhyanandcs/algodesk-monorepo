@@ -151,7 +151,7 @@ function FreezeAccount(): JSX.Element {
                                 <RadioGroup name="status"
                                             style={{justifyContent: "center"}}
                                             row value={freezeState} onChange={(ev) => {
-                                    const selection = ev.target.value == "true";
+                                    const selection = ev.target.value === "true";
                                     setState(prevState => ({...prevState, freezeState: selection}));
                                 }}>
                                     <FormControlLabel value={true} control={<Radio color={"secondary"}/>} label="Freeze" />

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button, MenuItem, Menu} from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {Add, Menu as MenuIcon} from '@material-ui/icons';
+import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SwapCalls} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
@@ -14,6 +14,7 @@ import CreateAsset from "../CreateAsset/CreateAsset";
 import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
+import RevokeAssets from "../RevokeAssets/RevokeAssets";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -158,10 +159,6 @@ function Assets(): JSX.Element {
                                                           className={classes.primaryText}
                                                       >{asset.params.url}</a> : '(None)'}</div>
                                                   </div>
-                                                  <div className="param">
-                                                      <div className="key">Decimals</div>
-                                                      <div className="value">{asset.params.decimals}</div>
-                                                  </div>
                                               </div>
                                           </Grid>
                                       </Grid>
@@ -188,25 +185,45 @@ function Assets(): JSX.Element {
               <MenuItem onClick={() => {
                   dispatch(setAction('send'));
                   closeMenu();
-              }}>Send assets</MenuItem>
+              }}>
+                  <Send className="asset-action-icon" fontSize={"small"}></Send>
+                  Send assets
+              </MenuItem>
               <MenuItem onClick={() => {
                   dispatch(setAction('modify'));
                   closeMenu();
-              }}>Modify asset</MenuItem>
-              <MenuItem onClick={() => {
-                  dispatch(setAction('delete'));
-                  closeMenu();
-              }}>Delete asset</MenuItem>
+              }}>
+                  <Edit className="asset-action-icon" fontSize={"small"}></Edit>
+                  Modify asset
+              </MenuItem>
               <MenuItem onClick={() => {
                   dispatch(setAction('freeze'));
                   closeMenu();
-              }}>Freeze / Unfreeze</MenuItem>
+              }}>
+                  <Lock className="asset-action-icon" fontSize={"small"}></Lock>
+                  Freeze / Unfreeze
+              </MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('revoke'));
+                  closeMenu();
+              }}>
+                  <SwapCalls className="asset-action-icon" fontSize={"small"}></SwapCalls>
+                  Revoke assets
+              </MenuItem>
+              <MenuItem onClick={() => {
+                  dispatch(setAction('delete'));
+                  closeMenu();
+              }}>
+                  <Delete className="asset-action-icon" fontSize={"small"}></Delete>
+                  Delete asset
+              </MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
           <ModifyAsset></ModifyAsset>
           <DeleteAsset></DeleteAsset>
           <FreezeAccount></FreezeAccount>
+          <RevokeAssets></RevokeAssets>
       </div>
   );
 }
