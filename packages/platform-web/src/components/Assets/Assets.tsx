@@ -1,7 +1,18 @@
 import './Assets.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Grid, Card, CardHeader, IconButton, makeStyles, CardContent, Button, MenuItem, Menu} from "@material-ui/core";
+import {
+    Grid,
+    Card,
+    CardHeader,
+    IconButton,
+    makeStyles,
+    CardContent,
+    Button,
+    MenuItem,
+    Menu,
+    CardActions
+} from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
 import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SwapCalls} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
@@ -109,7 +120,7 @@ function Assets(): JSX.Element {
               <div className="assets">
                   <Grid container spacing={2}>
                       {createdAssets.map((asset) => {
-                          return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
+                          return (<Grid item xs={12} sm={4} md={4} lg={4} xl={4} key={asset.index}>
 
                               <Card className={classes.customCard + ' asset'}>
                                   <CardHeader
@@ -136,34 +147,29 @@ function Assets(): JSX.Element {
                                   <CardContent>
                                       <Grid container spacing={2}>
 
-                                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                               <div className="params">
+                                                  <div className="param">
+                                                      <div className={"key"}>{getAssetBalWithTicker(asset, information)}</div>
+                                                      <div className="value">
+
+                                                      </div>
+                                                  </div>
                                                   {renderAssetParam("Manager", asset.params.manager, information.address)}
                                                   {renderAssetParam("Reserve", asset.params.reserve, information.address)}
                                                   {renderAssetParam("Freeze", asset.params.freeze, information.address)}
                                                   {renderAssetParam("Clawback", asset.params.clawback, information.address)}
                                               </div>
                                           </Grid>
-                                          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                              <div className="params">
-                                                  <div className="param">
-                                                      <div className="key">Balance</div>
-                                                      <div className="value">{getAssetBalWithTicker(asset, information)}</div>
-                                                  </div>
-                                                  <div className="param">
-                                                      <div className="key">Url</div>
-                                                      <div className="value">{asset.params.url ? <a
-                                                          target="_blank"
-                                                          href={asset.params.url}
-                                                          rel="noreferrer"
-                                                          className={classes.primaryText}
-                                                      >{asset.params.url}</a> : '(None)'}</div>
-                                                  </div>
-                                              </div>
-                                          </Grid>
                                       </Grid>
 
                                   </CardContent>
+                                  <CardActions className="card-action-custom">
+                                      <div className="url">
+                                          {asset.params.url ? <a href={asset.params.url} target="_blank">{asset.params.url}</a> : '[Empty asset url]'}
+
+                                      </div>
+                                  </CardActions>
                               </Card>
                           </Grid>);
                       })}

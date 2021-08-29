@@ -10,6 +10,18 @@
     .assets {
       margin-top: 25px;
       .asset {
+        .card-action-custom {
+          background: $color-grey-very-light;
+        }
+        .url {
+          padding: 20px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: $color-grey-dark;
+          a {
+            color: $color-grey-dark;
+          }
+        }
         .balance {
           font-size: 18px;
           font-weight: bold;
@@ -29,7 +41,6 @@
           margin-top: 5px;
           font-size: 15px;
           font-weight: bold;
-          text-decoration: underline;
           color: $color-grey-dark;
           &:hover {
             cursor: pointer;
@@ -39,6 +50,11 @@
         .params {
           .param {
             margin-top: 10px;
+            border-bottom: 1px solid $color-grey-light;
+            padding-bottom: 15px;
+            &:hover {
+
+            }
             .key {
               .indicator {
                 width: 10px;
@@ -61,6 +77,7 @@
             .value {
               margin-top: 5px;
               font-size: 13px;
+              margin-left: 20px;
               color: $color-grey-dark;
               overflow: hidden;
               text-overflow: ellipsis;
