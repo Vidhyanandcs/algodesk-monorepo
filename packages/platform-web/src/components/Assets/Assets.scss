@@ -48,10 +48,11 @@
           }
         }
         .params {
+          border-top: 1px solid $color-grey-light;
+          padding-top: 25px;
+          margin-top: -15px;
           .param {
-            margin-top: 10px;
-            border-bottom: 1px solid $color-grey-light;
-            padding-bottom: 15px;
+            padding-bottom: 10px;
             &:hover {
 
             }
@@ -61,23 +62,16 @@
                 height: 10px;
                 display: inline-block;
                 border-radius: 50%;
-                margin-right: 10px;
-                vertical-align: baseline;
-                &.green {
-                  background: #00ca4e;
-                }
-                &.red {
-                  background: #ff605c;
-                }
-                &.orange {
-                  background: #ffbd44;
+                margin-left: 5px;
+                vertical-align: sub;
+                svg {
+                  font-size: 16px;
                 }
               }
             }
             .value {
               margin-top: 5px;
-              font-size: 13px;
-              margin-left: 20px;
+              font-size: 15px;
               color: $color-grey-dark;
               overflow: hidden;
               text-overflow: ellipsis;

@@ -3,19 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
     Grid,
-    Card,
     CardHeader,
     IconButton,
-    makeStyles,
     CardContent,
     Button,
     MenuItem,
-    Menu,
-    CardActions
+    Menu, Link
 } from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp} from '@material-ui/icons';
-import {getCommonStyles} from "../../utils/styles";
+import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp, CheckCircle, NotInterested} from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
 import {useState} from "react";
@@ -26,16 +22,7 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme),
-        customDialog: {
-            position: "absolute",
-            top: 100
-        }
-    }
-});
+import {CustomCard} from '../../utils/theme';
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -44,24 +31,21 @@ function processAssetParam(value: string = ""): string {
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
     const cls: string[] = ['value'];
     const indicatorCls: string [] = ['indicator'];
+    let icon = <NotInterested fontSize={"small"} color={"secondary"}></NotInterested>;
 
     if (value) {
         cls.push('clickable');
         if (value === addr) {
-            indicatorCls.push('green');
+            icon = <CheckCircle fontSize={"small"} color={"primary"}></CheckCircle>;
         }
-        else {
-            indicatorCls.push('orange');
-        }
-    }
-    else {
-        indicatorCls.push('red');
     }
 
     return (<div className="param">
         <div className="key">
-            <span className={indicatorCls.join(" ")}></span>
             {label}
+            <span className={indicatorCls.join(" ")}>
+                {icon}
+            </span>
         </div>
         <div className={cls.join(" ")} onClick={() => {
             openAccountInExplorer(value);
@@ -83,7 +67,6 @@ function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
     const {information, createdAssets} = account;
-    const classes = useStyles();
     const dispatch = useDispatch();
 
     const [
@@ -120,9 +103,9 @@ function Assets(): JSX.Element {
               <div className="assets">
                   <Grid container spacing={2}>
                       {createdAssets.map((asset) => {
-                          return (<Grid item xs={12} sm={4} md={4} lg={4} xl={4} key={asset.index}>
+                          return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
-                              <Card className={classes.customCard + ' asset'}>
+                              <CustomCard className={'asset'}>
                                   <CardHeader
                                       action={
                                           <div>
@@ -145,32 +128,52 @@ function Assets(): JSX.Element {
                                       variant="outlined"
                                   />
                                   <CardContent>
-                                      <Grid container spacing={2}>
+                                      <div className="params">
+                                          <Grid container spacing={2}>
 
-                                          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                              <div className="params">
+
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className="param">
-                                                      <div className={"key"}>{getAssetBalWithTicker(asset, information)}</div>
+                                                      <div className={"key"}>Balance </div>
                                                       <div className="value">
+                                                          {getAssetBalWithTicker(asset, information)}
+                                                      </div>
+                                                  </div>
+
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                                  <div className="param">
+                                                      <div className={"key"}>Url </div>
+                                                      <div className="value">
+                                                          {asset.params.url ? <Link href={asset.params.url} target="_blank">{asset.params.url}</Link> : '[Empty asset url]'}
 
                                                       </div>
                                                   </div>
+
+                                              </Grid>
+
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   {renderAssetParam("Manager", asset.params.manager, information.address)}
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   {renderAssetParam("Reserve", asset.params.reserve, information.address)}
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   {renderAssetParam("Freeze", asset.params.freeze, information.address)}
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   {renderAssetParam("Clawback", asset.params.clawback, information.address)}
-                                              </div>
+                                              </Grid>
                                           </Grid>
-                                      </Grid>
-
-                                  </CardContent>
-                                  <CardActions className="card-action-custom">
-                                      <div className="url">
-                                          {asset.params.url ? <a href={asset.params.url} target="_blank">{asset.params.url}</a> : '[Empty asset url]'}
-
                                       </div>
-                                  </CardActions>
-                              </Card>
+                                  </CardContent>
+                                  {/*<CardActions className="card-action-custom">*/}
+                                  {/*    <div className="url">*/}
+                                  {/*        {asset.params.url ? <a href={asset.params.url} target="_blank">{asset.params.url}</a> : '[Empty asset url]'}*/}
+
+                                  {/*    </div>*/}
+                                  {/*</CardActions>*/}
+                              </CustomCard>
                           </Grid>);
                       })}
                   </Grid>

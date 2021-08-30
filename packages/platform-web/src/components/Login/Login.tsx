@@ -58,7 +58,7 @@ function Login(): JSX.Element {
                                   color={"primary"}
                                   variant={"contained"}
                                   size={"large"}
-                                  className={classes.loginButton + ' ' + classes.blackButton}
+                                  className={classes.loginButton}
                                   startIcon={<Power></Power>}
                                   onClick={() => {
                                       dispatch(showConnectWallet());
