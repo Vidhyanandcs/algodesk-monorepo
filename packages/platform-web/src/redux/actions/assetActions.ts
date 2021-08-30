@@ -3,7 +3,7 @@ import {A_Asset} from "@algodesk/core";
 
 
 export interface AssetActions {
-    selectedAsset?: A_Asset,
+    selectedAsset?: A_Asset | null,
     action: string
 }
 

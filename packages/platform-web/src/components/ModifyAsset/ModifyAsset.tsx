@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {setAction} from "../../redux/actions/assetActions";
+import {setAction, setSelectedAsset} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close, InfoOutlined} from "@material-ui/icons";
@@ -85,9 +85,9 @@ function ModifyAsset(): JSX.Element {
     }, [selectedAsset]);
 
     const clearState = () => {
-        setState({
+        setState(prevState => ({
             ...initialState
-        });
+        }));
     };
 
     function validate(manager: string, reserve: string, freeze: string, clawback: string): void {
@@ -176,8 +176,9 @@ function ModifyAsset(): JSX.Element {
 
                     </div>
                     <IconButton color="default" onClick={() => {
-                        dispatch(setAction(''));
                         clearState();
+                        dispatch(setAction(''));
+                        dispatch(setSelectedAsset(null));
                     }}>
                         <Close />
                     </IconButton>
