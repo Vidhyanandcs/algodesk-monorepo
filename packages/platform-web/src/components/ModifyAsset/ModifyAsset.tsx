@@ -69,15 +69,18 @@ function ModifyAsset(): JSX.Element {
 
     useEffect(() => {
         if (selectedAsset) {
-            setState(prevState => ({...prevState, manager: selectedAsset ? selectedAsset.params.manager : '',
-                reserve: selectedAsset ? selectedAsset.params.reserve : '',
-                freeze: selectedAsset ? selectedAsset.params.freeze : '',
-                clawback: selectedAsset ? selectedAsset.params.clawback : '',
-                assetIndex: selectedAsset ? selectedAsset.index : 0,
-                enableManager: selectedAsset ? Boolean(selectedAsset.params.manager) : false,
-                enableReserve: selectedAsset ? Boolean(selectedAsset.params.reserve) : false,
-                enableFreeze: selectedAsset ? Boolean(selectedAsset.params.freeze) : false,
-                enableClawback: selectedAsset ? Boolean(selectedAsset.params.clawback) : false}));
+            setState(prevState => ({
+                ...prevState,
+                manager: selectedAsset.params.manager,
+                reserve: selectedAsset.params.reserve,
+                freeze: selectedAsset.params.freeze,
+                clawback: selectedAsset.params.clawback,
+                assetIndex: selectedAsset.index,
+                enableManager: Boolean(selectedAsset.params.manager),
+                enableReserve: Boolean(selectedAsset.params.reserve),
+                enableFreeze: Boolean(selectedAsset.params.freeze),
+                enableClawback: Boolean(selectedAsset.params.clawback),
+            }));
         }
     }, [selectedAsset]);
 

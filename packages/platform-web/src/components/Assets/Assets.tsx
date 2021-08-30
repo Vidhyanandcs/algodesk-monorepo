@@ -14,7 +14,7 @@ import {
     CardActions
 } from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SwapCalls} from '@material-ui/icons';
+import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp} from '@material-ui/icons';
 import {getCommonStyles} from "../../utils/styles";
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress} from "@algodesk/core";
@@ -213,7 +213,7 @@ function Assets(): JSX.Element {
                   dispatch(setAction('revoke'));
                   closeMenu();
               }}>
-                  <SwapCalls className="asset-action-icon" fontSize={"small"}></SwapCalls>
+                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
               <MenuItem onClick={() => {
