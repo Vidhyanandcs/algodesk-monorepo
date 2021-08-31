@@ -4,6 +4,7 @@ import {RootState} from "../../redux/store";
 import Header from "../Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
+import TransactionDetails from "../TransactionDetails/TransactionDetails";
 
 function Portal(): JSX.Element {
 
@@ -23,6 +24,7 @@ function Portal(): JSX.Element {
                   <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />
               </Switch>
           </div>
+          <TransactionDetails></TransactionDetails>
       </div>
   );
 }

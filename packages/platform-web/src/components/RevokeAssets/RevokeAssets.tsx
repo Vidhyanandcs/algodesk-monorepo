@@ -20,6 +20,7 @@ import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_RevokeAssetParams} from "@algodesk/core";
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -111,10 +112,7 @@ function RevokeAssets(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Assets revoked successfully'
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));

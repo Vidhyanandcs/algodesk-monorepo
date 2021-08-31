@@ -19,6 +19,7 @@ import {loadAccount} from "../../redux/actions/account";
 import {A_ModifyAssetParams} from "@algodesk/core";
 import {CustomTooltip} from '../../utils/theme';
 import sdk from "algosdk";
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 interface ModifyAssetState extends A_ModifyAssetParams {
     note: string,
@@ -143,10 +144,7 @@ function ModifyAsset(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Asset modified successfully'
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));

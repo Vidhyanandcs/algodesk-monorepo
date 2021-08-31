@@ -8,5 +8,8 @@ export class Explorer {
     getAssetUrl(assetId) {
         return this.url + '/asset/' + assetId;
     }
+    getTransactionUrl(txId) {
+        return this.url + '/tx/' + txId;
+    }
 }
 //# sourceMappingURL=explorer.js.map

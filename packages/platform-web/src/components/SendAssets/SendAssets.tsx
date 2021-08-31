@@ -19,6 +19,7 @@ import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -88,10 +89,7 @@ function SendAssets(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Assets sent successfully'
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));

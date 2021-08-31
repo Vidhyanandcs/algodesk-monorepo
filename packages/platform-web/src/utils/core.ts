@@ -16,6 +16,13 @@ export function openAssetInExplorer(assetId: number): void {
     }
 }
 
+export function openTransactionInExplorer(txId: string): void {
+    if (txId) {
+        const url = algosdk.explorer.getTransactionUrl(txId);
+        window.open(url, "_blank");
+    }
+}
+
 export function formatNumWithDecimals(num: number, decimals: number): string {
     return formatNumber(num, {
         precision: decimals

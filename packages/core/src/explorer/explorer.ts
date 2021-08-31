@@ -12,4 +12,8 @@ export class Explorer {
     getAssetUrl(assetId: number): string {
         return this.url + '/asset/' + assetId;
     }
+
+    getTransactionUrl(txId: string): string {
+        return this.url + '/tx/' + txId;
+    }
 }

@@ -9,7 +9,6 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
-import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close} from "@material-ui/icons";
 import React from "react";
@@ -17,6 +16,7 @@ import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {getCommonStyles} from "../../utils/styles";
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 
 const useStyles = makeStyles((theme) => {
@@ -50,10 +50,7 @@ function DeleteAsset(): JSX.Element {
             dispatch(hideLoader());
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Asset deleted successfully'
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));

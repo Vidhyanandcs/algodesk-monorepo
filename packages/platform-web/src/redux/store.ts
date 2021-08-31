@@ -7,6 +7,7 @@ import loaderReducer from "./actions/loader";
 import signerReducer from "./actions/signer";
 import accountReducer from "./actions/account";
 import assetActionsReducer from "./actions/assetActions";
+import transactionReducer from "./actions/transaction";
 
 export const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
         loader: loaderReducer,
         signer: signerReducer,
         account: accountReducer,
-        assetActions: assetActionsReducer
+        assetActions: assetActionsReducer,
+        transaction: transactionReducer
     },
 });
 

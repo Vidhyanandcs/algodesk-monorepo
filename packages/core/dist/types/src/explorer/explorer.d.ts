@@ -3,4 +3,5 @@ export declare class Explorer {
     constructor(url: string);
     getAccountUrl(address: string): string;
     getAssetUrl(assetId: number): string;
+    getTransactionUrl(txId: string): string;
 }

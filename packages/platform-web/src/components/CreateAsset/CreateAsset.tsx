@@ -20,6 +20,7 @@ import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
 import {CustomTooltip} from '../../utils/theme';
 import sdk from 'algosdk';
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 interface CreateAssetState extends A_CreateAssetParams {
     note: string,
@@ -161,10 +162,7 @@ function CreateAsset(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Asset created successfully'
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));

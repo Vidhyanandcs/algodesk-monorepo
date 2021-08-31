@@ -19,6 +19,7 @@ import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_FreezeAssetParams} from "@algodesk/core";
+import {showTransactionDetails} from "../../redux/actions/transaction";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -81,14 +82,11 @@ function FreezeAccount(): JSX.Element {
             };
 
             let message = 'Freezing ...';
-            let successMessage = 'Assets freezed successfully';
 
             if (!freezeState) {
                 message = 'Unfreezing ...';
-                successMessage = 'Assets Unfreezed successfully';
             }
 
-            console.log(assetParams);
             dispatch(showLoader(message));
             const {txId} = await algosdk.algodesk.assetClient.freeze(assetParams, note);
             dispatch(hideLoader());
@@ -98,10 +96,7 @@ function FreezeAccount(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSnack({
-                severity: 'success',
-                message: successMessage
-            }));
+            dispatch(showTransactionDetails(txId));
         }
         catch (e) {
             dispatch(handleException(e));
