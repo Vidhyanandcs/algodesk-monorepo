@@ -31,7 +31,7 @@ function Header(): JSX.Element {
                             </div>
                         </Box>
                         <Box p={1}>
-                            <div style={{marginTop: -6}}>
+                            <div>
                                 <Chip
                                     color={"primary"}
                                     icon={<div>

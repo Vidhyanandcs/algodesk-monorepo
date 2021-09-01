@@ -37,4 +37,8 @@ export class WalletSigner implements Signer{
     isInstalled(): boolean {
         return true;
     }
+
+    logout() {
+
+    }
 }

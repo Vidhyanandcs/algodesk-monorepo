@@ -4,8 +4,6 @@ import WalletConnect from "walletconnect";
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal';
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import {NETWORKS} from "../constants";
-import {encodeText} from "../utils";
-
 
 export class WalletConnectSigner implements Signer{
     public bridge: string = "https://bridge.walletconnect.org";
@@ -76,5 +74,9 @@ export class WalletConnectSigner implements Signer{
 
     isNetworkSupported(name: string): boolean {
         return this.supportedNetworks.indexOf(name) !== -1;
+    }
+
+    logout() {
+        this.connection.killSession();
     }
 }

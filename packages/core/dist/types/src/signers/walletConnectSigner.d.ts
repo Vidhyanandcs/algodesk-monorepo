@@ -10,4 +10,5 @@ export declare class WalletConnectSigner implements Signer {
     connect(name: string): Promise<SignerAccount[]>;
     isInstalled(): boolean;
     isNetworkSupported(name: string): boolean;
+    logout(): void;
 }

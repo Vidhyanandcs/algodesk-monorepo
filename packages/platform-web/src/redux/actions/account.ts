@@ -62,6 +62,7 @@ export const accountSlice = createSlice({
         logout: (state) => {
             state.loggedIn = false;
             state.information = information;
+            algosdk.signer.logout();
         }
     },
     extraReducers: (builder) => {

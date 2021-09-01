@@ -14,7 +14,9 @@ export class MyAlgoWalletSigner implements Signer{
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
+        console.log(unsignedTxn);
         const byteTxn = unsignedTxn.toByte();
+        console.log(byteTxn);
         const signedTxn = await this.myAlgoConnect.signTransaction(byteTxn);
         return signedTxn.blob;
     }
@@ -65,5 +67,9 @@ export class MyAlgoWalletSigner implements Signer{
 
     isNetworkSupported(name: string): boolean {
         return this.supportedNetworks.indexOf(name) !== -1;
+    }
+
+    logout() {
+
     }
 }

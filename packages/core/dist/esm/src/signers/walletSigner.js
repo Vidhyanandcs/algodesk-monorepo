@@ -25,5 +25,7 @@ export class WalletSigner {
     isInstalled() {
         return true;
     }
+    logout() {
+    }
 }
 //# sourceMappingURL=walletSigner.js.map

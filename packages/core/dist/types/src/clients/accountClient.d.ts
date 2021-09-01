@@ -16,4 +16,7 @@ export declare class AccountClient {
     getHoldingAsset(assetId: number, accountInfo: A_AccountInformation): A_AssetHolding;
     getCreatedAsset(assetId: number, accountInfo: A_AccountInformation): A_Asset;
     balanceOf(assetId: number, accountInfo: A_AccountInformation): number;
+    canManage(address: string, asset: A_Asset): boolean;
+    canFreeze(address: string, asset: A_Asset): boolean;
+    canClawback(address: string, asset: A_Asset): boolean;
 }

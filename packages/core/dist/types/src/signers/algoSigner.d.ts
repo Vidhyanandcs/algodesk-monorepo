@@ -9,4 +9,5 @@ export declare class BrowserAlgoSigner implements Signer {
     isNetworkSupported(name: string): boolean;
     getAlgoSignerNet(name: string): string;
     connect(name: string): Promise<SignerAccount[]>;
+    logout(): void;
 }

@@ -4,9 +4,11 @@ export class BrowserAlgoSigner {
         this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
     async signTxn(unsignedTxn) {
+        console.log(unsignedTxn);
         const byteTxn = unsignedTxn.toByte();
         // @ts-ignore
         const b64Txn = AlgoSigner.encoding.msgpackToBase64(byteTxn);
+        console.log(b64Txn);
         // @ts-ignore
         const signedTxns = await AlgoSigner.signTxn([
             { txn: b64Txn },
@@ -79,6 +81,8 @@ export class BrowserAlgoSigner {
         else {
             throw new Error("Algosigner is not installed");
         }
+    }
+    logout() {
     }
 }
 //# sourceMappingURL=algoSigner.js.map

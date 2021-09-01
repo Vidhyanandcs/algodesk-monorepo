@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => {
 function TransactionDetails(): JSX.Element {
 
     const dispatch = useDispatch();
-
     const transaction = useSelector((state: RootState) => state.transaction);
     const {show, txId} = transaction;
     const classes = useStyles();

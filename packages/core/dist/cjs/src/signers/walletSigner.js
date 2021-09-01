@@ -28,6 +28,8 @@ class WalletSigner {
     isInstalled() {
         return true;
     }
+    logout() {
+    }
 }
 exports.WalletSigner = WalletSigner;
 //# sourceMappingURL=walletSigner.js.map

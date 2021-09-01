@@ -33,6 +33,8 @@ class LogicSigner {
     isInstalled() {
         return true;
     }
+    logout() {
+    }
 }
 exports.LogicSigner = LogicSigner;
 //# sourceMappingURL=logicSigner.js.map

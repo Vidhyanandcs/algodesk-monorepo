@@ -68,4 +68,19 @@ export class AccountClient{
 
         return 0;
     }
+
+    canManage(address: string, asset: A_Asset): boolean {
+        const manager = asset.params.manager;
+        return address === manager;
+    }
+
+    canFreeze(address: string, asset: A_Asset): boolean {
+        const freeze = asset.params.freeze;
+        return address === freeze;
+    }
+
+    canClawback(address: string, asset: A_Asset): boolean {
+        const clawback = asset.params.clawback;
+        return address === clawback;
+    }
 }

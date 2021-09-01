@@ -76,11 +76,12 @@ function FreezeAccount(): JSX.Element {
 
             const assetParams: A_FreezeAssetParams = {
                 assetIndex: selectedAsset.index,
-                freezeAccount,
-                freezeState,
+                freezeAccount: freezeAccount,
+                freezeState: freezeState,
                 from: information.address,
             };
 
+            console.log(assetParams);
             let message = 'Freezing ...';
 
             if (!freezeState) {

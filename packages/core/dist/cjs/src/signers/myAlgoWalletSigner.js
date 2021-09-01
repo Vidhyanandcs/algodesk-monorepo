@@ -12,7 +12,9 @@ class MyAlgoWalletSigner {
         this.supportedNetworks = [constants_1.NETWORKS.BETANET, constants_1.NETWORKS.TESTNET, constants_1.NETWORKS.MAINNET];
     }
     async signTxn(unsignedTxn) {
+        console.log(unsignedTxn);
         const byteTxn = unsignedTxn.toByte();
+        console.log(byteTxn);
         const signedTxn = await this.myAlgoConnect.signTransaction(byteTxn);
         return signedTxn.blob;
     }
@@ -56,6 +58,8 @@ class MyAlgoWalletSigner {
     }
     isNetworkSupported(name) {
         return this.supportedNetworks.indexOf(name) !== -1;
+    }
+    logout() {
     }
 }
 exports.MyAlgoWalletSigner = MyAlgoWalletSigner;

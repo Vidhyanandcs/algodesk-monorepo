@@ -11,5 +11,7 @@ export class LogicSigner {
     isInstalled() {
         return true;
     }
+    logout() {
+    }
 }
 //# sourceMappingURL=logicSigner.js.map

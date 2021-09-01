@@ -18,4 +18,8 @@ export class LogicSigner implements Signer{
     isInstalled(): boolean {
         return true;
     }
+
+    logout() {
+
+    }
 }

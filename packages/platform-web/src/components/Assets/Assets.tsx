@@ -23,6 +23,8 @@ import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import {CustomCard} from '../../utils/theme';
+import algosdk from "../../utils/algosdk";
+import {showSnack} from "../../redux/actions/snackbar";
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -67,6 +69,8 @@ function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
     const {information, createdAssets} = account;
+    const assetActions = useSelector((state: RootState) => state.assetActions);
+    const {selectedAsset} = assetActions;
     const dispatch = useDispatch();
 
     const [
@@ -167,12 +171,6 @@ function Assets(): JSX.Element {
                                           </Grid>
                                       </div>
                                   </CardContent>
-                                  {/*<CardActions className="card-action-custom">*/}
-                                  {/*    <div className="url">*/}
-                                  {/*        {asset.params.url ? <a href={asset.params.url} target="_blank">{asset.params.url}</a> : '[Empty asset url]'}*/}
-
-                                  {/*    </div>*/}
-                                  {/*</CardActions>*/}
                               </CustomCard>
                           </Grid>);
                       })}
@@ -199,28 +197,60 @@ function Assets(): JSX.Element {
                   Send assets
               </MenuItem>
               <MenuItem onClick={() => {
-                  dispatch(setAction('modify'));
+                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
+                      dispatch(setAction('modify'));
+                  }
+                  else {
+                      dispatch(showSnack({
+                          severity: 'error',
+                          message: "You do not have enough permission to modify"
+                      }));
+                  }
                   closeMenu();
               }}>
                   <Edit className="asset-action-icon" fontSize={"small"}></Edit>
                   Modify asset
               </MenuItem>
               <MenuItem onClick={() => {
-                  dispatch(setAction('freeze'));
+                  if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
+                      dispatch(setAction('freeze'));
+                  }
+                  else {
+                      dispatch(showSnack({
+                          severity: 'error',
+                          message: "You do not have enough permission to freeze or unfreeze"
+                      }));
+                  }
                   closeMenu();
               }}>
                   <Lock className="asset-action-icon" fontSize={"small"}></Lock>
                   Freeze / Unfreeze
               </MenuItem>
               <MenuItem onClick={() => {
-                  dispatch(setAction('revoke'));
+                  if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
+                      dispatch(setAction('revoke'));
+                  }
+                  else {
+                      dispatch(showSnack({
+                          severity: 'error',
+                          message: "You do not have enough permission to revoke"
+                      }));
+                  }
                   closeMenu();
               }}>
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
               <MenuItem onClick={() => {
-                  dispatch(setAction('delete'));
+                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
+                      dispatch(setAction('delete'));
+                  }
+                  else {
+                      dispatch(showSnack({
+                          severity: 'error',
+                          message: "You do not have enough permission to delete"
+                      }));
+                  }
                   closeMenu();
               }}>
                   <Delete className="asset-action-icon" fontSize={"small"}></Delete>

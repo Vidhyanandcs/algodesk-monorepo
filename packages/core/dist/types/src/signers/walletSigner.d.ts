@@ -8,4 +8,5 @@ export declare class WalletSigner implements Signer {
     signTxn(unsignedTxn: Transaction): Uint8Array;
     signGroupTxns(unsignedTxns: Transaction[]): Uint8Array[];
     isInstalled(): boolean;
+    logout(): void;
 }

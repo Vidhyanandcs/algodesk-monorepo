@@ -58,5 +58,8 @@ export class WalletConnectSigner {
     isNetworkSupported(name) {
         return this.supportedNetworks.indexOf(name) !== -1;
     }
+    logout() {
+        this.connection.killSession();
+    }
 }
 //# sourceMappingURL=walletConnectSigner.js.map

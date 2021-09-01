@@ -52,6 +52,18 @@ class AccountClient {
         }
         return 0;
     }
+    canManage(address, asset) {
+        const manager = asset.params.manager;
+        return address === manager;
+    }
+    canFreeze(address, asset) {
+        const freeze = asset.params.freeze;
+        return address === freeze;
+    }
+    canClawback(address, asset) {
+        const clawback = asset.params.clawback;
+        return address === clawback;
+    }
 }
 exports.AccountClient = AccountClient;
 //# sourceMappingURL=accountClient.js.map

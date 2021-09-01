@@ -10,6 +10,7 @@ export interface Signer {
     isInstalled(): boolean;
     connect?(name: string): Promise<SignerAccount[]>;
     isNetworkSupported?(name: string): boolean;
+    logout(): void;
 }
 export declare type A_SendTxnResponse = {
     txId: string;

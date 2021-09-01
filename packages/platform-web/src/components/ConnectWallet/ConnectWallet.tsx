@@ -12,7 +12,7 @@ import {Close, Power, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {Alert} from '@material-ui/lab';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
 
 const useStyles = makeStyles((theme) => {
@@ -53,6 +53,12 @@ function ConnectWallet(): JSX.Element {
     const clearState = () => {
         setState({ ...initialState });
     };
+
+    useEffect(() => {
+        if (accounts.length === 1) {
+            clearState();
+        }
+    }, [accounts]);
 
     return (<div>
         {connectWallet.show ? <Dialog
@@ -134,6 +140,11 @@ function ConnectWallet(): JSX.Element {
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
                                         <Alert icon={false} color={"error"}>
                                             {connectWallet.errMessage}
+                                        </Alert>
+                                    </div> : ''}
+                                    {!connectWallet.connecting && accounts.length === 0 && !connectWallet.errMessage? <div className="error-message">
+                                        <Alert icon={false} color={"error"}>
+                                            No accounts found
                                         </Alert>
                                     </div> : ''}
                                     {accounts.map((account) => {

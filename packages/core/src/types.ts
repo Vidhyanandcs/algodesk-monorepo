@@ -11,7 +11,8 @@ export interface Signer {
     signTxnByLogic?(unsignedTxn, logic: string): Promise<Uint8Array>;
     isInstalled(): boolean;
     connect?(name: string): Promise<SignerAccount[]>,
-    isNetworkSupported?(name: string): boolean
+    isNetworkSupported?(name: string): boolean,
+    logout(): void
 }
 
 export type A_SendTxnResponse = {
