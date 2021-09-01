@@ -10,11 +10,9 @@ export class BrowserAlgoSigner implements Signer{
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
-        console.log(unsignedTxn);
         const byteTxn: Uint8Array = unsignedTxn.toByte();
         // @ts-ignore
         const b64Txn = AlgoSigner.encoding.msgpackToBase64(byteTxn);
-        console.log(b64Txn);
 
         // @ts-ignore
         const signedTxns: any[] = await AlgoSigner.signTxn([

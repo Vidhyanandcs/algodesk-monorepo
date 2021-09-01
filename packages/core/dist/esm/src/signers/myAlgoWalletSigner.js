@@ -6,9 +6,7 @@ export class MyAlgoWalletSigner {
         this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
     async signTxn(unsignedTxn) {
-        console.log(unsignedTxn);
         const byteTxn = unsignedTxn.toByte();
-        console.log(byteTxn);
         const signedTxn = await this.myAlgoConnect.signTransaction(byteTxn);
         return signedTxn.blob;
     }

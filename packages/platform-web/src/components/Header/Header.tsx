@@ -1,6 +1,6 @@
 import './Header.scss';
-import {Box, Chip, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp} from "@material-ui/icons";
+import {Box, Grid, Menu, MenuItem} from "@material-ui/core";
+import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
@@ -32,35 +32,23 @@ function Header(): JSX.Element {
                         </Box>
                         <Box p={1}>
                             <div>
-                                <Chip
-                                    color={"primary"}
-                                    icon={<div>
-                                        <Chip
-                                            color={"primary"}
-                                            label={sdk.microalgosToAlgos(amount) + " Algos"}
-                                            size={"small"}
-                                        />
-                                    </div>}
-                                    label={ellipseAddress(address)}
-                                    variant={"outlined"}
-                                    onClick={(event) => {
-                                        updateAnchorEl(event.currentTarget);
-                                    }}
-                                    style={{color: '#000', fontWeight: 'bold'}}
-                                    deleteIcon={<ArrowDropDown />}
-                                    onDelete={(event) => {
-                                        updateAnchorEl(event.currentTarget.parentElement);
-                                    }
-                                    }
-                                ></Chip>
-
+                                <div className="balance">
+                                    <AccountBalanceWallet></AccountBalanceWallet>
+                                    {sdk.microalgosToAlgos(amount) + ""}
+                                </div>
+                                <div className="address" onClick={(event) => {
+                                    updateAnchorEl(event.currentTarget);
+                                }}>
+                                    {ellipseAddress(address)}
+                                    <ArrowDropDown></ArrowDropDown>
+                                </div>
                                 <Menu
                                     anchorEl={anchorEl}
                                     open={Boolean(anchorEl)}
                                     onClose={() => {updateAnchorEl(null)}}
                                     PaperProps={{
                                         style: {
-                                            transform: 'translateX(30px) translateY(40px)',
+                                            transform: 'translateX(0px) translateY(47px)',
                                         }
                                     }}
                                 >
@@ -70,7 +58,7 @@ function Header(): JSX.Element {
                                           }}
                                     >
                                         <OpenInNew fontSize={"small"} className="menu-icon"></OpenInNew>
-                                        View account
+                                        View in explorer
                                     </MenuItem>
                                     <MenuItem onClick={() => {
                                         updateAnchorEl(null);
