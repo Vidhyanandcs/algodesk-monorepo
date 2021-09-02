@@ -1,6 +1,6 @@
 import './Header.scss';
 import {Box, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet} from "@material-ui/icons";
+import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet, FileCopy} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
@@ -8,6 +8,9 @@ import {useState} from "react";
 import sdk from 'algosdk';
 import {ellipseAddress} from "@algodesk/core";
 import {openAccountInExplorer} from "../../utils/core";
+import copy from 'copy-to-clipboard';
+import {CustomTooltip} from '../../utils/theme';
+import {showSnack} from "../../redux/actions/snackbar";
 
 
 function Header(): JSX.Element {
@@ -32,15 +35,31 @@ function Header(): JSX.Element {
                         </Box>
                         <Box p={1}>
                             <div>
-                                <div className="balance">
-                                    <AccountBalanceWallet></AccountBalanceWallet>
-                                    {sdk.microalgosToAlgos(amount) + ""}
-                                </div>
+                                <CustomTooltip title="Account balance">
+                                    <div className="balance">
+                                        <AccountBalanceWallet></AccountBalanceWallet>
+                                        {sdk.microalgosToAlgos(amount) + ""}
+                                    </div>
+                                </CustomTooltip>
+
                                 <div className="address" onClick={(event) => {
                                     updateAnchorEl(event.currentTarget);
                                 }}>
+                                    <CustomTooltip title="Copy address">
+                                        <FileCopy fontSize={"small"} className="copy-icon" onClick={(ev) => {
+                                            copy(address, {
+                                                message: 'Press #{key} to copy',
+                                            });
+                                            ev.preventDefault();
+                                            ev.stopPropagation();
+                                            dispatch(showSnack({
+                                                severity: 'success',
+                                                message: 'Address copied'
+                                            }));
+                                        }}></FileCopy>
+                                    </CustomTooltip>
                                     {ellipseAddress(address)}
-                                    <ArrowDropDown></ArrowDropDown>
+                                    <ArrowDropDown className="drop-icon"></ArrowDropDown>
                                 </div>
                                 <Menu
                                     anchorEl={anchorEl}

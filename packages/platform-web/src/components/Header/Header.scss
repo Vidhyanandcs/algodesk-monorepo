@@ -37,8 +37,14 @@
       }
       svg {
         vertical-align: middle;
+      }
+      svg.drop-icon {
         margin-left: 5px;
         margin-right: 5px;
+      }
+      svg.copy-icon {
+        margin-left: 0px;
+        margin-right: 10px;
       }
     }
     .round-button {
