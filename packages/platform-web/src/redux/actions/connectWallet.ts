@@ -38,7 +38,7 @@ export const connect = createAsyncThunk(
             dispatch(walletConnected());
             return accounts;
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(walletConnected());
             dispatch(setErrorMessage(e.message));
         }

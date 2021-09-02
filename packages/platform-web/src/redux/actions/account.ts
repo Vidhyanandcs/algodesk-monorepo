@@ -48,7 +48,7 @@ export const loadAccount = createAsyncThunk(
             dispatch(hideLoader());
             return accountInfo;
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(handleException(e));
             dispatch(hideLoader());
         }

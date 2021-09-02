@@ -91,7 +91,7 @@ function SendAssets(): JSX.Element {
             dispatch(loadAccount(information.address));
             dispatch(showTransactionDetails(txId));
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(handleException(e));
             dispatch(hideLoader());
         }

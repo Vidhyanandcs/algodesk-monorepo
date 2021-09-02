@@ -117,7 +117,7 @@ function ModifyAsset(): JSX.Element {
         try {
             validate(manager, reserve, freeze, clawback);
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(showSnack({
                 severity: 'error',
                 message: e.message
@@ -147,7 +147,7 @@ function ModifyAsset(): JSX.Element {
             dispatch(loadAccount(information.address));
             dispatch(showTransactionDetails(txId));
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(handleException(e));
             dispatch(hideLoader());
         }

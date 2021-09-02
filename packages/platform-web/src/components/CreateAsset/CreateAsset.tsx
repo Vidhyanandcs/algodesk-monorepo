@@ -137,7 +137,7 @@ function CreateAsset(): JSX.Element {
         try {
             validate(name, unitName, total, decimals, manager, reserve, freeze, clawback);
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(showSnack({
                 severity: 'error',
                 message: e.message
@@ -171,7 +171,7 @@ function CreateAsset(): JSX.Element {
             dispatch(loadAccount(information.address));
             dispatch(showTransactionDetails(txId));
         }
-        catch (e) {
+        catch (e: any) {
             dispatch(handleException(e));
             dispatch(hideLoader());
         }
