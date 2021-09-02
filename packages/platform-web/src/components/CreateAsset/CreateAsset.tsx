@@ -3,8 +3,8 @@ import {
     Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle, Grid,
-    IconButton, Switch, TextField
+    DialogTitle, FormControl, Grid,
+    IconButton, InputLabel, MenuItem, Select, Switch, TextField
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -13,7 +13,7 @@ import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close, InfoOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
-import {getNumberInputValue, isNumber} from "../../utils/core";
+import {isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
@@ -47,6 +47,13 @@ const initialState: CreateAssetState = {
     enableFreeze: true,
     enableClawback: true,
 };
+
+export const decimalsList: number[] = [];
+for (let i = 0; i <= 10; i++) {
+    decimalsList.push(i);
+}
+
+export
 
 function getTooltip(message: string): JSX.Element {
     return (<CustomTooltip className="custom-tooltip" title={message}>
@@ -234,25 +241,35 @@ function CreateAsset(): JSX.Element {
                                     value={total}
                                     placeholder="1000000"
                                     onChange={(ev) => {
-                                        const value = getNumberInputValue(ev.target.value);
-                                        if (value !== undefined) {
-                                            setState(prevState => ({...prevState, total: value}));
+                                        let value: string = "0";
+                                        if(ev.target.value) {
+                                            value = parseFloat(ev.target.value).toFixed(decimals);
                                         }
+                                        setState(prevState => ({...prevState, total: parseFloat(value)}));
                                     }}
+                                    type="number"
                                     label="Total supply" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={decimals}
-                                    placeholder="0"
-                                    onChange={(ev) => {
-                                        const value = getNumberInputValue(ev.target.value);
-                                        if (value !== undefined) {
-                                            setState(prevState => ({...prevState, decimals: value}));
-                                        }
-                                    }}
-                                    label="Decimals" variant="outlined" fullWidth/>
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel id="decimals-label">Decimals</InputLabel>
+                                    <Select
+                                        value={decimals}
+                                        onChange={(ev) => {
+                                            const dec = parseInt(ev.target.value + "");
+                                            const tot = parseFloat(total + "").toFixed(dec);
+                                            setState(prevState => ({...prevState, decimals: dec, total: parseFloat(tot)}));
+                                        }}
+                                        fullWidth
+                                        labelId="decimals-label"
+                                        color={"primary"}
+                                        label="Decimals"
+                                    >
+                                        {decimalsList.map((dec) => {
+                                            return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
+                                        })}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                 <TextField

@@ -38,7 +38,9 @@ class AssetClient {
         if (note) {
             encodedNote = utils_1.encodeText(note);
         }
-        return algosdk_1.default.makeAssetCreateTxnWithSuggestedParams(params.creator, encodedNote, params.total, params.decimals, params.defaultFrozen, params.manager, params.reserve, params.freeze, params.clawback, params.unitName, params.name, params.url, params.metadataHash, suggestedParams, rekeyTo);
+        // @ts-ignore
+        const totalSupply = params.total * Math.pow(10, params.decimals);
+        return algosdk_1.default.makeAssetCreateTxnWithSuggestedParams(params.creator, encodedNote, totalSupply, params.decimals, params.defaultFrozen, params.manager, params.reserve, params.freeze, params.clawback, params.unitName, params.name, params.url, params.metadataHash, suggestedParams, rekeyTo);
     }
     async create(params, note, rekeyTo) {
         const unsignedTxn = await this.prepareCreateTxn(params, note, rekeyTo);

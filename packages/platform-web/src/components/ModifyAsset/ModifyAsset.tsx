@@ -3,8 +3,8 @@ import {
     Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle, Grid,
-    IconButton, Switch, TextField
+    DialogTitle, FormControl, Grid,
+    IconButton, InputLabel, MenuItem, Select, Switch, TextField
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -20,6 +20,7 @@ import {A_ModifyAssetParams} from "@algodesk/core";
 import {CustomTooltip} from '../../utils/theme';
 import sdk from "algosdk";
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {decimalsList} from "../CreateAsset/CreateAsset";
 
 interface ModifyAssetState extends A_ModifyAssetParams {
     note: string,
@@ -213,11 +214,22 @@ function ModifyAsset(): JSX.Element {
                                     label="Total supply" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params.decimals}
-                                    disabled
-                                    label="Decimals" variant="outlined" fullWidth/>
+
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel id="decimals-label">Decimals</InputLabel>
+                                    <Select
+                                        value={selectedAsset.params.decimals}
+                                        fullWidth
+                                        labelId="decimals-label"
+                                        color={"primary"}
+                                        label="Decimals"
+                                        disabled
+                                    >
+                                        {decimalsList.map((dec) => {
+                                            return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
+                                        })}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                 <TextField

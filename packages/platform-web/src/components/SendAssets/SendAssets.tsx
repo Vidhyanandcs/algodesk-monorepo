@@ -14,7 +14,7 @@ import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {Close} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
-import {getAssetBal, getAssetBalWithTicker, getNumberInputValue, isNumber} from "../../utils/core";
+import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
@@ -149,11 +149,13 @@ function SendAssets(): JSX.Element {
                                            fullWidth
                                            required
                                            value={amount}
+                                           type="number"
                                            onChange={(ev) => {
-                                               const value = getNumberInputValue(ev.target.value);
-                                               if (value !== undefined) {
-                                                   setState(prevState => ({...prevState, amount: value}));
+                                               let value: string = "0";
+                                               if(ev.target.value) {
+                                                   value = parseFloat(ev.target.value).toFixed(selectedAsset.params.decimals);
                                                }
+                                               setState(prevState => ({...prevState, amount: parseFloat(value)}));
                                            }}
                                            InputProps={{
                                                endAdornment: <InputAdornment position="end" color="primary"><Button onClick={() => {
