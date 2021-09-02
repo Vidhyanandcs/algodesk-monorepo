@@ -7,7 +7,7 @@
   "version": "independent",
   "command": {
     "run": {
-      "npmClient": "npm"
+      "npmClient": "yarn"
     },
     "version": {
       "conventionalCommits": true,
