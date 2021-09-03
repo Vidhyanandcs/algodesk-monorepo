@@ -34,3 +34,4 @@ export const CustomCard = withStyles((theme) => ({
         boxShadow: "0 0 25px rgb(0 0 0 / 8%)",
     }
 }))(Card);
+

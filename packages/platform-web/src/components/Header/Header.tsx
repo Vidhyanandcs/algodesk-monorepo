@@ -1,6 +1,6 @@
 import './Header.scss';
-import {Box, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet, FileCopy} from "@material-ui/icons";
+import {Box, Chip, Grid, Menu, MenuItem} from "@material-ui/core";
+import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet, FileCopy, Power} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
@@ -15,6 +15,7 @@ import {showSnack} from "../../redux/actions/snackbar";
 
 function Header(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
+    const network = useSelector((state: RootState) => state.network);
 
     const [anchorEl, updateAnchorEl] = useState<any>(null);
     const {address, amount} = account.information;
@@ -35,6 +36,17 @@ function Header(): JSX.Element {
                         </Box>
                         <Box p={1}>
                             <div>
+                                <CustomTooltip title={"Connected to " + network.name}>
+                                    <div className="network">
+                                        <Chip
+                                            color={"primary"}
+                                            label={network.name}
+                                            size={"small"}
+                                            variant={"default"}
+                                            icon={<Power></Power>}
+                                        />
+                                    </div>
+                                </CustomTooltip>
                                 <CustomTooltip title="Account balance">
                                     <div className="balance">
                                         <AccountBalanceWallet></AccountBalanceWallet>

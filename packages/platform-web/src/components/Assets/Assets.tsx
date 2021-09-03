@@ -11,9 +11,9 @@ import {
     Menu, Link
 } from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp, CheckCircle, NotInterested} from '@material-ui/icons';
+import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp, CheckCircle, NotInterested, OpenInNew} from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
-import {ellipseAddress} from "@algodesk/core";
+import {ellipseAddress, NETWORKS} from "@algodesk/core";
 import {useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
@@ -22,7 +22,7 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {CustomCard} from '../../utils/theme';
+import {CustomCard, CustomTooltip} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 
@@ -71,6 +71,7 @@ function Assets(): JSX.Element {
     const {information, createdAssets} = account;
     const assetActions = useSelector((state: RootState) => state.assetActions);
     const {selectedAsset} = assetActions;
+    const network = useSelector((state: RootState) => state.network);
     const dispatch = useDispatch();
 
     const [
@@ -113,12 +114,14 @@ function Assets(): JSX.Element {
                                   <CardHeader
                                       action={
                                           <div>
-                                              <IconButton onClick={(ev) => {
-                                                  setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
-                                                  dispatch(setSelectedAsset(asset));
-                                              }}>
-                                                  <MenuIcon />
-                                              </IconButton>
+                                              <CustomTooltip title="Asset actions">
+                                                  <IconButton onClick={(ev) => {
+                                                      setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
+                                                      dispatch(setSelectedAsset(asset));
+                                                  }}>
+                                                      <MenuIcon />
+                                                  </IconButton>
+                                              </CustomTooltip>
                                           </div>
                                       }
                                       avatar={<div>
@@ -256,6 +259,13 @@ function Assets(): JSX.Element {
                   <Delete className="asset-action-icon" fontSize={"small"}></Delete>
                   Delete asset
               </MenuItem>
+              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
+                  const url = 'https://testnet.algodex.com/trade/' + selectedAsset.index;
+                  window.open(url, "_blank");
+              }}>
+                  <OpenInNew className="asset-action-icon" fontSize={"small"}></OpenInNew>
+                  Trade asset
+              </MenuItem> : ''}
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>

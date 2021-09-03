@@ -3,7 +3,7 @@ import {Color} from "@material-ui/lab";
 
 export interface Snackbar {
     show: boolean,
-    message: any,
+    message: string,
     severity: Color
 }
 
