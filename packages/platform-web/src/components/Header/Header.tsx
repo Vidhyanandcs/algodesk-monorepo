@@ -1,6 +1,6 @@
 import './Header.scss';
 import {Box, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet, FileCopy, Power} from "@material-ui/icons";
+import {ArrowDropDown, PowerSettingsNew, OpenInNew, AccountBalanceWallet, FileCopy, Power} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
