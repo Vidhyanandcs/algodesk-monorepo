@@ -1,4 +1,4 @@
-import {Card, createTheme, Tooltip, withStyles} from "@material-ui/core";
+import {Card, Chip, createTheme, Tooltip, withStyles} from "@material-ui/core";
 
 export const theme = createTheme({
     typography: {
@@ -9,7 +9,7 @@ export const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#3f51b5'
+            main: '#5052bd'//5052bd//3f51b5
         },
         secondary: {
             main: '#f44336'
@@ -34,4 +34,14 @@ export const CustomCard = withStyles((theme) => ({
         boxShadow: "0 0 25px rgb(0 0 0 / 8%)",
     }
 }))(Card);
+
+export const BlackChip = withStyles((theme) => ({
+    root: {
+        background: '#000',
+        color: '#fff'
+    },
+    icon: {
+        color: '#fff'
+    }
+}))(Chip);
 

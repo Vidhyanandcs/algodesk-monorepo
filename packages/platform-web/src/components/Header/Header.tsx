@@ -1,5 +1,5 @@
 import './Header.scss';
-import {Box, Chip, Grid, Menu, MenuItem} from "@material-ui/core";
+import {Box, Grid, Menu, MenuItem} from "@material-ui/core";
 import {ArrowDropDown, PowerSettingsNew, OpenInNew, GraphicEqSharp, AccountBalanceWallet, FileCopy, Power} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -9,8 +9,9 @@ import sdk from 'algosdk';
 import {ellipseAddress} from "@algodesk/core";
 import {openAccountInExplorer} from "../../utils/core";
 import copy from 'copy-to-clipboard';
-import {CustomTooltip} from '../../utils/theme';
+import {CustomTooltip, BlackChip} from '../../utils/theme';
 import {showSnack} from "../../redux/actions/snackbar";
+import Logo from "../Logo/Logo";
 
 
 function Header(): JSX.Element {
@@ -30,16 +31,14 @@ function Header(): JSX.Element {
                     <Box display="flex" p={1} alignItems="flex-start">
                         <Box p={1} flexGrow={1}>
                             <div className={"logo "}>
-                                <GraphicEqSharp></GraphicEqSharp>
-                                Algodesk
+                                <Logo></Logo>
                             </div>
                         </Box>
                         <Box p={1}>
                             <div>
                                 <CustomTooltip title={"Connected to " + network.name}>
                                     <div className="network">
-                                        <Chip
-                                            color={"primary"}
+                                        <BlackChip
                                             label={network.name}
                                             size={"small"}
                                             variant={"default"}

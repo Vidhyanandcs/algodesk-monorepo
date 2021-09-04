@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
+import Logo from "../Logo/Logo";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -51,7 +52,7 @@ function Login(): JSX.Element {
                               </Tooltip>
                           </div>
                           <div className="logo">
-                              Algodesk.io
+                              <Logo></Logo>
                           </div>
                           <div>
                               <Button
