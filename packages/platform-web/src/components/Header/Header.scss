@@ -8,6 +8,10 @@
     width: 100%;
     height: 70px;
     box-shadow: 0 5px 6px -6px $color-grey;
+    .logo {
+      margin-top: 5px;
+      margin-left: -15px;
+    }
     .balance {
       display: inline-block;
       margin-right: 10px;
@@ -50,27 +54,6 @@
         margin-left: 0px;
         margin-right: 10px;
       }
-    }
-    .round-button {
-      background: #666666;
-      color: $color-light;
-      padding: 5px;
-    }
-    .logo {
-      font-size: 18px;
-      margin-left: -15px;
-      margin-top: 5px;
-      font-weight: bold;
-      svg {
-        vertical-align: middle;
-        margin-right: 5px;
-      }
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    .header-action {
-      margin-top: -4px;
     }
   }
 }

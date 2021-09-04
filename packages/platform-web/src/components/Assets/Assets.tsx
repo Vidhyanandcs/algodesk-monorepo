@@ -11,7 +11,18 @@ import {
     Menu, Link
 } from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
-import {Add, Menu as MenuIcon, Edit, Lock, Delete, Send, SettingsBackupRestoreSharp, CheckCircle, NotInterested, OpenInNew} from '@material-ui/icons';
+import {
+    Add,
+    Menu as MenuIcon,
+    Edit,
+    Lock,
+    Delete,
+    Send,
+    SettingsBackupRestoreSharp,
+    CheckCircle,
+    NotInterested,
+    OpenInNew
+} from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
 import {useState} from "react";
@@ -22,7 +33,7 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {CustomCard, CustomTooltip} from '../../utils/theme';
+import {BlackChip, CustomCard, CustomTooltip} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 
@@ -87,18 +98,33 @@ function Assets(): JSX.Element {
       <div className="assets-wrapper">
           <div className="assets-container">
               <div className="title">
-                  My Assets
+                  Created Assets
+
+                  <div className="asset-count">
+                      <BlackChip
+                          label={createdAssets.length}
+                          size={"small"}
+                          variant={"default"}
+                      />
+                  </div>
+
               </div>
-              <Button
-                  color="primary"
-                  startIcon={<Add></Add>}
-                  variant={"contained"}
-                  onClick={() => {
-                      dispatch(setAction('create'));
-                  }}
-                  size={"large"}>
-                  Create asset
-              </Button>
+
+              <div>
+                  <Button
+                      color="primary"
+                      startIcon={<Add></Add>}
+                      variant={"contained"}
+                      className="add-asset"
+                      onClick={() => {
+                          dispatch(setAction('create'));
+                      }}
+                      size={"large"}>
+                      Create asset
+                  </Button>
+              </div>
+
+
               {createdAssets.length === 0 ?
                   <div className="empty-message">
                       <Alert icon={false} color={"warning"}>

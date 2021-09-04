@@ -165,7 +165,7 @@ function RevokeAssets(): JSX.Element {
                                         setState(prevState => ({...prevState, revokeTarget: ev.target.value}));
                                     }}
                                     className="address-field"
-                                    label="Revoke target address" variant="outlined" rows={2} fullWidth multiline/>
+                                    label="Target address" variant="outlined" rows={2} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField
@@ -175,7 +175,7 @@ function RevokeAssets(): JSX.Element {
                                         setState(prevState => ({...prevState, revokeReceiver: ev.target.value}));
                                     }}
                                     className="address-field"
-                                    label="Revoke receiver address" variant="outlined" rows={2} fullWidth multiline/>
+                                    label="Receiver address" variant="outlined" rows={2} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField label="Amount" variant="outlined"

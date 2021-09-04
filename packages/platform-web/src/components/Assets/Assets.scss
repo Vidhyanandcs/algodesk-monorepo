@@ -6,9 +6,9 @@
 
 .assets-wrapper {
   .assets-container {
-    margin-top: 25px;
+    margin-top: 30px;
     .assets {
-      margin-top: 25px;
+      margin-top: 40px;
       .asset {
         .card-action-custom {
           background: $color-grey-very-light;
@@ -86,14 +86,16 @@
       margin-top: 25px;
     }
     .title {
-      font-size: 25px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 30px;
       padding-bottom: 20px;
       margin-bottom: 20px;
       border-bottom: 1px solid $color-grey-light;
-      .add-asset {
-        margin-left: 20px;
+      .asset-count {
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: middle;
       }
     }
 

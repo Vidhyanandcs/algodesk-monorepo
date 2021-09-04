@@ -37,11 +37,12 @@ export const CustomCard = withStyles((theme) => ({
 
 export const BlackChip = withStyles((theme) => ({
     root: {
-        background: '#000',
-        color: '#fff'
+        color: '#000',
+        border: '1px solid #000',
+        background: '#fff'
     },
     icon: {
-        color: '#fff'
+        color: '#000'
     }
 }))(Chip);
 
