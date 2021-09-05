@@ -11,6 +11,8 @@ import {getCommonStyles} from "../../utils/styles";
 import {NETWORKS, getNetworks} from '@algodesk/core';
 import {LOCAL_STORAGE} from "../../constants";
 
+const networkEnv: string = process.env.REACT_APP_NETWORK;
+
 const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export function getNetwork(): string {
-    let network = localStorage.getItem(LOCAL_STORAGE.NETWORK);
+    let network: string = networkEnv || localStorage.getItem(LOCAL_STORAGE.NETWORK);
     if (!network) {
         network = NETWORKS.MAINNET;
     }
