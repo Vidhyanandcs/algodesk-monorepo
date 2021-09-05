@@ -12,7 +12,7 @@ export const theme = createTheme({
             main: '#5052bd'//5052bd//3f51b5
         },
         secondary: {
-            main: '#f44336'
+            main: '#fa5c7c'//#fa5c7c//f44336
         }
     }
 });

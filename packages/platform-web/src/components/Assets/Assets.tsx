@@ -270,6 +270,13 @@ function Assets(): JSX.Element {
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
+              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
+                  const url = 'https://testnet.algodex.com/trade/' + selectedAsset.index;
+                  window.open(url, "_blank");
+              }}>
+                  <OpenInNew className="asset-action-icon" fontSize={"small"}></OpenInNew>
+                  Trade asset
+              </MenuItem> : ''}
               <MenuItem onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
@@ -285,13 +292,6 @@ function Assets(): JSX.Element {
                   <Delete className="asset-action-icon" fontSize={"small"}></Delete>
                   Delete asset
               </MenuItem>
-              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
-                  const url = 'https://testnet.algodex.com/trade/' + selectedAsset.index;
-                  window.open(url, "_blank");
-              }}>
-                  <OpenInNew className="asset-action-icon" fontSize={"small"}></OpenInNew>
-                  Trade asset
-              </MenuItem> : ''}
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>

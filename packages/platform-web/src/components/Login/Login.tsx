@@ -1,8 +1,7 @@
 import './Login.scss';
-import {Button, Grid, IconButton, makeStyles, Tooltip, Typography} from "@material-ui/core";
+import {Button, Grid, makeStyles, Typography} from "@material-ui/core";
 import LoginBackground from "./LoginBackground";
-import {Power, Settings} from "@material-ui/icons";
-import {showSettings} from '../../redux/actions/settings';
+import {Power} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch, useSelector} from "react-redux";
 import {getCommonStyles} from "../../utils/styles";
@@ -41,15 +40,6 @@ function Login(): JSX.Element {
                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                       <div className="right-section">
                           <div>
-                              <Tooltip title="Settings">
-                                  <IconButton
-                                      className="settings-button"
-                                      onClick={() => {
-                                          dispatch(showSettings());
-                                      }}>
-                                      <Settings></Settings>
-                                  </IconButton>
-                              </Tooltip>
                           </div>
                           <div className="logo">
                               <Logo></Logo>
@@ -67,7 +57,7 @@ function Login(): JSX.Element {
                               >Connect Wallet</Button>
                           </div>
                           <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-                              Powered by algorand
+                              Your asset manager
                           </Typography>
                       </div>
                   </Grid>
