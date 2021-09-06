@@ -3,7 +3,7 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography, CircularProgress
+    IconButton, makeStyles, Typography, CircularProgress, Button
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -138,9 +138,21 @@ function ConnectWallet(): JSX.Element {
                                         <CircularProgress style={{color: '#000'}}></CircularProgress>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
-                                        <Alert icon={false} color={"error"}>
+                                        {/*<Alert icon={false} color={"error"}>*/}
+                                        {/*    {connectWallet.errMessage}*/}
+                                        {/*</Alert>*/}
+                                        <div className={classes.secondaryText}>
                                             {connectWallet.errMessage}
-                                        </Alert>
+                                        </div>
+                                        <Button
+                                            color={"primary"}
+                                            variant={"outlined"}
+                                            size={"large"}
+                                            style={{marginTop: 25}}
+                                            onClick={() => {
+                                                dispatch(connect(selectedSigner));
+                                            }}
+                                        >Try again</Button>
                                     </div> : ''}
                                     {!connectWallet.connecting && accounts.length === 0 && !connectWallet.errMessage? <div className="error-message">
                                         <Alert icon={false} color={"error"}>

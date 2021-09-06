@@ -21,7 +21,8 @@ import {
     SettingsBackupRestoreSharp,
     CheckCircle,
     NotInterested,
-    OpenInNew
+    ArtTrack,
+    SwapHorizontalCircle
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -270,13 +271,6 @@ function Assets(): JSX.Element {
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
-              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
-                  const url = 'https://testnet.algodex.com/trade/' + selectedAsset.index;
-                  window.open(url, "_blank");
-              }}>
-                  <OpenInNew className="asset-action-icon" fontSize={"small"}></OpenInNew>
-                  Trade asset
-              </MenuItem> : ''}
               <MenuItem onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
@@ -292,6 +286,24 @@ function Assets(): JSX.Element {
                   <Delete className="asset-action-icon" fontSize={"small"}></Delete>
                   Delete asset
               </MenuItem>
+              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
+                  const url = 'https://testnet.algodex.com/trade/' + selectedAsset.index;
+                  window.open(url, "_blank");
+              }}>
+                  <ArtTrack className="asset-action-icon" fontSize={"small"}></ArtTrack>
+                  Trade (Algodex)
+              </MenuItem> : ''}
+
+              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
+                  const url = 'https://testnet.tinyman.org/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
+                  window.open(url, "_blank");
+              }}>
+                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircle>
+                  Swap (Tinyman)
+              </MenuItem> : ''}
+
+
+
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>

@@ -96,7 +96,7 @@ function Header(): JSX.Element {
                                         dispatch(logout());
                                     }}
                                     >
-                                        <PowerSettingsNew fontSize={"small"} className="menu-icon"></PowerSettingsNew>Logout</MenuItem>
+                                        <PowerSettingsNew fontSize={"small"} className="menu-icon"></PowerSettingsNew>Disconnect</MenuItem>
                                 </Menu>
                             </div>
                         </Box>
