@@ -5,12 +5,21 @@
 }
 .body-wrapper {
   .body-container {
-    margin-top: 100px;
+    padding-top: 100px;
+    height: calc(100vh - 160px);
+    background: url("../../assets/images/hero-bg.png");
     .title {
       font-size: 50px;
       font-weight: bold;
       line-height: 1.1;
       margin-bottom: 50px;
+    }
+    .subtitle {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: $color-grey-dark;
+      font-family: SourceSansProLight !important;
     }
     .signer {
       padding: 10px;

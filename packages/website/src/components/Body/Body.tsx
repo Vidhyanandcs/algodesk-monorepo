@@ -17,6 +17,10 @@ function Body(): JSX.Element {
                                 Create, Configure and Manage your Assets on Algorand Blockchain
                             </div>
 
+                            <div className="subtitle">
+                                Supported Wallets
+                            </div>
+
                             <div className="signer">
                                 <img alt="myalgo wallet" src='data:image/svg+xml;base64, PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMwIDMwIj4KICAgIDxwYXRoIGlkPSJwcmVmaXhfX1N1YnRyYWN0aW9uXzExIiBmaWxsPSIjMjQ1ZWM3IiBkPSJNMTUgMzBBMTUgMTUgMCAwIDEgNC4zOTIgNC4zOTMgMTUgMTUgMCAxIDEgMjUuNiAyNS42MDYgMTQuOSAxNC45IDAgMCAxIDE1IDMwem0zLjk5MS0xOS41MDhsLjEyMi40NjggMi40NTkgOC45MWgyTDIwLjIxNCA4LjMxNCAyMC4xMzIgOGgtMS43NDVsLS4wNC4wNjMtMS42MzMgMi45LTEuNjc0IDIuOTc0LS4wNC4wNzEtLjAxOS0uMDcxLS4yLS43NjQtLjU3MS0yLjIxLS4wNjEtLjIyLS42MzMtMi40MjlMMTMuNDMgOGgtMS43NDVsLS4wNDEuMDYzLTEuNjMzIDIuOS0xLjY3MyAyLjk3NEw2LjY3MyAxNi45IDUgMTkuODczaDJMOC42NzQgMTYuOWwxLjY3NC0yLjk2MyAxLjY2My0yLjk3NC4yNzUtLjQ3MS4xMjIuNDcxLjUxIDEuOTU4LjYzNCAyLjQzOS4yMi44MzItLjQuNzA3LTEuNjcyIDIuOTc0aDJsLjcwNy0xLjI1NSAxLjIyOC0yLjE3OSAxLjQxNC0yLjUgMS42NjMtMi45NzQuMjc0LS40Njl6IiBkYXRhLW5hbWU9IlN1YnRyYWN0aW9uIDExIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSguMDAyKSIvPgo8L3N2Zz4K'/>
                                 <div className="name">MyAlgo Wallet</div>
