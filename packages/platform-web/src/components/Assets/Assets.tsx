@@ -99,15 +99,10 @@ function Assets(): JSX.Element {
       <div className="assets-wrapper">
           <div className="assets-container">
               <div className="title">
-                  Created Assets
+                  Created Assets :
 
                   <div className="asset-count">
-                      <BlackChip
-                          label={createdAssets.length}
-                          size={"small"}
-                          variant={"default"}
-                          style={{minWidth: 40, textAlign: 'center', fontSize: 16}}
-                      />
+                      {createdAssets.length}
                   </div>
 
               </div>

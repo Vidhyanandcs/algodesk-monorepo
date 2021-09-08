@@ -7,7 +7,6 @@ import {NETWORKS} from "../constants";
 
 export class WalletConnectSigner implements Signer{
     public bridge: string = "https://bridge.walletconnect.org";
-    public connection;
     private supportedNetworks: string[];
     public wc: WalletConnect;
 
@@ -31,7 +30,7 @@ export class WalletConnectSigner implements Signer{
         });
 
         const jsonReq = formatJsonRpcRequest("algo_signTxn", [requestTxns]);
-        let signedTxns = await this.connection.sendCustomRequest(jsonReq);
+        let signedTxns = await this.wc.sendCustomRequest(jsonReq);
 
         signedTxns = signedTxns.map((signedTxn) => {
             const rawSignedTxn = Buffer.from(signedTxn, "base64");
@@ -56,7 +55,6 @@ export class WalletConnectSigner implements Signer{
 
                 this.wc = wc;
                 const connection = await wc.connect();
-                this.connection = connection;
                 const {accounts} = connection;
 
                 accounts.forEach((account) => {
