@@ -30,7 +30,10 @@ export const connect = createAsyncThunk(
             dispatch(setSigner(signer.name));
             algosdk.changeSigner(signer.name);
             // @ts-ignore
-            const accounts = await signer.instance.connect(network.name);
+            const accounts = await signer.instance.connect(network.name, (err, payload)=> {
+                dispatch(walletConnected());
+                dispatch(setErrorMessage(payload.params[0].message));
+            });
             if (accounts.length === 1) {
                 dispatch(loadAccount(accounts[0].address));
                 dispatch(hideConnectWallet());

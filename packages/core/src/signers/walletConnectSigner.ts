@@ -1,6 +1,6 @@
 import {Signer, SignerAccount} from "../types";
 import {Transaction, encodeUnsignedTransaction} from "algosdk";
-import WalletConnect from "walletconnect";
+import WalletConnect from "@walletconnect/client";
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal';
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import {NETWORKS} from "../constants";
@@ -9,6 +9,7 @@ export class WalletConnectSigner implements Signer{
     public bridge: string = "https://bridge.walletconnect.org";
     public connection;
     private supportedNetworks: string[];
+    public wc: WalletConnect;
 
     constructor() {
         this.supportedNetworks = [NETWORKS.TESTNET, NETWORKS.MAINNET];
@@ -40,12 +41,20 @@ export class WalletConnectSigner implements Signer{
         return signedTxns;
     }
 
-    async connect(name: string): Promise<SignerAccount[]> {
+    async connect(name: string, callback?: Function): Promise<SignerAccount[]> {
         if (this.isInstalled()) {
             if (this.isNetworkSupported(name)) {
                 const signerAccounts: SignerAccount[] = [];
 
                 const wc = new WalletConnect({ bridge: this.bridge, qrcodeModal: QRCodeModal });
+
+                wc.on("disconnect", (error, payload) => {
+                    if(callback) {
+                        callback(error, payload);
+                    }
+                });
+
+                this.wc = wc;
                 const connection = await wc.connect();
                 this.connection = connection;
                 const {accounts} = connection;
@@ -77,6 +86,6 @@ export class WalletConnectSigner implements Signer{
     }
 
     logout() {
-        this.connection.killSession();
+        this.wc.killSession();
     }
 }
