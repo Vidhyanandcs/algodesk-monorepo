@@ -1,6 +1,6 @@
 import './Header.scss';
 import {Box, Chip, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, AccountBalanceWallet, FileCopy, Power} from "@material-ui/icons";
+import {ArrowDropDown, PowerSettingsNew, OpenInNew, FileCopy, Power} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {logout} from "../../redux/actions/account";
@@ -49,7 +49,7 @@ function Header(): JSX.Element {
                                 </CustomTooltip>
                                 <CustomTooltip title="Account balance">
                                     <div className="balance">
-                                        <img src='data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTE3IDE3Ljk5ODdIMTUuMjc1TDE0LjE1NDcgMTMuNDU5NUwxMS43NDczIDE3Ljk5ODdIOS44MjE5MUwxMy41NDMgMTAuOTczNEwxMi45NDUyIDguNTM0MDJMNy45MjY1OSAxOEg2TDEyLjM2MDIgNkgxNC4wNDU4TDE0Ljc4NDkgOC45ODIwMkgxNi41MjVMMTUuMzM2NCAxMS4yMzIxTDE3IDE3Ljk5ODdaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K'/>
+                                        <img alt="bal" src='data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTE3IDE3Ljk5ODdIMTUuMjc1TDE0LjE1NDcgMTMuNDU5NUwxMS43NDczIDE3Ljk5ODdIOS44MjE5MUwxMy41NDMgMTAuOTczNEwxMi45NDUyIDguNTM0MDJMNy45MjY1OSAxOEg2TDEyLjM2MDIgNkgxNC4wNDU4TDE0Ljc4NDkgOC45ODIwMkgxNi41MjVMMTUuMzM2NCAxMS4yMzIxTDE3IDE3Ljk5ODdaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K'/>
                                         {sdk.microalgosToAlgos(amount) + ""}
                                     </div>
                                 </CustomTooltip>

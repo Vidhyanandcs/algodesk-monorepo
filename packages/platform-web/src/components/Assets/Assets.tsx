@@ -34,7 +34,7 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {BlackChip, CustomCard, CustomTooltip} from '../../utils/theme';
+import {CustomCard, CustomTooltip} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 
