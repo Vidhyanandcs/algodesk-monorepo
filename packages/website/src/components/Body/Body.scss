@@ -1,0 +1,40 @@
+@import "../../assets/colors";
+
+.menu-icon {
+  margin-right: 10px;
+}
+.body-wrapper {
+  .body-container {
+    margin-top: 100px;
+    .title {
+      font-size: 50px;
+      font-weight: bold;
+      line-height: 1.1;
+      margin-bottom: 50px;
+    }
+    .signer {
+      padding: 10px;
+      display: inline-block;
+      img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+      .name {
+        display: inline-block;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+    .open-app {
+      margin-top: 40px;
+      .open-app-button {
+        background: #000000;
+        &:hover {
+          background: #000000;
+        }
+      }
+    }
+  }
+}
