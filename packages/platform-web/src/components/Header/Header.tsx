@@ -42,7 +42,7 @@ function Header(): JSX.Element {
                                             color={"primary"}
                                             label={network.name}
                                             size={"small"}
-                                            variant={"default"}
+                                            variant={"outlined"}
                                             icon={<Power></Power>}
                                         />
                                     </div>

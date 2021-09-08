@@ -106,6 +106,7 @@ function Assets(): JSX.Element {
                           label={createdAssets.length}
                           size={"small"}
                           variant={"default"}
+                          style={{minWidth: 40, textAlign: 'center', fontSize: 16}}
                       />
                   </div>
 
@@ -146,7 +147,7 @@ function Assets(): JSX.Element {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
-                                                      <MenuIcon />
+                                                      <MenuIcon style={{color: '#333'}}/>
                                                   </IconButton>
                                               </CustomTooltip>
                                           </div>

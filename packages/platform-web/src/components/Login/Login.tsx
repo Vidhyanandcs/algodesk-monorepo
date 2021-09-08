@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         loginButton: {
-            marginTop: 15,
+            marginTop: 10,
         }
     };
 });
@@ -57,7 +57,7 @@ function Login(): JSX.Element {
                               >Connect Wallet</Button>
                           </div>
                           <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-                              Your asset manager
+
                           </Typography>
                       </div>
                   </Grid>
