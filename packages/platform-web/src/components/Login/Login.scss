@@ -1,21 +1,25 @@
 .login-wrapper {
   .login-container {
     height: 100vh;
-    .left-section {
-      height: 100vh;
-      background: #f7f6ff;
+    background: url("../../assets/images/login-bg.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    .login-form {
       text-align: center;
-      svg {
-        margin-top: 100px;
+      padding: 100px;
+      width: 200px;
+      margin: 100px auto;
+
+
+    .lock-icon {
+        svg {
+          font-size: 50px;
+        }
       }
-    }
-    .right-section {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100vh;
+      .login-button {
+        margin-top: 0px;
+      }
       .settings-button {
         position: absolute;
         top: 5px;

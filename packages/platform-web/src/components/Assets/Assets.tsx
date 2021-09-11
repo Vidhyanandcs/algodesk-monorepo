@@ -21,7 +21,6 @@ import {
     SettingsBackupRestoreSharp,
     CheckCircle,
     NotInterested,
-    ArtTrack,
     SwapHorizontalCircle
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";

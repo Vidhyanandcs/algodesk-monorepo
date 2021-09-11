@@ -1,7 +1,6 @@
 import './Login.scss';
 import {Button, Grid, makeStyles, Typography} from "@material-ui/core";
-import LoginBackground from "./LoginBackground";
-import {Power} from "@material-ui/icons";
+import {Power, Lock} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch, useSelector} from "react-redux";
 import {getCommonStyles} from "../../utils/styles";
@@ -14,6 +13,11 @@ const useStyles = makeStyles((theme) => {
         ...getCommonStyles(theme),
         loginButton: {
             marginTop: 10,
+            background: '#000',
+            color: '#fff',
+            '&:hover': {
+                background: '#000'
+            }
         }
     };
 });
@@ -32,21 +36,16 @@ function Login(): JSX.Element {
       <div className="login-wrapper">
           <div className="login-container">
               <Grid container>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                      <div className="left-section">
-                        <LoginBackground></LoginBackground>
-                      </div>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                      <div className="right-section">
-                          <div>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <div className="login-form">
+                          <div className="lock-icon">
+                              <Lock></Lock>
                           </div>
                           <div className="logo">
                               <Logo></Logo>
                           </div>
-                          <div>
+                          <div className="login-button">
                               <Button
-                                  color={"primary"}
                                   variant={"contained"}
                                   size={"large"}
                                   className={classes.loginButton}

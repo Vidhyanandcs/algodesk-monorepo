@@ -138,9 +138,6 @@ function ConnectWallet(): JSX.Element {
                                         <CircularProgress style={{color: '#000'}}></CircularProgress>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
-                                        {/*<Alert icon={false} color={"error"}>*/}
-                                        {/*    {connectWallet.errMessage}*/}
-                                        {/*</Alert>*/}
                                         <div className={classes.secondaryText}>
                                             {connectWallet.errMessage}
                                         </div>
@@ -155,9 +152,9 @@ function ConnectWallet(): JSX.Element {
                                         >Try again</Button>
                                     </div> : ''}
                                     {!connectWallet.connecting && accounts.length === 0 && !connectWallet.errMessage? <div className="error-message">
-                                        <Alert icon={false} color={"error"}>
+                                        <div className={classes.secondaryText}>
                                             No accounts found
-                                        </Alert>
+                                        </div>
                                     </div> : ''}
                                     {accounts.map((account) => {
                                         return (<div className='account' key={account.address} onClick={async () => {
