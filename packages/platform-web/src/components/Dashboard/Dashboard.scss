@@ -2,6 +2,9 @@
 
 .dashboard-wrapper {
   .dashboard-container {
-
+    .dashboard-tabs {
+      margin-top: 20px;
+      border-bottom: 1px solid $color-grey-light;
+    }
   }
 }

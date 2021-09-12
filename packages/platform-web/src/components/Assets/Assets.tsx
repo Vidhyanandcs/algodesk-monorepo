@@ -97,15 +97,6 @@ function Assets(): JSX.Element {
   return (
       <div className="assets-wrapper">
           <div className="assets-container">
-              <div className="title">
-                  Created Assets :
-
-                  <div className="asset-count">
-                      {createdAssets.length}
-                  </div>
-
-              </div>
-
               <div>
                   <Button
                       color="primary"

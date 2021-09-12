@@ -52,7 +52,7 @@ function Login(): JSX.Element {
                               <Logo></Logo>
                           </div>
                           <div className="networks">
-                              <ButtonGroup variant="outlined" color="secondary">
+                              <ButtonGroup variant="outlined" color="primary">
                                   {networks.map((network) => {
                                       return (<Button variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                           let domain = network.name;
