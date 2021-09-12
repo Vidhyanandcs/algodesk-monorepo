@@ -167,7 +167,6 @@ function ConnectWallet(): JSX.Element {
                                                 severity="warning" icon={false}>
                                                 {account.address}
                                             </Alert>
-
                                         </div>);
                                     })}
                                 </div>

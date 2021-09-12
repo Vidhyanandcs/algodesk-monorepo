@@ -54,7 +54,7 @@ function Login(): JSX.Element {
                           <div className="networks">
                               <ButtonGroup variant="outlined" color="primary">
                                   {networks.map((network) => {
-                                      return (<Button variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
+                                      return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                           let domain = network.name;
                                           if (network.name === NETWORKS.MAINNET) {
                                               domain = 'app';
