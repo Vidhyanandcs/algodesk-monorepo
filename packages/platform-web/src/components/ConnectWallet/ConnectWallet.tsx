@@ -3,12 +3,12 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography, CircularProgress, Button
+    IconButton, makeStyles, Typography, Button, LinearProgress, Grid
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, Power, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
+import {Close, Power, ChevronRightSharp, ArrowBack, Category} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {Alert} from '@material-ui/lab';
@@ -128,14 +128,27 @@ function ConnectWallet(): JSX.Element {
                         {view === 'accounts' ? <div className="accounts-wrapper">
                             <div className="accounts-container">
                                 <div className="header">
-                                    {selectedSigner.logo ? <img className="logo" src={selectedSigner.logo} alt="logo"/> : ''}
                                     <span className="name">
                                         {selectedSigner.label}
                                     </span>
                                 </div>
                                 <div className="body">
                                     {connectWallet.connecting ? <div className="connecting">
-                                        <CircularProgress style={{color: '#000'}}></CircularProgress>
+
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                                                <Category style={{fontSize: 50}}></Category>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                                                <LinearProgress color="primary" style={{marginTop: 25}}/>
+                                            </Grid>
+                                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                                                {selectedSigner.logo ? <img style={{width: 50, height: 50}} src={selectedSigner.logo} alt="logo"/> : ''}
+                                            </Grid>
+                                        </Grid>
+
+
+
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
                                         <div className={classes.secondaryText}>
