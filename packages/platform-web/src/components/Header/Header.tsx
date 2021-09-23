@@ -39,7 +39,7 @@ function Header(): JSX.Element {
                                 <CustomTooltip title={"Connected to " + network.name}>
                                     <div className="network">
                                         <Chip
-                                            color={"secondary"}
+                                            color={"primary"}
                                             label={network.name}
                                             size={"small"}
                                             variant={"default"}
@@ -88,7 +88,7 @@ function Header(): JSX.Element {
                                                 updateAnchorEl(null);
                                           }}
                                     >
-                                        <OpenInNew fontSize={"small"} className="menu-icon"></OpenInNew>
+                                        <OpenInNew fontSize={"small"} className="menu-icon" color={"primary"}></OpenInNew>
                                         View in explorer
                                     </MenuItem>
                                     <MenuItem onClick={() => {
@@ -96,7 +96,7 @@ function Header(): JSX.Element {
                                         dispatch(logout());
                                     }}
                                     >
-                                        <PowerSettingsNew fontSize={"small"} className="menu-icon"></PowerSettingsNew>Disconnect</MenuItem>
+                                        <PowerSettingsNew fontSize={"small"} className="menu-icon" color={"primary"}></PowerSettingsNew>Disconnect</MenuItem>
                                 </Menu>
                             </div>
                         </Box>

@@ -21,7 +21,7 @@ function Header(): JSX.Element {
                             <div>
                                 <Button color={"primary"}
                                         startIcon={<Email></Email>}
-                                        variant={"text"}
+                                        variant={"outlined"}
                                         size={"small"}
                                         onClick={() => {
                                             window.open("mailto:hello@algodesk.io", "_blank");

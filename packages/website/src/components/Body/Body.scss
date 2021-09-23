@@ -15,26 +15,11 @@
       margin-bottom: 50px;
     }
     .subtitle {
-      font-size: 30px;
-      font-weight: bold;
+      font-size: 50px;
       margin-bottom: 30px;
       color: $color-grey-dark;
       font-family: SourceSansProLight !important;
-    }
-    .signer {
-      padding: 10px;
-      display: inline-block;
-      img {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-      .name {
-        display: inline-block;
-        font-size: 20px;
-        font-weight: bold;
-      }
+      line-height: 1.1;
     }
     .open-app {
       margin-top: 40px;

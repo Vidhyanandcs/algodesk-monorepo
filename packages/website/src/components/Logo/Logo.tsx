@@ -5,7 +5,7 @@ function Logo(): JSX.Element {
   return (
       <div>
         <div className="logo-icon">
-            <Category color={"primary"}></Category>
+            <Category></Category>
         </div>
         <div className={"logo-text"}>Algodesk</div>
       </div>
