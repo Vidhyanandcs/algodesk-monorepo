@@ -128,11 +128,11 @@ function Assets(): JSX.Element {
                                       action={
                                           <div>
                                               <CustomTooltip title="Asset actions">
-                                                  <IconButton onClick={(ev) => {
+                                                  <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
-                                                      <MenuIcon style={{color: '#333'}}/>
+                                                      <MenuIcon/>
                                                   </IconButton>
                                               </CustomTooltip>
                                           </div>
@@ -209,7 +209,7 @@ function Assets(): JSX.Element {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
-                  <Send className="asset-action-icon" fontSize={"small"}></Send>
+                  <Send className="asset-action-icon" fontSize={"small"} color={"primary"}></Send>
                   Send assets
               </MenuItem>
               <MenuItem onClick={() => {
@@ -224,7 +224,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Edit className="asset-action-icon" fontSize={"small"}></Edit>
+                  <Edit className="asset-action-icon" fontSize={"small"} color={"primary"}></Edit>
                   Modify asset
               </MenuItem>
               <MenuItem onClick={() => {
@@ -239,7 +239,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Lock className="asset-action-icon" fontSize={"small"}></Lock>
+                  <Lock className="asset-action-icon" fontSize={"small"} color={"primary"}></Lock>
                   Freeze / Unfreeze
               </MenuItem>
               <MenuItem onClick={() => {
@@ -254,7 +254,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
+                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"} color={"primary"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
               <MenuItem onClick={() => {
@@ -269,14 +269,15 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Delete className="asset-action-icon" fontSize={"small"}></Delete>
+                  <Delete className="asset-action-icon" fontSize={"small"} color={"primary"}></Delete>
                   Delete asset
               </MenuItem>
               {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
                   const url = 'https://testnet.tinyman.org/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
                   window.open(url, "_blank");
+                  closeMenu();
               }}>
-                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircle>
+                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"} color={"primary"}></SwapHorizontalCircle>
                   Swap (Tinyman)
               </MenuItem> : ''}
 

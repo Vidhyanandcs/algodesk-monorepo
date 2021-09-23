@@ -1,6 +1,16 @@
 import './Login.scss';
-import {Button, ButtonGroup, Grid, makeStyles, Typography} from "@material-ui/core";
-import {Power, Lock} from "@material-ui/icons";
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    makeStyles,
+    Radio,
+    RadioGroup,
+    Typography
+} from "@material-ui/core";
+import {Power} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch, useSelector} from "react-redux";
 import {getCommonStyles} from "../../utils/styles";
@@ -13,12 +23,7 @@ const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         loginButton: {
-            marginTop: 10,
-            background: '#000',
-            color: '#fff',
-            '&:hover': {
-                background: '#000'
-            }
+            marginTop: 10
         }
     };
 });
@@ -45,29 +50,44 @@ function Login(): JSX.Element {
               <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <div className="login-form">
-                          <div className="lock-icon">
-                              <Lock></Lock>
-                          </div>
                           <div className="logo">
                               <Logo></Logo>
                           </div>
                           <div className="networks">
-                              <ButtonGroup variant="outlined" color="primary">
-                                  {networks.map((network) => {
-                                      return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
-                                          let domain = network.name;
-                                          if (network.name === NETWORKS.MAINNET) {
-                                              domain = 'app';
-                                          }
-                                          window.location.href = 'https://' + domain + '.algodesk.io';
-                                      }}>{network.label}</Button>);
-                                  })}
-                              </ButtonGroup>
+
+                              <FormControl component="fieldset">
+                                  <FormLabel component="legend">Choose network</FormLabel>
+                                  <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
+                                      let domain = e.currentTarget.value;
+                                      if (domain === NETWORKS.MAINNET) {
+                                          domain = 'app';
+                                      }
+                                      window.location.href = 'https://' + domain + '.algodesk.io';
+                                  }}>
+                                      {networks.map((network) => {
+                                          return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label} />
+                                      })}
+                                  </RadioGroup>
+                              </FormControl>
+
+
+                              {/*<ButtonGroup variant="outlined" color="primary">*/}
+                              {/*    {networks.map((network) => {*/}
+                              {/*        return (<Button key={network.name} size={"small"} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {*/}
+                              {/*            let domain = network.name;*/}
+                              {/*            if (network.name === NETWORKS.MAINNET) {*/}
+                              {/*                domain = 'app';*/}
+                              {/*            }*/}
+                              {/*            window.location.href = 'https://' + domain + '.algodesk.io';*/}
+                              {/*        }}>{network.label}</Button>);*/}
+                              {/*    })}*/}
+                              {/*</ButtonGroup>*/}
                           </div>
                           <div className="login-button">
                               <Button
                                   variant={"contained"}
                                   size={"large"}
+                                  color={"primary"}
                                   className={classes.loginButton}
                                   startIcon={<Power></Power>}
                                   onClick={() => {

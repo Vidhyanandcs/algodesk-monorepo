@@ -1,14 +1,9 @@
 import './Dashboard.scss';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Grid, Tab, Tabs} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import Assets from "../Assets/Assets";
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
 
 function Dashboard(): JSX.Element {
-    const account = useSelector((state: RootState) => state.account);
-    const {createdAssets} = account;
-
   return (
       <div className="dashboard-wrapper">
           <div className="dashboard-container">
@@ -16,16 +11,16 @@ function Dashboard(): JSX.Element {
                   <Grid item xs={1} sm={2} md={2} lg={2} xl={2}>
                   </Grid>
                   <Grid item xs={10} sm={8} md={8} lg={8} xl={8}>
-                      <div className="dashboard-tabs">
-                          <Tabs
-                              value={"created_assets"}
-                              indicatorColor="primary"
-                              textColor="primary"
-                              variant="standard"
-                          >
-                              <Tab label={"Created Assets (" + createdAssets.length + ')'} value="created_assets"/>
-                          </Tabs>
-                      </div>
+                      {/*<div className="dashboard-tabs">*/}
+                      {/*    <Tabs*/}
+                      {/*        value={"created_assets"}*/}
+                      {/*        indicatorColor="primary"*/}
+                      {/*        textColor="primary"*/}
+                      {/*        variant="standard"*/}
+                      {/*    >*/}
+                      {/*        <Tab label={"Created Assets (" + createdAssets.length + ')'} value="created_assets"/>*/}
+                      {/*    </Tabs>*/}
+                      {/*</div>*/}
                       <div className={"dashboard-body"}>
                           <Switch>
                               <Route path="/portal/dashboard/assets">
