@@ -41,6 +41,7 @@
           margin-top: 5px;
           font-size: 15px;
           font-weight: bold;
+          text-decoration: underline;
           color: $color-grey-dark;
           &:hover {
             cursor: pointer;
@@ -57,6 +58,7 @@
 
             }
             .key {
+              font-weight: bold;
               .indicator {
                 margin-left: 5px;
                 vertical-align: middle;
