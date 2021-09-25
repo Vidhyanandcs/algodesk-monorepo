@@ -127,8 +127,4 @@ export class AssetClient{
         const amount = 0;
         return this.transfer(from, to, assetIndex, amount, note);
     }
-
-    async getStats() {
-        this.indexer.searchForTransactions().
-    }
 }
