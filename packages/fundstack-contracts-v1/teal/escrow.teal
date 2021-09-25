@@ -1,0 +1,210 @@
+#pragma version 4
+txn TypeEnum
+int axfer
+==
+bnz main_l11
+txn TypeEnum
+int pay
+==
+bnz main_l3
+err
+main_l3:
+txn RekeyTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 2222222
+==
+&&
+&&
+gtxna 0 ApplicationArgs 0
+byte "owner_claim"
+==
+bnz main_l10
+gtxna 0 ApplicationArgs 0
+byte "investor_withdraw"
+==
+bnz main_l9
+int 1
+int 1
+==
+bnz main_l7
+err
+main_l7:
+int 0
+int 1
+==
+int 0
+int 1
+==
+&&
+main_l8:
+&&
+b main_l23
+main_l9:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn Receiver
+==
+&&
+txn Amount
+int 0
+>
+&&
+b main_l8
+main_l10:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn Receiver
+==
+&&
+txn Amount
+int 0
+>
+&&
+b main_l8
+main_l11:
+txn RekeyTo
+global ZeroAddress
+==
+txn AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 2222222
+==
+&&
+&&
+txn XferAsset
+int 1111111
+==
+txn TypeEnum
+int axfer
+==
+&&
+&&
+gtxna 0 ApplicationArgs 0
+byte "set_escrow"
+==
+bnz main_l22
+gtxna 0 ApplicationArgs 0
+byte "investor_claim"
+==
+bnz main_l21
+gtxna 0 ApplicationArgs 0
+byte "owner_claim_remaining_assets"
+==
+bnz main_l20
+gtxna 0 ApplicationArgs 0
+byte "owner_withdraw"
+==
+bnz main_l19
+int 1
+int 1
+==
+bnz main_l17
+err
+main_l17:
+int 0
+int 1
+==
+int 0
+int 1
+==
+&&
+main_l18:
+&&
+b main_l23
+main_l19:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b main_l18
+main_l20:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b main_l18
+main_l21:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 1
+==
+&&
+gtxn 0 Sender
+txn AssetReceiver
+==
+&&
+txn AssetAmount
+int 0
+>
+&&
+b main_l18
+main_l22:
+global GroupSize
+int 3
+==
+txn GroupIndex
+int 2
+==
+&&
+txn AssetReceiver
+txn Sender
+==
+&&
+txn AssetAmount
+int 0
+==
+&&
+b main_l18
+main_l23:
+return

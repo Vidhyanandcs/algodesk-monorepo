@@ -1,0 +1,891 @@
+#pragma version 4
+txn ApplicationID
+int 0
+==
+bnz main_l27
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l26
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l25
+txn OnCompletion
+int OptIn
+==
+bnz main_l24
+txna ApplicationArgs 0
+byte "set_escrow"
+==
+bnz main_l23
+txna ApplicationArgs 0
+byte "fund_escrow"
+==
+bnz main_l22
+txna ApplicationArgs 0
+byte "invest"
+==
+bnz main_l18
+txna ApplicationArgs 0
+byte "investor_claim"
+==
+bnz main_l17
+txna ApplicationArgs 0
+byte "owner_claim"
+==
+bnz main_l16
+txna ApplicationArgs 0
+byte "owner_claim_remaining_assets"
+==
+bnz main_l15
+txna ApplicationArgs 0
+byte "investor_withdraw"
+==
+bnz main_l14
+txna ApplicationArgs 0
+byte "owner_withdraw"
+==
+bnz main_l13
+err
+main_l13:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
+gtxn 1 TypeEnum
+int axfer
+==
+assert
+gtxn 1 Sender
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 AssetReceiver
+byte "c"
+app_global_get
+==
+assert
+gtxn 1 AssetAmount
+byte "ta"
+app_global_get
+int 0
+asset_params_get AssetDecimals
+store 4
+store 5
+int 10
+load 5
+exp
+*
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 0
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+byte "fw"
+app_global_get
+int 0
+==
+assert
+byte "fw"
+int 1
+app_global_put
+int 1
+return
+main_l14:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+gtxn 1 TypeEnum
+int pay
+==
+assert
+gtxn 1 Sender
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 Receiver
+txn Sender
+==
+assert
+gtxn 1 Amount
+int 0
+byte "ia"
+app_local_get
+byte "sr"
+app_global_get
+/
+int 1000000
+*
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 0
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "w"
+app_local_get
+int 0
+==
+assert
+byte "now"
+byte "now"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "w"
+int 1
+app_local_put
+int 1
+return
+main_l15:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
+gtxn 1 TypeEnum
+int axfer
+==
+assert
+gtxn 1 Sender
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 AssetReceiver
+byte "c"
+app_global_get
+==
+assert
+gtxn 1 AssetAmount
+byte "ra"
+app_global_get
+int 0
+asset_params_get AssetDecimals
+store 2
+store 3
+int 10
+load 3
+exp
+*
+==
+assert
+byte "tr"
+app_global_get
+int 1
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+byte "rac"
+app_global_get
+int 0
+==
+assert
+byte "rac"
+int 1
+app_global_put
+int 1
+return
+main_l16:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+gtxn 1 TypeEnum
+int pay
+==
+assert
+gtxn 1 Sender
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 Receiver
+byte "c"
+app_global_get
+==
+assert
+gtxn 1 Amount
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+byte "sr"
+app_global_get
+/
+int 1000000
+*
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+byte "fc"
+app_global_get
+int 0
+==
+assert
+byte "fc"
+int 1
+app_global_put
+int 1
+return
+main_l17:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
+gtxn 1 TypeEnum
+int axfer
+==
+assert
+gtxn 1 Sender
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 AssetReceiver
+txn Sender
+==
+assert
+gtxn 1 AssetAmount
+int 0
+byte "ia"
+app_local_get
+int 0
+asset_params_get AssetDecimals
+store 0
+store 1
+int 10
+load 1
+exp
+*
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 1
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "c"
+app_local_get
+int 0
+==
+assert
+byte "noc"
+byte "noc"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "c"
+int 1
+app_local_put
+int 1
+return
+main_l18:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 1
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Amount
+int 0
+>
+assert
+gtxn 0 Amount
+int 1000000
+/
+int 1
+%
+int 0
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 Receiver
+byte "e"
+app_global_get
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 0
+==
+assert
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+byte "mia"
+app_global_get
+>=
+assert
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+byte "mxa"
+app_global_get
+<=
+assert
+global Round
+byte "ssat"
+app_global_get
+>=
+assert
+global Round
+byte "seat"
+app_global_get
+<=
+assert
+byte "ra"
+app_global_get
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+>=
+assert
+byte "noi"
+byte "noi"
+app_global_get
+int 1
++
+app_global_put
+byte "ra"
+byte "ra"
+app_global_get
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+-
+app_global_put
+byte "tr"
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
++
+byte "ta"
+app_global_get
+/
+int 100
+*
+int 50
+>=
+bnz main_l21
+int 0
+main_l20:
+app_global_put
+int 0
+byte "i"
+int 1
+app_local_put
+int 0
+byte "ia"
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+app_local_put
+int 1
+return
+main_l21:
+int 1
+b main_l20
+main_l22:
+global GroupSize
+int 3
+==
+assert
+txn GroupIndex
+int 2
+==
+assert
+gtxn 0 Sender
+byte "c"
+app_global_get
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+byte "e"
+app_global_get
+==
+assert
+gtxn 0 Amount
+int 10000000
+==
+assert
+gtxn 1 Sender
+byte "c"
+app_global_get
+==
+assert
+gtxn 1 TypeEnum
+int axfer
+==
+assert
+gtxn 1 AssetReceiver
+byte "e"
+app_global_get
+==
+assert
+gtxn 1 XferAsset
+byte "aid"
+app_global_get
+==
+assert
+gtxn 1 AssetAmount
+int 0
+>
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+global Round
+byte "rsat"
+app_global_get
+<
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+byte "s"
+int 3
+app_global_put
+int 1
+return
+main_l23:
+global GroupSize
+int 3
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+gtxn 1 Sender
+txn Sender
+==
+assert
+gtxn 1 TypeEnum
+int pay
+==
+assert
+gtxn 1 Receiver
+txna ApplicationArgs 1
+==
+assert
+gtxn 1 Amount
+int 500000
+==
+assert
+gtxn 2 Sender
+txna ApplicationArgs 1
+==
+assert
+gtxn 2 TypeEnum
+int axfer
+==
+assert
+gtxn 2 AssetReceiver
+txna ApplicationArgs 1
+==
+assert
+gtxn 2 XferAsset
+byte "aid"
+app_global_get
+==
+assert
+gtxn 2 AssetAmount
+int 0
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+global Round
+byte "rsat"
+app_global_get
+<
+assert
+byte "s"
+app_global_get
+int 1
+==
+assert
+byte "s"
+int 2
+app_global_put
+byte "e"
+txna ApplicationArgs 1
+app_global_put
+int 1
+return
+main_l24:
+int 0
+byte "r"
+app_local_get
+int 0
+==
+assert
+global Round
+byte "rsat"
+app_global_get
+>=
+assert
+global Round
+byte "reat"
+app_global_get
+<=
+assert
+byte "nor"
+byte "nor"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "r"
+int 1
+app_local_put
+int 0
+byte "i"
+int 0
+app_local_put
+int 0
+byte "c"
+int 0
+app_local_put
+int 0
+byte "ia"
+int 0
+app_local_put
+int 1
+return
+main_l25:
+byte "s"
+app_global_get
+int 2
+<=
+assert
+int 1
+return
+main_l26:
+int 1
+int 1
+==
+return
+main_l27:
+global GroupSize
+int 1
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+txna ApplicationArgs 0
+byte ""
+!=
+assert
+txn TxID
+byte ""
+!=
+assert
+txna ApplicationArgs 2
+btoi
+global Round
+>
+assert
+txna ApplicationArgs 3
+btoi
+txna ApplicationArgs 2
+btoi
+>
+assert
+txna ApplicationArgs 4
+btoi
+txna ApplicationArgs 3
+btoi
+>
+assert
+txna ApplicationArgs 5
+btoi
+txna ApplicationArgs 4
+btoi
+>
+assert
+txna ApplicationArgs 7
+btoi
+int 0
+>
+assert
+txna ApplicationArgs 8
+btoi
+txna ApplicationArgs 7
+btoi
+>=
+assert
+txna ApplicationArgs 6
+btoi
+txna ApplicationArgs 8
+btoi
+>=
+assert
+txna ApplicationArgs 9
+btoi
+int 0
+>
+assert
+txna ApplicationArgs 9
+btoi
+txna ApplicationArgs 8
+btoi
+<=
+assert
+byte "v"
+int 1
+app_global_put
+byte "s"
+int 1
+app_global_put
+byte "c"
+txn Sender
+app_global_put
+byte "cat"
+global Round
+app_global_put
+byte "n"
+txna ApplicationArgs 0
+app_global_put
+byte "cd"
+txn TxID
+app_global_put
+byte "aid"
+txna ApplicationArgs 1
+btoi
+app_global_put
+byte "rsat"
+txna ApplicationArgs 2
+btoi
+app_global_put
+byte "reat"
+txna ApplicationArgs 3
+btoi
+app_global_put
+byte "ssat"
+txna ApplicationArgs 4
+btoi
+app_global_put
+byte "seat"
+txna ApplicationArgs 5
+btoi
+app_global_put
+byte "ca"
+txna ApplicationArgs 5
+btoi
+app_global_put
+byte "ta"
+txna ApplicationArgs 6
+btoi
+app_global_put
+byte "ra"
+txna ApplicationArgs 6
+btoi
+app_global_put
+byte "mia"
+txna ApplicationArgs 7
+btoi
+app_global_put
+byte "mxa"
+txna ApplicationArgs 8
+btoi
+app_global_put
+byte "sr"
+txna ApplicationArgs 9
+btoi
+app_global_put
+byte "nor"
+int 0
+app_global_put
+byte "noi"
+int 0
+app_global_put
+byte "noc"
+int 0
+app_global_put
+byte "now"
+int 0
+app_global_put
+byte "e"
+byte ""
+app_global_put
+byte "fc"
+int 0
+app_global_put
+byte "fw"
+int 0
+app_global_put
+byte "tr"
+int 0
+app_global_put
+int 1
+return
