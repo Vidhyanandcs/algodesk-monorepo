@@ -16,8 +16,8 @@ const fundstack = new Fundstack(betanet, walletSigner);
 //     const networkParams = await fundstack.algodesk.transactionClient.getSuggestedParams();
 //
 //     const fundParams: F_DeployFund = {
-//         address: keys.addr,
-//         assetId: 221682378,
+//         from: keys.addr,
+//         assetId: 408239549,
 //         maxAllocation: 100,
 //         minAllocation: 10,
 //         name: "Testing v1 fund",
@@ -40,9 +40,16 @@ const fundstack = new Fundstack(betanet, walletSigner);
 //     }
 // });
 
-test('get fund', async () => {
-    const fund = await fundstack.get(408130808);
-    console.log(fund);
+test('fundEscrow', async () => {
+    try {
+        const {txId} = await fundstack.fundEscrow(408360454);
+        await fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+        const pendingTransactionInfo = await fundstack.algodesk.transactionClient.pendingTransactionInformation(txId);
+        console.log(pendingTransactionInfo);
+    }
+    catch (e) {
+        console.log(e);
+    }
 });
 
 

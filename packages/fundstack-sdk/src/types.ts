@@ -1,5 +1,5 @@
 export interface F_DeployFund {
-    address: string
+    from: string
     name: string
     assetId: number
     regStartsAt: number

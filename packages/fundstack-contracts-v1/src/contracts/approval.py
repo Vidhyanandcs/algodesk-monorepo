@@ -112,10 +112,10 @@ def fundEscrow():
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
         Assert(paymentTxn.receiver() == App.globalGet(globalState.escrow)),
-        Assert(paymentTxn.amount() == Int(10000000))
+        Assert(paymentTxn.amount() == Int(2000000))
     ]
 
-    assetXferTxn = Gtxn[1]
+    assetXferTxn = Gtxn[2]
 
     totalAllocation = App.globalGet(globalState.total_allocation)
     micros = getAssetMicros()
@@ -163,6 +163,7 @@ def fundEscrow():
 def approvalProgram():
     program = Cond(
         [isCreate(), createApplication()],
-        [isUpdate(), Return(allowOperation())]
+        [isUpdate(), Return(allowOperation())],
+        [Txn.application_args[0] == Bytes("fund_escrow"), fundEscrow()],
     )
     return program

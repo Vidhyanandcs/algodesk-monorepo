@@ -2,18 +2,113 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l4
+bnz main_l6
 txn OnCompletion
 int UpdateApplication
 ==
-bnz main_l3
+bnz main_l5
+txna ApplicationArgs 0
+byte "fund_escrow"
+==
+bnz main_l4
 err
-main_l3:
+main_l4:
+global GroupSize
+int 3
+==
+assert
+txn GroupIndex
+int 1
+==
+assert
+gtxn 0 Sender
+byte "c"
+app_global_get
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+byte "e"
+app_global_get
+==
+assert
+gtxn 0 Amount
+int 2000000
+==
+assert
+gtxn 2 Sender
+byte "c"
+app_global_get
+==
+assert
+gtxn 2 Sender
+txn Sender
+==
+assert
+gtxn 2 TypeEnum
+int axfer
+==
+assert
+gtxn 2 AssetReceiver
+byte "e"
+app_global_get
+==
+assert
+gtxn 2 XferAsset
+byte "aid"
+app_global_get
+==
+assert
+gtxn 2 AssetAmount
+byte "ta"
+app_global_get
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+global Round
+byte "rsat"
+app_global_get
+<
+assert
+byte "s"
+app_global_get
+int 1
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+byte "e"
+app_global_get
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+itxn_submit
+byte "s"
+int 2
+app_global_put
+int 1
+return
+main_l5:
 int 1
 int 1
 ==
 return
-main_l4:
+main_l6:
 global GroupSize
 int 1
 ==

@@ -6,14 +6,14 @@ import {
     Network,
     Signer,
     A_SendTxnResponse,
-    numToUint
+    numToUint, A_InvokeApplicationParams
 } from "@algodesk/core";
 import {getFundState, getGlobalState} from "./utils";
 import {globalStateKeys} from "./state";
 import {FUND_PHASE} from "./constants";
 import atob from 'atob';
 import {getContracts} from "./contracts";
-import {OnApplicationComplete} from "algosdk";
+import {assignGroupID, OnApplicationComplete} from "algosdk";
 import {F_DeployFund} from "./types";
 
 
@@ -36,7 +36,7 @@ export class Fundstack {
         const appArgs = [params.name, ...intsUint];
 
         const fundParams: A_CreateApplicationParams = {
-            address: params.address,
+            from: params.from,
             approvalProgram: getUintProgram(compiledApprovalProgram.result),
             clearProgram: getUintProgram(compiledClearProgram.result),
             globalBytes: 30,
@@ -48,6 +48,36 @@ export class Fundstack {
         };
 
         return await this.algodesk.applicationClient.create(fundParams);
+    }
+
+    async fundEscrow(fundId: number) {
+        const fund = await this.algodesk.applicationClient.get(fundId);
+        const globalState = getGlobalState(fund);
+
+        const creator = globalState[globalStateKeys.creator];
+        const escrow = globalState[globalStateKeys.escrow];
+        const assetId = globalState[globalStateKeys.asset_id];
+        const totalAllocation = globalState[globalStateKeys.total_allocation];
+
+        console.log(creator);
+        console.log(escrow);
+        console.log(assetId);
+        console.log(totalAllocation);
+
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, 2);
+
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: creator,
+            foreignAssets: [parseInt(assetId)],
+            appArgs: ["fund_escrow"]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+        const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(creator, escrow, assetId, totalAllocation);
+        const txnGroup = assignGroupID([paymentTxn, appCallTxn, assetXferTxn]);
+
+        return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
     async get(fundId: number) {

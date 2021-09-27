@@ -162,7 +162,7 @@ export interface A_AppsLocalState {
 }
 
 export interface A_CreateApplicationParams {
-    address: string
+    from: string
     approvalProgram: Uint8Array
     clearProgram: Uint8Array
     localInts: number
@@ -174,5 +174,13 @@ export interface A_CreateApplicationParams {
     foreignAccounts?: string[]
     foreignApps?: number[]
     foreignAssets?: number[]
-    note?: string
+}
+
+export interface A_InvokeApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
 }
