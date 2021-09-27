@@ -37,3 +37,11 @@ def getAssetMicros():
     ])
 
     return micros
+
+
+def blockOperation():
+    return Int(0) == Int(1)
+
+
+def allowOperation():
+    return Int(1) == Int(1)

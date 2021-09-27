@@ -18,7 +18,7 @@
     "build:clean": "rimraf dist/",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "server": "node ./dist/cjs/index.js",
-    "dev": "NODE_ENV=development npm run build && npm run server"
+    "compile": "NODE_ENV=development npm run build && npm run server"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"

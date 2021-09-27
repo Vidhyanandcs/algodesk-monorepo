@@ -22,5 +22,4 @@ export async function compile(src: string, target: string) {
 }
 
 compile('approval.teal', 'approval.json');
-compile('escrow.teal', 'escrow.json');
 compile('clear.teal', 'clear.json');
