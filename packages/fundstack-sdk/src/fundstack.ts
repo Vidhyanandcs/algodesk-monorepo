@@ -1,25 +1,42 @@
-import {Algodesk, durationBetweenBlocks, Network, Signer} from "@algodesk/core";
+import {
+    A_CreateApplicationParams,
+    Algodesk,
+    durationBetweenBlocks,
+    getUintProgram,
+    Network,
+    Signer,
+    A_SendTxnResponse
+} from "@algodesk/core";
 import {getFundState, getGlobalState} from "./utils";
 import {globalStateKeys} from "./state";
-import sdk from "algosdk";
 import {FUND_PHASE} from "./constants";
 import atob from 'atob';
 import {getContracts} from "./contracts";
-import replaceAll from 'replaceall';
+import {OnApplicationComplete} from "algosdk";
+import {F_DeployFund} from "./types";
+
 
 export class Fundstack {
-    private algodesk: Algodesk;
+    algodesk: Algodesk;
     constructor(network: Network, signer: Signer) {
         this.algodesk = new Algodesk(network, signer);
     }
 
-    async compileEscrow(fund) {
-        const {asset} = fund;
-        const {escrowProgram} = getContracts();
-        let {teal} = escrowProgram;
-        teal = replaceAll("1111111", asset.index + "", teal);
-        teal = replaceAll("2222222", fund.id + "", teal);
-        return await this.algodesk.applicationClient.compileProgram(teal);
+    async deploy(params: F_DeployFund): Promise<A_SendTxnResponse> {
+        const {compiledApprovalProgram, compiledClearProgram} = getContracts();
+
+        const fundParams: A_CreateApplicationParams = {
+            address: params.address,
+            approvalProgram: getUintProgram(compiledApprovalProgram.result),
+            clearProgram: getUintProgram(compiledClearProgram.result),
+            globalBytes: 30,
+            globalInts: 30,
+            localBytes: 7,
+            localInts: 7,
+            onComplete: OnApplicationComplete.NoOpOC
+        };
+
+        return await this.algodesk.applicationClient.create(fundParams);
     }
 
     async get(fundId: number) {

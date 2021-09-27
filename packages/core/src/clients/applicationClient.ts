@@ -2,7 +2,7 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, OnApplicationComplete, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {Signer} from "../types";
+import {A_CreateApplicationParams, A_SendTxnResponse, Signer} from "../types";
 import {processApplicationArgs} from "../utils/application";
 
 export class ApplicationClient{
@@ -36,8 +36,10 @@ export class ApplicationClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareCreateTxn(address: string, onComplete : OnApplicationComplete = sdk.OnApplicationComplete.NoOpOC, approvalProgram: Uint8Array, clearProgram: Uint8Array, localInts : number = 5, localBytes : number = 5, globalInts : number = 5, globalBytes = 5, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<Transaction> {
+    async prepareCreateTxn(params: A_CreateApplicationParams): Promise<Transaction> {
         const suggestedParams = await this.transactionClient.getSuggestedParams();
+
+        const {appArgs, note, address, onComplete, approvalProgram, clearProgram, localInts, localBytes, globalInts, globalBytes, foreignAccounts, foreignApps, foreignAssets} = params;
 
         const appArgsUint = processApplicationArgs(appArgs);
         const encodedNote = encodeText(note);
@@ -45,8 +47,8 @@ export class ApplicationClient{
         return sdk.makeApplicationCreateTxn(address, suggestedParams, onComplete, approvalProgram, clearProgram, localInts, localBytes, globalInts, globalBytes, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote);
     }
 
-    async create(address: string, onComplete : OnApplicationComplete = sdk.OnApplicationComplete.NoOpOC, approvalProgram: Uint8Array, clearProgram: Uint8Array, localInts : number = 5, localBytes : number = 5, globalInts : number = 5, globalBytes = 5, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<any> {
-        const unsignedTxn = await this.prepareCreateTxn(address, onComplete, approvalProgram, clearProgram, localInts, localBytes, globalInts, globalBytes, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
+    async create(params: A_CreateApplicationParams): Promise<A_SendTxnResponse> {
+        const unsignedTxn = await this.prepareCreateTxn(params);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 

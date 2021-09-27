@@ -1,4 +1,4 @@
-import {Transaction} from "algosdk";
+import sdk, {OnApplicationComplete, Transaction} from "algosdk";
 
 export interface SignerAccount {
     address: string,
@@ -159,4 +159,20 @@ export interface A_AppsLocalState {
         }
     }[]
     schema: A_StateSchema
+}
+
+export interface A_CreateApplicationParams {
+    address: string
+    approvalProgram: Uint8Array
+    clearProgram: Uint8Array
+    localInts: number
+    localBytes: number
+    globalInts: number
+    globalBytes: number
+    onComplete: OnApplicationComplete
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+    note?: string
 }
