@@ -1,6 +1,10 @@
 /** @type {import('@ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'jest-environment-uint8array',
-  testTimeout: 20000
+  testEnvironment: 'jsdom',
+  testTimeout: 20000,
+  globals: {
+    Uint8Array: Uint8Array,
+    ArrayBuffer: ArrayBuffer
+  },
 };

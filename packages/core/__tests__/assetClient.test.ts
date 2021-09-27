@@ -42,18 +42,18 @@ test('account client tests', async () => {
 });
 
 test('payment client tests', async () => {
-    const suggestedParams = await algodesk.transactionClient.getSuggestedParams();
-    console.log(suggestedParams);
-
-
-    const {txId} = await algodesk.paymentClient.payment(keys.addr, keys.addr, 0);
-    console.log(txId);
-
-    const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
-    console.log(pendingTransactionInfo);
-
-    const pendingTransactionInfo1 = await algodesk.transactionClient.pendingTransactionInformation(txId);
-    console.log(pendingTransactionInfo1);
+    // const suggestedParams = await algodesk.transactionClient.getSuggestedParams();
+    // console.log(suggestedParams);
+    //
+    //
+    // const {txId} = await algodesk.paymentClient.payment(keys.addr, keys.addr, 0);
+    // console.log(txId);
+    //
+    // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
+    // console.log(pendingTransactionInfo);
+    //
+    // const pendingTransactionInfo1 = await algodesk.transactionClient.pendingTransactionInformation(txId);
+    // console.log(pendingTransactionInfo1);
 
     // const transactionInfo = await algodesk.transactionClient.get("ZXLBMAZBLI34YNVLOTEITBSM6PRZDNFLAMPNZZX4KGX5ESM6WKXQ");
     // console.log(transactionInfo);

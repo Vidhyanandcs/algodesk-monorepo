@@ -6,4 +6,8 @@ module.exports = {
   transform: {
     "\\.teal$": "jest-raw-loader"
   },
+  globals: {
+    Uint8Array: Uint8Array,
+    ArrayBuffer: ArrayBuffer
+  },
 };

@@ -5,7 +5,8 @@ import {
     getUintProgram,
     Network,
     Signer,
-    A_SendTxnResponse
+    A_SendTxnResponse,
+    numToUint
 } from "@algodesk/core";
 import {getFundState, getGlobalState} from "./utils";
 import {globalStateKeys} from "./state";
@@ -25,6 +26,15 @@ export class Fundstack {
     async deploy(params: F_DeployFund): Promise<A_SendTxnResponse> {
         const {compiledApprovalProgram, compiledClearProgram} = getContracts();
 
+        const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation, params.minAllocation, params.maxAllocation, params.swapRatio];
+
+        const intsUint = [];
+        ints.forEach((item) => {
+            intsUint.push(numToUint(parseInt(String(item))));
+        });
+
+        const appArgs = [params.name, ...intsUint];
+
         const fundParams: A_CreateApplicationParams = {
             address: params.address,
             approvalProgram: getUintProgram(compiledApprovalProgram.result),
@@ -33,7 +43,8 @@ export class Fundstack {
             globalInts: 30,
             localBytes: 7,
             localInts: 7,
-            onComplete: OnApplicationComplete.NoOpOC
+            onComplete: OnApplicationComplete.NoOpOC,
+            appArgs
         };
 
         return await this.algodesk.applicationClient.create(fundParams);
@@ -73,7 +84,10 @@ export class Fundstack {
     async getCompany(companyDetailsTxId: string) {
         const tx = await this.algodesk.transactionClient.get(companyDetailsTxId);
         const {note} = tx;
-        return  JSON.parse(atob(note));
+        if (note) {
+            return  JSON.parse(atob(note));
+        }
+        return {};
     }
 
     async getStatus(globalState) {

@@ -18,11 +18,7 @@ export class WalletSigner implements Signer{
     }
 
     signTxn(unsignedTxn: Transaction): Uint8Array {
-
         const {sk} = this.wallet;
-        console.log(sk);
-        console.log(typeof sk);
-
         const signedRawTxn = unsignedTxn.signTxn(sk);
         return signedRawTxn;
     }
