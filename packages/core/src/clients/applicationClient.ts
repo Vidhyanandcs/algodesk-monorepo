@@ -1,9 +1,10 @@
 import {encodeText} from "../utils";
-import sdk, {Algodv2, OnApplicationComplete, Transaction} from 'algosdk';
+import sdk, {Algodv2, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {A_CreateApplicationParams, A_SendTxnResponse, A_InvokeApplicationParams, Signer} from "../types";
 import {processApplicationArgs} from "../utils/application";
+import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class ApplicationClient{
     client: Algodv2;
@@ -18,8 +19,9 @@ export class ApplicationClient{
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<any> {
-        return await this.client.getApplicationByID(id).do();
+    async get(id: number): Promise<Application> {
+        const app = await this.client.getApplicationByID(id).do();
+        return app as Application;
     }
 
     async prepareOptInTxn(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<Transaction> {

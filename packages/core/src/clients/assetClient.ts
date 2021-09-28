@@ -1,5 +1,5 @@
 import {encodeText} from "../utils";
-import sdk, {Algodv2, AssetFreezeTxn, SuggestedParams, Transaction} from 'algosdk';
+import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {
@@ -10,8 +10,7 @@ import {
     A_SendTxnResponse,
     A_RevokeAssetParams
 } from "../types";
-import {Asset, AssetParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {AlgorandTxn} from "@randlabs/myalgo-connect";
+import {Asset} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class AssetClient{
     client: Algodv2;

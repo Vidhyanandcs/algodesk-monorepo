@@ -6,12 +6,10 @@ export enum FUND_PHASE  {
     BEFORE_CLAIM = 5,
     DURING_CLAIM = 6,
     COMPLETED = 7
-};
+}
 
 export enum FUND_OPERATIONS {
-    REGISTER = 'register',
-    INVEST = 'invest',
-    INVESTOR_CLAIM = 'investor_claim',
-    INVESTOR_WITHDRAW = 'investor_withdraw',
-    SET_ESCROW = 'set_escrow'
+    FUND_ESCROW = 'FUND_ESCROW'
 }
+
+export const ESCROW_MIN_TOP_UP = 2;

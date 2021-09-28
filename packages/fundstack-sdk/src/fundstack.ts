@@ -1,20 +1,17 @@
 import {
     A_CreateApplicationParams,
     Algodesk,
-    durationBetweenBlocks,
     getUintProgram,
     Network,
     Signer,
     A_SendTxnResponse,
     numToUint, A_InvokeApplicationParams
 } from "@algodesk/core";
-import {getFundState, getGlobalState} from "./utils";
-import {globalStateKeys} from "./state";
-import {FUND_PHASE} from "./constants";
-import atob from 'atob';
+import {ESCROW_MIN_TOP_UP, FUND_OPERATIONS} from "./constants";
 import {getContracts} from "./contracts";
 import {assignGroupID, OnApplicationComplete} from "algosdk";
 import {F_DeployFund} from "./types";
+import {Fund} from "./fund";
 
 
 export class Fundstack {
@@ -27,7 +24,6 @@ export class Fundstack {
         const {compiledApprovalProgram, compiledClearProgram} = getContracts();
 
         const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation, params.minAllocation, params.maxAllocation, params.swapRatio];
-
         const intsUint = [];
         ints.forEach((item) => {
             intsUint.push(numToUint(parseInt(String(item))));
@@ -51,26 +47,21 @@ export class Fundstack {
     }
 
     async fundEscrow(fundId: number) {
-        const fund = await this.algodesk.applicationClient.get(fundId);
-        const globalState = getGlobalState(fund);
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
 
-        const creator = globalState[globalStateKeys.creator];
-        const escrow = globalState[globalStateKeys.escrow];
-        const assetId = globalState[globalStateKeys.asset_id];
-        const totalAllocation = globalState[globalStateKeys.total_allocation];
+        const creator = fund.getCreator();
+        const escrow = fund.getEscrow();
+        const assetId = fund.getAssetId();
+        const totalAllocation = fund.getTotalAllocation();
 
-        console.log(creator);
-        console.log(escrow);
-        console.log(assetId);
-        console.log(totalAllocation);
-
-        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, 2);
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, ESCROW_MIN_TOP_UP);
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: fundId,
             from: creator,
-            foreignAssets: [parseInt(assetId)],
-            appArgs: ["fund_escrow"]
+            foreignAssets: [assetId],
+            appArgs: [FUND_OPERATIONS.FUND_ESCROW]
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
@@ -78,117 +69,5 @@ export class Fundstack {
         const txnGroup = assignGroupID([paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
-    }
-
-    async get(fundId: number) {
-        let fund = await this.algodesk.applicationClient.get(fundId);
-        fund.globalState = getGlobalState(fund);
-        fund.published = getFundState(fund) >= 3;
-
-        const companyDetailsTxId = fund.globalState[globalStateKeys.company_details];
-        const assetId = fund.globalState[globalStateKeys.asset_id];
-        const escrowAddress = fund.globalState[globalStateKeys.escrow];
-
-        const [status, company, asset, escrow] = await Promise.all([this.getStatus(fund.globalState), this.getCompany(companyDetailsTxId), this.getAsset(assetId), this.getEscrow(escrowAddress)]);
-
-        fund = {
-            ...fund,
-            status,
-            company,
-            asset,
-            escrow
-        }
-
-        return fund;
-    }
-
-    async getEscrow(address: string) {
-        const escrowAccount = await this.algodesk.accountClient.getAccountInformation(address);
-        return escrowAccount;
-    }
-
-    async getAsset(assetId: number) {
-        return await this.algodesk.assetClient.get(assetId);
-    }
-
-    async getCompany(companyDetailsTxId: string) {
-        const tx = await this.algodesk.transactionClient.get(companyDetailsTxId);
-        const {note} = tx;
-        if (note) {
-            return  JSON.parse(atob(note));
-        }
-        return {};
-    }
-
-    async getStatus(globalState) {
-        const suggestedParams = await this.algodesk.transactionClient.getSuggestedParams();
-        const currentRound = suggestedParams.firstRound;
-
-        const regStart = globalState[globalStateKeys.reg_starts_at];
-        const regEnd = globalState[globalStateKeys.reg_ends_at];
-
-        const saleStart = globalState[globalStateKeys.sale_starts_at];
-        const saleEnd = globalState[globalStateKeys.sale_ends_at];
-
-        const claimStart = globalState[globalStateKeys.claim_after];
-        const claimEnd = claimStart + 76800;//add 4 days
-
-        let phase = 0;
-
-        if (currentRound < regStart) {
-            phase = FUND_PHASE.BEFORE_REGISTRATION;
-        }
-        else if(currentRound >= regStart && currentRound <= regEnd) {
-            phase = FUND_PHASE.DURING_REGISTRATION;
-        }
-        else if(currentRound > regEnd && currentRound < saleStart) {
-            phase = FUND_PHASE.BEFORE_SALE;
-        }
-        else if(currentRound >= saleStart && currentRound <= saleEnd) {
-            phase = FUND_PHASE.DURING_SALE;
-        }
-        else if(currentRound > saleEnd && currentRound < claimStart) {
-            phase = FUND_PHASE.BEFORE_CLAIM;
-        }
-        else if(currentRound >= claimStart && currentRound <= claimEnd) {
-            phase = FUND_PHASE.DURING_CLAIM;
-        }
-        else if(currentRound > claimEnd) {
-            phase = FUND_PHASE.COMPLETED;
-        }
-
-        const registration = {
-            start: durationBetweenBlocks(regStart, currentRound),
-            end: durationBetweenBlocks(regEnd, currentRound),
-            pending: phase <= FUND_PHASE.BEFORE_REGISTRATION,
-            active: phase == FUND_PHASE.DURING_REGISTRATION,
-            completed: phase > FUND_PHASE.DURING_REGISTRATION
-        };
-
-        const sale = {
-            start: durationBetweenBlocks(saleStart, currentRound),
-            end: durationBetweenBlocks(saleEnd, currentRound),
-            pending: phase <= FUND_PHASE.BEFORE_SALE,
-            active: phase == FUND_PHASE.DURING_SALE,
-            completed: phase > FUND_PHASE.DURING_SALE
-        };
-
-        const claim = {
-            start: durationBetweenBlocks(claimStart, currentRound),
-            end: durationBetweenBlocks(claimEnd, currentRound),
-            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
-            active: phase == FUND_PHASE.DURING_CLAIM,
-            completed: phase > FUND_PHASE.DURING_CLAIM
-        };
-
-        const status = {
-            registration,
-            sale,
-            phase,
-            claim,
-            date: Date.now()
-        }
-
-        return status;
     }
 }
