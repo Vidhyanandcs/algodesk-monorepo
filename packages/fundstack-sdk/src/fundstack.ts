@@ -5,7 +5,7 @@ import {
     Network,
     Signer,
     A_SendTxnResponse,
-    numToUint, A_InvokeApplicationParams
+    numToUint, A_InvokeApplicationParams, A_TransferAssetParams
 } from "@algodesk/core";
 import {ESCROW_MIN_TOP_UP, FUND_OPERATIONS} from "./constants";
 import {getContracts} from "./contracts";
@@ -65,7 +65,13 @@ export class Fundstack {
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
-        const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(creator, escrow, assetId, totalAllocation);
+        const params: A_TransferAssetParams = {
+            from: creator,
+            to: escrow,
+            assetId,
+            amount: totalAllocation
+        };
+        const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
         const txnGroup = assignGroupID([paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);

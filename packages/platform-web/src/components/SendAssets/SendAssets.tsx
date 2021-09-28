@@ -20,6 +20,7 @@ import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {A_TransferAssetParams} from "@algodesk/core";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -81,7 +82,15 @@ function SendAssets(): JSX.Element {
 
         try {
             dispatch(showLoader('Sending ...'));
-            const {txId} = await algosdk.algodesk.assetClient.transfer(information.address, to, selectedAsset.index, amount, note);
+
+            const params: A_TransferAssetParams = {
+                from: information.address,
+                to,
+                assetId: selectedAsset.index,
+                amount
+            };
+
+            const {txId} = await algosdk.algodesk.assetClient.transfer(params, note);
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);

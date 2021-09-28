@@ -68,6 +68,14 @@ export type A_RevokeAssetParams = {
     amount: number
 };
 
+export type A_TransferAssetParams = {
+    from: string,
+    to: string,
+    assetId: number,
+    amount: number,
+    closeRemainderTo?: string,
+    revocationTarget?: string,
+};
 
 export interface A_AccountInformation {
     address: string

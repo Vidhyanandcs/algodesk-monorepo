@@ -8,9 +8,10 @@ import {
     A_CreateAssetParams,
     A_ModifyAssetParams,
     A_SendTxnResponse,
-    A_RevokeAssetParams
+    A_RevokeAssetParams, A_TransferAssetParams
 } from "../types";
 import {Asset} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import fr from "algorand-walletconnect-qrcode-modal/dist/cjs/browser/languages/fr";
 
 export class AssetClient{
     client: Algodv2;
@@ -30,22 +31,23 @@ export class AssetClient{
         return asset as Asset;
     }
 
-    async prepareTransferTxn(from: string, to: string, assetId: number, amount: number, note?: string, closeRemainderTo?: string, revocationTarget?: string, rekeyTo?: string): Promise<Transaction> {
+    async prepareTransferTxn(params: A_TransferAssetParams, note?: string, rekeyTo?: string): Promise<Transaction> {
         const suggestedParams: SuggestedParams = await this.transactionClient.getSuggestedParams();
 
+        const {assetId, from, to, closeRemainderTo, revocationTarget, amount} = params;
         const asset: any = await this.get(assetId);
-        amount = amount * Math.pow(10, asset.params.decimals);
+        const amountInDecimals = amount * Math.pow(10, asset.params.decimals);
 
         let encodedNote: Uint8Array | undefined;
         if(note) {
             encodedNote = encodeText(note);
         }
 
-        return sdk.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amount, encodedNote, assetId, suggestedParams, rekeyTo);
+        return sdk.makeAssetTransferTxnWithSuggestedParams(from, to, closeRemainderTo, revocationTarget, amountInDecimals, encodedNote, assetId, suggestedParams, rekeyTo);
     }
 
-    async transfer(from: string, to: string, assetId: number, amount: number, note?: string, closeRemainderTo?: string, revocationTarget?: string, rekeyTo?: string): Promise<A_SendTxnResponse> {
-        const unsignedTxn: Transaction = await this.prepareTransferTxn(from, to, assetId, amount, note, closeRemainderTo, revocationTarget, rekeyTo);
+    async transfer(params: A_TransferAssetParams, note?: string, rekeyTo?: string): Promise<A_SendTxnResponse> {
+        const unsignedTxn: Transaction = await this.prepareTransferTxn(params, note, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
@@ -117,13 +119,25 @@ export class AssetClient{
     }
 
     async revoke(params: A_RevokeAssetParams, note?: string): Promise<A_SendTxnResponse> {
-        const to = params.revokeReceiver;
-        return this.transfer(params.from, to, params.assetIndex, params.amount, note, undefined, params.revokeTarget);
+        const transferParams: A_TransferAssetParams = {
+            from: params.from,
+            to: params.revokeReceiver,
+            assetId: params.assetIndex,
+            amount: params.amount,
+            revocationTarget: params.revokeTarget
+        };
+
+        return this.transfer(transferParams, note);
     }
 
     async optIn(from: string, assetIndex: number, note?: string): Promise<A_SendTxnResponse> {
-        const to = from;
-        const amount = 0;
-        return this.transfer(from, to, assetIndex, amount, note);
+        const transferParams: A_TransferAssetParams = {
+            from: from,
+            to: from,
+            assetId: assetIndex,
+            amount: 0,
+        };
+
+        return this.transfer(transferParams, note);
     }
 }
