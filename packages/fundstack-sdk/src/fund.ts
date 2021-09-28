@@ -1,10 +1,11 @@
 import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {globalStateKeys} from "./state";
 import * as sdk from "algosdk";
-import algodeskCore from "@algodesk/core";
+import algodeskCore, {A_AccountInformation, A_Asset} from "@algodesk/core";
 import atob from 'atob';
+import {F_FundStatus} from "./types";
 
-export type F_FundState = {
+export type F_FundGlobalState = {
     v: number
     s: number
     c: string
@@ -32,7 +33,7 @@ export type F_FundState = {
     rac: boolean
 }
 
-export function getFundState(fund: Application): F_FundState {
+export function getFundState(fund: Application): F_FundGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
 
@@ -56,7 +57,7 @@ export function getFundState(fund: Application): F_FundState {
         }
     });
 
-    return globalState as F_FundState;
+    return globalState as F_FundGlobalState;
 }
 
 export function getAccountState(localApp) {
@@ -81,27 +82,77 @@ export function getAccountState(localApp) {
 export class Fund {
     id: number | bigint;
     params: ApplicationParams;
-    state: F_FundState;
+    globalState: F_FundGlobalState;
+    published: boolean;
+    status: F_FundStatus;
+    asset: A_Asset;
+    escrow: A_AccountInformation;
 
     constructor(fund: Application) {
         this.id = fund.id;
         this.params = fund.params;
-        this.state = getFundState(fund);
+        this.globalState = getFundState(fund);
+        this.published = this.getState() >= 3;
     }
 
     getCreator(): string {
-        return this.state[globalStateKeys.creator];
+        return this.globalState[globalStateKeys.creator];
     }
 
     getEscrow(): string {
-        return this.state[globalStateKeys.escrow];
+        return this.globalState[globalStateKeys.escrow];
     }
 
     getAssetId(): number {
-        return this.state[globalStateKeys.asset_id];
+        return this.globalState[globalStateKeys.asset_id];
+    }
+
+    getState(): number {
+        return this.globalState[globalStateKeys.state];
     }
 
     getTotalAllocation(): number {
-        return this.state[globalStateKeys.total_allocation];
+        return this.globalState[globalStateKeys.total_allocation];
+    }
+
+    getCompanyDetailsTxId(): string {
+        return this.globalState[globalStateKeys.company_details];
+    }
+
+    getRegStart(): number {
+        return this.globalState[globalStateKeys.reg_starts_at];
+    }
+
+    getRegEnd(): number {
+        return this.globalState[globalStateKeys.reg_ends_at];
+    }
+
+    getSaleStart(): number {
+        return this.globalState[globalStateKeys.sale_starts_at];
+    }
+
+    getSaleEnd(): number {
+        return this.globalState[globalStateKeys.sale_ends_at];
+    }
+
+    getClaimStart(): number {
+        return this.globalState[globalStateKeys.claim_after];
+    }
+
+    getClaimEnd(): number {
+        const claimStart = this.getClaimStart();
+        return claimStart + 76800;//add 4 days
+    }
+
+    updateStatusDetails(status: F_FundStatus) {
+        this.status = status;
+    }
+
+    updateAssetDetails(asset: A_Asset) {
+        this.asset = asset;
+    }
+
+    updateEscrowDetails(escrow: A_AccountInformation) {
+        this.escrow = escrow;
     }
 }

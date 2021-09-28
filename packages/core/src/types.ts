@@ -1,4 +1,4 @@
-import sdk, {OnApplicationComplete, Transaction} from "algosdk";
+import {OnApplicationComplete, Transaction} from "algosdk";
 
 export interface SignerAccount {
     address: string,

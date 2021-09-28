@@ -40,12 +40,22 @@ const fundstack = new Fundstack(betanet, walletSigner);
 //     }
 // });
 
-test('fundEscrow', async () => {
+// test('fundEscrow', async () => {
+//     try {
+//         const {txId} = await fundstack.fundEscrow(408360454);
+//         await fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+//         const pendingTransactionInfo = await fundstack.algodesk.transactionClient.pendingTransactionInformation(txId);
+//         console.log(pendingTransactionInfo);
+//     }
+//     catch (e) {
+//         console.log(e);
+//     }
+// });
+
+test('get fund', async () => {
     try {
-        const {txId} = await fundstack.fundEscrow(408360454);
-        await fundstack.algodesk.transactionClient.waitForConfirmation(txId);
-        const pendingTransactionInfo = await fundstack.algodesk.transactionClient.pendingTransactionInformation(txId);
-        console.log(pendingTransactionInfo);
+        const fund = await fundstack.get(408360454);
+        console.log(fund);
     }
     catch (e) {
         console.log(e);

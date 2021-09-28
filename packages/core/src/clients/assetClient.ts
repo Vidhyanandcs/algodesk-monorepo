@@ -8,10 +8,8 @@ import {
     A_CreateAssetParams,
     A_ModifyAssetParams,
     A_SendTxnResponse,
-    A_RevokeAssetParams, A_TransferAssetParams
+    A_RevokeAssetParams, A_TransferAssetParams, A_Asset
 } from "../types";
-import {Asset} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import fr from "algorand-walletconnect-qrcode-modal/dist/cjs/browser/languages/fr";
 
 export class AssetClient{
     client: Algodv2;
@@ -26,9 +24,9 @@ export class AssetClient{
         this.transactionClient = new TransactionClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<Asset>{
+    async get(id: number): Promise<A_Asset>{
         const asset = await this.client.getAssetByID(id).do();
-        return asset as Asset;
+        return asset as A_Asset;
     }
 
     async prepareTransferTxn(params: A_TransferAssetParams, note?: string, rekeyTo?: string): Promise<Transaction> {

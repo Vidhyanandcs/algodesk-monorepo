@@ -11,7 +11,6 @@ export function encodeText(text: string | undefined): Uint8Array | undefined {
 export function durationBetweenBlocks(futureRound: number, currentRound: number): Duration {
     const sec: number = Math.round((futureRound - currentRound) * BLOCK_TIME);
 
-
     const start: Date = new Date();
     const end: Date = new Date(start.getTime() + (sec * 1000));
 
