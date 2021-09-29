@@ -1,19 +1,11 @@
 #pragma version 5
-txn ApplicationID
-int 0
-==
+callsub sub2
 bnz main_l25
-txn OnCompletion
-int UpdateApplication
-==
+callsub sub3
 bnz main_l24
-txn OnCompletion
-int DeleteApplication
-==
+callsub sub4
 bnz main_l23
-txn OnCompletion
-int OptIn
-==
+callsub sub5
 bnz main_l22
 txna ApplicationArgs 0
 byte "fund_escrow"
@@ -81,7 +73,7 @@ itxn_field AssetReceiver
 byte "ta"
 app_global_get
 int 0
-callsub sub0
+callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
@@ -145,8 +137,7 @@ app_global_get
 byte "sr"
 app_global_get
 /
-int 1000000
-*
+callsub sub9
 itxn_field Amount
 itxn_submit
 byte "fc"
@@ -172,7 +163,7 @@ itxn_field AssetReceiver
 byte "ra"
 app_global_get
 int 0
-callsub sub0
+callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
@@ -226,8 +217,7 @@ app_local_get
 byte "sr"
 app_global_get
 /
-int 1000000
-*
+callsub sub9
 itxn_field Amount
 itxn_submit
 byte "now"
@@ -297,7 +287,7 @@ int 0
 byte "ia"
 app_local_get
 int 0
-callsub sub0
+callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
@@ -331,8 +321,7 @@ int 0
 >
 assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 int 1
 %
 int 0
@@ -364,8 +353,7 @@ int 2
 ==
 assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -374,8 +362,7 @@ app_global_get
 >=
 assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -396,8 +383,7 @@ assert
 byte "ra"
 app_global_get
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -413,8 +399,7 @@ byte "ra"
 byte "ra"
 app_global_get
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -427,8 +412,7 @@ byte "ra"
 app_global_get
 -
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -451,8 +435,7 @@ app_local_put
 int 0
 byte "ia"
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -615,9 +598,7 @@ assert
 int 1
 return
 main_l24:
-int 1
-int 1
-==
+callsub sub7
 return
 main_l25:
 global GroupSize
@@ -767,7 +748,33 @@ int 0
 app_global_put
 int 1
 return
-sub0: // getAssetMicros
+sub0: // getAppId
+txn ApplicationID
+retsub
+sub1: // getTxnAction
+txn OnCompletion
+retsub
+sub2: // isCreate
+callsub sub0
+int 0
+==
+retsub
+sub3: // isUpdate
+callsub sub1
+int UpdateApplication
+==
+retsub
+sub4: // isDelete
+callsub sub1
+int DeleteApplication
+==
+retsub
+sub5: // isOptIn
+callsub sub1
+int OptIn
+==
+retsub
+sub6: // getAssetMicros
 store 0
 load 0
 asset_params_get AssetDecimals
@@ -776,4 +783,21 @@ store 2
 int 10
 load 2
 exp
+retsub
+sub7: // allowOperation
+int 1
+int 1
+==
+retsub
+sub8: // microAlgoToAlgo
+store 3
+load 3
+int 1000000
+/
+retsub
+sub9: // AlgoToMicroAlgo
+store 4
+load 4
+int 1000000
+*
 retsub
