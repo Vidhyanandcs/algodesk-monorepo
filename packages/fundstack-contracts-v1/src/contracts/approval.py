@@ -43,8 +43,6 @@ def createApplication():
     fundsWithdrawn = Int(0)
     targetReached = Int(0)
 
-    burnUnsoldAssets = Btoi(txnArgs[10])
-
     deploymentAssertions = [
         Assert(name != Bytes("")),
 
@@ -60,8 +58,7 @@ def createApplication():
         Assert(totalAllocation >= maxAllocation),
 
         Assert(swapRatio > Int(0)),
-        Assert(swapRatio <= maxAllocation),
-        Assert(burnUnsoldAssets == Int(0) | burnUnsoldAssets == Int(1))
+        Assert(swapRatio <= maxAllocation)
     ]
 
     setState = [
@@ -89,8 +86,7 @@ def createApplication():
         App.globalPut(globalState.escrow, escrow),
         App.globalPut(globalState.funds_claimed, fundsClaimed),
         App.globalPut(globalState.funds_withdrawn, fundsWithdrawn),
-        App.globalPut(globalState.target_reached, targetReached),
-        App.globalPut(globalState.burn_unsold_assets, burnUnsoldAssets),
+        App.globalPut(globalState.target_reached, targetReached)
     ]
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]
@@ -377,6 +373,16 @@ def ownerClaim():
         Assert(Global.group_size() == Int(1))
     ]
 
+    burnUnsoldAssets = Btoi(txnArgs[1])
+    argsAssertions = [
+        Assert(burnUnsoldAssets == Int(0) | burnUnsoldAssets == Int(1))
+    ]
+
+    assetId = Txn.assets[0]
+    assetAssertions = [
+        Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     claimableAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
     claimableAmount = AlgoToMicroAlgo(claimableAmount)
@@ -405,7 +411,79 @@ def ownerClaim():
         App.globalPut(globalState.funds_claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + applicationAssertions + innerTransactionClaimAlgos + setState + [Approve()]
+    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + setState
+
+    remainingAllocation = App.globalGet(globalState.remaining_allocation)
+    micros = getAssetMicros(Int(0))
+    remainingAllocationInMicros = remainingAllocation * micros
+
+    burnAssets = If(
+                     burnUnsoldAssets == Int(0)
+                 ).Then(
+                     Seq(
+                         [
+                             InnerTxnBuilder.Begin(),
+                             InnerTxnBuilder.SetFields(
+                                 {
+                                     TxnField.type_enum: TxnType.AssetTransfer,
+                                     TxnField.xfer_asset: App.globalGet(globalState.asset_id),
+                                     TxnField.asset_receiver: Txn.sender(),
+                                     TxnField.asset_amount: remainingAllocationInMicros
+                                 }
+                             ),
+                             InnerTxnBuilder.Submit()
+                         ]
+                     )
+                 )
+
+    block = Seq(Seq(conditions), burnAssets, Approve())
+
+    return block
+
+
+def ownerWithdraw():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    assetId = Txn.assets[0]
+    assetConfigAssertions = [
+        Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
+    totalAllocation = App.globalGet(globalState.total_allocation)
+    micros = getAssetMicros(Int(0))
+
+    totalAllocationInMicros = totalAllocation * micros
+
+    applicationAssertions = [
+        Assert(currentRound > App.globalGet(globalState.claim_after)),
+        Assert(App.globalGet(globalState.target_reached) == Int(0)),
+        Assert(Txn.sender() == App.globalGet(globalState.creator)),
+        Assert(App.globalGet(globalState.funds_withdrawn) == Int(0)),
+    ]
+
+    setState = [
+        App.globalPut(globalState.funds_withdrawn, Int(1))
+    ]
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+         InnerTxnBuilder.SetFields(
+             {
+                 TxnField.type_enum: TxnType.AssetTransfer,
+                 TxnField.xfer_asset: App.globalGet(globalState.asset_id),
+                 TxnField.asset_receiver: Txn.sender(),
+                 TxnField.asset_amount: totalAllocationInMicros
+             }
+         ),
+         InnerTxnBuilder.Submit()
+    ]
+
+    conditions = gtxnAssertions + assetConfigAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -423,5 +501,6 @@ def approvalProgram():
         [Txn.application_args[0] == Bytes("investor_claim"), investorClaim()],
         [Txn.application_args[0] == Bytes("investor_withdraw"), investorWithdraw()],
         [Txn.application_args[0] == Bytes("owner_claim"), ownerClaim()],
+        [Txn.application_args[0] == Bytes("owner_withdraw"), ownerWithdraw()]
     )
     return program

@@ -29,6 +29,7 @@ def isCloseOut():
     return getTxnAction() == OnComplete.CloseOut
 
 
+@Subroutine(TealType.uint64)
 def getAssetMicros(foreignAsset):
     assetDecimal = AssetParam.decimals(foreignAsset)
     micros = Seq([

@@ -2,43 +2,109 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l21
+bnz main_l25
 txn OnCompletion
 int UpdateApplication
 ==
-bnz main_l20
+bnz main_l24
 txn OnCompletion
 int DeleteApplication
 ==
-bnz main_l19
+bnz main_l23
 txn OnCompletion
 int OptIn
 ==
-bnz main_l18
+bnz main_l22
 txna ApplicationArgs 0
 byte "fund_escrow"
 ==
-bnz main_l17
+bnz main_l21
 txna ApplicationArgs 0
 byte "invest"
 ==
-bnz main_l13
+bnz main_l17
 txna ApplicationArgs 0
 byte "investor_claim"
 ==
-bnz main_l12
+bnz main_l16
 txna ApplicationArgs 0
 byte "investor_withdraw"
 ==
-bnz main_l11
+bnz main_l15
 txna ApplicationArgs 0
 byte "owner_claim"
 ==
-bnz main_l10
+bnz main_l12
+txna ApplicationArgs 0
+byte "owner_withdraw"
+==
+bnz main_l11
 err
-main_l10:
+main_l11:
 global GroupSize
 int 1
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 0
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+byte "fw"
+app_global_get
+int 0
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
+byte "ta"
+app_global_get
+int 0
+callsub sub0
+*
+itxn_field AssetAmount
+itxn_submit
+byte "fw"
+int 1
+app_global_put
+int 1
+return
+main_l12:
+global GroupSize
+int 1
+==
+assert
+int 0
+txna ApplicationArgs 1
+btoi
+|
+int 1
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
 ==
 assert
 global Round
@@ -86,9 +152,32 @@ itxn_submit
 byte "fc"
 int 1
 app_global_put
+txna ApplicationArgs 1
+btoi
+int 0
+==
+bnz main_l14
+main_l13:
 int 1
 return
-main_l11:
+main_l14:
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
+byte "ra"
+app_global_get
+int 0
+callsub sub0
+*
+itxn_field AssetAmount
+itxn_submit
+b main_l13
+main_l15:
 global GroupSize
 int 1
 ==
@@ -153,7 +242,7 @@ int 1
 app_local_put
 int 1
 return
-main_l12:
+main_l16:
 global GroupSize
 int 1
 ==
@@ -208,12 +297,7 @@ int 0
 byte "ia"
 app_local_get
 int 0
-asset_params_get AssetDecimals
-store 0
-store 1
-int 10
-load 1
-exp
+callsub sub0
 *
 itxn_field AssetAmount
 itxn_submit
@@ -229,7 +313,7 @@ int 1
 app_local_put
 int 1
 return
-main_l13:
+main_l17:
 global GroupSize
 int 2
 ==
@@ -356,9 +440,9 @@ int 100
 *
 int 50
 >=
-bnz main_l16
+bnz main_l20
 int 0
-main_l15:
+main_l19:
 app_global_put
 int 0
 byte "i"
@@ -375,10 +459,10 @@ app_global_get
 app_local_put
 int 1
 return
-main_l16:
+main_l20:
 int 1
-b main_l15
-main_l17:
+b main_l19
+main_l21:
 global GroupSize
 int 3
 ==
@@ -472,7 +556,7 @@ int 2
 app_global_put
 int 1
 return
-main_l18:
+main_l22:
 global GroupSize
 int 1
 ==
@@ -522,7 +606,7 @@ int 0
 app_local_put
 int 1
 return
-main_l19:
+main_l23:
 byte "s"
 app_global_get
 int 1
@@ -530,12 +614,12 @@ int 1
 assert
 int 1
 return
-main_l20:
+main_l24:
 int 1
 int 1
 ==
 return
-main_l21:
+main_l25:
 global GroupSize
 int 1
 ==
@@ -594,13 +678,6 @@ btoi
 txna ApplicationArgs 8
 btoi
 <=
-assert
-int 0
-txna ApplicationArgs 10
-btoi
-|
-int 1
-==
 assert
 byte "v"
 int 1
@@ -688,9 +765,15 @@ app_global_put
 byte "tr"
 int 0
 app_global_put
-byte "bua"
-txna ApplicationArgs 10
-btoi
-app_global_put
 int 1
 return
+sub0: // getAssetMicros
+store 0
+load 0
+asset_params_get AssetDecimals
+store 1
+store 2
+int 10
+load 2
+exp
+retsub
