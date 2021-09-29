@@ -29,8 +29,8 @@ def isCloseOut():
     return getTxnAction() == OnComplete.CloseOut
 
 
-def getAssetMicros():
-    assetDecimal = AssetParam.decimals(Int(0))
+def getAssetMicros(foreignAsset):
+    assetDecimal = AssetParam.decimals(foreignAsset)
     micros = Seq([
         assetDecimal,
         Int(10) ** assetDecimal.value()
@@ -45,3 +45,9 @@ def blockOperation():
 
 def allowOperation():
     return Int(1) == Int(1)
+
+def microAlgoToAlgo(amount):
+    return amount / Int(1000000)
+
+def AlgoToMicroAlgo(amount):
+    return amount * Int(1000000)

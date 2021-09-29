@@ -43,6 +43,8 @@ def createApplication():
     fundsWithdrawn = Int(0)
     targetReached = Int(0)
 
+    burnUnsoldAssets = Btoi(txnArgs[10])
+
     deploymentAssertions = [
         Assert(name != Bytes("")),
 
@@ -59,6 +61,7 @@ def createApplication():
 
         Assert(swapRatio > Int(0)),
         Assert(swapRatio <= maxAllocation),
+        Assert(burnUnsoldAssets == Int(0) | burnUnsoldAssets == Int(1))
     ]
 
     setState = [
@@ -87,8 +90,8 @@ def createApplication():
         App.globalPut(globalState.funds_claimed, fundsClaimed),
         App.globalPut(globalState.funds_withdrawn, fundsWithdrawn),
         App.globalPut(globalState.target_reached, targetReached),
+        App.globalPut(globalState.burn_unsold_assets, burnUnsoldAssets),
     ]
-
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]
 
@@ -105,27 +108,32 @@ def fundEscrow():
         Assert(Txn.group_index() == Int(1)),
     ]
 
+    assetId = Txn.assets[0]
+    assetAssertions = [
+        Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
     paymentTxn = Gtxn[0]
 
     paymentAssertions = [
         Assert(paymentTxn.sender() == App.globalGet(globalState.creator)),
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
-        Assert(paymentTxn.receiver() == App.globalGet(globalState.escrow)),
+        Assert(paymentTxn.receiver() == Global.current_application_address()),
         Assert(paymentTxn.amount() == Int(2000000))
     ]
 
     assetXferTxn = Gtxn[2]
 
     totalAllocation = App.globalGet(globalState.total_allocation)
-    micros = getAssetMicros()
+    micros = getAssetMicros(Int(0))
     totalAllocationInMicros = totalAllocation * micros
 
-    assetAssertions = [
+    assetXferAssertions = [
         Assert(assetXferTxn.sender() == App.globalGet(globalState.creator)),
         Assert(assetXferTxn.sender() == Txn.sender()),
         Assert(assetXferTxn.type_enum() == TxnType.AssetTransfer),
-        Assert(assetXferTxn.asset_receiver() == App.globalGet(globalState.escrow)),
+        Assert(assetXferTxn.asset_receiver() == Global.current_application_address()),
         Assert(assetXferTxn.xfer_asset() == App.globalGet(globalState.asset_id)),
         Assert(assetXferTxn.asset_amount() == totalAllocation)
     ]
@@ -153,7 +161,251 @@ def fundEscrow():
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + paymentAssertions + assetAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+def register():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    registered = App.localGet(Int(0), localState.registered)
+    applicationAssertions = [
+        Assert(registered == Int(0)),
+        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(currentRound >= App.globalGet(globalState.reg_starts_at)),
+        Assert(currentRound <= App.globalGet(globalState.reg_ends_at)),
+    ]
+
+    noOfRegistrations = App.globalGet(globalState.no_of_registrations)
+    setState = [
+        App.globalPut(globalState.no_of_registrations, noOfRegistrations + Int(1)),
+        App.localPut(Int(0), localState.registered, Int(1)),
+        App.localPut(Int(0), localState.invested, Int(0)),
+        App.localPut(Int(0), localState.claimed, Int(0)),
+        App.localPut(Int(0), localState.invested_amount, Int(0))
+    ]
+
+    conditions = gtxnAssertions + applicationAssertions + setState + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def invest():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(2)),
+        Assert(Txn.group_index() == Int(1)),
+    ]
+
+    paymentTransaction = Gtxn[0]
+    algos = microAlgoToAlgo(paymentTransaction.amount())
+
+    paymentAssertions = [
+        Assert(paymentTransaction.type_enum() == TxnType.Payment),
+        Assert(paymentTransaction.amount() > Int(0)),
+        Assert(algos % Int(1) == Int(0)),
+        Assert(paymentTransaction.sender() == Txn.sender()),
+        Assert(paymentTransaction.receiver() == Global.current_application_address()),
+    ]
+
+    remainingAllocation = App.globalGet(globalState.remaining_allocation)
+    investedAmount = algos * App.globalGet(globalState.swap_ratio)
+
+    applicationAssertions = [
+        Assert(App.localGet(Int(0), localState.registered) == Int(1)),
+        Assert(App.localGet(Int(0), localState.invested) == Int(0)),
+        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(investedAmount >= App.globalGet(globalState.min_allocation)),
+        Assert(investedAmount <= App.globalGet(globalState.max_allocation)),
+        Assert(currentRound >= App.globalGet(globalState.sale_starts_at)),
+        Assert(currentRound <= App.globalGet(globalState.sale_ends_at)),
+        Assert(remainingAllocation >= investedAmount)
+    ]
+
+    soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
+    soldAllocation = soldAllocation + investedAmount
+    soldAllocationRatio = soldAllocation / App.globalGet(globalState.total_allocation)
+    soldAllocationPercentage = soldAllocationRatio * Int(100)
+
+    targetReached = If(soldAllocationPercentage >= Int(50),
+                       Int(1),
+                       Int(0)
+                       )
+
+    setState = [
+        App.globalPut(globalState.no_of_investors, App.globalGet(globalState.no_of_investors) + Int(1)),
+        App.globalPut(globalState.remaining_allocation, remainingAllocation - investedAmount),
+        App.globalPut(globalState.target_reached, targetReached),
+        App.localPut(Int(0), localState.invested, Int(1)),
+        App.localPut(Int(0), localState.invested_amount, investedAmount)
+    ]
+
+    conditions = gtxnAssertions + paymentAssertions + applicationAssertions + setState + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def deleteFund():
+    applicationAssertions = [
+        Assert(App.globalGet(globalState.state) == Int(1))
+    ]
+
+    conditions = applicationAssertions + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def investorClaim():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    assetId = Txn.assets[0]
+    assetAssertions = [
+        Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
+    investedAmount = App.localGet(Int(0), localState.invested_amount)
+    micros = getAssetMicros(Int(0))
+
+    investedAmountInMicros = investedAmount * micros
+
+    applicationAssertions = [
+        Assert(currentRound > App.globalGet(globalState.claim_after)),
+        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.target_reached) == Int(1)),
+        Assert(App.localGet(Int(0), localState.registered) == Int(1)),
+        Assert(App.localGet(Int(0), localState.invested) == Int(1)),
+        Assert(App.localGet(Int(0), localState.claimed) == Int(0))
+    ]
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.AssetTransfer,
+                TxnField.xfer_asset: App.globalGet(globalState.asset_id),
+                TxnField.asset_receiver: Txn.sender(),
+                TxnField.asset_amount: investedAmountInMicros
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    noOfClaims = App.globalGet(globalState.no_of_claims)
+    setState = [
+        App.globalPut(globalState.no_of_claims, noOfClaims + Int(1)),
+        App.localPut(Int(0), localState.claimed, Int(1))
+    ]
+
+    conditions = gtxnAssertions + assetAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def investorWithdraw():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    investedAmount = App.localGet(Int(0), localState.invested_amount)
+    claimableAmount = investedAmount / App.globalGet(globalState.swap_ratio)
+    claimableAmount = AlgoToMicroAlgo(claimableAmount)
+
+    applicationAssertions = [
+        Assert(currentRound > App.globalGet(globalState.claim_after)),
+        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.target_reached) == Int(0)),
+        Assert(App.localGet(Int(0), localState.registered) == Int(1)),
+        Assert(App.localGet(Int(0), localState.invested) == Int(1)),
+        Assert(App.localGet(Int(0), localState.withdrawn) == Int(0))
+    ]
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: Txn.sender(),
+                TxnField.amount: claimableAmount
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    noOfWithdrawls = App.globalGet(globalState.no_of_withdrawls)
+    setState = [
+        App.globalPut(globalState.no_of_withdrawls, noOfWithdrawls + Int(1)),
+        App.localPut(Int(0), localState.withdrawn, Int(1))
+    ]
+
+    conditions = gtxnAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def ownerClaim():
+    txnArgs = Txn.application_args
+    currentRound = Global.round()
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
+    claimableAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
+    claimableAmount = AlgoToMicroAlgo(claimableAmount)
+
+    applicationAssertions = [
+        Assert(currentRound > App.globalGet(globalState.claim_after)),
+        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.target_reached) == Int(1)),
+        Assert(Txn.sender() == App.globalGet(globalState.creator)),
+        Assert(App.globalGet(globalState.funds_claimed) == Int(0))
+    ]
+
+    innerTransactionClaimAlgos = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: Txn.sender(),
+                TxnField.amount: claimableAmount
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    setState = [
+        App.globalPut(globalState.funds_claimed, Int(1))
+    ]
+
+    conditions = gtxnAssertions + applicationAssertions + innerTransactionClaimAlgos + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -164,6 +416,12 @@ def approvalProgram():
     program = Cond(
         [isCreate(), createApplication()],
         [isUpdate(), Return(allowOperation())],
+        [isDelete(), deleteFund()],
+        [isOptIn(), register()],
         [Txn.application_args[0] == Bytes("fund_escrow"), fundEscrow()],
+        [Txn.application_args[0] == Bytes("invest"), invest()],
+        [Txn.application_args[0] == Bytes("investor_claim"), investorClaim()],
+        [Txn.application_args[0] == Bytes("investor_withdraw"), investorWithdraw()],
+        [Txn.application_args[0] == Bytes("owner_claim"), ownerClaim()],
     )
     return program

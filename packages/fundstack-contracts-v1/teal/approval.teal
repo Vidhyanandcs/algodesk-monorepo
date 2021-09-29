@@ -2,23 +2,394 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l6
+bnz main_l21
 txn OnCompletion
 int UpdateApplication
 ==
-bnz main_l5
+bnz main_l20
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l19
+txn OnCompletion
+int OptIn
+==
+bnz main_l18
 txna ApplicationArgs 0
 byte "fund_escrow"
 ==
-bnz main_l4
+bnz main_l17
+txna ApplicationArgs 0
+byte "invest"
+==
+bnz main_l13
+txna ApplicationArgs 0
+byte "investor_claim"
+==
+bnz main_l12
+txna ApplicationArgs 0
+byte "investor_withdraw"
+==
+bnz main_l11
+txna ApplicationArgs 0
+byte "owner_claim"
+==
+bnz main_l10
 err
-main_l4:
+main_l10:
+global GroupSize
+int 1
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+byte "tr"
+app_global_get
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+byte "fc"
+app_global_get
+int 0
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+txn Sender
+itxn_field Receiver
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+byte "sr"
+app_global_get
+/
+int 1000000
+*
+itxn_field Amount
+itxn_submit
+byte "fc"
+int 1
+app_global_put
+int 1
+return
+main_l11:
+global GroupSize
+int 1
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+byte "tr"
+app_global_get
+int 0
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "w"
+app_local_get
+int 0
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+txn Sender
+itxn_field Receiver
+int 0
+byte "ia"
+app_local_get
+byte "sr"
+app_global_get
+/
+int 1000000
+*
+itxn_field Amount
+itxn_submit
+byte "now"
+byte "now"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "w"
+int 1
+app_local_put
+int 1
+return
+main_l12:
+global GroupSize
+int 1
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
+global Round
+byte "ca"
+app_global_get
+>
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+byte "tr"
+app_global_get
+int 1
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "c"
+app_local_get
+int 0
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
+int 0
+byte "ia"
+app_local_get
+int 0
+asset_params_get AssetDecimals
+store 0
+store 1
+int 10
+load 1
+exp
+*
+itxn_field AssetAmount
+itxn_submit
+byte "noc"
+byte "noc"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "c"
+int 1
+app_local_put
+int 1
+return
+main_l13:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 1
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Amount
+int 0
+>
+assert
+gtxn 0 Amount
+int 1000000
+/
+int 1
+%
+int 0
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 0
+==
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+byte "mia"
+app_global_get
+>=
+assert
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+byte "mxa"
+app_global_get
+<=
+assert
+global Round
+byte "ssat"
+app_global_get
+>=
+assert
+global Round
+byte "seat"
+app_global_get
+<=
+assert
+byte "ra"
+app_global_get
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+>=
+assert
+byte "noi"
+byte "noi"
+app_global_get
+int 1
++
+app_global_put
+byte "ra"
+byte "ra"
+app_global_get
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+-
+app_global_put
+byte "tr"
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
++
+byte "ta"
+app_global_get
+/
+int 100
+*
+int 50
+>=
+bnz main_l16
+int 0
+main_l15:
+app_global_put
+int 0
+byte "i"
+int 1
+app_local_put
+int 0
+byte "ia"
+gtxn 0 Amount
+int 1000000
+/
+byte "sr"
+app_global_get
+*
+app_local_put
+int 1
+return
+main_l16:
+int 1
+b main_l15
+main_l17:
 global GroupSize
 int 3
 ==
 assert
 txn GroupIndex
 int 1
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
 ==
 assert
 gtxn 0 Sender
@@ -35,8 +406,7 @@ int pay
 ==
 assert
 gtxn 0 Receiver
-byte "e"
-app_global_get
+global CurrentApplicationAddress
 ==
 assert
 gtxn 0 Amount
@@ -57,8 +427,7 @@ int axfer
 ==
 assert
 gtxn 2 AssetReceiver
-byte "e"
-app_global_get
+global CurrentApplicationAddress
 ==
 assert
 gtxn 2 XferAsset
@@ -103,12 +472,70 @@ int 2
 app_global_put
 int 1
 return
-main_l5:
+main_l18:
+global GroupSize
+int 1
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 0
+==
+assert
+byte "s"
+app_global_get
+int 2
+==
+assert
+global Round
+byte "rsat"
+app_global_get
+>=
+assert
+global Round
+byte "reat"
+app_global_get
+<=
+assert
+byte "nor"
+byte "nor"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "r"
+int 1
+app_local_put
+int 0
+byte "i"
+int 0
+app_local_put
+int 0
+byte "c"
+int 0
+app_local_put
+int 0
+byte "ia"
+int 0
+app_local_put
+int 1
+return
+main_l19:
+byte "s"
+app_global_get
+int 1
+==
+assert
+int 1
+return
+main_l20:
 int 1
 int 1
 ==
 return
-main_l6:
+main_l21:
 global GroupSize
 int 1
 ==
@@ -167,6 +594,13 @@ btoi
 txna ApplicationArgs 8
 btoi
 <=
+assert
+int 0
+txna ApplicationArgs 10
+btoi
+|
+int 1
+==
 assert
 byte "v"
 int 1
@@ -253,6 +687,10 @@ int 0
 app_global_put
 byte "tr"
 int 0
+app_global_put
+byte "bua"
+txna ApplicationArgs 10
+btoi
 app_global_put
 int 1
 return

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "watch:pyteal": "nodemon --watch src -e py --exec \"python3 src/main.py\"",
-    "watch:teal": "nodemon --watch target -e teal --exec \"npm run dev\"",
+    "watch:teal": "nodemon --watch target -e teal --exec \"npm run compile\"",
     "watch": "npm run watch:teal && npm run watch:pyteal",
     "build": "npm run build:clean && npm run build:cjs",
     "build:clean": "rimraf dist/",
