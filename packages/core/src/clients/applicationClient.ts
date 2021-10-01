@@ -2,7 +2,13 @@ import {encodeText} from "../utils";
 import sdk, {Algodv2, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
-import {A_CreateApplicationParams, A_SendTxnResponse, A_InvokeApplicationParams, Signer} from "../types";
+import {
+    A_CreateApplicationParams,
+    A_SendTxnResponse,
+    A_InvokeApplicationParams,
+    Signer,
+    A_OptInApplicationParams, A_DeleteApplicationParams
+} from "../types";
 import {processApplicationArgs} from "../utils/application";
 import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
@@ -24,17 +30,18 @@ export class ApplicationClient{
         return app as Application;
     }
 
-    async prepareOptInTxn(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<Transaction> {
+    async prepareOptInTxn(params: A_OptInApplicationParams, note?: string): Promise<Transaction> {
         const suggestedParams = await this.transactionClient.getSuggestedParams();
 
+        const {from, appId, appArgs, foreignAccounts, foreignApps, foreignAssets} = params;
         const appArgsUint = processApplicationArgs(appArgs);
         const encodedNote = encodeText(note);
 
-        return  sdk.makeApplicationOptInTxn(address, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote);
+        return  sdk.makeApplicationOptInTxn(from, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote);
     }
 
-    async optIn(address: string, appId: number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined): Promise<any> {
-        const unsignedTxn = await this.prepareOptInTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note);
+    async optIn(params: A_OptInApplicationParams, note?: string): Promise<any> {
+        const unsignedTxn = await this.prepareOptInTxn(params, note);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
@@ -83,17 +90,18 @@ export class ApplicationClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareDeleteTxn(address: string, appId : number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<Transaction> {
+    async prepareDeleteTxn(params: A_DeleteApplicationParams, note?: string): Promise<Transaction> {
         const suggestedParams = await this.transactionClient.getSuggestedParams();
 
+        const {from, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, lease, rekeyTo} = params;
         const appArgsUint = processApplicationArgs(appArgs);
         const encodedNote = encodeText(note);
 
-        return sdk.makeApplicationDeleteTxn(address, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
+        return sdk.makeApplicationDeleteTxn(from, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
     }
 
-    async delete(address: string, appId : number, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<any> {
-        const unsignedTxn = await this.prepareDeleteTxn(address, appId, appArgs, foreignAccounts, foreignApps, foreignAssets, note, lease, rekeyTo);
+    async delete(params: A_DeleteApplicationParams, note?: string): Promise<any> {
+        const unsignedTxn = await this.prepareDeleteTxn(params, note);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 

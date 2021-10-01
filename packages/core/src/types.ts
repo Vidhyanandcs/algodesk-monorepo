@@ -192,3 +192,23 @@ export interface A_InvokeApplicationParams {
     foreignApps?: number[]
     foreignAssets?: number[]
 }
+
+export interface A_OptInApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+}
+
+export interface A_DeleteApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+    lease?: Uint8Array,
+    rekeyTo?: string
+}

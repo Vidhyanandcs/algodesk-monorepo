@@ -5,7 +5,13 @@ import {
     Network,
     Signer,
     A_SendTxnResponse,
-    numToUint, A_InvokeApplicationParams, A_TransferAssetParams, A_AccountInformation, A_Asset, durationBetweenBlocks
+    numToUint,
+    A_InvokeApplicationParams,
+    A_TransferAssetParams,
+    A_AccountInformation,
+    A_Asset,
+    durationBetweenBlocks,
+    A_OptInApplicationParams, A_DeleteApplicationParams
 } from "@algodesk/core";
 import {ESCROW_MIN_TOP_UP, FUND_OPERATIONS, FUND_PHASE} from "./constants";
 import {getContracts} from "./contracts";
@@ -74,6 +80,103 @@ export class Fundstack {
         const txnGroup = assignGroupID([paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
+    }
+
+    async register(fundId: number, address: string) {
+        const params: A_OptInApplicationParams = {
+            appId: fundId,
+            from: address
+        };
+
+        const optInTxn = await this.algodesk.applicationClient.optIn(params);
+        return optInTxn;
+    }
+
+    async invest(fundId: number, address: string) {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
+
+        const escrow = fund.getEscrow();
+
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(address, escrow, ESCROW_MIN_TOP_UP);
+
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: address,
+            appArgs: [FUND_OPERATIONS.INVEST]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+
+        const txnGroup = assignGroupID([paymentTxn, appCallTxn]);
+
+        return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
+    }
+
+    async investorClaim(fundId: number, address: string) {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
+
+        const assetId = fund.getAssetId();
+
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: address,
+            foreignAssets: [assetId],
+            appArgs: [FUND_OPERATIONS.INVESTOR_CLAIM]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+        return appCallTxn;
+    }
+
+    async investorWithdraw(fundId: number, address: string) {
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: address,
+            appArgs: [FUND_OPERATIONS.INVESTOR_WITHDRAW]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+        return appCallTxn;
+    }
+
+    async ownerClaim(fundId: number, burn: boolean) {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
+
+
+        const assetId = fund.getAssetId();
+        const creator = fund.getCreator();
+        const burnUint = burn ? numToUint(1): numToUint(0);
+
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: creator,
+            foreignAssets: [assetId],
+            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, burnUint]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+        return appCallTxn;
+    }
+
+    async ownerWithdraw(fundId: number) {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
+
+        const assetId = fund.getAssetId();
+        const creator = fund.getCreator();
+
+        const appTxnParams: A_InvokeApplicationParams = {
+            appId: fundId,
+            from: creator,
+            foreignAssets: [assetId],
+            appArgs: [FUND_OPERATIONS.OWNER_WITHDRAW]
+        };
+        const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
+
+        return appCallTxn;
     }
 
     async get(fundId: number): Promise<Fund> {
@@ -173,5 +276,15 @@ export class Fundstack {
     async getAsset(assetId: number): Promise<A_Asset> {
         const asset = await this.algodesk.assetClient.get(assetId);
         return asset;
+    }
+
+    async delete(fundId: number, address: string) {
+        const params: A_DeleteApplicationParams = {
+            appId: fundId,
+            from: address
+        };
+
+        const deleteTxn = await this.algodesk.applicationClient.delete(params);
+        return deleteTxn;
     }
 }

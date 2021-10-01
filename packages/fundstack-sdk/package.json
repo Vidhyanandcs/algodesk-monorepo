@@ -22,8 +22,8 @@
   "scripts": {
     "build": "npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:browser",
     "build:clean": "rimraf dist/",
-    "build:esm": "tsc -p ./tsconfig-esm.json && npm run build:esm-copy",
-    "build:cjs": "tsc -p ./tsconfig-cjs.json && npm run build:cjs-copy",
+    "build:esm": "tsc -p ./tsconfig-esm.json",
+    "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "build:browser": "webpack",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
