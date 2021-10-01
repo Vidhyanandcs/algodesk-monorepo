@@ -1,4 +1,4 @@
-import {Transaction} from "algosdk";
+import {OnApplicationComplete, Transaction} from "algosdk";
 
 export interface SignerAccount {
     address: string,
@@ -68,6 +68,14 @@ export type A_RevokeAssetParams = {
     amount: number
 };
 
+export type A_TransferAssetParams = {
+    from: string,
+    to: string,
+    assetId: number,
+    amount: number,
+    closeRemainderTo?: string,
+    revocationTarget?: string,
+};
 
 export interface A_AccountInformation {
     address: string
@@ -159,4 +167,48 @@ export interface A_AppsLocalState {
         }
     }[]
     schema: A_StateSchema
+}
+
+export interface A_CreateApplicationParams {
+    from: string
+    approvalProgram: Uint8Array
+    clearProgram: Uint8Array
+    localInts: number
+    localBytes: number
+    globalInts: number
+    globalBytes: number
+    onComplete: OnApplicationComplete
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+}
+
+export interface A_InvokeApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+}
+
+export interface A_OptInApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+}
+
+export interface A_DeleteApplicationParams {
+    from: string
+    appId: number
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+    lease?: Uint8Array,
+    rekeyTo?: string
 }

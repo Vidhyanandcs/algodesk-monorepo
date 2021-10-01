@@ -1,60 +1,40 @@
-#pragma version 4
-txn ApplicationID
-int 0
-==
-bnz l27
-txn OnCompletion
-int UpdateApplication
-==
-bnz l26
-txn OnCompletion
-int DeleteApplication
-==
-bnz l25
-txn OnCompletion
-int OptIn
-==
-bnz l24
-txna ApplicationArgs 0
-byte "set_escrow"
-==
-bnz l23
+#pragma version 5
+callsub sub2
+bnz main_l25
+callsub sub3
+bnz main_l24
+callsub sub4
+bnz main_l23
+callsub sub5
+bnz main_l22
 txna ApplicationArgs 0
 byte "fund_escrow"
 ==
-bnz l22
+bnz main_l21
 txna ApplicationArgs 0
 byte "invest"
 ==
-bnz l18
+bnz main_l17
 txna ApplicationArgs 0
 byte "investor_claim"
 ==
-bnz l17
-txna ApplicationArgs 0
-byte "owner_claim"
-==
-bnz l16
-txna ApplicationArgs 0
-byte "owner_claim_remaining_assets"
-==
-bnz l15
+bnz main_l16
 txna ApplicationArgs 0
 byte "investor_withdraw"
 ==
-bnz l14
+bnz main_l15
+txna ApplicationArgs 0
+byte "owner_claim"
+==
+bnz main_l12
 txna ApplicationArgs 0
 byte "owner_withdraw"
 ==
-bnz l13
+bnz main_l11
 err
-l13:
+main_l11:
 global GroupSize
-int 2
-==
-assert
-txn GroupIndex
-int 0
+int 1
 ==
 assert
 txna Assets 0
@@ -62,138 +42,56 @@ byte "aid"
 app_global_get
 ==
 assert
-gtxn 1 TypeEnum
-int axfer
-==
-assert
-gtxn 1 Sender
-byte "e"
+global Round
+byte "ca"
 app_global_get
+>
+assert
+byte "tr"
+app_global_get
+int 0
 ==
 assert
-gtxn 1 AssetReceiver
+txn Sender
 byte "c"
 app_global_get
 ==
 assert
-gtxn 1 AssetAmount
+byte "fw"
+app_global_get
+int 0
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
 byte "ta"
 app_global_get
 int 0
-asset_params_get AssetDecimals
-store 4
-store 5
-int 10
-load 5
-exp
+callsub sub6
 *
-==
-assert
-global Round
-byte "ca"
-app_global_get
->
-assert
-byte "tr"
-app_global_get
-int 0
-==
-assert
-txn Sender
-byte "c"
-app_global_get
-==
-assert
-byte "fw"
-app_global_get
-int 0
-==
-assert
+itxn_field AssetAmount
+itxn_submit
 byte "fw"
 int 1
 app_global_put
 int 1
 return
-l14:
+main_l12:
 global GroupSize
-int 2
-==
-assert
-txn GroupIndex
-int 0
-==
-assert
-gtxn 1 TypeEnum
-int pay
-==
-assert
-gtxn 1 Sender
-byte "e"
-app_global_get
-==
-assert
-gtxn 1 Receiver
-txn Sender
-==
-assert
-gtxn 1 Amount
-int 0
-byte "ia"
-app_local_get
-byte "sr"
-app_global_get
-/
-int 1000000
-*
-==
-assert
-global Round
-byte "ca"
-app_global_get
->
-assert
-byte "tr"
-app_global_get
-int 0
-==
-assert
-int 0
-byte "r"
-app_local_get
 int 1
 ==
 assert
 int 0
-byte "i"
-app_local_get
+txna ApplicationArgs 1
+btoi
+|
 int 1
-==
-assert
-int 0
-byte "w"
-app_local_get
-int 0
-==
-assert
-byte "now"
-byte "now"
-app_global_get
-int 1
-+
-app_global_put
-int 0
-byte "w"
-int 1
-app_local_put
-int 1
-return
-l15:
-global GroupSize
-int 2
-==
-assert
-txn GroupIndex
-int 0
 ==
 assert
 txna Assets 0
@@ -201,31 +99,14 @@ byte "aid"
 app_global_get
 ==
 assert
-gtxn 1 TypeEnum
-int axfer
-==
-assert
-gtxn 1 Sender
-byte "e"
+global Round
+byte "ca"
 app_global_get
-==
+>
 assert
-gtxn 1 AssetReceiver
-byte "c"
+byte "s"
 app_global_get
-==
-assert
-gtxn 1 AssetAmount
-byte "ra"
-app_global_get
-int 0
-asset_params_get AssetDecimals
-store 2
-store 3
-int 10
-load 3
-exp
-*
+int 2
 ==
 assert
 byte "tr"
@@ -233,50 +114,21 @@ app_global_get
 int 1
 ==
 assert
-global Round
-byte "ca"
-app_global_get
->
-assert
 txn Sender
 byte "c"
 app_global_get
 ==
 assert
-byte "rac"
+byte "fc"
 app_global_get
 int 0
 ==
 assert
-byte "rac"
-int 1
-app_global_put
-int 1
-return
-l16:
-global GroupSize
-int 2
-==
-assert
-txn GroupIndex
-int 0
-==
-assert
-gtxn 1 TypeEnum
+itxn_begin
 int pay
-==
-assert
-gtxn 1 Sender
-byte "e"
-app_global_get
-==
-assert
-gtxn 1 Receiver
-byte "c"
-app_global_get
-==
-assert
-gtxn 1 Amount
+itxn_field TypeEnum
+txn Sender
+itxn_field Receiver
 byte "ta"
 app_global_get
 byte "ra"
@@ -285,8 +137,40 @@ app_global_get
 byte "sr"
 app_global_get
 /
-int 1000000
+callsub sub9
+itxn_field Amount
+itxn_submit
+byte "fc"
+int 1
+app_global_put
+txna ApplicationArgs 1
+btoi
+int 0
+==
+bnz main_l14
+main_l13:
+int 1
+return
+main_l14:
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
+byte "ra"
+app_global_get
+int 0
+callsub sub6
 *
+itxn_field AssetAmount
+itxn_submit
+b main_l13
+main_l15:
+global GroupSize
+int 1
 ==
 assert
 global Round
@@ -294,33 +178,63 @@ byte "ca"
 app_global_get
 >
 assert
-byte "tr"
+byte "s"
 app_global_get
-int 1
-==
-assert
-txn Sender
-byte "c"
-app_global_get
-==
-assert
-byte "fc"
-app_global_get
-int 0
-==
-assert
-byte "fc"
-int 1
-app_global_put
-int 1
-return
-l17:
-global GroupSize
 int 2
 ==
 assert
-txn GroupIndex
+byte "tr"
+app_global_get
 int 0
+==
+assert
+int 0
+byte "r"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "i"
+app_local_get
+int 1
+==
+assert
+int 0
+byte "w"
+app_local_get
+int 0
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+txn Sender
+itxn_field Receiver
+int 0
+byte "ia"
+app_local_get
+byte "sr"
+app_global_get
+/
+callsub sub9
+itxn_field Amount
+itxn_submit
+byte "now"
+byte "now"
+app_global_get
+int 1
++
+app_global_put
+int 0
+byte "w"
+int 1
+app_local_put
+int 1
+return
+main_l16:
+global GroupSize
+int 1
 ==
 assert
 txna Assets 0
@@ -328,37 +242,15 @@ byte "aid"
 app_global_get
 ==
 assert
-gtxn 1 TypeEnum
-int axfer
-==
-assert
-gtxn 1 Sender
-byte "e"
-app_global_get
-==
-assert
-gtxn 1 AssetReceiver
-txn Sender
-==
-assert
-gtxn 1 AssetAmount
-int 0
-byte "ia"
-app_local_get
-int 0
-asset_params_get AssetDecimals
-store 0
-store 1
-int 10
-load 1
-exp
-*
-==
-assert
 global Round
 byte "ca"
 app_global_get
 >
+assert
+byte "s"
+app_global_get
+int 2
+==
 assert
 byte "tr"
 app_global_get
@@ -383,6 +275,22 @@ app_local_get
 int 0
 ==
 assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+txn Sender
+itxn_field AssetReceiver
+int 0
+byte "ia"
+app_local_get
+int 0
+callsub sub6
+*
+itxn_field AssetAmount
+itxn_submit
 byte "noc"
 byte "noc"
 app_global_get
@@ -395,7 +303,7 @@ int 1
 app_local_put
 int 1
 return
-l18:
+main_l17:
 global GroupSize
 int 2
 ==
@@ -413,8 +321,7 @@ int 0
 >
 assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 int 1
 %
 int 0
@@ -425,8 +332,7 @@ txn Sender
 ==
 assert
 gtxn 0 Receiver
-byte "e"
-app_global_get
+global CurrentApplicationAddress
 ==
 assert
 int 0
@@ -441,9 +347,13 @@ app_local_get
 int 0
 ==
 assert
+byte "s"
+app_global_get
+int 2
+==
+assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -452,8 +362,7 @@ app_global_get
 >=
 assert
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -474,8 +383,7 @@ assert
 byte "ra"
 app_global_get
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -491,8 +399,7 @@ byte "ra"
 byte "ra"
 app_global_get
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -505,8 +412,7 @@ byte "ra"
 app_global_get
 -
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
@@ -518,12 +424,9 @@ int 100
 *
 int 50
 >=
-bnz l20
+bnz main_l20
 int 0
-b l21
-l20:
-int 1
-l21:
+main_l19:
 app_global_put
 int 0
 byte "i"
@@ -532,21 +435,28 @@ app_local_put
 int 0
 byte "ia"
 gtxn 0 Amount
-int 1000000
-/
+callsub sub8
 byte "sr"
 app_global_get
 *
 app_local_put
 int 1
 return
-l22:
+main_l20:
+int 1
+b main_l19
+main_l21:
 global GroupSize
 int 3
 ==
 assert
 txn GroupIndex
-int 2
+int 1
+==
+assert
+txna Assets 0
+byte "aid"
+app_global_get
 ==
 assert
 gtxn 0 Sender
@@ -554,89 +464,29 @@ byte "c"
 app_global_get
 ==
 assert
+gtxn 0 Sender
+txn Sender
+==
+assert
 gtxn 0 TypeEnum
 int pay
 ==
 assert
 gtxn 0 Receiver
-byte "e"
-app_global_get
+global CurrentApplicationAddress
 ==
 assert
 gtxn 0 Amount
-int 10000000
-==
-assert
-gtxn 1 Sender
-byte "c"
-app_global_get
-==
-assert
-gtxn 1 TypeEnum
-int axfer
-==
-assert
-gtxn 1 AssetReceiver
-byte "e"
-app_global_get
-==
-assert
-gtxn 1 XferAsset
-byte "aid"
-app_global_get
-==
-assert
-gtxn 1 AssetAmount
-int 0
->
-assert
-txn Sender
-byte "c"
-app_global_get
-==
-assert
-global Round
-byte "rsat"
-app_global_get
-<
-assert
-byte "s"
-app_global_get
-int 2
-==
-assert
-byte "s"
-int 3
-app_global_put
-int 1
-return
-l23:
-global GroupSize
-int 3
-==
-assert
-txn GroupIndex
-int 0
-==
-assert
-gtxn 1 Sender
-txn Sender
-==
-assert
-gtxn 1 TypeEnum
-int pay
-==
-assert
-gtxn 1 Receiver
-txna ApplicationArgs 1
-==
-assert
-gtxn 1 Amount
-int 500000
+int 2000000
 ==
 assert
 gtxn 2 Sender
-txna ApplicationArgs 1
+byte "c"
+app_global_get
+==
+assert
+gtxn 2 Sender
+txn Sender
 ==
 assert
 gtxn 2 TypeEnum
@@ -644,7 +494,7 @@ int axfer
 ==
 assert
 gtxn 2 AssetReceiver
-txna ApplicationArgs 1
+global CurrentApplicationAddress
 ==
 assert
 gtxn 2 XferAsset
@@ -653,7 +503,8 @@ app_global_get
 ==
 assert
 gtxn 2 AssetAmount
-int 0
+byte "ta"
+app_global_get
 ==
 assert
 txn Sender
@@ -671,19 +522,37 @@ app_global_get
 int 1
 ==
 assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+byte "aid"
+app_global_get
+itxn_field XferAsset
+byte "e"
+app_global_get
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+itxn_submit
 byte "s"
 int 2
 app_global_put
-byte "e"
-txna ApplicationArgs 1
-app_global_put
 int 1
 return
-l24:
+main_l22:
+global GroupSize
+int 1
+==
+assert
 int 0
 byte "r"
 app_local_get
 int 0
+==
+assert
+byte "s"
+app_global_get
+int 2
 ==
 assert
 global Round
@@ -720,33 +589,23 @@ int 0
 app_local_put
 int 1
 return
-l25:
+main_l23:
 byte "s"
 app_global_get
-int 2
-<=
+int 1
+==
 assert
 int 1
 return
-l26:
-int 1
-int 1
-==
+main_l24:
+callsub sub7
 return
-l27:
+main_l25:
 global GroupSize
 int 1
 ==
 assert
-txn GroupIndex
-int 0
-==
-assert
 txna ApplicationArgs 0
-byte ""
-!=
-assert
-txn TxID
 byte ""
 !=
 assert
@@ -876,7 +735,7 @@ byte "now"
 int 0
 app_global_put
 byte "e"
-byte ""
+global CurrentApplicationAddress
 app_global_put
 byte "fc"
 int 0
@@ -889,3 +748,56 @@ int 0
 app_global_put
 int 1
 return
+sub0: // getAppId
+txn ApplicationID
+retsub
+sub1: // getTxnAction
+txn OnCompletion
+retsub
+sub2: // isCreate
+callsub sub0
+int 0
+==
+retsub
+sub3: // isUpdate
+callsub sub1
+int UpdateApplication
+==
+retsub
+sub4: // isDelete
+callsub sub1
+int DeleteApplication
+==
+retsub
+sub5: // isOptIn
+callsub sub1
+int OptIn
+==
+retsub
+sub6: // getAssetMicros
+store 0
+load 0
+asset_params_get AssetDecimals
+store 1
+store 2
+int 10
+load 2
+exp
+retsub
+sub7: // allowOperation
+int 1
+int 1
+==
+retsub
+sub8: // microAlgoToAlgo
+store 3
+load 3
+int 1000000
+/
+retsub
+sub9: // AlgoToMicroAlgo
+store 4
+load 4
+int 1000000
+*
+retsub

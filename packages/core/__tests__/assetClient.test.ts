@@ -15,9 +15,9 @@ import {AssetTransferTransaction} from "algosdk/dist/types/src/types/transaction
 const mnemonic = 'quality family fork daring skirt increase arena enhance famous marble bracket kingdom huge dash hedgehog ask sport legal able rain kidney abandon theme absent elephant';
 const keys: Account = mnemonicToSecretKey(mnemonic);
 
-const token = {"X-API-Key": '3jyPjXbQvf6E9LyEtbgKL7pKaN3qa0wW5QAecYOK'};
-testnet.setAlgodServer('https://testnet-algorand.api.purestake.io/ps2', token);
-testnet.setIndexerServer('https://testnet-algorand.api.purestake.io/idx2', token);
+// const token = {"X-API-Key": '3jyPjXbQvf6E9LyEtbgKL7pKaN3qa0wW5QAecYOK'};
+// testnet.setAlgodServer('https://testnet-algorand.api.purestake.io/ps2', token);
+// testnet.setIndexerServer('https://testnet-algorand.api.purestake.io/idx2', token);
 
 const walletSigner = new WalletSigner();
 walletSigner.setWallet(keys);
@@ -26,25 +26,25 @@ const algodesk = new Algodesk(testnet, walletSigner);
 
 test('account client tests', async () => {
 
-    const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
-    const createdAssets = await algodesk.accountClient.getCreatedAssets(accountInfo);
-    console.log(createdAssets.length);
-
-    const holdingAssets = await algodesk.accountClient.getHoldingAssets(accountInfo);
-    console.log(holdingAssets.length);
-
-    const createdApps = await algodesk.accountClient.getCreatedApps(accountInfo);
-    console.log(createdApps);
-
-    const optedApps = await algodesk.accountClient.getOptedApps(accountInfo);
-    console.log(optedApps);
+    // const accountInfo = await algodesk.accountClient.getAccountInformation("X73QTD65VIYOFEB53LA3AY44U6TTEXVYVEQGHGBHOUSGSJPJNI6DHPWDD4");
+    // const createdAssets = await algodesk.accountClient.getCreatedAssets(accountInfo);
+    // console.log(createdAssets.length);
+    //
+    // const holdingAssets = await algodesk.accountClient.getHoldingAssets(accountInfo);
+    // console.log(holdingAssets.length);
+    //
+    // const createdApps = await algodesk.accountClient.getCreatedApps(accountInfo);
+    // console.log(createdApps);
+    //
+    // const optedApps = await algodesk.accountClient.getOptedApps(accountInfo);
+    // console.log(optedApps);
 
 });
 
 test('payment client tests', async () => {
     // const suggestedParams = await algodesk.transactionClient.getSuggestedParams();
     // console.log(suggestedParams);
-
+    //
     //
     // const {txId} = await algodesk.paymentClient.payment(keys.addr, keys.addr, 0);
     // console.log(txId);

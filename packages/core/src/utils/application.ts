@@ -1,4 +1,5 @@
 import {encode} from "hi-base32";
+import sdk from 'algosdk';
 
 export function processApplicationArgs(appArgs): Uint8Array[] {
     if (!appArgs) {
@@ -20,4 +21,8 @@ export function getUintProgram(compiledProgramResult: string): Uint8Array {
 
 export function encodeTxId(hash: any): string {
     return encode(hash).slice(0, 52);
+}
+
+export function numToUint(num: number){
+    return Buffer.from(sdk.encodeUint64(num));
 }
