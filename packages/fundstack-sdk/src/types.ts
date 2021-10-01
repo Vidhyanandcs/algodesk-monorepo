@@ -30,3 +30,11 @@ export type F_FundStatus = {
     phase: number,
     date: number
 }
+
+export type F_CompanyDetails =  {
+    website: string,
+    whitePaper: string,
+    twitter: string,
+    github: string,
+    tokenomics?: string
+}

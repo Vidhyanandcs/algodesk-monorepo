@@ -5,6 +5,7 @@ module.exports = {
   testTimeout: 20000,
   globals: {
     Uint8Array: Uint8Array,
-    ArrayBuffer: ArrayBuffer
+    ArrayBuffer: ArrayBuffer,
+    TextEncoder: TextEncoder
   },
 };

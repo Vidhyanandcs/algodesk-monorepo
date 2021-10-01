@@ -3,7 +3,7 @@ import {globalStateKeys} from "./state";
 import * as sdk from "algosdk";
 import algodeskCore, {A_AccountInformation, A_Asset} from "@algodesk/core";
 import atob from 'atob';
-import {F_FundStatus} from "./types";
+import {F_CompanyDetails, F_FundStatus} from "./types";
 
 export type F_FundGlobalState = {
     v: number
@@ -87,6 +87,7 @@ export class Fund {
     status: F_FundStatus;
     asset: A_Asset;
     escrow: A_AccountInformation;
+    company: F_CompanyDetails;
 
     constructor(fund: Application) {
         this.id = fund.id;
@@ -154,5 +155,9 @@ export class Fund {
 
     updateEscrowDetails(escrow: A_AccountInformation) {
         this.escrow = escrow;
+    }
+
+    updateCompanyDetails(company: F_CompanyDetails) {
+        this.company = company;
     }
 }

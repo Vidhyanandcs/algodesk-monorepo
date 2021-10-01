@@ -271,12 +271,23 @@ def investorClaim():
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(1))
+        Assert(Global.group_size() == Int(2)),
+        Assert(Txn.group_index() == Int(1)),
     ]
 
     assetId = Txn.assets[0]
     assetAssertions = [
         Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
+    assetXferTxn = Gtxn[0]
+
+    assetXferAssertions = [
+        Assert(assetXferTxn.sender() == Txn.sender()),
+        Assert(assetXferTxn.type_enum() == TxnType.AssetTransfer),
+        Assert(assetXferTxn.asset_receiver() == assetXferTxn.sender()),
+        Assert(assetXferTxn.xfer_asset() == App.globalGet(globalState.asset_id)),
+        Assert(assetXferTxn.asset_amount() == Int(0))
     ]
 
     investedAmount = App.localGet(Int(0), localState.invested_amount)
@@ -312,7 +323,7 @@ def investorClaim():
         App.localPut(Int(0), localState.claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + assetAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + assetXferAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
 
     block = Seq(conditions)
 

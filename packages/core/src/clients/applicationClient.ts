@@ -71,7 +71,7 @@ export class ApplicationClient{
         return sdk.makeApplicationNoOpTxn(from, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote);
     }
 
-    async invoke(params: A_InvokeApplicationParams, note?: string): Promise<any> {
+    async invoke(params: A_InvokeApplicationParams, note?: string): Promise<A_SendTxnResponse> {
         const unsignedTxn = await this.prepareInvokeTxn(params, note);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
@@ -85,7 +85,7 @@ export class ApplicationClient{
         return sdk.makeApplicationUpdateTxn(address, suggestedParams, appId, approvalProgram, clearProgram, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
     }
 
-    async update(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<any> {
+    async update(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<A_SendTxnResponse> {
         const unsignedTxn = await this.prepareUpdateTxn(address, appId, approvalProgram, clearProgram, appArgs, foreignAccounts, foreignApps, foreignAssets, note, lease, rekeyTo);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
@@ -100,7 +100,7 @@ export class ApplicationClient{
         return sdk.makeApplicationDeleteTxn(from, suggestedParams, appId, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
     }
 
-    async delete(params: A_DeleteApplicationParams, note?: string): Promise<any> {
+    async delete(params: A_DeleteApplicationParams, note?: string): Promise<A_SendTxnResponse> {
         const unsignedTxn = await this.prepareDeleteTxn(params, note);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
