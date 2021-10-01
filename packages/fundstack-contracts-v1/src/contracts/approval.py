@@ -385,8 +385,9 @@ def ownerClaim():
     ]
 
     burnUnsoldAssets = Btoi(txnArgs[1])
+    validBurnParam = Or(burnUnsoldAssets == Int(0),burnUnsoldAssets == Int(1))
     argsAssertions = [
-        Assert(burnUnsoldAssets == Int(0) | burnUnsoldAssets == Int(1))
+        Assert(validBurnParam)
     ]
 
     assetId = Txn.assets[0]

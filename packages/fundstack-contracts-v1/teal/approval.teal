@@ -87,12 +87,15 @@ global GroupSize
 int 1
 ==
 assert
-int 0
 txna ApplicationArgs 1
 btoi
-|
+int 0
+==
+txna ApplicationArgs 1
+btoi
 int 1
 ==
+||
 assert
 txna Assets 0
 byte "aid"
