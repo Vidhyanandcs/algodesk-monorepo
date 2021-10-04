@@ -37,8 +37,6 @@ export class TransactionClient{
         while (true) {
             status = await this.client.status().do();
             lastRound = status["last-round"];
-            console.log('blockNumber: ' + blockNumber);
-            console.log('lastRound: ' + lastRound);
             if (lastRound > blockNumber) {
                 return;
             }
