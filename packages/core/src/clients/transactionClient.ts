@@ -1,12 +1,6 @@
 import {Algodv2, SuggestedParams, Transaction, modelsv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Signer, A_PendingTransactionResponse, A_SendTxnResponse} from "../types";
-import SendRawTransaction from "algosdk/dist/types/src/client/v2/algod/sendRawTransaction";
-import {
-    PendingTransactionResponse,
-    PendingTransactionsResponse, TransactionParametersResponse
-} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import PendingTransactionInformation from "algosdk/dist/types/src/client/v2/algod/pendingTransactionInformation";
 
 export class TransactionClient{
     client: Algodv2;
@@ -25,12 +19,26 @@ export class TransactionClient{
     }
 
     async waitForConfirmation(txId: string): Promise<A_PendingTransactionResponse> {
-        let status = await this.client.status().do();
+        const status = await this.client.status().do();
         let lastRound = status["last-round"];
         while (true) {
             const pendingInfo = await this.client.pendingTransactionInformation(txId).do();
             if (pendingInfo["confirmed-round"] !== null && pendingInfo["confirmed-round"] > 0) {
                 return pendingInfo as A_PendingTransactionResponse;
+            }
+            lastRound++;
+            await this.client.statusAfterBlock(lastRound).do();
+        }
+    };
+
+    async waitForBlock(blockNumber: number): Promise<void> {
+        let status = await this.client.status().do();
+        let lastRound = status["last-round"];
+        while (true) {
+            status = await this.client.status().do();
+            lastRound = status["last-round"];
+            if (lastRound > blockNumber) {
+                return;
             }
             lastRound++;
             await this.client.statusAfterBlock(lastRound).do();

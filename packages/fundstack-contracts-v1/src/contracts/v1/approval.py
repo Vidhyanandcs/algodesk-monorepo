@@ -1,7 +1,7 @@
 from pyteal import *
-from contracts.utils.utils import *
-import contracts.state.global_state as globalState
-import contracts.state.local_state as localState
+from src.contracts.utils.utils import *
+import src.contracts.v1.state.global_state as globalState
+import src.contracts.v1.state.local_state as localState
 
 
 def createApplication():
@@ -271,12 +271,23 @@ def investorClaim():
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(1))
+        Assert(Global.group_size() == Int(2)),
+        Assert(Txn.group_index() == Int(1)),
     ]
 
     assetId = Txn.assets[0]
     assetAssertions = [
         Assert(assetId == App.globalGet(globalState.asset_id)),
+    ]
+
+    assetXferTxn = Gtxn[0]
+
+    assetXferAssertions = [
+        Assert(assetXferTxn.sender() == Txn.sender()),
+        Assert(assetXferTxn.type_enum() == TxnType.AssetTransfer),
+        Assert(assetXferTxn.asset_receiver() == assetXferTxn.sender()),
+        Assert(assetXferTxn.xfer_asset() == App.globalGet(globalState.asset_id)),
+        Assert(assetXferTxn.asset_amount() == Int(0))
     ]
 
     investedAmount = App.localGet(Int(0), localState.invested_amount)
@@ -312,7 +323,7 @@ def investorClaim():
         App.localPut(Int(0), localState.claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + assetAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + assetXferAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -374,8 +385,9 @@ def ownerClaim():
     ]
 
     burnUnsoldAssets = Btoi(txnArgs[1])
+    validBurnParam = Or(burnUnsoldAssets == Int(0),burnUnsoldAssets == Int(1))
     argsAssertions = [
-        Assert(burnUnsoldAssets == Int(0) | burnUnsoldAssets == Int(1))
+        Assert(validBurnParam)
     ]
 
     assetId = Txn.assets[0]

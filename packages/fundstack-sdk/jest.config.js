@@ -2,12 +2,13 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  testTimeout: 20000,
+  testTimeout: 10 * 60 * 1000,
   transform: {
     "\\.teal$": "jest-raw-loader"
   },
   globals: {
     Uint8Array: Uint8Array,
-    ArrayBuffer: ArrayBuffer
+    ArrayBuffer: ArrayBuffer,
+    TextEncoder: TextEncoder
   },
 };

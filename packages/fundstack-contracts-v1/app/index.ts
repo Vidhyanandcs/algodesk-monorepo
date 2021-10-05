@@ -11,12 +11,12 @@ export async function compile(src: string, target: string) {
     const walletSigner = new WalletSigner();
     const algodesk = new Algodesk(betanet, walletSigner);
 
-    const programSourcePath = path.join(__dirname, '..', '..', 'teal', src);
+    const programSourcePath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'teal', src);
     console.log(programSourcePath);
     const programSource = readFile.sync(programSourcePath);
     const compiled = await algodesk.applicationClient.compileProgram(programSource);
 
-    const programCompiledPath = path.join(__dirname, '..', '..', 'teal', 'compiled', target);
+    const programCompiledPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'bytes', target);
     write.sync(programCompiledPath, JSON.stringify(compiled), { newline: true });
     console.log(compiled);
 }

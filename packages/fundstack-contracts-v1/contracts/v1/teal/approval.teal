@@ -87,12 +87,15 @@ global GroupSize
 int 1
 ==
 assert
-int 0
 txna ApplicationArgs 1
 btoi
-|
+int 0
+==
+txna ApplicationArgs 1
+btoi
 int 1
 ==
+||
 assert
 txna Assets 0
 byte "aid"
@@ -234,12 +237,37 @@ int 1
 return
 main_l16:
 global GroupSize
+int 2
+==
+assert
+txn GroupIndex
 int 1
 ==
 assert
 txna Assets 0
 byte "aid"
 app_global_get
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 TypeEnum
+int axfer
+==
+assert
+gtxn 0 AssetReceiver
+gtxn 0 Sender
+==
+assert
+gtxn 0 XferAsset
+byte "aid"
+app_global_get
+==
+assert
+gtxn 0 AssetAmount
+int 0
 ==
 assert
 global Round
