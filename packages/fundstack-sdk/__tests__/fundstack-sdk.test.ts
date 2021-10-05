@@ -1,8 +1,8 @@
 'use strict';
 
-import {Account, generateAccount, mnemonicToSecretKey, secretKeyToMnemonic} from "algosdk";
+import {Account, generateAccount, mnemonicToSecretKey} from "algosdk";
 import {A_CreateAssetParams, betanet, WalletSigner} from "@algodesk/core";
-import {Fundstack} from '../index';
+import {Fund, Fundstack} from '../index';
 import {F_CompanyDetails, F_DeployFund} from "../src/types";
 
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
@@ -41,6 +41,92 @@ async function createAsset(account: Account, instance: Fundstack) {
     return pendingTransactionInfo;
 }
 
+async function deploy(instance: Fundstack, account: Account, assetId: number) {
+    const networkParams = await instance.algodesk.transactionClient.getSuggestedParams();
+
+    const fundParams: F_DeployFund = {
+        from: account.addr,
+        assetId: assetId,
+        maxAllocation: 800,
+        minAllocation: 100,
+        name: "Testing v1 fund",
+        regStartsAt: networkParams.firstRound + 10,
+        regEndsAt: networkParams.firstRound + 20,
+        saleStartsAt: networkParams.firstRound + 30,
+        saleEndsAt: networkParams.firstRound + 40,
+        swapRatio: 400,
+        totalAllocation: 1000
+    };
+
+    const companyDetails: F_CompanyDetails = {
+        github: "https://google.com/1",
+        twitter: "https://google.com/1",
+        website: "https://google.com/1",
+        whitePaper: "https://google.com/1"
+    };
+
+    console.log('deploying fund');
+    const {txId} = await instance.deploy(fundParams, companyDetails);
+    await instance.algodesk.transactionClient.waitForConfirmation(txId);
+    const pendingTransactionInfo = await instance.algodesk.transactionClient.pendingTransactionInformation(txId);
+    return pendingTransactionInfo;
+}
+
+
+async function fundEscrow(instance: Fundstack, appId: number) {
+    console.log('funding escrow');
+    const {txId} = await instance.fundEscrow(appId);
+    return await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function register(instance: Fundstack, appId: number, account: Account, regStartsAt: number) {
+    console.log('waiting for registration to start');
+    await instance.algodesk.transactionClient.waitForBlock(regStartsAt);
+    console.log('investor registering');
+    const {txId} = await instance.register(appId, account.addr);
+    return await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function invest(instance: Fundstack, appId: number, account: Account, saleStartsAt: number, amount: number) {
+    console.log('waiting for sale to start');
+    await instance.algodesk.transactionClient.waitForBlock(saleStartsAt);
+    console.log('investor investing');
+    const {txId} = await instance.invest(appId, account.addr, amount);
+    return await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function investorClaim(instance: Fundstack, appId: number, account: Account, saleEndsAt: number) {
+    console.log('waiting for claim to start');
+    await instance.algodesk.transactionClient.waitForBlock(saleEndsAt);
+    console.log('investor claiming');
+    const {txId} = await instance.investorClaim(appId, account.addr);
+    return await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function ownerClaim(instance: Fundstack, appId: number, account: Account, saleEndsAt: number) {
+    console.log('waiting for claim to start');
+    await instance.algodesk.transactionClient.waitForBlock(saleEndsAt);
+    console.log('owner claiming');
+    const {txId} = await instance.ownerClaim(appId, false);
+    await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function investorWithdraw(instance: Fundstack, appId: number, account: Account, saleEndsAt: number) {
+    console.log('waiting for claim to start');
+    await instance.algodesk.transactionClient.waitForBlock(saleEndsAt);
+    console.log('investor withdrawing');
+    const {txId} = await instance.investorWithdraw(appId, account.addr);
+    return await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
+async function ownerWithdraw(instance: Fundstack, appId: number, saleEndsAt: number) {
+    console.log('waiting for claim to start');
+    await instance.algodesk.transactionClient.waitForBlock(saleEndsAt);
+    console.log('owner withdrawing');
+    const {txId} = await instance.ownerWithdraw(appId);
+    await instance.algodesk.transactionClient.waitForConfirmation(txId);
+}
+
 test('fundstack', async () => {
     try {
         const fundRaiser = generateAccount();
@@ -49,78 +135,30 @@ test('fundstack', async () => {
         await dispense(fundRaiser);
         const asset = await createAsset(fundRaiser, fundRaiserInstance);
         const assetId = asset["asset-index"];
-        
 
         const investor = generateAccount();
         const iWalletSigner = new WalletSigner(investor);
         const investorInstance = new Fundstack(betanet, iWalletSigner);
         await dispense(investor);
 
+        const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
+        const appId = appDetails['application-index'];
 
+        await fundEscrow(fundRaiserInstance, appId);
 
-        const networkParams = await fundRaiserInstance.algodesk.transactionClient.getSuggestedParams();
-    
-        const fundParams: F_DeployFund = {
-            from: fundRaiser.addr,
-            assetId: assetId,
-            maxAllocation: 800,
-            minAllocation: 100,
-            name: "Testing v1 fund",
-            regStartsAt: networkParams.firstRound + 10,
-            regEndsAt: networkParams.firstRound + 20,
-            saleStartsAt: networkParams.firstRound + 30,
-            saleEndsAt: networkParams.firstRound + 40,
-            swapRatio: 600,
-            totalAllocation: 1000
-        };
-    
-        const companyDetails: F_CompanyDetails = {
-            github: "https://google.com/1",
-            twitter: "https://google.com/1",
-            website: "https://google.com/1",
-            whitePaper: "https://google.com/1"
-        };
+        const fundApp = await investorInstance.get(appId);
 
-        console.log('deploying fund');
-        const {txId} = await fundRaiserInstance.deploy(fundParams, companyDetails);
-        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(txId);
-        const pendingTransactionInfo = await fundRaiserInstance.algodesk.transactionClient.pendingTransactionInformation(txId);
+        await register(investorInstance, appId, investor,  fundApp.getRegStart());
 
+        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 1);
 
-        const appId = pendingTransactionInfo['application-index'];
+        // await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+        //
+        // await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
 
-        
-        console.log('funding escrow');
-        const {txId: escTxId} = await fundRaiserInstance.fundEscrow(appId);
-        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(escTxId);
-        
-        
-        console.log('waiting for registration to start');
-        await investorInstance.algodesk.transactionClient.waitForBlock(fundParams.regStartsAt);
-        console.log('investor registering');
-        const {txId: regTxId} = await investorInstance.register(appId, investor.addr);
-        await investorInstance.algodesk.transactionClient.waitForConfirmation(regTxId);
+        await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
 
-
-        console.log('waiting for sale to start');
-        await investorInstance.algodesk.transactionClient.waitForBlock(fundParams.saleStartsAt);
-        console.log('investor investing');
-        const {txId: invTxId} = await investorInstance.invest(appId, investor.addr, 1);
-        await investorInstance.algodesk.transactionClient.waitForConfirmation(invTxId);
-
-
-        console.log('waiting for claim to start');
-        await investorInstance.algodesk.transactionClient.waitForBlock(fundParams.saleEndsAt);
-        console.log('investor claiming');
-        const {txId: claimTxId} = await investorInstance.investorClaim(appId, investor.addr);
-        await investorInstance.algodesk.transactionClient.waitForConfirmation(claimTxId);
-
-
-        console.log('waiting for claim to start');
-        await fundRaiserInstance.algodesk.transactionClient.waitForBlock(fundParams.saleEndsAt);
-        console.log('owner claiming');
-        const {txId: ownerClaimTxId} = await fundRaiserInstance.ownerClaim(appId, false);
-        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerClaimTxId);
+        await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
 
 
         console.log('investor returning unspent balance');
