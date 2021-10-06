@@ -1,4 +1,4 @@
-import {durationBetweenBlocks} from "@algodesk/core";
+import {A_SearchTransaction, durationBetweenBlocks} from "@algodesk/core";
 import Duration from 'duration';
 
 export interface F_DeployFund {
@@ -37,4 +37,9 @@ export type F_CompanyDetails =  {
     twitter: string,
     github: string,
     tokenomics?: string
+}
+
+export interface F_AccountActivity extends A_SearchTransaction {
+    operation: string
+    label: string
 }

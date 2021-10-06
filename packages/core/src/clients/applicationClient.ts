@@ -7,10 +7,11 @@ import {
     A_SendTxnResponse,
     A_InvokeApplicationParams,
     Signer,
-    A_OptInApplicationParams, A_DeleteApplicationParams
+    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction, A_SearchTransactions
 } from "../types";
 import {processApplicationArgs} from "../utils/application";
 import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import SearchForTransactions from "algosdk/dist/types/src/client/v2/indexer/searchForTransactions";
 
 export class ApplicationClient{
     client: Algodv2;
@@ -108,5 +109,10 @@ export class ApplicationClient{
     async compileProgram(programSource: string): Promise<any> {
         const programBytes = encodeText(programSource);
         return await this.client.compile(programBytes).do();
+    }
+
+    async getAccountTransactions(appId: number, address: string): Promise<A_SearchTransactions> {
+        const txs = await this.indexer.searchForTransactions().address(address).applicationID(appId).do();
+        return txs as A_SearchTransactions;
     }
 }

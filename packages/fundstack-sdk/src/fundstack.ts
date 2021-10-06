@@ -11,18 +11,18 @@ import {
     A_AccountInformation,
     A_Asset,
     durationBetweenBlocks,
-    A_OptInApplicationParams, A_DeleteApplicationParams
+    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction
 } from "@algodesk/core";
 import {ESCROW_MIN_TOP_UP, FUND_OPERATIONS, FUND_PHASE} from "./constants";
 import {getContracts} from "./contracts";
 import {assignGroupID, OnApplicationComplete} from "algosdk";
-import {F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
+import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund} from "./fund";
 import atob from 'atob';
 
 export class Fundstack {
     algodesk: Algodesk;
-    constructor(network: Network, signer: Signer) {
+    constructor(network: Network, signer?: Signer) {
         this.algodesk = new Algodesk(network, signer);
     }
 
@@ -307,5 +307,71 @@ export class Fundstack {
 
         const deleteTxn = await this.algodesk.applicationClient.delete(params);
         return deleteTxn;
+    }
+
+    async getAccountHistory(fundId: number, address: string): Promise<F_AccountActivity[]> {
+        const {transactions} = await this.algodesk.applicationClient.getAccountTransactions(fundId, address);
+
+        const activityTxs: F_AccountActivity[] = [];
+
+        transactions.forEach((tx) => {
+            const activity: F_AccountActivity = {
+                ...tx,
+                operation: '',
+                label: ''
+            };
+
+            const appArgs = tx['application-transaction']['application-args'];
+            const createdAppId = tx['created-application-index'];
+
+            let operation = appArgs[0];
+            if (operation) {
+                operation = atob(operation);
+                activity.operation = operation;
+            }
+
+            let isValidOperation = false;
+            if (createdAppId) {
+                isValidOperation = true;
+                activity.operation = FUND_OPERATIONS.DEPLOY_FUND;
+                activity.label = 'Deploy fund';
+            }
+            if (operation === FUND_OPERATIONS.FUND_ESCROW) {
+                isValidOperation = true;
+                activity.label = 'Fund escrow';
+            }
+            if (operation === FUND_OPERATIONS.OWNER_WITHDRAW) {
+                isValidOperation = true;
+                activity.label = 'Assets withdraw';
+            }
+            if (operation === FUND_OPERATIONS.OWNER_CLAIM) {
+                isValidOperation = true;
+                activity.label = 'Claim algos';
+            }
+
+            const isRegister = !createdAppId && tx['application-transaction']['on-completion'] === 'optin';
+            if (isRegister) {
+                isValidOperation = true;
+                activity.operation = FUND_OPERATIONS.REGISTER;
+                activity.label = 'Register';
+            }
+            if (operation == FUND_OPERATIONS.INVEST) {
+                isValidOperation = true;
+                activity.label = 'Invest';
+            }
+            if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
+                isValidOperation = true;
+                activity.label = 'Claim Assets';
+            }
+            if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
+                isValidOperation = true;
+                activity.label = 'Withdraw Algos';
+            }
+
+            if (isValidOperation) {
+                activityTxs.push(activity);
+            }
+        });
+        return activityTxs;
     }
 }
