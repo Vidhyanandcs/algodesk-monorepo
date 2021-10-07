@@ -1,13 +1,54 @@
 #pragma version 5
 callsub sub2
-bnz main_l4
+bnz main_l6
 callsub sub3
-bnz main_l3
+bnz main_l5
+txna ApplicationArgs 0
+byte "deploy_fund"
+==
+bnz main_l4
 err
-main_l3:
+main_l4:
+global GroupSize
+int 3
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+gtxn 1 Sender
+txn Sender
+==
+assert
+gtxn 1 TypeEnum
+int pay
+==
+assert
+gtxn 1 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 1 Amount
+int 1000000
+==
+assert
+gtxn 2 Sender
+txn Sender
+==
+assert
+byte "fd"
+byte "fd"
+app_global_get
+int 1
++
+app_global_put
+int 1
+return
+main_l5:
 callsub sub4
 return
-main_l4:
+main_l6:
 global GroupSize
 int 1
 ==
@@ -20,6 +61,12 @@ txn Sender
 app_global_put
 byte "cat"
 global Round
+app_global_put
+byte "e"
+global CurrentApplicationAddress
+app_global_put
+byte "fd"
+int 0
 app_global_put
 int 1
 return

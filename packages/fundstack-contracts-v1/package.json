@@ -11,9 +11,7 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "watch:pyteal": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/revenue/main.py\"",
-    "watch:teal": "nodemon --watch target -e teal --exec \"npm run compile\"",
-    "watch": "npm run watch:teal && npm run watch:pyteal",
+    "watch": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/revenue/main.py & npm run compile\"",
     "build": "npm run build:clean && npm run build:cjs",
     "build:clean": "rimraf dist/",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
