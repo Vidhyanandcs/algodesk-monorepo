@@ -1,5 +1,5 @@
-import * as approvalJson from './teal/compiled/approval.json';
-import * as clearJson from './teal/compiled/clear.json';
+import * as approvalJson from './v1/fund/bytes/approval.json';
+import * as clearJson from './v1/fund/bytes/clear.json';
 
 export function getContracts() {
     return {

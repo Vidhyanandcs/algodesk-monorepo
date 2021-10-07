@@ -1,7 +1,7 @@
 import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {globalStateKeys} from "./state";
 import * as sdk from "algosdk";
-import algodeskCore, {A_AccountInformation, A_Asset} from "@algodesk/core";
+import {A_AccountInformation, A_Asset, encodeTxId} from "@algodesk/core";
 import atob from 'atob';
 import {F_CompanyDetails, F_FundStatus} from "./types";
 
@@ -46,7 +46,7 @@ export function getFundState(fund: Application): F_FundGlobalState {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else if (key == globalStateKeys.company_details) {
-                globalState[key] = algodeskCore.encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
+                globalState[key] = encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else {
                 globalState[key] = atob(value.bytes);

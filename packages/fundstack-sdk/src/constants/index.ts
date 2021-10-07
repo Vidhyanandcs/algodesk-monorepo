@@ -10,7 +10,7 @@ export enum FUND_PHASE  {
 
 export enum FUND_OPERATIONS {
     DEPLOY_FUND = 'deploy_fund',
-    FUND_ESCROW = 'fund_escrow',
+    PUBLISH = 'publish',
     INVEST = 'invest',
     INVESTOR_CLAIM = 'investor_claim',
     INVESTOR_WITHDRAW = 'investor_withdraw',
@@ -20,3 +20,9 @@ export enum FUND_OPERATIONS {
 }
 
 export const ESCROW_MIN_TOP_UP = 2;
+
+export const REVENUE_APP_ID = 429372383;
+export const REVENUE_PUBLISH_FEE = 1;
+export enum REVENUE_OPERATIONS {
+    VALIDATE_FUND = 'validate_fund'
+}

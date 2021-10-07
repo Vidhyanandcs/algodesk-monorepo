@@ -185,6 +185,19 @@ export interface A_CreateApplicationParams {
     foreignAssets?: number[]
 }
 
+export interface A_UpdateApplicationParams {
+    appId: number
+    from: string
+    approvalProgram: Uint8Array
+    clearProgram: Uint8Array
+    appArgs?: any[]
+    foreignAccounts?: string[]
+    foreignApps?: number[]
+    foreignAssets?: number[]
+    rekeyTo?: string
+    lease?: Uint8Array
+}
+
 export interface A_InvokeApplicationParams {
     from: string
     appId: number

@@ -3,8 +3,9 @@ from src.contracts.utils.utils import *
 import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
 
+revenueAppId = Int(429372383)
 
-def createApplication():
+def deployFund():
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -95,13 +96,13 @@ def createApplication():
     return block
 
 
-def fundEscrow():
+def publish():
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(3)),
-        Assert(Txn.group_index() == Int(1)),
+        Assert(Global.group_size() == Int(5)),
+        Assert(Txn.group_index() == Int(3)),
     ]
 
     assetId = Txn.assets[0]
@@ -109,7 +110,7 @@ def fundEscrow():
         Assert(assetId == App.globalGet(globalState.asset_id)),
     ]
 
-    paymentTxn = Gtxn[0]
+    paymentTxn = Gtxn[2]
 
     paymentAssertions = [
         Assert(paymentTxn.sender() == App.globalGet(globalState.creator)),
@@ -119,7 +120,7 @@ def fundEscrow():
         Assert(paymentTxn.amount() == Int(2000000))
     ]
 
-    assetXferTxn = Gtxn[2]
+    assetXferTxn = Gtxn[4]
 
     totalAllocation = App.globalGet(globalState.total_allocation)
     micros = getAssetMicros(Int(0))
@@ -140,6 +141,16 @@ def fundEscrow():
         Assert(App.globalGet(globalState.state) == Int(1))
     ]
 
+    validateFundTxn = Gtxn[1]
+    validateFundTxnArgs = validateFundTxn.application_args
+
+    validateFundAssertions = [
+        Assert(validateFundTxn.sender() == Txn.sender()),
+        Assert(validateFundTxn.type_enum() == TxnType.ApplicationCall),
+        Assert(validateFundTxn.application_id() == revenueAppId),
+        Assert(validateFundTxnArgs[0] == Bytes("validate_fund"))
+    ]
+
     setState = [
         App.globalPut(globalState.state, Int(2))
     ]
@@ -157,7 +168,7 @@ def fundEscrow():
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + validateFundAssertions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -504,11 +515,11 @@ def ownerWithdraw():
 
 def approvalProgram():
     program = Cond(
-        [isCreate(), createApplication()],
+        [isCreate(), deployFund()],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), deleteFund()],
         [isOptIn(), register()],
-        [Txn.application_args[0] == Bytes("fund_escrow"), fundEscrow()],
+        [Txn.application_args[0] == Bytes("publish"), publish()],
         [Txn.application_args[0] == Bytes("invest"), invest()],
         [Txn.application_args[0] == Bytes("investor_claim"), investorClaim()],
         [Txn.application_args[0] == Bytes("investor_withdraw"), investorWithdraw()],

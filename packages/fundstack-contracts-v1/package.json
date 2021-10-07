@@ -11,12 +11,13 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "watch": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/revenue/main.py & npm run compile\"",
+    "watch": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/revenue/main.py & npm run compile-teal\"",
     "build": "npm run build:clean && npm run build:cjs",
     "build:clean": "rimraf dist/",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
-    "server": "node ./dist/cjs/index.js",
-    "compile": "NODE_ENV=development npm run build && npm run server"
+    "compile-teal": "NODE_ENV=development npm run build && node ./dist/cjs/compileTeal.js",
+    "deploy-revenue-application": "NODE_ENV=development npm run build && node ./dist/cjs/deployRevenueApplication.js",
+    "update-revenue-application": "NODE_ENV=development npm run build && node ./dist/cjs/updateRevenueApplication.js"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"
@@ -24,6 +25,7 @@
   "dependencies": {
     "@algodesk/core": "^1.1.8",
     "@types/node": "^12.0.0",
+    "algosdk": "^1.12.0",
     "jest": "^27.0.6",
     "node-window-polyfill": "^1.0.2",
     "read-file": "^0.2.0",

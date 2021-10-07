@@ -3,7 +3,7 @@ from src.contracts.utils.utils import *
 import src.contracts.v1.revenue.state.global_state as globalState
 import src.contracts.v1.revenue.state.local_state as localState
 
-DEPLOYMENT_FEE = Int(1000000)
+PUBLISH_FEE = Int(1000000)
 
 def createApplication():
     txnArgs = Txn.application_args
@@ -32,28 +32,38 @@ def createApplication():
     block = Seq(conditions)
     return block
 
-def deployFund():
+def validateFund():
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(3)),
-        Assert(Txn.group_index() == Int(0))
+        Assert(Global.group_size() == Int(5)),
+        Assert(Txn.group_index() == Int(1))
     ]
 
-    paymentTxn = Gtxn[1]
+    paymentTxn = Gtxn[0]
 
     paymentAssertions = [
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
         Assert(paymentTxn.receiver() == Global.current_application_address()),
-        Assert(paymentTxn.amount() == DEPLOYMENT_FEE)
+        Assert(paymentTxn.amount() == PUBLISH_FEE)
     ]
 
-    fundDeploymentTxn = Gtxn[2]
+    fundAppId = Txn.applications[0]
+#     fundAppAppAppProgram = Param.approvalProgram(Int(0))
 
-    fundDeploymentAssertions = [
-        Assert(fundDeploymentTxn.sender() == Txn.sender())
+    fundPublishTxn = Gtxn[3]
+    fundPublishTxnArgs = fundPublishTxn.application_args
+
+    fundAppAssertions = [
+        Assert(fundPublishTxn.type_enum() == TxnType.ApplicationCall),
+#         Assert(fundAppId == fundPublishTxn.application_id()),
+        Assert(fundPublishTxnArgs[0] == Bytes("publish"))
+    ]
+
+    applicationAssertions = [
+        Assert(fundPublishTxn.sender() == Txn.sender())
     ]
 
     fundsDeployed = App.globalGet(globalState.funds_deployed)
@@ -61,7 +71,7 @@ def deployFund():
         App.globalPut(globalState.funds_deployed, fundsDeployed + Int(1)),
     ]
 
-    conditions = gtxnAssertions + paymentAssertions + fundDeploymentAssertions + setState + [Approve()]
+    conditions = gtxnAssertions + paymentAssertions + fundAppAssertions + applicationAssertions + setState + [Approve()]
 
     block = Seq(conditions)
     return block
@@ -70,6 +80,7 @@ def approvalProgram():
     program = Cond(
         [isCreate(), createApplication()],
         [isUpdate(), Return(allowOperation())],
-        [Txn.application_args[0] == Bytes("deploy_fund"), deployFund()],
+        [isDelete(), Return(allowOperation())],
+        [Txn.application_args[0] == Bytes("validate_fund"), validateFund()],
     )
     return program
