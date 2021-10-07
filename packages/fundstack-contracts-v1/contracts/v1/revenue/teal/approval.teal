@@ -1,0 +1,46 @@
+#pragma version 5
+callsub sub2
+bnz main_l4
+callsub sub3
+bnz main_l3
+err
+main_l3:
+callsub sub4
+return
+main_l4:
+global GroupSize
+int 1
+==
+assert
+byte "v"
+int 1
+app_global_put
+byte "c"
+txn Sender
+app_global_put
+byte "cat"
+global Round
+app_global_put
+int 1
+return
+sub0: // getAppId
+txn ApplicationID
+retsub
+sub1: // getTxnAction
+txn OnCompletion
+retsub
+sub2: // isCreate
+callsub sub0
+int 0
+==
+retsub
+sub3: // isUpdate
+callsub sub1
+int UpdateApplication
+==
+retsub
+sub4: // allowOperation
+int 1
+int 1
+==
+retsub

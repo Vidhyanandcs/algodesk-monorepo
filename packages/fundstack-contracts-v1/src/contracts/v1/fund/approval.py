@@ -1,7 +1,7 @@
 from pyteal import *
 from src.contracts.utils.utils import *
-import src.contracts.v1.state.global_state as globalState
-import src.contracts.v1.state.local_state as localState
+import src.contracts.v1.fund.state.global_state as globalState
+import src.contracts.v1.fund.state.local_state as localState
 
 
 def createApplication():
