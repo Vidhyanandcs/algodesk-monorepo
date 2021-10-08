@@ -50,15 +50,11 @@ def validateFund():
         Assert(paymentTxn.amount() == PUBLISH_FEE)
     ]
 
-    fundAppId = Txn.applications[0]
-#     fundAppAppAppProgram = Param.approvalProgram(Int(0))
-
     fundPublishTxn = Gtxn[3]
     fundPublishTxnArgs = fundPublishTxn.application_args
 
     fundAppAssertions = [
         Assert(fundPublishTxn.type_enum() == TxnType.ApplicationCall),
-#         Assert(fundAppId == fundPublishTxn.application_id()),
         Assert(fundPublishTxnArgs[0] == Bytes("publish"))
     ]
 

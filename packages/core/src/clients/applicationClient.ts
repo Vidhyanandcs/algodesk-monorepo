@@ -122,4 +122,9 @@ export class ApplicationClient{
         const txs = await this.indexer.searchForTransactions().address(address).applicationID(appId).do();
         return txs as A_SearchTransactions;
     }
+
+    async getAppTransactions(appId: number): Promise<A_SearchTransactions> {
+        const txs = await this.indexer.searchForTransactions().applicationID(appId).do();
+        return txs as A_SearchTransactions;
+    }
 }

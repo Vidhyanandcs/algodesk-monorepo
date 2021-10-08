@@ -64,6 +64,7 @@ export class Fundstack {
         const revenueApp = await this.algodesk.applicationClient.get(REVENUE_APP_ID);
         const revenue = new Revenue(revenueApp);
         const revenueEscrow = revenue.getEscrow();
+        console.log('revenue escrow: ' + revenueEscrow);
 
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
@@ -185,7 +186,8 @@ export class Fundstack {
             appId: fundId,
             from: creator,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, burnUint]
+            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, burnUint],
+            foreignApps: [REVENUE_APP_ID]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
 
@@ -394,5 +396,10 @@ export class Fundstack {
             }
         });
         return activityTxs;
+    }
+
+    async getFunds(): Promise<any[]> {
+        const {transactions} = await this.algodesk.applicationClient.getAppTransactions(REVENUE_APP_ID);
+        return transactions;
     }
 }

@@ -1,28 +1,28 @@
 #pragma version 5
 callsub sub2
-bnz main_l25
+bnz main_l28
 callsub sub3
-bnz main_l24
+bnz main_l27
 callsub sub4
-bnz main_l23
+bnz main_l26
 callsub sub5
-bnz main_l22
+bnz main_l25
 txna ApplicationArgs 0
 byte "publish"
 ==
-bnz main_l21
+bnz main_l24
 txna ApplicationArgs 0
 byte "invest"
 ==
-bnz main_l17
+bnz main_l20
 txna ApplicationArgs 0
 byte "investor_claim"
 ==
-bnz main_l16
+bnz main_l19
 txna ApplicationArgs 0
 byte "investor_withdraw"
 ==
-bnz main_l15
+bnz main_l18
 txna ApplicationArgs 0
 byte "owner_claim"
 ==
@@ -132,6 +132,11 @@ int pay
 itxn_field TypeEnum
 txn Sender
 itxn_field Receiver
+int 1
+int 2
+int 100
+/
+-
 byte "ta"
 app_global_get
 byte "ra"
@@ -140,6 +145,35 @@ app_global_get
 byte "sr"
 app_global_get
 /
+*
+callsub sub9
+itxn_field Amount
+itxn_submit
+itxn_begin
+int pay
+itxn_field TypeEnum
+txna Applications 0
+byte "e"
+app_global_get_ex
+store 0
+store 1
+load 0
+bnz main_l17
+byte "none"
+main_l14:
+itxn_field Receiver
+int 2
+int 100
+/
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+byte "sr"
+app_global_get
+/
+*
 callsub sub9
 itxn_field Amount
 itxn_submit
@@ -150,11 +184,11 @@ txna ApplicationArgs 1
 btoi
 int 0
 ==
-bnz main_l14
-main_l13:
+bnz main_l16
+main_l15:
 int 1
 return
-main_l14:
+main_l16:
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -170,8 +204,11 @@ callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
-b main_l13
-main_l15:
+b main_l15
+main_l17:
+load 1
+b main_l14
+main_l18:
 global GroupSize
 int 1
 ==
@@ -235,7 +272,7 @@ int 1
 app_local_put
 int 1
 return
-main_l16:
+main_l19:
 global GroupSize
 int 2
 ==
@@ -331,7 +368,7 @@ int 1
 app_local_put
 int 1
 return
-main_l17:
+main_l20:
 global GroupSize
 int 2
 ==
@@ -452,9 +489,9 @@ int 100
 *
 int 50
 >=
-bnz main_l20
+bnz main_l23
 int 0
-main_l19:
+main_l22:
 app_global_put
 int 0
 byte "i"
@@ -470,10 +507,10 @@ app_global_get
 app_local_put
 int 1
 return
-main_l20:
+main_l23:
 int 1
-b main_l19
-main_l21:
+b main_l22
+main_l24:
 global GroupSize
 int 5
 ==
@@ -583,7 +620,7 @@ int 2
 app_global_put
 int 1
 return
-main_l22:
+main_l25:
 global GroupSize
 int 1
 ==
@@ -633,7 +670,7 @@ int 0
 app_local_put
 int 1
 return
-main_l23:
+main_l26:
 byte "s"
 app_global_get
 int 1
@@ -641,10 +678,10 @@ int 1
 assert
 int 1
 return
-main_l24:
+main_l27:
 callsub sub7
 return
-main_l25:
+main_l28:
 global GroupSize
 int 1
 ==
@@ -819,13 +856,13 @@ int OptIn
 ==
 retsub
 sub6: // getAssetMicros
-store 0
-load 0
-asset_params_get AssetDecimals
-store 1
 store 2
-int 10
 load 2
+asset_params_get AssetDecimals
+store 3
+store 4
+int 10
+load 4
 exp
 retsub
 sub7: // allowOperation
@@ -834,14 +871,14 @@ int 1
 ==
 retsub
 sub8: // microAlgoToAlgo
-store 3
-load 3
+store 5
+load 5
 int 1000000
 /
 retsub
 sub9: // AlgoToMicroAlgo
-store 4
-load 4
+store 6
+load 6
 int 1000000
 *
 retsub

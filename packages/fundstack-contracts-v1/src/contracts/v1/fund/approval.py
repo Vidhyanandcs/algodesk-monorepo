@@ -407,8 +407,16 @@ def ownerClaim():
     ]
 
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
-    claimableAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
+    totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
+
+    platformFeePerc = Int(2)/Int(100)
+    ownerClaimPerc = Int(1) - platformFeePerc
+
+    claimableAmount = ownerClaimPerc * totalAmount
+    platformSuccessFee = platformFeePerc * totalAmount
+
     claimableAmount = AlgoToMicroAlgo(claimableAmount)
+    platformSuccessFee = AlgoToMicroAlgo(platformSuccessFee)
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
@@ -430,11 +438,29 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
+    revenueEscrow = App.globalGetEx(Txn.applications[0], globalState.escrow)
+    revenueEscrowAddr = Seq([
+        revenueEscrow,
+        If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))
+    ])
+
+    innerTransactionPlatformFee = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: revenueEscrowAddr,
+                TxnField.amount: platformSuccessFee
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
     setState = [
         App.globalPut(globalState.funds_claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + setState
+    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + innerTransactionPlatformFee + setState
 
     remainingAllocation = App.globalGet(globalState.remaining_allocation)
     micros = getAssetMicros(Int(0))
