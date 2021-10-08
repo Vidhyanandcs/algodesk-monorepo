@@ -1,10 +1,11 @@
 from pyteal import *
 from src.contracts.utils.utils import *
-import src.contracts.v1.state.global_state as globalState
-import src.contracts.v1.state.local_state as localState
+import src.contracts.v1.fund.state.global_state as globalState
+import src.contracts.v1.fund.state.local_state as localState
 
+revenueAppId = Int(429372383)
 
-def createApplication():
+def deployFund():
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -95,13 +96,13 @@ def createApplication():
     return block
 
 
-def fundEscrow():
+def publish():
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(3)),
-        Assert(Txn.group_index() == Int(1)),
+        Assert(Global.group_size() == Int(5)),
+        Assert(Txn.group_index() == Int(3)),
     ]
 
     assetId = Txn.assets[0]
@@ -109,7 +110,7 @@ def fundEscrow():
         Assert(assetId == App.globalGet(globalState.asset_id)),
     ]
 
-    paymentTxn = Gtxn[0]
+    paymentTxn = Gtxn[2]
 
     paymentAssertions = [
         Assert(paymentTxn.sender() == App.globalGet(globalState.creator)),
@@ -119,7 +120,7 @@ def fundEscrow():
         Assert(paymentTxn.amount() == Int(2000000))
     ]
 
-    assetXferTxn = Gtxn[2]
+    assetXferTxn = Gtxn[4]
 
     totalAllocation = App.globalGet(globalState.total_allocation)
     micros = getAssetMicros(Int(0))
@@ -140,6 +141,16 @@ def fundEscrow():
         Assert(App.globalGet(globalState.state) == Int(1))
     ]
 
+    validateFundTxn = Gtxn[1]
+    validateFundTxnArgs = validateFundTxn.application_args
+
+    validateFundAssertions = [
+        Assert(validateFundTxn.sender() == Txn.sender()),
+        Assert(validateFundTxn.type_enum() == TxnType.ApplicationCall),
+        Assert(validateFundTxn.application_id() == revenueAppId),
+        Assert(validateFundTxnArgs[0] == Bytes("validate_fund"))
+    ]
+
     setState = [
         App.globalPut(globalState.state, Int(2))
     ]
@@ -157,7 +168,7 @@ def fundEscrow():
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + validateFundAssertions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -396,8 +407,16 @@ def ownerClaim():
     ]
 
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
-    claimableAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
+    totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
+
+    platformFeePerc = Int(2)/Int(100)
+    ownerClaimPerc = Int(1) - platformFeePerc
+
+    claimableAmount = ownerClaimPerc * totalAmount
+    platformSuccessFee = platformFeePerc * totalAmount
+
     claimableAmount = AlgoToMicroAlgo(claimableAmount)
+    platformSuccessFee = AlgoToMicroAlgo(platformSuccessFee)
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
@@ -419,11 +438,29 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
+    revenueEscrow = App.globalGetEx(Txn.applications[0], globalState.escrow)
+    revenueEscrowAddr = Seq([
+        revenueEscrow,
+        If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))
+    ])
+
+    innerTransactionPlatformFee = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: revenueEscrowAddr,
+                TxnField.amount: platformSuccessFee
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
     setState = [
         App.globalPut(globalState.funds_claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + setState
+    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + innerTransactionPlatformFee + setState
 
     remainingAllocation = App.globalGet(globalState.remaining_allocation)
     micros = getAssetMicros(Int(0))
@@ -504,11 +541,11 @@ def ownerWithdraw():
 
 def approvalProgram():
     program = Cond(
-        [isCreate(), createApplication()],
+        [isCreate(), deployFund()],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), deleteFund()],
         [isOptIn(), register()],
-        [Txn.application_args[0] == Bytes("fund_escrow"), fundEscrow()],
+        [Txn.application_args[0] == Bytes("publish"), publish()],
         [Txn.application_args[0] == Bytes("invest"), invest()],
         [Txn.application_args[0] == Bytes("investor_claim"), investorClaim()],
         [Txn.application_args[0] == Bytes("investor_withdraw"), investorWithdraw()],

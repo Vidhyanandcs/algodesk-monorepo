@@ -11,15 +11,18 @@ export class Algodesk {
     public applicationClient: ApplicationClient;
     public paymentClient: PaymentClient;
 
-    constructor(network: Network, signer: Signer) {
-        this.setNetwork(network, signer);
+    constructor(network: Network, signer?: Signer) {
+        this.setNetwork(network);
+        this.setClients(signer);
     }
 
-    setNetwork(network: Network, signer: Signer): void {
-        const client = network.getClient();
-        const indexer = network.getIndexer();
-
+    setNetwork(network: Network): void {
         this.network = network;
+    }
+
+    setClients(signer: Signer): void {
+        const client = this.network.getClient();
+        const indexer = this.network.getIndexer();
         this.accountClient = new AccountClient(client, indexer, signer);
         this.assetClient = new AssetClient(client, indexer, signer);
         this.applicationClient = new ApplicationClient(client, indexer, signer);

@@ -9,5 +9,9 @@
     "esModuleInterop": true,
     "sourceMap": true
   },
-  "include": ["app/index.ts"]
+  "include": [
+    "app/compileTeal.ts",
+    "app/deployRevenueApplication.ts",
+    "app/updateRevenueApplication.ts"
+  ]
 }

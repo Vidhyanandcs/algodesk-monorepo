@@ -1,0 +1,111 @@
+#pragma version 5
+callsub sub2
+bnz main_l8
+callsub sub3
+bnz main_l7
+callsub sub4
+bnz main_l6
+txna ApplicationArgs 0
+byte "validate_fund"
+==
+bnz main_l5
+err
+main_l5:
+global GroupSize
+int 5
+==
+assert
+txn GroupIndex
+int 1
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 0 Amount
+int 1000000
+==
+assert
+gtxn 3 TypeEnum
+int appl
+==
+assert
+gtxna 3 ApplicationArgs 0
+byte "publish"
+==
+assert
+gtxn 3 Sender
+txn Sender
+==
+assert
+byte "fd"
+byte "fd"
+app_global_get
+int 1
++
+app_global_put
+int 1
+return
+main_l6:
+callsub sub5
+return
+main_l7:
+callsub sub5
+return
+main_l8:
+global GroupSize
+int 1
+==
+assert
+byte "v"
+int 1
+app_global_put
+byte "c"
+txn Sender
+app_global_put
+byte "cat"
+global Round
+app_global_put
+byte "e"
+global CurrentApplicationAddress
+app_global_put
+byte "fd"
+int 0
+app_global_put
+int 1
+return
+sub0: // getAppId
+txn ApplicationID
+retsub
+sub1: // getTxnAction
+txn OnCompletion
+retsub
+sub2: // isCreate
+callsub sub0
+int 0
+==
+retsub
+sub3: // isUpdate
+callsub sub1
+int UpdateApplication
+==
+retsub
+sub4: // isDelete
+callsub sub1
+int DeleteApplication
+==
+retsub
+sub5: // allowOperation
+int 1
+int 1
+==
+retsub

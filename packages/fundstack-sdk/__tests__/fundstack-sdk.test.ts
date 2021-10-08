@@ -8,7 +8,7 @@ import {F_CompanyDetails, F_DeployFund} from "../src/types";
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
 const dispenserAccount = mnemonicToSecretKey(mnemonic);//CJW7LXVNIHJDDLOVIPP4YABAGINXURO7HZEZQYUH27FTFCQ7QWKZ7GO4UQ
 
-async function dispense(account: Account, amount: number = 5) {
+async function dispense(account: Account, amount: number = 7) {
     const walletSigner = new WalletSigner(dispenserAccount);
     const dispenserInstance = new Fundstack(betanet, walletSigner);
     console.log('funding account: ' + account.addr);
@@ -54,7 +54,7 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         regEndsAt: networkParams.firstRound + 20,
         saleStartsAt: networkParams.firstRound + 30,
         saleEndsAt: networkParams.firstRound + 40,
-        swapRatio: 400,
+        swapRatio: 600,
         totalAllocation: 1000
     };
 
@@ -69,13 +69,14 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
     const {txId} = await instance.deploy(fundParams, companyDetails);
     await instance.algodesk.transactionClient.waitForConfirmation(txId);
     const pendingTransactionInfo = await instance.algodesk.transactionClient.pendingTransactionInformation(txId);
+    console.log("Fund ID: " + pendingTransactionInfo['application-index']);
     return pendingTransactionInfo;
 }
 
 
-async function fundEscrow(instance: Fundstack, appId: number) {
-    console.log('funding escrow');
-    const {txId} = await instance.fundEscrow(appId);
+async function publish(instance: Fundstack, appId: number) {
+    console.log('publishing fund');
+    const {txId} = await instance.publish(appId);
     return await instance.algodesk.transactionClient.waitForConfirmation(txId);
 }
 
@@ -144,7 +145,7 @@ test('fundstack', async () => {
         const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
         const appId = appDetails['application-index'];
 
-        await fundEscrow(fundRaiserInstance, appId);
+        await publish(fundRaiserInstance, appId);
 
         const fundApp = await investorInstance.get(appId);
 
@@ -152,13 +153,13 @@ test('fundstack', async () => {
 
         await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 1);
 
-        // await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+        await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+
+        await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
+
+        // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
         //
-        // await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
-
-        await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
-
-        await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
+        // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
 
 
         console.log('investor returning unspent balance');
@@ -177,4 +178,17 @@ test('fundstack', async () => {
     }
 });
 
+
+
+// test('fundstack', async () => {
+//     try {
+//         const fs = new Fundstack(betanet);
+//         const txs = await fs.getAccountHistory(424921726, "BZ3N5TPX74UYKWVYDRRGAKBYQ2WHV6NVI5A6ECY4Q2KPDN6PKGV7M743WU");
+//         console.log(txs);
+//
+//     }
+//     catch (e) {
+//         console.log(e);
+//     }
+// });
 

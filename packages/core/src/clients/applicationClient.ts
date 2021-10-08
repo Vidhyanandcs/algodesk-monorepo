@@ -7,10 +7,16 @@ import {
     A_SendTxnResponse,
     A_InvokeApplicationParams,
     Signer,
-    A_OptInApplicationParams, A_DeleteApplicationParams
+    A_OptInApplicationParams,
+    A_DeleteApplicationParams,
+    A_SearchTransaction,
+    A_SearchTransactions,
+    A_UpdateApplicationParams
 } from "../types";
 import {processApplicationArgs} from "../utils/application";
 import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import SearchForTransactions from "algosdk/dist/types/src/client/v2/indexer/searchForTransactions";
+import fr from "algorand-walletconnect-qrcode-modal/dist/cjs/browser/languages/fr";
 
 export class ApplicationClient{
     client: Algodv2;
@@ -76,17 +82,19 @@ export class ApplicationClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async prepareUpdateTxn(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<Transaction> {
+    async prepareUpdateTxn(params: A_UpdateApplicationParams, note?: string): Promise<Transaction> {
         const suggestedParams = await this.transactionClient.getSuggestedParams();
+
+        const {appArgs, from, appId, approvalProgram, clearProgram, foreignApps, foreignAssets, foreignAccounts, lease, rekeyTo} = params;
 
         const appArgsUint = processApplicationArgs(appArgs);
         const encodedNote = encodeText(note);
 
-        return sdk.makeApplicationUpdateTxn(address, suggestedParams, appId, approvalProgram, clearProgram, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
+        return sdk.makeApplicationUpdateTxn(from, suggestedParams, appId, approvalProgram, clearProgram, appArgsUint, foreignAccounts, foreignApps, foreignAssets, encodedNote, lease, rekeyTo);
     }
 
-    async update(address: string, appId : number, approvalProgram: Uint8Array, clearProgram: Uint8Array, appArgs: any[] = [], foreignAccounts: string[] = [], foreignApps: number[] = [], foreignAssets: number[] = [], note: string | undefined, lease: Uint8Array, rekeyTo: string): Promise<A_SendTxnResponse> {
-        const unsignedTxn = await this.prepareUpdateTxn(address, appId, approvalProgram, clearProgram, appArgs, foreignAccounts, foreignApps, foreignAssets, note, lease, rekeyTo);
+    async update(params: A_UpdateApplicationParams, note?: string): Promise<A_SendTxnResponse> {
+        const unsignedTxn = await this.prepareUpdateTxn(params, note);
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
@@ -108,5 +116,15 @@ export class ApplicationClient{
     async compileProgram(programSource: string): Promise<any> {
         const programBytes = encodeText(programSource);
         return await this.client.compile(programBytes).do();
+    }
+
+    async getAccountTransactions(appId: number, address: string): Promise<A_SearchTransactions> {
+        const txs = await this.indexer.searchForTransactions().address(address).applicationID(appId).do();
+        return txs as A_SearchTransactions;
+    }
+
+    async getAppTransactions(appId: number): Promise<A_SearchTransactions> {
+        const txs = await this.indexer.searchForTransactions().applicationID(appId).do();
+        return txs as A_SearchTransactions;
     }
 }
