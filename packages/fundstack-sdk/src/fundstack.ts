@@ -175,6 +175,10 @@ export class Fundstack {
     }
 
     async ownerClaim(fundId: number, burn: boolean): Promise<A_SendTxnResponse> {
+        const revenueApp = await this.algodesk.applicationClient.get(REVENUE_APP_ID);
+        const revenue = new Revenue(revenueApp);
+        const revenueEscrow = revenue.getEscrow();
+
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
 
@@ -187,7 +191,8 @@ export class Fundstack {
             from: creator,
             foreignAssets: [assetId],
             appArgs: [FUND_OPERATIONS.OWNER_CLAIM, burnUint],
-            foreignApps: [REVENUE_APP_ID]
+            foreignApps: [REVENUE_APP_ID],
+            foreignAccounts: [revenueEscrow]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
 

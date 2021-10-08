@@ -432,7 +432,7 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
-    revenueEscrow = App.globalGetEx(Txn.applications[0], globalState.escrow)
+    revenueEscrow = App.globalGetEx(Txn.applications[1], globalState.escrow)
     revenueEscrowAddr = Seq([
         revenueEscrow,
         If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))

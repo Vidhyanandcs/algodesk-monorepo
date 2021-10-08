@@ -110,6 +110,8 @@ async function ownerClaim(instance: Fundstack, appId: number, account: Account, 
     console.log('owner claiming');
     const {txId} = await instance.ownerClaim(appId, false);
     await instance.algodesk.transactionClient.waitForConfirmation(txId);
+    const pendingTransactionInfo = await instance.algodesk.transactionClient.pendingTransactionInformation(txId);
+    console.log(pendingTransactionInfo);
 }
 
 async function investorWithdraw(instance: Fundstack, appId: number, account: Account, saleEndsAt: number) {
