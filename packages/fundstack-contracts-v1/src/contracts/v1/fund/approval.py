@@ -409,14 +409,8 @@ def ownerClaim():
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
 
-    platformFeePerc = Int(2)/Int(100)
-    ownerClaimPerc = Int(1) - platformFeePerc
-
-    claimableAmount = ownerClaimPerc * totalAmount
-    platformSuccessFee = platformFeePerc * totalAmount
-
-    claimableAmount = AlgoToMicroAlgo(claimableAmount)
-    platformSuccessFee = AlgoToMicroAlgo(platformSuccessFee)
+    claimableAmount = totalAmount * Int(98) * Int(10000)
+    platformSuccessFee = totalAmount * Int(2) * Int(10000)
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),

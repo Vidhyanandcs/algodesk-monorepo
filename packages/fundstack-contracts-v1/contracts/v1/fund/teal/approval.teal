@@ -132,11 +132,6 @@ int pay
 itxn_field TypeEnum
 txn Sender
 itxn_field Receiver
-int 1
-int 2
-int 100
-/
--
 byte "ta"
 app_global_get
 byte "ra"
@@ -145,8 +140,10 @@ app_global_get
 byte "sr"
 app_global_get
 /
+int 98
 *
-callsub sub9
+int 10000
+*
 itxn_field Amount
 itxn_submit
 itxn_begin
@@ -162,9 +159,6 @@ bnz main_l17
 byte "none"
 main_l14:
 itxn_field Receiver
-int 2
-int 100
-/
 byte "ta"
 app_global_get
 byte "ra"
@@ -173,8 +167,10 @@ app_global_get
 byte "sr"
 app_global_get
 /
+int 2
 *
-callsub sub9
+int 10000
+*
 itxn_field Amount
 itxn_submit
 byte "fc"
