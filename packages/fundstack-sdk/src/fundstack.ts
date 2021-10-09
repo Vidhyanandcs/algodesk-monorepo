@@ -403,8 +403,21 @@ export class Fundstack {
         return activityTxs;
     }
 
-    async getFunds(): Promise<any[]> {
+    async getPublishedFundsIds(): Promise<number[]> {
+        const fundIds: number[] = [];
         const {transactions} = await this.algodesk.applicationClient.getAppTransactions(REVENUE_APP_ID);
-        return transactions;
+
+        transactions.forEach((tx) => {
+            const appCallArgs = tx['application-transaction']['application-args'];
+            const foreignApps = tx['application-transaction']['foreign-apps'];
+            if (appCallArgs && appCallArgs.length > 0 && foreignApps && foreignApps.length > 0) {
+                const firstParam = appCallArgs[0];
+                if (atob(firstParam) == REVENUE_OPERATIONS.VALIDATE_FUND) {
+                    fundIds.push(foreignApps[0]);
+                }
+            }
+        });
+        
+        return fundIds;
     }
 }
