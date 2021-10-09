@@ -1,6 +1,6 @@
 export const globalStateKeys = {
     version: "v",
-    state: "s",
+    published: "p",
     creator: "c",
     created_at: "cat",
     name: "n",

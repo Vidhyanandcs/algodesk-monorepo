@@ -107,9 +107,9 @@ byte "ca"
 app_global_get
 >
 assert
-byte "s"
+byte "p"
 app_global_get
-int 2
+int 1
 ==
 assert
 byte "tr"
@@ -218,9 +218,9 @@ byte "ca"
 app_global_get
 >
 assert
-byte "s"
+byte "p"
 app_global_get
-int 2
+int 1
 ==
 assert
 byte "tr"
@@ -312,9 +312,9 @@ byte "ca"
 app_global_get
 >
 assert
-byte "s"
+byte "p"
 app_global_get
-int 2
+int 1
 ==
 assert
 byte "tr"
@@ -412,9 +412,9 @@ app_local_get
 int 0
 ==
 assert
-byte "s"
+byte "p"
 app_global_get
-int 2
+int 1
 ==
 assert
 gtxn 0 Amount
@@ -582,9 +582,9 @@ byte "rsat"
 app_global_get
 <
 assert
-byte "s"
+byte "p"
 app_global_get
-int 1
+int 0
 ==
 assert
 itxn_begin
@@ -615,8 +615,8 @@ gtxna 1 ApplicationArgs 0
 byte "validate_fund"
 ==
 assert
-byte "s"
-int 2
+byte "p"
+int 1
 app_global_put
 int 1
 return
@@ -631,9 +631,9 @@ app_local_get
 int 0
 ==
 assert
-byte "s"
+byte "p"
 app_global_get
-int 2
+int 1
 ==
 assert
 global Round
@@ -671,9 +671,9 @@ app_local_put
 int 1
 return
 main_l26:
-byte "s"
+byte "p"
 app_global_get
-int 1
+int 0
 ==
 assert
 int 1
@@ -744,8 +744,8 @@ assert
 byte "v"
 int 1
 app_global_put
-byte "s"
-int 1
+byte "p"
+int 0
 app_global_put
 byte "c"
 txn Sender

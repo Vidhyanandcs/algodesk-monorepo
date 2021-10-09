@@ -7,7 +7,7 @@ import {F_CompanyDetails, F_FundStatus} from "./types";
 
 export type F_FundGlobalState = {
     v: number
-    s: number
+    p: number
     c: string
     cat: number
     n: string
@@ -83,7 +83,6 @@ export class Fund {
     id: number | bigint;
     params: ApplicationParams;
     globalState: F_FundGlobalState;
-    published: boolean;
     status: F_FundStatus;
     asset: A_Asset;
     escrow: A_AccountInformation;
@@ -93,7 +92,6 @@ export class Fund {
         this.id = fund.id;
         this.params = fund.params;
         this.globalState = getFundState(fund);
-        this.published = this.getState() >= 3;
     }
 
     getCreator(): string {
@@ -106,10 +104,6 @@ export class Fund {
 
     getAssetId(): number {
         return this.globalState[globalStateKeys.asset_id];
-    }
-
-    getState(): number {
-        return this.globalState[globalStateKeys.state];
     }
 
     getTotalAllocation(): number {

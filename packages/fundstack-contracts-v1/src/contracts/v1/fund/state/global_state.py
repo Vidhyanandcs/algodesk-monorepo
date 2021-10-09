@@ -1,7 +1,7 @@
 from pyteal import Bytes
 
 version = Bytes("v")
-state = Bytes("s")
+published = Bytes("p")
 creator = Bytes("c")
 created_at = Bytes("cat")
 name = Bytes("n")

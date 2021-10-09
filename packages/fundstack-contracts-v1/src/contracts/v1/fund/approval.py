@@ -14,7 +14,7 @@ def deployFund():
     ]
 
     version = Int(1)
-    state = Int(1)
+    published = Int(0)
     creator = Txn.sender()
     createdAt = currentRound
 
@@ -64,7 +64,7 @@ def deployFund():
 
     setState = [
         App.globalPut(globalState.version, version),
-        App.globalPut(globalState.state, state),
+        App.globalPut(globalState.published, published),
         App.globalPut(globalState.creator, creator),
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.name, name),
@@ -138,7 +138,7 @@ def publish():
     applicationAssertions = [
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
         Assert(currentRound < App.globalGet(globalState.reg_starts_at)),
-        Assert(App.globalGet(globalState.state) == Int(1))
+        Assert(App.globalGet(globalState.published) == Int(0))
     ]
 
     validateFundTxn = Gtxn[1]
@@ -152,7 +152,7 @@ def publish():
     ]
 
     setState = [
-        App.globalPut(globalState.state, Int(2))
+        App.globalPut(globalState.published, Int(1))
     ]
 
     innerTransactions = [
@@ -185,7 +185,7 @@ def register():
     registered = App.localGet(Int(0), localState.registered)
     applicationAssertions = [
         Assert(registered == Int(0)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(currentRound >= App.globalGet(globalState.reg_starts_at)),
         Assert(currentRound <= App.globalGet(globalState.reg_ends_at)),
     ]
@@ -232,7 +232,7 @@ def invest():
     applicationAssertions = [
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(0)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(investedAmount >= App.globalGet(globalState.min_allocation)),
         Assert(investedAmount <= App.globalGet(globalState.max_allocation)),
         Assert(currentRound >= App.globalGet(globalState.sale_starts_at)),
@@ -267,7 +267,7 @@ def invest():
 
 def deleteFund():
     applicationAssertions = [
-        Assert(App.globalGet(globalState.state) == Int(1))
+        Assert(App.globalGet(globalState.published) == Int(0))
     ]
 
     conditions = applicationAssertions + [Approve()]
@@ -308,7 +308,7 @@ def investorClaim():
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(1)),
@@ -355,7 +355,7 @@ def investorWithdraw():
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(0)),
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(1)),
@@ -414,7 +414,7 @@ def ownerClaim():
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
         Assert(App.globalGet(globalState.funds_claimed) == Int(0))
