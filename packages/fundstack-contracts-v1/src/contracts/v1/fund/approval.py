@@ -434,6 +434,7 @@ def ownerClaim():
 
     revenueEscrow = App.globalGetEx(Txn.applications[1], globalState.escrow)
     revenueEscrowAddr = Seq([
+        Assert(Txn.applications[1] == revenueAppId),
         revenueEscrow,
         If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))
     ])
