@@ -2,8 +2,9 @@ from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
+import src.contracts.v1.revenue.state.global_state as revenueGlobalState
 
-revenueAppId = Int(429372383)
+revenueAppId = Int(438565946)
 
 def deployFund():
     txnArgs = Txn.application_args
@@ -14,7 +15,7 @@ def deployFund():
     ]
 
     version = Int(1)
-    state = Int(1)
+    published = Int(0)
     creator = Txn.sender()
     createdAt = currentRound
 
@@ -64,7 +65,7 @@ def deployFund():
 
     setState = [
         App.globalPut(globalState.version, version),
-        App.globalPut(globalState.state, state),
+        App.globalPut(globalState.published, published),
         App.globalPut(globalState.creator, creator),
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.name, name),
@@ -138,7 +139,7 @@ def publish():
     applicationAssertions = [
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
         Assert(currentRound < App.globalGet(globalState.reg_starts_at)),
-        Assert(App.globalGet(globalState.state) == Int(1))
+        Assert(App.globalGet(globalState.published) == Int(0))
     ]
 
     validateFundTxn = Gtxn[1]
@@ -152,7 +153,7 @@ def publish():
     ]
 
     setState = [
-        App.globalPut(globalState.state, Int(2))
+        App.globalPut(globalState.published, Int(1))
     ]
 
     innerTransactions = [
@@ -185,7 +186,7 @@ def register():
     registered = App.localGet(Int(0), localState.registered)
     applicationAssertions = [
         Assert(registered == Int(0)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(currentRound >= App.globalGet(globalState.reg_starts_at)),
         Assert(currentRound <= App.globalGet(globalState.reg_ends_at)),
     ]
@@ -232,7 +233,7 @@ def invest():
     applicationAssertions = [
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(0)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(investedAmount >= App.globalGet(globalState.min_allocation)),
         Assert(investedAmount <= App.globalGet(globalState.max_allocation)),
         Assert(currentRound >= App.globalGet(globalState.sale_starts_at)),
@@ -267,7 +268,7 @@ def invest():
 
 def deleteFund():
     applicationAssertions = [
-        Assert(App.globalGet(globalState.state) == Int(1))
+        Assert(App.globalGet(globalState.published) == Int(0))
     ]
 
     conditions = applicationAssertions + [Approve()]
@@ -308,7 +309,7 @@ def investorClaim():
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(1)),
@@ -355,7 +356,7 @@ def investorWithdraw():
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(0)),
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),
         Assert(App.localGet(Int(0), localState.invested) == Int(1)),
@@ -395,8 +396,8 @@ def ownerClaim():
         Assert(Global.group_size() == Int(1))
     ]
 
-    burnUnsoldAssets = Btoi(txnArgs[1])
-    validBurnParam = Or(burnUnsoldAssets == Int(0),burnUnsoldAssets == Int(1))
+    unsoldAssetsAction = txnArgs[1]
+    validBurnParam = Or(unsoldAssetsAction == Bytes("claim"), unsoldAssetsAction == Bytes("burn"), unsoldAssetsAction == Bytes("donate"))
     argsAssertions = [
         Assert(validBurnParam)
     ]
@@ -409,12 +410,19 @@ def ownerClaim():
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
 
-    claimableAmount = totalAmount * Int(98) * Int(10000)
-    platformSuccessFee = totalAmount * Int(2) * Int(10000)
+    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], revenueGlobalState.platform_success_fee)
+    platformSuccessFeePerc = Seq([
+        Assert(Txn.applications[1] == revenueAppId),
+        platformSuccessFeeExpr,
+        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
+    ])
+
+    claimableAmount = totalAmount * (Int(100) - platformSuccessFeePerc) * Int(10000)
+    platformSuccessFee = totalAmount * platformSuccessFeePerc * Int(10000)
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
-        Assert(App.globalGet(globalState.state) == Int(2)),
+        Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
         Assert(App.globalGet(globalState.funds_claimed) == Int(0))
@@ -432,8 +440,9 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
-    revenueEscrow = App.globalGetEx(Txn.applications[1], globalState.escrow)
+    revenueEscrow = App.globalGetEx(Txn.applications[1], revenueGlobalState.escrow)
     revenueEscrowAddr = Seq([
+        Assert(Txn.applications[1] == revenueAppId),
         revenueEscrow,
         If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))
     ])
@@ -460,8 +469,8 @@ def ownerClaim():
     micros = getAssetMicros(Int(0))
     remainingAllocationInMicros = remainingAllocation * micros
 
-    burnAssets = If(
-                     burnUnsoldAssets == Int(0)
+    unsoldAssetsActionExpr = If(
+                     unsoldAssetsAction == Bytes("claim")
                  ).Then(
                      Seq(
                          [
@@ -477,9 +486,26 @@ def ownerClaim():
                              InnerTxnBuilder.Submit()
                          ]
                      )
-                 )
+                 ).ElseIf(
+                      unsoldAssetsAction == Bytes("donate")
+                  ).Then(
+                      Seq(
+                          [
+                              InnerTxnBuilder.Begin(),
+                              InnerTxnBuilder.SetFields(
+                                  {
+                                      TxnField.type_enum: TxnType.AssetTransfer,
+                                      TxnField.xfer_asset: App.globalGet(globalState.asset_id),
+                                      TxnField.asset_receiver: revenueEscrowAddr,
+                                      TxnField.asset_amount: remainingAllocationInMicros
+                                  }
+                              ),
+                              InnerTxnBuilder.Submit()
+                          ]
+                      )
+                  )
 
-    block = Seq(Seq(conditions), burnAssets, Approve())
+    block = Seq(Seq(conditions), unsoldAssetsActionExpr, Approve())
 
     return block
 

@@ -79,6 +79,7 @@ export class Fundstack {
             appId: <number>revenue.getId(),
             from: creator,
             foreignApps: [fundId],
+            foreignAssets: [assetId],
             appArgs: [REVENUE_OPERATIONS.VALIDATE_FUND]
         };
         const revenueAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(revenueAppTxnParams);
@@ -174,7 +175,7 @@ export class Fundstack {
         return appCallTxn;
     }
 
-    async ownerClaim(fundId: number, burn: boolean): Promise<A_SendTxnResponse> {
+    async ownerClaim(fundId: number, unsoldAssetAction: string): Promise<A_SendTxnResponse> {
         const revenueApp = await this.algodesk.applicationClient.get(REVENUE_APP_ID);
         const revenue = new Revenue(revenueApp);
         const revenueEscrow = revenue.getEscrow();
@@ -184,13 +185,12 @@ export class Fundstack {
 
         const assetId = fund.getAssetId();
         const creator = fund.getCreator();
-        const burnUint = burn ? numToUint(1): numToUint(0);
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: fundId,
             from: creator,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, burnUint],
+            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
             foreignApps: [REVENUE_APP_ID],
             foreignAccounts: [revenueEscrow]
         };
@@ -403,8 +403,21 @@ export class Fundstack {
         return activityTxs;
     }
 
-    async getFunds(): Promise<any[]> {
+    async getPublishedFundsIds(): Promise<number[]> {
+        const fundIds: number[] = [];
         const {transactions} = await this.algodesk.applicationClient.getAppTransactions(REVENUE_APP_ID);
-        return transactions;
+
+        transactions.forEach((tx) => {
+            const appCallArgs = tx['application-transaction']['application-args'];
+            const foreignApps = tx['application-transaction']['foreign-apps'];
+            if (appCallArgs && appCallArgs.length > 0 && foreignApps && foreignApps.length > 0) {
+                const firstParam = appCallArgs[0];
+                if (atob(firstParam) == REVENUE_OPERATIONS.VALIDATE_FUND) {
+                    fundIds.push(foreignApps[0]);
+                }
+            }
+        });
+        
+        return fundIds;
     }
 }

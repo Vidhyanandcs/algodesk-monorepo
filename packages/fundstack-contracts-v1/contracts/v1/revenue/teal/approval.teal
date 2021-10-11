@@ -1,10 +1,10 @@
 #pragma version 5
 callsub sub2
-bnz main_l8
+bnz main_l11
 callsub sub3
-bnz main_l7
+bnz main_l10
 callsub sub4
-bnz main_l6
+bnz main_l9
 txna ApplicationArgs 0
 byte "validate_fund"
 ==
@@ -32,7 +32,8 @@ global CurrentApplicationAddress
 ==
 assert
 gtxn 0 Amount
-int 1000000
+byte "pf"
+app_global_get
 ==
 assert
 gtxn 3 TypeEnum
@@ -43,10 +44,32 @@ gtxna 3 ApplicationArgs 0
 byte "publish"
 ==
 assert
+gtxn 3 ApplicationID
+txna Applications 1
+==
+assert
 gtxn 3 Sender
 txn Sender
 ==
 assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Applications 1
+byte "aid"
+app_global_get_ex
+store 0
+store 1
+load 0
+bnz main_l8
+byte "0"
+main_l7:
+itxn_field XferAsset
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+itxn_submit
 byte "fd"
 byte "fd"
 app_global_get
@@ -55,13 +78,16 @@ int 1
 app_global_put
 int 1
 return
-main_l6:
-callsub sub5
-return
-main_l7:
-callsub sub5
-return
 main_l8:
+load 1
+b main_l7
+main_l9:
+callsub sub5
+return
+main_l10:
+callsub sub5
+return
+main_l11:
 global GroupSize
 int 1
 ==
@@ -77,6 +103,12 @@ global Round
 app_global_put
 byte "e"
 global CurrentApplicationAddress
+app_global_put
+byte "pf"
+int 1000000
+app_global_put
+byte "psf"
+int 1
 app_global_put
 byte "fd"
 int 0
