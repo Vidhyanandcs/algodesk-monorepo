@@ -4,7 +4,6 @@ import src.contracts.v1.revenue.state.global_state as globalState
 import src.contracts.v1.revenue.state.local_state as localState
 import src.contracts.v1.fund.state.global_state as fundGlobalState
 
-PUBLISH_FEE = Int(1000000)
 
 def createApplication():
     txnArgs = Txn.application_args
@@ -19,12 +18,16 @@ def createApplication():
     createdAt = currentRound
     escrow = Global.current_application_address()
     fundsDeployed = Int(0)
+    publishFee = Int(1000000)
+    platformSuccessFee = Int(1)
 
     setState = [
         App.globalPut(globalState.version, version),
         App.globalPut(globalState.creator, creator),
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.escrow, escrow),
+        App.globalPut(globalState.publish_fee, publishFee),
+        App.globalPut(globalState.platform_success_fee, platformSuccessFee),
         App.globalPut(globalState.funds_deployed, fundsDeployed)
     ]
 
@@ -48,7 +51,7 @@ def validateFund():
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
         Assert(paymentTxn.receiver() == Global.current_application_address()),
-        Assert(paymentTxn.amount() == PUBLISH_FEE)
+        Assert(paymentTxn.amount() == App.globalGet(globalState.publish_fee))
     ]
 
     fundPublishTxn = Gtxn[3]

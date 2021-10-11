@@ -4,7 +4,7 @@ import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
 import src.contracts.v1.revenue.state.global_state as revenueGlobalState
 
-revenueAppId = Int(429372383)
+revenueAppId = Int(438565946)
 
 def deployFund():
     txnArgs = Txn.application_args
@@ -410,7 +410,13 @@ def ownerClaim():
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
 
-    platformSuccessFeePerc = Int(1)
+    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], revenueGlobalState.platform_success_fee)
+    platformSuccessFeePerc = Seq([
+        Assert(Txn.applications[1] == revenueAppId),
+        platformSuccessFeeExpr,
+        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
+    ])
+
     claimableAmount = totalAmount * (Int(100) - platformSuccessFeePerc) * Int(10000)
     platformSuccessFee = totalAmount * platformSuccessFeePerc * Int(10000)
 

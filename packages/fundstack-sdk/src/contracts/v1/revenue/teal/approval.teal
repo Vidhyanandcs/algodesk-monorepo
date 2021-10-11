@@ -32,7 +32,8 @@ global CurrentApplicationAddress
 ==
 assert
 gtxn 0 Amount
-int 1000000
+byte "pf"
+app_global_get
 ==
 assert
 gtxn 3 TypeEnum
@@ -102,6 +103,12 @@ global Round
 app_global_put
 byte "e"
 global CurrentApplicationAddress
+app_global_put
+byte "pf"
+int 1000000
+app_global_put
+byte "psf"
+int 1
 app_global_put
 byte "fd"
 int 0
