@@ -129,66 +129,67 @@ async function ownerWithdraw(instance: Fundstack, appId: number, saleEndsAt: num
     const {txId} = await instance.ownerWithdraw(appId);
     await instance.algodesk.transactionClient.waitForConfirmation(txId);
 }
-// test('fundstack', async () => {
-//     try {
-//         const fundRaiser = generateAccount();
-//         const fWalletSigner = new WalletSigner(fundRaiser);
-//         const fundRaiserInstance = new Fundstack(betanet, fWalletSigner);
-//         await dispense(fundRaiser);
-//         const asset = await createAsset(fundRaiser, fundRaiserInstance);
-//         const assetId = asset["asset-index"];
-//
-//         const investor = generateAccount();
-//         const iWalletSigner = new WalletSigner(investor);
-//         const investorInstance = new Fundstack(betanet, iWalletSigner);
-//         await dispense(investor);
-//
-//         const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
-//         const appId = appDetails['application-index'];
-//
-//         await publish(fundRaiserInstance, appId);
-//
-//         const fundApp = await investorInstance.get(appId);
-//
-//         await register(investorInstance, appId, investor,  fundApp.getRegStart());
-//
-//         await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 1);
-//
-//         await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
-//
-//         await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
-//
-//         // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
-//         //
-//         // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
-//
-//
-//         console.log('investor returning unspent balance');
-//         const {txId: invReturnTxId} = await investorInstance.algodesk.paymentClient.payment(investor.addr, dispenserAccount.addr, 3);
-//         await investorInstance.algodesk.transactionClient.waitForConfirmation(invReturnTxId);
-//
-//
-//         console.log('fundraiser returning unspent balance');
-//         const {txId: ownerReturnTxId} = await fundRaiserInstance.algodesk.paymentClient.payment(fundRaiser.addr, dispenserAccount.addr, 1);
-//         await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
-//
-//         console.log('flow completed');
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-// });
-//
-
-
 
 test('fundstack', async () => {
     try {
-        const fs = new Fundstack(betanet);
-        const txs = await fs.getPublishedFundsIds();
+        const fundRaiser = generateAccount();
+        const fWalletSigner = new WalletSigner(fundRaiser);
+        const fundRaiserInstance = new Fundstack(betanet, fWalletSigner);
+        await dispense(fundRaiser);
+        const asset = await createAsset(fundRaiser, fundRaiserInstance);
+        const assetId = asset["asset-index"];
+
+        const investor = generateAccount();
+        const iWalletSigner = new WalletSigner(investor);
+        const investorInstance = new Fundstack(betanet, iWalletSigner);
+        await dispense(investor);
+
+        const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
+        const appId = appDetails['application-index'];
+
+        await publish(fundRaiserInstance, appId);
+
+        const fundApp = await investorInstance.get(appId);
+
+        await register(investorInstance, appId, investor,  fundApp.getRegStart());
+
+        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 1);
+
+        await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+
+        await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
+
+        // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
+        //
+        // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
+
+
+        console.log('investor returning unspent balance');
+        const {txId: invReturnTxId} = await investorInstance.algodesk.paymentClient.payment(investor.addr, dispenserAccount.addr, 3);
+        await investorInstance.algodesk.transactionClient.waitForConfirmation(invReturnTxId);
+
+
+        console.log('fundraiser returning unspent balance');
+        const {txId: ownerReturnTxId} = await fundRaiserInstance.algodesk.paymentClient.payment(fundRaiser.addr, dispenserAccount.addr, 1);
+        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
+
+        console.log('flow completed');
     }
     catch (e) {
         console.log(e);
     }
 });
+
+
+
+
+// test('fundstack', async () => {
+//     try {
+//         const fs = new Fundstack(betanet);
+//         const txs = await fs.getPublishedFundsIds();
+//     }
+//     catch (e) {
+//         console.log(e);
+//     }
+// });
 

@@ -2,6 +2,7 @@ from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.revenue.state.global_state as globalState
 import src.contracts.v1.revenue.state.local_state as localState
+import src.contracts.v1.fund.state.global_state as fundGlobalState
 
 PUBLISH_FEE = Int(1000000)
 
@@ -55,7 +56,8 @@ def validateFund():
 
     fundAppAssertions = [
         Assert(fundPublishTxn.type_enum() == TxnType.ApplicationCall),
-        Assert(fundPublishTxnArgs[0] == Bytes("publish"))
+        Assert(fundPublishTxnArgs[0] == Bytes("publish")),
+        Assert(fundPublishTxn.application_id() == Txn.applications[1])
     ]
 
     applicationAssertions = [
@@ -67,7 +69,26 @@ def validateFund():
         App.globalPut(globalState.funds_deployed, fundsDeployed + Int(1)),
     ]
 
-    conditions = gtxnAssertions + paymentAssertions + fundAppAssertions + applicationAssertions + setState + [Approve()]
+    assetId = App.globalGetEx(Txn.applications[1], fundGlobalState.asset_id)
+    assetIdValue = Seq([
+        assetId,
+        If(assetId.hasValue(), assetId.value(), Bytes("0"))
+    ])
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.AssetTransfer,
+                TxnField.xfer_asset: assetIdValue,
+                TxnField.asset_receiver: Global.current_application_address(),
+                TxnField.asset_amount: Int(0)
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    conditions = gtxnAssertions + paymentAssertions + fundAppAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
 
     block = Seq(conditions)
     return block

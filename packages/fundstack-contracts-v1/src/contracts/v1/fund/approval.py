@@ -2,6 +2,7 @@ from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
+import src.contracts.v1.revenue.state.global_state as revenueGlobalState
 
 revenueAppId = Int(429372383)
 
@@ -432,7 +433,7 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
-    revenueEscrow = App.globalGetEx(Txn.applications[1], globalState.escrow)
+    revenueEscrow = App.globalGetEx(Txn.applications[1], revenueGlobalState.escrow)
     revenueEscrowAddr = Seq([
         Assert(Txn.applications[1] == revenueAppId),
         revenueEscrow,

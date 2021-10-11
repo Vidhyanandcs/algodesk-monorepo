@@ -43,10 +43,24 @@ gtxna 3 ApplicationArgs 0
 byte "publish"
 ==
 assert
+gtxn 3 ApplicationID
+txna Applications 1
+==
+assert
 gtxn 3 Sender
 txn Sender
 ==
 assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+int 4324324
+itxn_field XferAsset
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+itxn_submit
 byte "fd"
 byte "fd"
 app_global_get

@@ -79,6 +79,7 @@ export class Fundstack {
             appId: <number>revenue.getId(),
             from: creator,
             foreignApps: [fundId],
+            foreignAssets: [assetId],
             appArgs: [REVENUE_OPERATIONS.VALIDATE_FUND]
         };
         const revenueAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(revenueAppTxnParams);
