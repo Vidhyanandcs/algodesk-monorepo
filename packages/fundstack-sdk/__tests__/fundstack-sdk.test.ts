@@ -108,7 +108,7 @@ async function ownerClaim(instance: Fundstack, appId: number, account: Account, 
     console.log('waiting for claim to start');
     await instance.algodesk.transactionClient.waitForBlock(saleEndsAt);
     console.log('owner claiming');
-    const {txId} = await instance.ownerClaim(appId, false);
+    const {txId} = await instance.ownerClaim(appId, "donate");
     await instance.algodesk.transactionClient.waitForConfirmation(txId);
     const pendingTransactionInfo = await instance.algodesk.transactionClient.pendingTransactionInformation(txId);
     console.log(pendingTransactionInfo);

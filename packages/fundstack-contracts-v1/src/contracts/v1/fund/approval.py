@@ -396,8 +396,8 @@ def ownerClaim():
         Assert(Global.group_size() == Int(1))
     ]
 
-    burnUnsoldAssets = Btoi(txnArgs[1])
-    validBurnParam = Or(burnUnsoldAssets == Int(0),burnUnsoldAssets == Int(1))
+    unsoldAssetsAction = txnArgs[1]
+    validBurnParam = Or(unsoldAssetsAction == Bytes("claim"), unsoldAssetsAction == Bytes("burn"), unsoldAssetsAction == Bytes("donate"))
     argsAssertions = [
         Assert(validBurnParam)
     ]
@@ -410,8 +410,9 @@ def ownerClaim():
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
 
-    claimableAmount = totalAmount * Int(98) * Int(10000)
-    platformSuccessFee = totalAmount * Int(2) * Int(10000)
+    platformSuccessFeePerc = Int(1)
+    claimableAmount = totalAmount * (Int(100) - platformSuccessFeePerc) * Int(10000)
+    platformSuccessFee = totalAmount * platformSuccessFeePerc * Int(10000)
 
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
@@ -462,8 +463,8 @@ def ownerClaim():
     micros = getAssetMicros(Int(0))
     remainingAllocationInMicros = remainingAllocation * micros
 
-    burnAssets = If(
-                     burnUnsoldAssets == Int(0)
+    unsoldAssetsActionExpr = If(
+                     unsoldAssetsAction == Bytes("claim")
                  ).Then(
                      Seq(
                          [
@@ -479,9 +480,26 @@ def ownerClaim():
                              InnerTxnBuilder.Submit()
                          ]
                      )
-                 )
+                 ).ElseIf(
+                      unsoldAssetsAction == Bytes("donate")
+                  ).Then(
+                      Seq(
+                          [
+                              InnerTxnBuilder.Begin(),
+                              InnerTxnBuilder.SetFields(
+                                  {
+                                      TxnField.type_enum: TxnType.AssetTransfer,
+                                      TxnField.xfer_asset: App.globalGet(globalState.asset_id),
+                                      TxnField.asset_receiver: revenueEscrowAddr,
+                                      TxnField.asset_amount: remainingAllocationInMicros
+                                  }
+                              ),
+                              InnerTxnBuilder.Submit()
+                          ]
+                      )
+                  )
 
-    block = Seq(Seq(conditions), burnAssets, Approve())
+    block = Seq(Seq(conditions), unsoldAssetsActionExpr, Approve())
 
     return block
 
