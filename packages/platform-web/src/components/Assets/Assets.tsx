@@ -21,7 +21,8 @@ import {
     CheckCircle,
     NotInterested,
     SwapHorizontalCircle,
-    MoreVert
+    MoreVert,
+    MonetizationOn
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -170,7 +171,8 @@ function Assets(): JSX.Element {
                                                   </div>
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"balance " + classes.primaryText}>
+                                                  <div className={"balance "}>
+                                                      <MonetizationOn color={"primary"}></MonetizationOn>
                                                       Bal: {getAssetBalWithTicker(asset, information)}
                                                   </div>
 

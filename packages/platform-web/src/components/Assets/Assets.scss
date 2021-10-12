@@ -30,8 +30,13 @@
           .balance {
             font-style: normal;
             font-weight: normal;
-            font-size: 18px;
+            font-size: 15px;
             line-height: 36px;
+            font-family: PoppinsLight !important;
+            svg {
+              vertical-align: middle;
+              margin-right: 10px;
+            }
           }
           .name {
             font-style: normal;

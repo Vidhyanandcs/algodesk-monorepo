@@ -40,7 +40,8 @@ export const CustomCard = withStyles((theme) => ({
 export const CustomButton = withStyles((theme) => ({
     containedPrimary: {
         boxShadow: "none",
-        background: "linear-gradient(56.21deg, #60DD8B -43.1%, #0BB68C 132.97%)"
+        background: "linear-gradient(56.21deg, #60DD8B -43.1%, #0BB68C 132.97%)",
+        padding: "12px 24px"
     }
 }))(Button);
 

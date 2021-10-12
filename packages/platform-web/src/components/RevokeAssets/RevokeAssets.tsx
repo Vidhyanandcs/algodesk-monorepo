@@ -1,6 +1,5 @@
 import './RevokeAssets.scss';
 import {
-    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, Grid,
@@ -21,6 +20,7 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_RevokeAssetParams} from "@algodesk/core";
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {CustomButton} from '../../utils/theme';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -201,11 +201,11 @@ function RevokeAssets(): JSX.Element {
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Button color={"primary"}
+                                <CustomButton color={"primary"}
                                         style={{marginTop: 15}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                             revoke();
-                                }}>Revoke</Button>
+                                }}>Revoke</CustomButton>
                             </Grid>
                         </Grid>
                     </div>

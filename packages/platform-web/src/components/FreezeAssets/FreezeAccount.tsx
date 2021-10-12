@@ -1,6 +1,5 @@
 import './FreezeAccount.scss';
 import {
-    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControlLabel, Grid,
@@ -20,6 +19,7 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_FreezeAssetParams} from "@algodesk/core";
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {CustomButton} from '../../utils/theme';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -150,7 +150,7 @@ function FreezeAccount(): JSX.Element {
                                     const selection = ev.target.value === "true";
                                     setState(prevState => ({...prevState, freezeState: selection}));
                                 }}>
-                                    <FormControlLabel value={true} control={<Radio color={"secondary"}/>} label="Freeze" />
+                                    <FormControlLabel value={true} control={<Radio color={"primary"}/>} label="Freeze" />
                                     <FormControlLabel value={false} control={<Radio color={"primary"}/>} label="Unfreeze" />
                                 </RadioGroup>
                             </Grid>
@@ -175,11 +175,11 @@ function FreezeAccount(): JSX.Element {
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Button color={freezeState ? 'secondary' : 'primary'}
+                                <CustomButton color={freezeState ? 'primary' : 'primary'}
                                         style={{marginTop: 15}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                             freeze();
-                                }}>{freezeState ? 'Freeze' : 'Unfreeze'}</Button>
+                                }}>{freezeState ? 'Freeze' : 'Unfreeze'}</CustomButton>
                             </Grid>
                         </Grid>
                     </div>
