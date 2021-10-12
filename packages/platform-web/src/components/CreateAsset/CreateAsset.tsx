@@ -1,6 +1,5 @@
 import './CreateAsset.scss';
 import {
-    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControl, Grid,
@@ -18,7 +17,7 @@ import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
-import {CustomTooltip} from '../../utils/theme';
+import {CustomTooltip, CustomButton} from '../../utils/theme';
 import sdk from 'algosdk';
 import {showTransactionDetails} from "../../redux/actions/transaction";
 
@@ -401,11 +400,11 @@ function CreateAsset(): JSX.Element {
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Button color={"primary"}
+                                <CustomButton color={"primary"}
                                         style={{marginTop: 15, marginBottom: 10}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                     create();
-                                }}>Create</Button>
+                                }}>Create</CustomButton>
                             </Grid>
                         </Grid>
 

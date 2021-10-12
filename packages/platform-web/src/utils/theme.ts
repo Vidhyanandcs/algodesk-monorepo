@@ -33,6 +33,7 @@ export const CustomTooltip = withStyles((theme) => ({
 export const CustomCard = withStyles((theme) => ({
     root: {
         boxShadow: "0 0 25px rgb(0 0 0 / 8%)",
+        borderRadius: '10px'
     }
 }))(Card);
 

@@ -1,6 +1,5 @@
 import './SendAssets.scss';
 import {
-    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, Grid,
@@ -21,6 +20,7 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
 import {A_TransferAssetParams} from "@algodesk/core";
+import {CustomButton} from '../../utils/theme';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -167,11 +167,11 @@ function SendAssets(): JSX.Element {
                                                setState(prevState => ({...prevState, amount: parseFloat(value)}));
                                            }}
                                            InputProps={{
-                                               endAdornment: <InputAdornment position="end" color="primary"><Button onClick={() => {
+                                               endAdornment: <InputAdornment position="end" color="primary"><CustomButton color="primary" onClick={() => {
                                                    const totalBalance = getAssetBal(selectedAsset, information);
                                                    setState(prevState => ({...prevState, amount: totalBalance}));
                                                }
-                                               }>Max</Button></InputAdornment>,
+                                               }>Max</CustomButton></InputAdornment>,
                                            }}
                                 />
                             </Grid>
@@ -184,11 +184,11 @@ function SendAssets(): JSX.Element {
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Button color={"primary"}
+                                <CustomButton color={"primary"}
                                         style={{marginTop: 15}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                             send();
-                                }}>Send</Button>
+                                }}>Send</CustomButton>
                             </Grid>
                         </Grid>
                     </div>

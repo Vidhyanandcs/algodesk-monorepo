@@ -8,9 +8,9 @@ function Dashboard(): JSX.Element {
       <div className="dashboard-wrapper">
           <div className="dashboard-container">
               <Grid container spacing={2}>
-                  <Grid item xs={1} sm={2} md={2} lg={2} xl={2}>
+                  <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                   </Grid>
-                  <Grid item xs={10} sm={8} md={8} lg={8} xl={8}>
+                  <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
                       {/*<div className="dashboard-tabs">*/}
                       {/*    <Tabs*/}
                       {/*        value={"created_assets"}*/}
@@ -30,7 +30,7 @@ function Dashboard(): JSX.Element {
                           </Switch>
                       </div>
                   </Grid>
-                  <Grid item xs={1} sm={2} md={2} lg={2} xl={2}>
+                  <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                   </Grid>
               </Grid>
           </div>

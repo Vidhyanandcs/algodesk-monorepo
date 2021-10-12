@@ -6,14 +6,13 @@ import {
     CardHeader,
     IconButton,
     CardContent,
-    Button,
     MenuItem,
-    Menu, Link
+    Menu, makeStyles
 } from "@material-ui/core";
 import {Alert} from '@material-ui/lab';
 import {
     Add,
-    Menu as MenuIcon,
+    Launch,
     Edit,
     Lock,
     Delete,
@@ -21,7 +20,8 @@ import {
     SettingsBackupRestoreSharp,
     CheckCircle,
     NotInterested,
-    SwapHorizontalCircle
+    SwapHorizontalCircle,
+    MoreVert
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -33,37 +33,38 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {CustomCard, CustomTooltip} from '../../utils/theme';
+import {CustomCard, CustomTooltip, CustomButton} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
+import {getCommonStyles} from "../../utils/styles";
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
-    const cls: string[] = ['value'];
+    const cls: string[] = ['value back-highlight'];
     const indicatorCls: string [] = ['indicator'];
-    let icon = <NotInterested fontSize={"small"} color={"secondary"}></NotInterested>;
+    let icon = <NotInterested fontSize={"large"} color={"secondary"}></NotInterested>;
 
     if (value) {
         cls.push('clickable');
         if (value === addr) {
-            icon = <CheckCircle fontSize={"small"} color={"primary"}></CheckCircle>;
+            icon = <CheckCircle fontSize={"large"} color={"primary"}></CheckCircle>;
         }
     }
 
     return (<div className="param">
         <div className="key">
             {label}
-            <span className={indicatorCls.join(" ")}>
-                {icon}
-            </span>
         </div>
         <div className={cls.join(" ")} onClick={() => {
             openAccountInExplorer(value);
         }}>
             {processAssetParam(value)}
+            <span className={indicatorCls.join(" ")}>
+                {icon}
+            </span>
         </div>
     </div>);
 }
@@ -76,6 +77,12 @@ const initialState: AssetsState = {
 
 };
 
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+    };
+});
+
 function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
@@ -84,6 +91,7 @@ function Assets(): JSX.Element {
     const {selectedAsset} = assetActions;
     const network = useSelector((state: RootState) => state.network);
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const [
         { menuAnchorEl },
@@ -98,7 +106,7 @@ function Assets(): JSX.Element {
       <div className="assets-wrapper">
           <div className="assets-container">
               <div>
-                  <Button
+                  <CustomButton
                       color="primary"
                       startIcon={<Add></Add>}
                       variant={"contained"}
@@ -108,7 +116,7 @@ function Assets(): JSX.Element {
                       }}
                       size={"large"}>
                       Create asset
-                  </Button>
+                  </CustomButton>
               </div>
 
 
@@ -119,7 +127,7 @@ function Assets(): JSX.Element {
                       </Alert>
                   </div> : ''}
               <div className="assets">
-                  <Grid container spacing={2}>
+                  <Grid container spacing={4}>
                       {createdAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
@@ -127,22 +135,25 @@ function Assets(): JSX.Element {
                                   <CardHeader
                                       action={
                                           <div>
+                                              <CustomTooltip title="View in explorer">
+                                                  <IconButton color={"primary"} onClick={(ev) => {
+                                                      openAssetInExplorer(asset.index);
+                                                  }}>
+                                                      <Launch/>
+                                                  </IconButton>
+                                              </CustomTooltip>
                                               <CustomTooltip title="Asset actions">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
-                                                      <MenuIcon/>
+                                                      <MoreVert/>
                                                   </IconButton>
                                               </CustomTooltip>
                                           </div>
                                       }
                                       avatar={<div>
-                                          <span className='asset-name'>{asset.params.name} ({asset.params['unit-name']})</span>
-                                          <div className={'asset-id'} onClick={() => {
-                                              openAssetInExplorer(asset.index);
-                                          }
-                                          }>ID: {asset.index}</div>
+                                          <div className={'asset-id'}>ID: {asset.index}</div>
                                       </div>}
                                       subheader=""
                                       variant="outlined"
@@ -153,21 +164,14 @@ function Assets(): JSX.Element {
 
 
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className="param">
-                                                      <div className={"key"}>Balance </div>
-                                                      <div className="value">
-                                                          {getAssetBalWithTicker(asset, information)}
-                                                      </div>
-                                                  </div>
 
+                                                  <div className={"name " + classes.primaryText}>
+                                                      {asset.params.name}
+                                                  </div>
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className="param">
-                                                      <div className={"key"}>Url </div>
-                                                      <div className="value">
-                                                          {asset.params.url ? <Link href={asset.params.url} target="_blank">{asset.params.url}</Link> : '[Empty asset url]'}
-
-                                                      </div>
+                                                  <div className={"balance " + classes.primaryText}>
+                                                      Bal: {getAssetBalWithTicker(asset, information)}
                                                   </div>
 
                                               </Grid>

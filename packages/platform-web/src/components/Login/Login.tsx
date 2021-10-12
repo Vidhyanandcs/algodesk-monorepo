@@ -14,6 +14,7 @@ import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
 import {getNetworks, NETWORKS} from "@algodesk/core";
 import {CustomButton} from '../../utils/theme';
+import Logo from '../Logo/Logo';
 
 
 function Login(): JSX.Element {
@@ -36,9 +37,10 @@ function Login(): JSX.Element {
           <div className="login-container">
               <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                      <Logo></Logo>
                       <div className="login-form">
                           <div className="networks">
-                              <div className="title">Choose network</div>
+                              <div className="title">Connect wallet</div>
                               <FormControl component="fieldset">
                                   <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
                                       let domain = e.currentTarget.value;
