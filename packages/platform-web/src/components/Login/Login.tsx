@@ -1,11 +1,8 @@
 import './Login.scss';
 import {
-    Button,
     FormControl,
     FormControlLabel,
-    FormLabel,
     Grid,
-    makeStyles,
     Radio,
     RadioGroup,
     Typography
@@ -13,23 +10,13 @@ import {
 import {Power} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {useDispatch, useSelector} from "react-redux";
-import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
-import Logo from "../Logo/Logo";
 import {getNetworks, NETWORKS} from "@algodesk/core";
+import {CustomButton} from '../../utils/theme';
 
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme),
-        loginButton: {
-            marginTop: 10
-        }
-    };
-});
 
 function Login(): JSX.Element {
-    const classes = useStyles();
     const dispatch = useDispatch();
     let networks = getNetworks();
 
@@ -50,13 +37,9 @@ function Login(): JSX.Element {
               <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <div className="login-form">
-                          <div className="logo">
-                              <Logo></Logo>
-                          </div>
                           <div className="networks">
-
+                              <div className="title">Choose network</div>
                               <FormControl component="fieldset">
-                                  <FormLabel component="legend">Choose network</FormLabel>
                                   <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
                                       let domain = e.currentTarget.value;
                                       if (domain === NETWORKS.MAINNET) {
@@ -84,16 +67,15 @@ function Login(): JSX.Element {
                               {/*</ButtonGroup>*/}
                           </div>
                           <div className="login-button">
-                              <Button
+                              <CustomButton
                                   variant={"contained"}
                                   size={"large"}
                                   color={"primary"}
-                                  className={classes.loginButton}
                                   startIcon={<Power></Power>}
                                   onClick={() => {
                                       dispatch(showConnectWallet());
                                   }}
-                              >Connect Wallet</Button>
+                              >Connect Wallet</CustomButton>
                           </div>
                           <Typography variant="caption" display="block" gutterBottom color="textSecondary">
 

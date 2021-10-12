@@ -1,25 +1,32 @@
+@import "../../assets/colors";
+
 .login-wrapper {
   .login-container {
     height: 100vh;
-    background: url("../../assets/images/login-bg.png");
+    background: url("../../assets/images/login-back.jpeg");
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     .login-form {
       text-align: center;
-      padding: 100px;
+      background: $color-light;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+      width: 450px;
+      height: 320px;
       margin: 100px auto;
+      padding-top: 70px;
+      border-radius: 10px;
       .networks {
-        margin-top: 20px;
-      }
-
-    .lock-icon {
-        svg {
-          font-size: 50px;
+        .title {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 36px;
+          margin-bottom: 30px;
         }
       }
       .login-button {
-        margin-top: 0px;
+        margin-top: 30px;
       }
       .settings-button {
         position: absolute;
