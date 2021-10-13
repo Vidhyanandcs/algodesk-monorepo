@@ -1,28 +1,54 @@
 @import "../../assets/colors";
 
-.menu-icon {
-  margin-right: 10px;
-}
 .body-wrapper {
   .body-container {
-    padding-top: 100px;
-    height: calc(100vh - 160px);
-    background: url("../../assets/images/hero-bg.png");
-    .title {
-      font-size: 50px;
-      font-weight: bold;
-      line-height: 1.1;
-      margin-bottom: 50px;
+    margin-top: 250px;
+    .page-gif {
+      img {
+        width: 100%;
+        margin-top: -180px;
+      }
     }
-    .subtitle {
-      font-size: 50px;
-      margin-bottom: 30px;
-      color: $color-grey-dark;
-      font-family: SourceSansProLight !important;
-      line-height: 1.1;
+    .anchor {
+      border-bottom: 2px solid;
+      border-bottom-right-radius: 120px;
+      border-right: 2px solid;
+      border-top-right-radius: 120px;
+      padding: 40px 20px 40px 30px;
+      position: relative;
+      border-top: 2px solid;
+      &:before {
+        content : "";
+        position: absolute;
+        left    : 0px;
+        top  : 0;
+        height  : 2px;
+        width   : 60%;
+        border-top: 2px solid;
+        border-top-right-radius: 90px;
+        margin-top: -2px;
+      }
+      .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 48px;
+        margin-bottom: 20px;
+        margin-left: 35%;
+      }
+      .subtitle {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        width: 50%;
+        line-height: 24px;
+        margin-left: 35%;
+      }
     }
+
     .open-app {
       margin-top: 40px;
+      text-align: right;
+      margin-right: 100px;
       .open-app-button {
 
       }
