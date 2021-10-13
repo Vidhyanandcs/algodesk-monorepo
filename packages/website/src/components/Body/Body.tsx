@@ -18,7 +18,8 @@ function Body(): JSX.Element {
     return (<div className={"body-wrapper"}>
         <div className={"body-container"}>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Grid item xs={12} sm={1} md={1} lg={1} xl={1}></Grid>
+                <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
                             <div className={"anchor " + classes.primaryBorder}>
