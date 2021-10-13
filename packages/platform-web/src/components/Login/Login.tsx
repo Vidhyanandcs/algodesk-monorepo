@@ -54,24 +54,12 @@ function Login(): JSX.Element {
                                       })}
                                   </RadioGroup>
                               </FormControl>
-
-
-                              {/*<ButtonGroup variant="outlined" color="primary">*/}
-                              {/*    {networks.map((network) => {*/}
-                              {/*        return (<Button key={network.name} size={"small"} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {*/}
-                              {/*            let domain = network.name;*/}
-                              {/*            if (network.name === NETWORKS.MAINNET) {*/}
-                              {/*                domain = 'app';*/}
-                              {/*            }*/}
-                              {/*            window.location.href = 'https://' + domain + '.algodesk.io';*/}
-                              {/*        }}>{network.label}</Button>);*/}
-                              {/*    })}*/}
-                              {/*</ButtonGroup>*/}
                           </div>
                           <div className="login-button">
                               <CustomButton
                                   variant={"contained"}
                                   size={"large"}
+                                  style={{borderRadius: 15}}
                                   color={"primary"}
                                   startIcon={<Power></Power>}
                                   onClick={() => {

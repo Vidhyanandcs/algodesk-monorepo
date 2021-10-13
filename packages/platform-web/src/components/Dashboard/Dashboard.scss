@@ -8,6 +8,40 @@
       padding: 40px;
       border-radius: 8px;
       margin-bottom: 40px;
+      .account-details {
+        margin-bottom: 30px;
+        .addr {
+          display: inline-block;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+        .addr-actions {
+          display: inline-block;
+          margin-left: 10px;
+          .addr-action {
+            margin-left: 10px;
+            &:hover {
+              cursor: pointer;
+            }
+            svg {
+              vertical-align: text-bottom;
+            }
+          }
+
+        }
+        .balance {
+          display: inline-block;
+          margin-left: 20px;
+          border-left: 2px solid;
+          padding-left: 15px;
+          svg {
+            vertical-align: text-bottom;
+            margin-right: 10px;
+          }
+        }
+      }
     }
     .dashboard-tabs {
       margin-top: 20px;

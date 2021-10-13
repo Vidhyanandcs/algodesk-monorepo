@@ -1,26 +1,20 @@
 import './Header.scss';
-import {Box, Chip, Grid, Menu, MenuItem} from "@material-ui/core";
-import {ArrowDropDown, PowerSettingsNew, OpenInNew, FileCopy, Power} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
+import {Box, Button, Grid} from "@material-ui/core";
+import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {logout} from "../../redux/actions/account";
-import {useState} from "react";
-import sdk from 'algosdk';
-import {ellipseAddress} from "@algodesk/core";
-import {openAccountInExplorer} from "../../utils/core";
-import copy from 'copy-to-clipboard';
-import {CustomTooltip} from '../../utils/theme';
-import {showSnack} from "../../redux/actions/snackbar";
 import Logo from "../Logo/Logo";
+import {getNetworks, NETWORKS} from "@algodesk/core";
+import {CustomButtonGroup} from '../../utils/theme';
 
 
 function Header(): JSX.Element {
-    const account = useSelector((state: RootState) => state.account);
-    const network = useSelector((state: RootState) => state.network);
+    let networks = getNetworks();
 
-    const [anchorEl, updateAnchorEl] = useState<any>(null);
-    const {address, amount} = account.information;
-    const dispatch = useDispatch();
+    networks = networks.filter((network) => {
+        return network.name !== NETWORKS.BETANET;
+    });
+
+    const currentNetwork = useSelector((state: RootState) => state.network);
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
@@ -35,70 +29,17 @@ function Header(): JSX.Element {
                             </div>
                         </Box>
                         <Box p={1}>
-                            <div>
-                                <CustomTooltip title={"Connected to " + network.name}>
-                                    <div className="network">
-                                        <Chip
-                                            color={"primary"}
-                                            label={network.name}
-                                            size={"small"}
-                                            variant={"default"}
-                                            icon={<Power></Power>}
-                                        />
-                                    </div>
-                                </CustomTooltip>
-                                <CustomTooltip title="Account balance">
-                                    <div className="balance">
-                                        <img alt="bal" src='data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTE3IDE3Ljk5ODdIMTUuMjc1TDE0LjE1NDcgMTMuNDU5NUwxMS43NDczIDE3Ljk5ODdIOS44MjE5MUwxMy41NDMgMTAuOTczNEwxMi45NDUyIDguNTM0MDJMNy45MjY1OSAxOEg2TDEyLjM2MDIgNkgxNC4wNDU4TDE0Ljc4NDkgOC45ODIwMkgxNi41MjVMMTUuMzM2NCAxMS4yMzIxTDE3IDE3Ljk5ODdaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K'/>
-                                        {sdk.microalgosToAlgos(amount) + ""}
-                                    </div>
-                                </CustomTooltip>
-
-                                <div className="address" onClick={(event) => {
-                                    updateAnchorEl(event.currentTarget);
-                                }}>
-                                    <CustomTooltip title="Copy address">
-                                        <FileCopy fontSize={"small"} className="copy-icon" onClick={(ev) => {
-                                            copy(address, {
-                                                message: 'Press #{key} to copy',
-                                            });
-                                            ev.preventDefault();
-                                            ev.stopPropagation();
-                                            dispatch(showSnack({
-                                                severity: 'success',
-                                                message: 'Address copied'
-                                            }));
-                                        }}></FileCopy>
-                                    </CustomTooltip>
-                                    {ellipseAddress(address)}
-                                    <ArrowDropDown className="drop-icon"></ArrowDropDown>
-                                </div>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={Boolean(anchorEl)}
-                                    onClose={() => {updateAnchorEl(null)}}
-                                    PaperProps={{
-                                        style: {
-                                            transform: 'translateX(0px) translateY(47px)',
+                            <CustomButtonGroup variant="outlined" color="primary" style={{marginTop: 6}}>
+                                {networks.map((network) => {
+                                    return (<Button key={network.name} size={"small"} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
+                                        let domain = network.name;
+                                        if (network.name === NETWORKS.MAINNET) {
+                                            domain = 'app';
                                         }
-                                    }}
-                                >
-                                    <MenuItem onClick={() => {
-                                                openAccountInExplorer(address);
-                                                updateAnchorEl(null);
-                                          }}
-                                    >
-                                        <OpenInNew fontSize={"small"} className="menu-icon" color={"primary"}></OpenInNew>
-                                        View in explorer
-                                    </MenuItem>
-                                    <MenuItem onClick={() => {
-                                        updateAnchorEl(null);
-                                        dispatch(logout());
-                                    }}
-                                    >
-                                        <PowerSettingsNew fontSize={"small"} className="menu-icon" color={"primary"}></PowerSettingsNew>Disconnect</MenuItem>
-                                </Menu>
-                            </div>
+                                        window.location.href = 'https://' + domain + '.algodesk.io';
+                                    }}>{network.label}</Button>);
+                                })}
+                            </CustomButtonGroup>
                         </Box>
                     </Box>
                 </Grid>

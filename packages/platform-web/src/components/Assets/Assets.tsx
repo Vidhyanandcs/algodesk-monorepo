@@ -54,6 +54,9 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
             icon = <CheckCircle fontSize={"large"} color={"primary"}></CheckCircle>;
         }
     }
+    else {
+        cls.push('empty');
+    }
 
     return (<div className="param">
         <div className="key">
@@ -112,6 +115,7 @@ function Assets(): JSX.Element {
                       startIcon={<Add></Add>}
                       variant={"contained"}
                       className="add-asset"
+                      style={{borderRadius: 15}}
                       onClick={() => {
                           dispatch(setAction('create'));
                       }}
@@ -172,7 +176,7 @@ function Assets(): JSX.Element {
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
-                                                      <MonetizationOn color={"primary"}></MonetizationOn>
+                                                      <MonetizationOn></MonetizationOn>
                                                       Bal: {getAssetBalWithTicker(asset, information)}
                                                   </div>
 

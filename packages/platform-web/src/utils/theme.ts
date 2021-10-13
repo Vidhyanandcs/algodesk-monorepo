@@ -1,4 +1,4 @@
-import {Button, Card, Chip, createTheme, Tooltip, withStyles} from "@material-ui/core";
+import {Button, ButtonGroup, Card, createTheme, Tooltip, withStyles} from "@material-ui/core";
 
 export const theme = createTheme({
     typography: {
@@ -45,14 +45,12 @@ export const CustomButton = withStyles((theme) => ({
     }
 }))(Button);
 
-export const BlackChip = withStyles((theme) => ({
-    root: {
-        color: '#000',
-        border: '1px solid #000',
-        background: '#fff'
+export const CustomButtonGroup = withStyles((theme) => ({
+    outlined: {
+        boxShadow: 'none'
     },
-    icon: {
-        color: '#000'
+    groupedOutlinedPrimary: {
+        boxShadow: 'none'
     }
-}))(Chip);
+}))(ButtonGroup);
 
