@@ -219,7 +219,7 @@ function Assets(): JSX.Element {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
-                  <Send className="asset-action-icon" fontSize={"small"} color={"primary"}></Send>
+                  <Send className="asset-action-icon" fontSize={"small"}></Send>
                   Send assets
               </MenuItem>
               <MenuItem onClick={() => {
@@ -234,7 +234,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Edit className="asset-action-icon" fontSize={"small"} color={"primary"}></Edit>
+                  <Edit className="asset-action-icon" fontSize={"small"}></Edit>
                   Modify asset
               </MenuItem>
               <MenuItem onClick={() => {
@@ -249,7 +249,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Lock className="asset-action-icon" fontSize={"small"} color={"primary"}></Lock>
+                  <Lock className="asset-action-icon" fontSize={"small"}></Lock>
                   Freeze / Unfreeze
               </MenuItem>
               <MenuItem onClick={() => {
@@ -264,7 +264,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"} color={"primary"}></SettingsBackupRestoreSharp>
+                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
               <MenuItem onClick={() => {
@@ -279,18 +279,21 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Delete className="asset-action-icon" fontSize={"small"} color={"primary"}></Delete>
+                  <Delete className="asset-action-icon" fontSize={"small"}></Delete>
                   Delete asset
               </MenuItem>
-              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
-                  const url = 'https://testnet.tinyman.org/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
+              <MenuItem onClick={(ev) => {
+                  let url = 'https://app.tinyman.org';
+                  if (network.name === NETWORKS.TESTNET) {
+                      url = 'https://testnet.tinyman.org';
+                  }
+                  url += '/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
                   window.open(url, "_blank");
                   closeMenu();
               }}>
-                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"} color={"primary"}></SwapHorizontalCircle>
+                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircle>
                   Swap (Tinyman)
-              </MenuItem> : ''}
-
+              </MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>

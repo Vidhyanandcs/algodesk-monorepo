@@ -1,10 +1,13 @@
 import './Header.scss';
 import {Box, Button, Grid} from "@material-ui/core";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Logo from "../Logo/Logo";
 import {getNetworks, NETWORKS} from "@algodesk/core";
 import {CustomButtonGroup} from '../../utils/theme';
+import {setNetwork} from "../Settings/Settings";
+import {setNetwork as selectNetwork} from "../../redux/actions/network";
+import {loadAccount} from "../../redux/actions/account";
 
 
 function Header(): JSX.Element {
@@ -14,7 +17,10 @@ function Header(): JSX.Element {
         return network.name !== NETWORKS.BETANET;
     });
 
+    const account = useSelector((state: RootState) => state.account);
+    const {address} = account.information;
     const currentNetwork = useSelector((state: RootState) => state.network);
+    const dispatch = useDispatch();
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
@@ -29,14 +35,12 @@ function Header(): JSX.Element {
                             </div>
                         </Box>
                         <Box p={1}>
-                            <CustomButtonGroup variant="outlined" color="primary" style={{marginTop: 6}}>
+                            <CustomButtonGroup variant="outlined" color="primary" style={{marginTop: 2}}>
                                 {networks.map((network) => {
-                                    return (<Button key={network.name} size={"small"} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
-                                        let domain = network.name;
-                                        if (network.name === NETWORKS.MAINNET) {
-                                            domain = 'app';
-                                        }
-                                        window.location.href = 'https://' + domain + '.algodesk.io';
+                                    return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
+                                        setNetwork(network.name);
+                                        dispatch(selectNetwork(network.name));
+                                        dispatch(loadAccount(address));
                                     }}>{network.label}</Button>);
                                 })}
                             </CustomButtonGroup>

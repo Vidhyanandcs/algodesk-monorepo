@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 export function getNetwork(): string {
-    let network: string = networkEnv || localStorage.getItem(LOCAL_STORAGE.NETWORK);
+    let network: string = localStorage.getItem(LOCAL_STORAGE.NETWORK) || networkEnv;
     if (!network) {
         network = NETWORKS.MAINNET;
     }

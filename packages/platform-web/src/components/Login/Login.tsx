@@ -9,12 +9,14 @@ import {
 } from "@material-ui/core";
 import {Power} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
+import {setNetwork as selectNetwork} from '../../redux/actions/network';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
 import {getNetworks, NETWORKS} from "@algodesk/core";
 import {CustomButton} from '../../utils/theme';
 import Logo from '../Logo/Logo';
+import {setNetwork} from "../Settings/Settings";
 
 
 function Login(): JSX.Element {
@@ -43,11 +45,9 @@ function Login(): JSX.Element {
                               <div className="title">Connect wallet</div>
                               <FormControl component="fieldset">
                                   <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
-                                      let domain = e.currentTarget.value;
-                                      if (domain === NETWORKS.MAINNET) {
-                                          domain = 'app';
-                                      }
-                                      window.location.href = 'https://' + domain + '.algodesk.io';
+                                      const network = e.currentTarget.value;
+                                      setNetwork(network);
+                                      dispatch(selectNetwork(network));
                                   }}>
                                       {networks.map((network) => {
                                           return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label} />
