@@ -6,13 +6,18 @@
     .dashboard-body {
       background: $color-light;
       padding: 40px;
-      border-radius: 8px;
+      border-radius: 15px;
       margin-bottom: 40px;
       min-height: calc(100vh - 200px);
       .account-details {
         margin-bottom: 30px;
         .addr {
           display: inline-block;
+          img {
+            width: 35px;
+            vertical-align: middle;
+            margin-right: 10px;
+          }
           &:hover {
             cursor: pointer;
             text-decoration: underline;
@@ -20,7 +25,7 @@
         }
         .addr-actions {
           display: inline-block;
-          margin-left: 10px;
+          float: right;
           .addr-action {
             margin-left: 10px;
             &:hover {

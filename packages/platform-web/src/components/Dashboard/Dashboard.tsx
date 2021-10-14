@@ -12,6 +12,7 @@ import copy from "copy-to-clipboard";
 import {showSnack} from "../../redux/actions/snackbar";
 import {CustomTooltip} from "../../utils/theme";
 import {logout} from '../../redux/actions/account';
+import accountIcon from '../../assets/images/account-icon.png';
 
 function Dashboard(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -32,12 +33,13 @@ function Dashboard(): JSX.Element {
                                       <div className="addr" onClick={() => {
                                           openAccountInExplorer(address);
                                       }}>
+                                          <img src={accountIcon} alt="address"/>
                                           {ellipseAddress(address, 12)}
                                       </div>
                                       <div className="addr-actions">
                                           <span className="addr-action">
                                               <CustomTooltip title="Copy address">
-                                                  <FileCopyOutlined color={"primary"} className="copy-icon" onClick={(ev) => {
+                                                  <FileCopyOutlined color={"primary"} fontSize={"medium"} className="copy-icon" onClick={(ev) => {
                                                       copy(address, {
                                                           message: 'Press #{key} to copy',
                                                       });
@@ -53,7 +55,7 @@ function Dashboard(): JSX.Element {
 
                                           <span className="addr-action">
                                               <CustomTooltip title="Logout">
-                                                  <PowerSettingsNew color={"primary"} className="copy-icon" onClick={(ev) => {
+                                                  <PowerSettingsNew color={"primary"} fontSize={"medium"} className="copy-icon" onClick={(ev) => {
                                                       dispatch(logout());
                                                   }}></PowerSettingsNew>
                                             </CustomTooltip>

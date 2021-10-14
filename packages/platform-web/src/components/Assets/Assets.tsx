@@ -9,7 +9,6 @@ import {
     MenuItem,
     Menu, makeStyles
 } from "@material-ui/core";
-import {Alert} from '@material-ui/lab';
 import {
     Add,
     Launch,
@@ -21,8 +20,7 @@ import {
     CheckCircle,
     NotInterested,
     SwapHorizontalCircle,
-    MoreVert,
-    MonetizationOn
+    MoreVert
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -38,6 +36,7 @@ import {CustomCard, CustomTooltip, CustomButton} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
+import emptyVector from '../../assets/images/empty-assets.png';
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -127,9 +126,10 @@ function Assets(): JSX.Element {
 
               {createdAssets.length === 0 ?
                   <div className="empty-message">
-                      <Alert icon={false} color={"warning"}>
+                      <img src={emptyVector} alt="No assets"/>
+                      <div className="text">
                           This account doesn't have any created assets
-                      </Alert>
+                      </div>
                   </div> : ''}
               <div className="assets">
                   <Grid container spacing={4}>
@@ -176,7 +176,7 @@ function Assets(): JSX.Element {
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
-                                                      <MonetizationOn></MonetizationOn>
+
                                                       Bal: {getAssetBalWithTicker(asset, information)}
                                                   </div>
 

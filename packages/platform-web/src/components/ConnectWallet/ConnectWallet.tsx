@@ -8,7 +8,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, Power, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
+import {Close, ChevronRightSharp, ArrowBack, AccountBalanceWallet} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
@@ -99,7 +99,7 @@ function ConnectWallet(): JSX.Element {
                             <div className="home-container">
                                 <div className="header">
                                     <div className={classes.primaryBackground + ' logo'}>
-                                        <Power fontSize={"large"}></Power>
+                                        <AccountBalanceWallet fontSize={"large"}></AccountBalanceWallet>
                                     </div>
 
                                     <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
