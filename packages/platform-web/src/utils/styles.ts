@@ -7,6 +7,9 @@ export function getCommonStyles(theme: Theme) {
         },
         secondaryText: {
             color: theme.palette.secondary.main
-        }
+        },
+        primaryBackground: {
+            background: theme.palette.primary.main
+        },
     };
 }
