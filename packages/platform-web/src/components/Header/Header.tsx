@@ -3,7 +3,7 @@ import {Box, Button, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Logo from "../Logo/Logo";
-import {getNetworks, NETWORKS} from "@algodesk/core";
+import {getNetworks} from "@algodesk/core";
 import {CustomButtonGroup} from '../../utils/theme';
 import {setNetwork} from "../Settings/Settings";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
@@ -12,10 +12,6 @@ import {loadAccount} from "../../redux/actions/account";
 
 function Header(): JSX.Element {
     let networks = getNetworks();
-
-    networks = networks.filter((network) => {
-        return network.name !== NETWORKS.BETANET;
-    });
 
     const account = useSelector((state: RootState) => state.account);
     const {address} = account.information;

@@ -4,9 +4,7 @@
   .login-container {
     height: 100vh;
     background: url("../../assets/images/login-back.jpeg");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-size: 100% 100%;
     text-align: center;
     .logo-img {
       margin-top: 100px;
@@ -15,7 +13,6 @@
       text-align: center;
       background: $color-light;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-      width: 480px;
       height: 370px;
       margin: 20px auto;
       padding-top: 70px;
@@ -26,11 +23,11 @@
           font-weight: 600;
           font-size: 24px;
           line-height: 36px;
-          margin-bottom: 30px;
+          margin-bottom: 50px;
         }
       }
       .login-button {
-        margin-top: 30px;
+        margin-top: 50px;
       }
       .settings-button {
         position: absolute;
