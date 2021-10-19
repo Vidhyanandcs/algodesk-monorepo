@@ -114,7 +114,6 @@ function Assets(): JSX.Element {
                       startIcon={<ControlPoint></ControlPoint>}
                       variant={"contained"}
                       className="add-asset"
-                      style={{borderRadius: 15}}
                       onClick={() => {
                           dispatch(setAction('create'));
                       }}

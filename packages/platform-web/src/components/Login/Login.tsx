@@ -59,7 +59,6 @@ function Login(): JSX.Element {
                               <CustomButton
                                   variant={"contained"}
                                   size={"large"}
-                                  style={{borderRadius: 15}}
                                   color={"primary"}
                                   startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 20}}/>}
                                   onClick={() => {

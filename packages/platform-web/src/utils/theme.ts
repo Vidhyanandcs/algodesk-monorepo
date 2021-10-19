@@ -42,6 +42,7 @@ export const CustomButton = withStyles((theme) => ({
         boxShadow: "none",
         background: "linear-gradient(56.21deg, #0BB68C -43.1%, #60DD8B 132.97%)",
         padding: "12px 24px",
+        borderRadius: 10,
         '&:hover': {
             boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
             background: 'linear-gradient(247.73deg, #60DD8B -15.43%, #1B733B 125.76%)'

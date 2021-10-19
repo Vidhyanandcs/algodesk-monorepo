@@ -11,6 +11,24 @@
       min-height: calc(100vh - 200px);
       .account-details {
         margin-bottom: 30px;
+        .action {
+          vertical-align: middle;
+          border-radius: 50%;
+          width: 25px;
+          border: 1px solid #c7c7c7;
+          display: inline-block;
+          height: 25px;
+          margin-left: 10px;
+          color: #c7c7c7;
+          text-align: center;
+          &:hover {
+            cursor: pointer;
+          }
+          svg {
+            margin-top: 5px;
+            font-size: 15px;
+          }
+        }
         .addr {
           display: inline-block;
           img {
