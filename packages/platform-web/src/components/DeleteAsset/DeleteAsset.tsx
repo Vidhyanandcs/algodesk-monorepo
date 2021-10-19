@@ -17,6 +17,7 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {getCommonStyles} from "../../utils/styles";
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {CustomButton} from '../../utils/theme';
 
 
 const useStyles = makeStyles((theme) => {
@@ -108,11 +109,11 @@ function DeleteAsset(): JSX.Element {
                                             }}
                                             style={{marginRight: 15}}
                                     >Cancel</Button>
-                                    <Button color={"secondary"} variant={"contained"} size={"large"}
+                                    <CustomButton color={"secondary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 deleteAsset();
                                             }}
-                                    >Delete</Button>
+                                    >Delete</CustomButton>
                                 </div>
                             </Grid>
                         </Grid>

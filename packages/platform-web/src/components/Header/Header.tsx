@@ -35,7 +35,7 @@ function Header(): JSX.Element {
                             </div>
                         </Box>
                         <Box p={1}>
-                            <CustomButtonGroup variant="outlined" color="primary" style={{marginTop: 2}}>
+                            <CustomButtonGroup variant="outlined" size="medium" color="primary" style={{marginTop: 2}}>
                                 {networks.map((network) => {
                                     return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                         setNetwork(network.name);

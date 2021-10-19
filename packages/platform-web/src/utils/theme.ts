@@ -40,8 +40,21 @@ export const CustomCard = withStyles((theme) => ({
 export const CustomButton = withStyles((theme) => ({
     containedPrimary: {
         boxShadow: "none",
-        background: "linear-gradient(56.21deg, #60DD8B -43.1%, #0BB68C 132.97%)",
-        padding: "12px 24px"
+        background: "linear-gradient(56.21deg, #0BB68C -43.1%, #60DD8B 132.97%)",
+        padding: "12px 24px",
+        '&:hover': {
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
+            background: 'linear-gradient(247.73deg, #60DD8B -15.43%, #1B733B 125.76%)'
+        }
+    },
+    containedSecondary: {
+        boxShadow: "none",
+        background: "linear-gradient(247.73deg, #FF0000 -15.43%, #F7931E 125.76%)",
+        padding: "12px 24px",
+        '&:hover': {
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
+            background: 'linear-gradient(247.73deg, #C1272D -15.43%, #FF0000 125.76%)'
+        }
     }
 }))(Button);
 

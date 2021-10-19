@@ -10,7 +10,6 @@ import {
     Menu, makeStyles
 } from "@material-ui/core";
 import {
-    Add,
     Launch,
     Edit,
     Lock,
@@ -20,7 +19,8 @@ import {
     CheckCircle,
     NotInterested,
     SwapHorizontalCircle,
-    MoreVert
+    MoreVert,
+    ControlPoint
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -111,7 +111,7 @@ function Assets(): JSX.Element {
               <div>
                   <CustomButton
                       color="primary"
-                      startIcon={<Add></Add>}
+                      startIcon={<ControlPoint></ControlPoint>}
                       variant={"contained"}
                       className="add-asset"
                       style={{borderRadius: 15}}

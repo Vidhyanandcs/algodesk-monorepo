@@ -83,7 +83,7 @@
                 }
               }
               &.empty {
-                color: $color-grey;
+                color: #A9A9A9;
               }
             }
           }
@@ -91,12 +91,15 @@
       }
     }
     .empty-message {
-      margin-top: 100px;
+      margin-top: 150px;
       text-align: center;
+      img {
+        width: 200px;
+      }
       .text {
         margin-top: 20px;
         font-weight: bold;
-        color: #666;
+        color: #A9A9A9;
         font-size: 18px;
       }
     }

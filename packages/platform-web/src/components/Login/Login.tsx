@@ -7,7 +7,6 @@ import {
     RadioGroup,
     Typography
 } from "@material-ui/core";
-import {Power} from "@material-ui/icons";
 import {showConnectWallet} from '../../redux/actions/connectWallet';
 import {setNetwork as selectNetwork} from '../../redux/actions/network';
 import {useDispatch, useSelector} from "react-redux";
@@ -17,6 +16,7 @@ import {getNetworks, NETWORKS} from "@algodesk/core";
 import {CustomButton} from '../../utils/theme';
 import Logo from '../Logo/Logo';
 import {setNetwork} from "../Settings/Settings";
+import connectWhiteImg from '../../assets/images/connect-white.png';
 
 
 function Login(): JSX.Element {
@@ -61,7 +61,7 @@ function Login(): JSX.Element {
                                   size={"large"}
                                   style={{borderRadius: 15}}
                                   color={"primary"}
-                                  startIcon={<Power></Power>}
+                                  startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 20}}/>}
                                   onClick={() => {
                                       dispatch(showConnectWallet());
                                   }}

@@ -8,13 +8,14 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, ChevronRightSharp, ArrowBack, AccountBalanceWallet} from "@material-ui/icons";
+import {Close, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
 import {CustomButton} from '../../utils/theme';
 import connectionIssueImg from '../../assets/images/connection-issue.png';
+import connectWhiteImg from '../../assets/images/connect-white.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -99,7 +100,7 @@ function ConnectWallet(): JSX.Element {
                             <div className="home-container">
                                 <div className="header">
                                     <div className={classes.primaryBackground + ' logo'}>
-                                        <AccountBalanceWallet fontSize={"large"}></AccountBalanceWallet>
+                                        <img src={connectWhiteImg} alt="connect-wallet"/>
                                     </div>
 
                                     <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
