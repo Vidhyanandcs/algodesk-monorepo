@@ -1,5 +1,6 @@
 import './Login.scss';
 import {
+    Button,
     FormControl,
     FormControlLabel,
     Grid,
@@ -13,7 +14,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
 import {getNetworks} from "@algodesk/core";
-import {CustomButton} from '../../utils/theme';
 import Logo from '../Logo/Logo';
 import {setNetwork} from "../Settings/Settings";
 import connectWhiteImg from '../../assets/images/connect-white.png';
@@ -57,7 +57,7 @@ function Login(): JSX.Element {
                                       </FormControl>
                                   </div>
                                   <div className="login-button">
-                                      <CustomButton
+                                      <Button
                                           variant={"contained"}
                                           size={"large"}
                                           color={"primary"}
@@ -65,7 +65,7 @@ function Login(): JSX.Element {
                                           onClick={() => {
                                               dispatch(showConnectWallet());
                                           }}
-                                      >Connect Wallet</CustomButton>
+                                      >Connect Wallet</Button>
                                   </div>
                                   <Typography variant="caption" display="block" gutterBottom color="textSecondary">
 

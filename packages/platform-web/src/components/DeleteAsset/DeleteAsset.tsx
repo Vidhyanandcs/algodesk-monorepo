@@ -10,15 +10,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close} from "@material-ui/icons";
+import {Cancel} from "@material-ui/icons";
 import React from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {getCommonStyles} from "../../utils/styles";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-import {CustomButton} from '../../utils/theme';
-
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -73,10 +71,10 @@ function DeleteAsset(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -109,11 +107,11 @@ function DeleteAsset(): JSX.Element {
                                             }}
                                             style={{marginRight: 15}}
                                     >Cancel</Button>
-                                    <CustomButton color={"secondary"} variant={"contained"} size={"large"}
+                                    <Button color={"secondary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 deleteAsset();
                                             }}
-                                    >Delete</CustomButton>
+                                    >Delete</Button>
                                 </div>
                             </Grid>
                         </Grid>

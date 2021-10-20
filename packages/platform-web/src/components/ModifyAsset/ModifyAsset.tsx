@@ -1,25 +1,24 @@
 import './ModifyAsset.scss';
 import {
+    Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle, FormControl, Grid,
-    IconButton, InputLabel, MenuItem, Select, Switch, TextField
+    DialogTitle, Grid,
+    IconButton, Switch, TextField, Tooltip
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction, setSelectedAsset} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close, InfoOutlined} from "@material-ui/icons";
+import {Cancel, InfoOutlined} from "@material-ui/icons";
 import React, {useEffect, useState} from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_ModifyAssetParams} from "@algodesk/core";
-import {CustomTooltip, CustomButton} from '../../utils/theme';
 import sdk from "algosdk";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-import {decimalsList} from "../CreateAsset/CreateAsset";
 
 interface ModifyAssetState extends A_ModifyAssetParams {
     note: string,
@@ -44,11 +43,11 @@ const initialState: ModifyAssetState = {
 };
 
 function getTooltip(message: string): JSX.Element {
-    return (<CustomTooltip className="custom-tooltip" title={message}>
+    return (<Tooltip className="custom-tooltip" title={message}>
         <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
-    </CustomTooltip>);
+    </Tooltip>);
 }
 function ModifyAsset(): JSX.Element {
 
@@ -173,12 +172,12 @@ function ModifyAsset(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         clearState();
                         dispatch(setAction(''));
                         dispatch(setSelectedAsset(null));
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -186,66 +185,6 @@ function ModifyAsset(): JSX.Element {
                 <div className="modify-asset-wrapper">
                     <div className="modify-asset-container">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="heading">
-                                    Asset details
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params.name}
-                                    disabled
-                                    label="Name" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params['unit-name']}
-                                    disabled
-                                    label="Unit name" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params.total}
-                                    disabled
-                                    label="Total supply" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-
-                                <FormControl fullWidth variant="outlined">
-                                    <InputLabel id="decimals-label">Decimals</InputLabel>
-                                    <Select
-                                        value={selectedAsset.params.decimals}
-                                        fullWidth
-                                        labelId="decimals-label"
-                                        color={"primary"}
-                                        label="Decimals"
-                                        disabled
-                                    >
-                                        {decimalsList.map((dec) => {
-                                            return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    value={selectedAsset.params.url}
-                                    disabled
-                                    multiline
-                                    rows={2}
-                                    label="Url" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    value={selectedAsset.params['metadata-hash']}
-                                    disabled
-                                    multiline
-                                    rows={2}
-                                    label="Metadata hash" variant="outlined" fullWidth/>
-                            </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="heading">
                                     Asset management
@@ -358,11 +297,11 @@ function ModifyAsset(): JSX.Element {
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <CustomButton color={"primary"}
+                                <Button color={"primary"}
                                         style={{marginTop: 15, marginBottom: 10}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                     modify();
-                                }}>Modify</CustomButton>
+                                }}>Modify</Button>
                             </Grid>
                         </Grid>
 

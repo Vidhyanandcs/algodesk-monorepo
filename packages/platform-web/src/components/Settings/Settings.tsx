@@ -5,7 +5,7 @@ import {RootState} from "../../redux/store";
 import {hideSettings} from "../../redux/actions/settings";
 import {setNetwork as setNetworkAction} from "../../redux/actions/network";
 import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@material-ui/core";
-import {Close} from '@material-ui/icons';
+import {Cancel} from '@material-ui/icons';
 import {useDispatch, useSelector} from "react-redux";
 import {getCommonStyles} from "../../utils/styles";
 import {NETWORKS, getNetworks} from '@algodesk/core';
@@ -56,10 +56,10 @@ function Settings(): JSX.Element {
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div style={{paddingTop: 7}}>Settings</div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(hideSettings())
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>

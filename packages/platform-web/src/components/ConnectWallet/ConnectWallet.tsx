@@ -3,17 +3,16 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography, CircularProgress
+    IconButton, makeStyles, Typography, CircularProgress, Button
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
+import {ChevronRightSharp, ArrowBack, Cancel} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
-import {CustomButton} from '../../utils/theme';
 import connectionIssueImg from '../../assets/images/connection-issue.png';
 import connectWhiteImg from '../../assets/images/connect-white.png';
 
@@ -23,9 +22,6 @@ const useStyles = makeStyles((theme) => {
         customDialog: {
             position: "absolute",
             top: 100
-        },
-        roundDialog: {
-            borderRadius: 20
         }
     };
 });
@@ -71,7 +67,7 @@ function ConnectWallet(): JSX.Element {
             maxWidth={"xs"}
             open={connectWallet.show}
             classes={{
-                paper: classes.customDialog + ' ' + classes.roundDialog
+                paper: classes.customDialog
             }}
         >
             <DialogTitle >
@@ -85,11 +81,11 @@ function ConnectWallet(): JSX.Element {
                         </IconButton> : ''}
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(hideConnectWallet());
                         clearState();
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -152,7 +148,7 @@ function ConnectWallet(): JSX.Element {
                                         <div>
                                             {connectWallet.errMessage}
                                         </div>
-                                        <CustomButton
+                                        <Button
                                             color={"primary"}
                                             variant={"contained"}
                                             size={"large"}
@@ -160,7 +156,7 @@ function ConnectWallet(): JSX.Element {
                                             onClick={() => {
                                                 dispatch(connect(selectedSigner));
                                             }}
-                                        >Try again</CustomButton>
+                                        >Try again</Button>
                                     </div> : ''}
                                     {!connectWallet.connecting && accounts.length === 0 && !connectWallet.errMessage? <div className="error-message">
                                         <div className={classes.secondaryText}>

@@ -1,6 +1,6 @@
 import './Dashboard.scss';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Grid} from '@material-ui/core';
+import {Grid, Tooltip} from '@material-ui/core';
 import Assets from "../Assets/Assets";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -10,7 +10,6 @@ import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree} from
 import {openAccountInExplorer} from "../../utils/core";
 import copy from "copy-to-clipboard";
 import {showSnack} from "../../redux/actions/snackbar";
-import {CustomTooltip} from "../../utils/theme";
 import {logout} from '../../redux/actions/account';
 // import accountIcon from '../../assets/images/account-icon.png';
 
@@ -36,7 +35,7 @@ function Dashboard(): JSX.Element {
                                           {/*<img src={accountIcon} alt="address"/>*/}
                                           {ellipseAddress(address, 12)}
                                       </div>
-                                      <CustomTooltip title="Copy address">
+                                      <Tooltip title="Copy address">
                                           <span className="action" onClick={(ev) => {
                                                   copy(address, {
                                                       message: 'Press #{key} to copy',
@@ -50,22 +49,22 @@ function Dashboard(): JSX.Element {
                                               }}>
                                                   <FileCopyOutlined fontSize={"small"} className="copy-icon"></FileCopyOutlined>
                                           </span>
-                                      </CustomTooltip>
-                                      <CustomTooltip title="Show QR code">
+                                      </Tooltip>
+                                      <Tooltip title="Show QR code">
                                           <span className="action" onClick={(ev) => {
 
                                           }}>
                                                   <CropFree fontSize={"small"} className="copy-icon"></CropFree>
                                           </span>
-                                      </CustomTooltip>
+                                      </Tooltip>
 
                                       <div className="addr-actions">
                                           <span className="addr-action">
-                                              <CustomTooltip title="Logout">
+                                              <Tooltip title="Logout">
                                                   <PowerSettingsNew color={"primary"} fontSize={"medium"} className="copy-icon" onClick={(ev) => {
                                                       dispatch(logout());
                                                   }}></PowerSettingsNew>
-                                            </CustomTooltip>
+                                            </Tooltip>
                                           </span>
 
                                       </div>

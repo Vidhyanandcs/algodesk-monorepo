@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles
+    Menu, makeStyles, Button, Tooltip, Card
 } from "@material-ui/core";
 import {
     Launch,
@@ -32,7 +32,6 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {CustomCard, CustomTooltip, CustomButton} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
@@ -109,7 +108,7 @@ function Assets(): JSX.Element {
       <div className="assets-wrapper">
           <div className="assets-container">
               <div>
-                  <CustomButton
+                  <Button
                       color="primary"
                       startIcon={<ControlPoint></ControlPoint>}
                       variant={"contained"}
@@ -119,7 +118,7 @@ function Assets(): JSX.Element {
                       }}
                       size={"large"}>
                       Create asset
-                  </CustomButton>
+                  </Button>
               </div>
 
 
@@ -135,25 +134,25 @@ function Assets(): JSX.Element {
                       {createdAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
-                              <CustomCard className={'asset'}>
+                              <Card className={'asset'}>
                                   <CardHeader
                                       action={
                                           <div>
-                                              <CustomTooltip title="View in explorer">
+                                              <Tooltip title="View in explorer">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       openAssetInExplorer(asset.index);
                                                   }}>
                                                       <Launch/>
                                                   </IconButton>
-                                              </CustomTooltip>
-                                              <CustomTooltip title="Asset actions">
+                                              </Tooltip>
+                                              <Tooltip title="Asset actions">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
                                                       <MoreVert/>
                                                   </IconButton>
-                                              </CustomTooltip>
+                                              </Tooltip>
                                           </div>
                                       }
                                       avatar={<div>
@@ -196,7 +195,7 @@ function Assets(): JSX.Element {
                                           </Grid>
                                       </div>
                                   </CardContent>
-                              </CustomCard>
+                              </Card>
                           </Grid>);
                       })}
                   </Grid>

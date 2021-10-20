@@ -1,10 +1,9 @@
 import './Header.scss';
-import {Box, Button, Grid} from "@material-ui/core";
+import {Box, Button, ButtonGroup, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Logo from "../Logo/Logo";
 import {getNetworks} from "@algodesk/core";
-import {CustomButtonGroup} from '../../utils/theme';
 import {setNetwork} from "../Settings/Settings";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
@@ -31,7 +30,7 @@ function Header(): JSX.Element {
                             </div>
                         </Box>
                         <Box p={1}>
-                            <CustomButtonGroup variant="outlined" size="medium" color="primary" style={{marginTop: 2}}>
+                            <ButtonGroup variant="outlined" size="small" color="primary" style={{marginTop: 2}}>
                                 {networks.map((network) => {
                                     return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                         setNetwork(network.name);
@@ -39,7 +38,7 @@ function Header(): JSX.Element {
                                         dispatch(loadAccount(address));
                                     }}>{network.label}</Button>);
                                 })}
-                            </CustomButtonGroup>
+                            </ButtonGroup>
                         </Box>
                     </Box>
                 </Grid>

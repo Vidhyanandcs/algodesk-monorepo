@@ -1,23 +1,23 @@
 import './CreateAsset.scss';
 import {
+    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControl, Grid,
-    IconButton, InputLabel, MenuItem, Select, Switch, TextField
+    IconButton, InputLabel, MenuItem, Select, Switch, TextField, Tooltip
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close, InfoOutlined} from "@material-ui/icons";
+import {Cancel, InfoOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
-import {CustomTooltip, CustomButton} from '../../utils/theme';
 import sdk from 'algosdk';
 import {showTransactionDetails} from "../../redux/actions/transaction";
 
@@ -52,15 +52,14 @@ for (let i = 0; i <= 10; i++) {
     decimalsList.push(i);
 }
 
-export
-
-function getTooltip(message: string): JSX.Element {
-    return (<CustomTooltip className="custom-tooltip" title={message}>
+export function getTooltip(message: string): JSX.Element {
+    return (<Tooltip className="custom-tooltip" title={message}>
         <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
-    </CustomTooltip>);
+    </Tooltip>);
 }
+
 function CreateAsset(): JSX.Element {
 
     const dispatch = useDispatch();
@@ -197,11 +196,11 @@ function CreateAsset(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -400,11 +399,12 @@ function CreateAsset(): JSX.Element {
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <CustomButton color={"primary"}
+                                <Button color={"primary"}
+                                        fullWidth
                                         style={{marginTop: 15, marginBottom: 10}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                        variant={"contained"} size={"large"} onClick={() => {
                                     create();
-                                }}>Create</CustomButton>
+                                }}>Create</Button>
                             </Grid>
                         </Grid>
 

@@ -1,5 +1,6 @@
 import './SendAssets.scss';
 import {
+    Button,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, Grid,
@@ -10,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close} from "@material-ui/icons";
+import {Cancel} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
 import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
@@ -20,7 +21,6 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
 import {A_TransferAssetParams} from "@algodesk/core";
-import {CustomButton} from '../../utils/theme';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -120,11 +120,11 @@ function SendAssets(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -167,11 +167,11 @@ function SendAssets(): JSX.Element {
                                                setState(prevState => ({...prevState, amount: parseFloat(value)}));
                                            }}
                                            InputProps={{
-                                               endAdornment: <InputAdornment position="end" color="primary"><CustomButton color="primary" onClick={() => {
+                                               endAdornment: <InputAdornment position="end" color="primary"><Button color="primary" onClick={() => {
                                                    const totalBalance = getAssetBal(selectedAsset, information);
                                                    setState(prevState => ({...prevState, amount: totalBalance}));
                                                }
-                                               }>Max</CustomButton></InputAdornment>,
+                                               }>Max</Button></InputAdornment>,
                                            }}
                                 />
                             </Grid>
@@ -184,11 +184,11 @@ function SendAssets(): JSX.Element {
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <CustomButton color={"primary"}
+                                <Button color={"primary"}
                                         style={{marginTop: 15}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                             send();
-                                }}>Send</CustomButton>
+                                }}>Send</Button>
                             </Grid>
                         </Grid>
                     </div>

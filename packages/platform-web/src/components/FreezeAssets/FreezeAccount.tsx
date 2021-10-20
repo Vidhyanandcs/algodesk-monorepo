@@ -3,14 +3,14 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControlLabel, Grid,
-    IconButton, makeStyles, RadioGroup, TextField, Radio
+    IconButton, makeStyles, RadioGroup, TextField, Radio, Button
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close} from "@material-ui/icons";
+import {Cancel} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
 import algosdk from "../../utils/algosdk";
@@ -19,7 +19,6 @@ import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_FreezeAssetParams} from "@algodesk/core";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-import {CustomButton} from '../../utils/theme';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -119,11 +118,11 @@ function FreezeAccount(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Close />
+                        <Cancel />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -175,11 +174,11 @@ function FreezeAccount(): JSX.Element {
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <CustomButton color={freezeState ? 'primary' : 'primary'}
+                                <Button color={freezeState ? 'primary' : 'primary'}
                                         style={{marginTop: 15}}
                                         fullWidth variant={"contained"} size={"large"} onClick={() => {
                                             freeze();
-                                }}>{freezeState ? 'Freeze' : 'Unfreeze'}</CustomButton>
+                                }}>{freezeState ? 'Freeze' : 'Unfreeze'}</Button>
                             </Grid>
                         </Grid>
                     </div>
