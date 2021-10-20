@@ -7,6 +7,8 @@ import {getNetworks} from "@algodesk/core";
 import {setNetwork} from "../Settings/Settings";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
+import algosdk from "../../utils/algosdk";
+import {showSnack} from "../../redux/actions/snackbar";
 
 
 function Header(): JSX.Element {
@@ -33,9 +35,19 @@ function Header(): JSX.Element {
                             <ButtonGroup variant="outlined" size="small" color="primary" style={{marginTop: 2}}>
                                 {networks.map((network) => {
                                     return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
-                                        setNetwork(network.name);
-                                        dispatch(selectNetwork(network.name));
-                                        dispatch(loadAccount(address));
+                                        const {name} = network;
+                                        console.log(name);
+                                        if (algosdk.signer.isNetworkSupported(name)) {
+                                            setNetwork(name);
+                                            dispatch(selectNetwork(name));
+                                            dispatch(loadAccount(address));
+                                        }
+                                        else {
+                                            dispatch(showSnack({
+                                                severity: 'error',
+                                                message: 'Network not supported'
+                                            }));
+                                        }
                                     }}>{network.label}</Button>);
                                 })}
                             </ButtonGroup>
