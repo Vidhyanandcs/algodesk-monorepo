@@ -1,22 +1,57 @@
 import './Dashboard.scss';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Grid, Tooltip} from '@material-ui/core';
+import {
+    Dialog, DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    IconButton,
+    makeStyles,
+    Tooltip
+} from '@material-ui/core';
 import Assets from "../Assets/Assets";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {ellipseAddress} from "@algodesk/core";
 import sdk from "algosdk";
-import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree} from '@material-ui/icons';
+import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree, Cancel} from '@material-ui/icons';
 import {openAccountInExplorer} from "../../utils/core";
 import copy from "copy-to-clipboard";
 import {showSnack} from "../../redux/actions/snackbar";
 import {logout} from '../../redux/actions/account';
-// import accountIcon from '../../assets/images/account-icon.png';
+import React, {useState} from "react";
+import {getCommonStyles} from "../../utils/styles";
+import QRCode from "qrcode.react";
+
+
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            position: "absolute",
+            top: 100
+        }
+    };
+});
+
+interface DashboardState{
+    showQr: boolean
+}
+
+const initialState: DashboardState = {
+    showQr: false
+};
 
 function Dashboard(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {address, amount} = account.information;
     const dispatch = useDispatch();
+    const classes = useStyles();
+
+    const [
+        { showQr },
+        setState
+    ] = useState(initialState);
 
   return (
       <div className="dashboard-wrapper">
@@ -52,7 +87,7 @@ function Dashboard(): JSX.Element {
                                       </Tooltip>
                                       <Tooltip title="Show QR code">
                                           <span className="action" onClick={(ev) => {
-
+                                              setState(prevState => ({ ...prevState, showQr: true }));
                                           }}>
                                                   <CropFree fontSize={"small"}></CropFree>
                                           </span>
@@ -86,6 +121,61 @@ function Dashboard(): JSX.Element {
                   <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                   </Grid>
               </Grid>
+
+
+
+
+
+
+
+
+
+              {showQr ? <Dialog
+                  fullWidth={true}
+                  maxWidth={"xs"}
+                  open={showQr}
+                  classes={{
+                      paper: classes.customDialog
+                  }}
+              >
+                  <DialogTitle >
+                      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                          <div>
+
+                          </div>
+                          <IconButton color="primary" onClick={() => {
+                              setState(prevState => ({ ...prevState, showQr: false }));
+                          }}>
+                              <Cancel />
+                          </IconButton>
+                      </div>
+                  </DialogTitle>
+                  <DialogContent>
+                      <div className="qr-code-wrapper">
+                          <div className="qr-code-container">
+
+                              <Grid container spacing={2}>
+                                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                      <QRCode value={address} size={250}/>
+                                  </Grid>
+                              </Grid>
+                          </div>
+                      </div>
+                  </DialogContent>
+                  <DialogActions>
+
+                  </DialogActions>
+              </Dialog> : ''}
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
           </div>
       </div>
   );
