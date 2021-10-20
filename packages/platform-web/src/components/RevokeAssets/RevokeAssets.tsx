@@ -200,10 +200,10 @@ function RevokeAssets(): JSX.Element {
                                     }}
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
                                         style={{marginTop: 15}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                        variant={"contained"} size={"large"} onClick={() => {
                                             revoke();
                                 }}>Revoke</Button>
                             </Grid>

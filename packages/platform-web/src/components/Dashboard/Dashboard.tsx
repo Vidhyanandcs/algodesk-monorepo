@@ -47,27 +47,27 @@ function Dashboard(): JSX.Element {
                                                       message: 'Address copied'
                                                   }));
                                               }}>
-                                                  <FileCopyOutlined fontSize={"small"} className="copy-icon"></FileCopyOutlined>
+                                                  <FileCopyOutlined fontSize={"small"}></FileCopyOutlined>
                                           </span>
                                       </Tooltip>
                                       <Tooltip title="Show QR code">
                                           <span className="action" onClick={(ev) => {
 
                                           }}>
-                                                  <CropFree fontSize={"small"} className="copy-icon"></CropFree>
+                                                  <CropFree fontSize={"small"}></CropFree>
                                           </span>
                                       </Tooltip>
+                                      <Tooltip title="Logout">
+                                          <span className="action" onClick={(ev) => {
 
-                                      <div className="addr-actions">
-                                          <span className="addr-action">
-                                              <Tooltip title="Logout">
-                                                  <PowerSettingsNew color={"primary"} fontSize={"medium"} className="copy-icon" onClick={(ev) => {
+                                          }}>
+                                                  <PowerSettingsNew fontSize={"small"} onClick={(ev) => {
                                                       dispatch(logout());
                                                   }}></PowerSettingsNew>
-                                            </Tooltip>
                                           </span>
 
-                                      </div>
+                                      </Tooltip>
+
                                       <div className="balance">
                                           <AccountBalanceWallet color={"primary"}></AccountBalanceWallet>
                                           {sdk.microalgosToAlgos(amount)}

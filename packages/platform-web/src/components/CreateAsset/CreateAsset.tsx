@@ -208,11 +208,6 @@ function CreateAsset(): JSX.Element {
                 <div className="create-asset-wrapper">
                     <div className="create-asset-container">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="heading">
-                                    Asset details
-                                </div>
-                            </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                 <TextField
                                     required
@@ -316,7 +311,7 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     className="asset-manage-field address-field"
                                     multiline
-                                    rows={2}
+                                    rows={3}
                                     label="Manager" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -335,7 +330,7 @@ function CreateAsset(): JSX.Element {
                                     value={reserve}
                                     multiline
                                     disabled={!enableReserve}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, reserve: ev.target.value}));
@@ -358,7 +353,7 @@ function CreateAsset(): JSX.Element {
                                     value={freeze}
                                     multiline
                                     disabled={!enableFreeze}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, freeze: ev.target.value}));
@@ -381,7 +376,7 @@ function CreateAsset(): JSX.Element {
                                     value={clawback}
                                     multiline
                                     disabled={!enableClawback}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, clawback: ev.target.value}));
@@ -398,9 +393,8 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
-                                        fullWidth
                                         style={{marginTop: 15, marginBottom: 10}}
                                         variant={"contained"} size={"large"} onClick={() => {
                                     create();

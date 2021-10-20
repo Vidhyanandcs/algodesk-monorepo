@@ -71,7 +71,7 @@ function TransactionDetails(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div style={{marginTop: 20, marginBottom: 20}}>
+                                <div style={{marginTop: 20, marginBottom: 30}}>
                                     <Button color={"primary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 openTransactionInExplorer(txId);

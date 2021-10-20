@@ -22,6 +22,13 @@ export const theme = createTheme({
                 borderRadius: 10,
                 padding: "12px 24px !important",
                 boxShadow: "none !important",
+            },
+            contained: {
+                '&:hover': {
+                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
+                }
+            },
+            outlined: {
                 '&:hover': {
                     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
                 }
@@ -33,7 +40,7 @@ export const theme = createTheme({
                 }
             },
             containedSecondary: {
-                background: "linear-gradient(247.73deg, #FF0000 -15.43%, #F7931E 125.76%)",
+                background: "linear-gradient(247.73deg, #F7931E -15.43%, #FF0000 125.76%)",
                 '&:hover': {
                     background: 'linear-gradient(247.73deg, #C1272D -15.43%, #FF0000 125.76%)'
                 }
@@ -66,13 +73,21 @@ export const theme = createTheme({
             }
         },
         MuiDialog: {
-            root: {
-
-            },
             paper: {
-                borderRadius: 20
+                borderRadius: 15
             }
-        }
+        },
+        MuiInputBase: {
+            root: {
+                "&$disabled": {
+                    background: "#F5F5F5 !important",
+                    color: '#A9A9A9 !important',
+                    '&:hover': {
+                        cursor: 'not-allowed'
+                    }
+                }
+            }
+        },
     }
 });
 
