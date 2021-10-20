@@ -1,9 +1,8 @@
 import './Body.scss';
 import React from "react";
-import {Grid, makeStyles} from "@material-ui/core";
+import {Button, Grid, makeStyles} from "@material-ui/core";
 import {ArrowRightAlt, Twitter} from "@material-ui/icons";
 import pageGif from '../../assets/images/page-gif.png';
-import {CustomButton} from '../../utils/theme';
 import {getCommonStyles} from "../../utils/styles";
 
 const useStyles = makeStyles((theme) => {
@@ -31,7 +30,7 @@ function Body(): JSX.Element {
                                 </div>
                             </div>
                             <div className="open-app">
-                                <CustomButton color={"primary"}
+                                <Button color={"primary"}
                                         startIcon={<Twitter color={"primary"}></Twitter>}
                                         variant={"outlined"}
                                         size={"large"}
@@ -39,16 +38,16 @@ function Body(): JSX.Element {
                                         onClick={() => {
                                             window.open("https://twitter.com/algodeskio", "_blank");
                                         }}
-                                >Twitter</CustomButton>
+                                >Twitter</Button>
 
-                                <CustomButton color={"primary"}
+                                <Button color={"primary"}
                                         className="open-app-button"
                                         endIcon={<ArrowRightAlt></ArrowRightAlt>}
                                         variant={"contained"} size={"large"}
                                         onClick={() => {
                                             window.open("https://app.algodesk.io", "_blank");
                                         }}
-                                >Open Application</CustomButton>
+                                >Open Application</Button>
 
                             </div>
                         </Grid>
