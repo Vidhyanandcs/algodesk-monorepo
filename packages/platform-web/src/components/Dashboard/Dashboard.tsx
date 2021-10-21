@@ -22,6 +22,7 @@ import {logout} from '../../redux/actions/account';
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
 import QRCode from "qrcode.react";
+import accountImg from '../../assets/images/account-icon.png';
 
 
 const useStyles = makeStyles((theme) => {
@@ -67,11 +68,11 @@ function Dashboard(): JSX.Element {
                                       <div className="addr" onClick={() => {
                                           openAccountInExplorer(address);
                                       }}>
-                                          {/*<img src={accountIcon} alt="address"/>*/}
+                                          <img src={accountImg} alt="address"/>
                                           {ellipseAddress(address, 12)}
                                       </div>
                                       <Tooltip title="Copy address">
-                                          <span className="action" onClick={(ev) => {
+                                          <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
                                                   copy(address, {
                                                       message: 'Press #{key} to copy',
                                                   });
@@ -86,19 +87,17 @@ function Dashboard(): JSX.Element {
                                           </span>
                                       </Tooltip>
                                       <Tooltip title="Show QR code">
-                                          <span className="action" onClick={(ev) => {
+                                          <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
                                               setState(prevState => ({ ...prevState, showQr: true }));
                                           }}>
                                                   <CropFree fontSize={"small"}></CropFree>
                                           </span>
                                       </Tooltip>
-                                      <Tooltip title="Logout">
-                                          <span className="action" onClick={(ev) => {
-
+                                      <Tooltip title="Logout" style={{float: 'right'}}>
+                                          <span className={'action ' + classes.secondaryColorOnHover + ' ' + classes.secondaryBorderOnHover} onClick={(ev) => {
+                                              dispatch(logout());
                                           }}>
-                                                  <PowerSettingsNew fontSize={"small"} onClick={(ev) => {
-                                                      dispatch(logout());
-                                                  }}></PowerSettingsNew>
+                                                  <PowerSettingsNew fontSize={"large"}></PowerSettingsNew>
                                           </span>
 
                                       </Tooltip>

@@ -4,7 +4,7 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControl, Grid,
-    IconButton, InputLabel, MenuItem, Select, Switch, TextField, Tooltip
+    IconButton, InputLabel, makeStyles, MenuItem, Select, Switch, TextField, Tooltip
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -20,6 +20,15 @@ import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
 import sdk from 'algosdk';
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {getCommonStyles} from "../../utils/styles";
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            maxWidth: 700
+        }
+    };
+});
 
 interface CreateAssetState extends A_CreateAssetParams {
     note: string,
@@ -63,6 +72,7 @@ export function getTooltip(message: string): JSX.Element {
 function CreateAsset(): JSX.Element {
 
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const assetActions = useSelector((state: RootState) => state.assetActions);
     const show = assetActions.action === 'create';
@@ -190,6 +200,9 @@ function CreateAsset(): JSX.Element {
             fullWidth={true}
             maxWidth={"sm"}
             open={show}
+            classes={{
+                paper: classes.customDialog
+            }}
         >
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -208,6 +221,11 @@ function CreateAsset(): JSX.Element {
                 <div className="create-asset-wrapper">
                     <div className="create-asset-container">
                         <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <div className="heading">
+                                    Asset details
+                                </div>
+                            </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                 <TextField
                                     required
@@ -292,7 +310,6 @@ function CreateAsset(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableManager}
@@ -303,6 +320,7 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     name="manager"
                                 />
+                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <TextField
                                     value={manager}
                                     disabled={!enableManager}
@@ -311,11 +329,10 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     className="asset-manage-field address-field"
                                     multiline
-                                    rows={3}
+                                    rows={2}
                                     label="Manager" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableReserve}
@@ -326,11 +343,12 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="reserve"
                                 />
+                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <TextField
                                     value={reserve}
                                     multiline
                                     disabled={!enableReserve}
-                                    rows={3}
+                                    rows={2}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, reserve: ev.target.value}));
@@ -338,7 +356,6 @@ function CreateAsset(): JSX.Element {
                                     label="Reserve" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableFreeze}
@@ -349,11 +366,12 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="freeze"
                                 />
+                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <TextField
                                     value={freeze}
                                     multiline
                                     disabled={!enableFreeze}
-                                    rows={3}
+                                    rows={2}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, freeze: ev.target.value}));
@@ -361,7 +379,6 @@ function CreateAsset(): JSX.Element {
                                     label="Freeze" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     size={"small"}
@@ -372,11 +389,12 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="clawback"
                                 />
+                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <TextField
                                     value={clawback}
                                     multiline
                                     disabled={!enableClawback}
-                                    rows={3}
+                                    rows={2}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, clawback: ev.target.value}));

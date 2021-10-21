@@ -3,7 +3,7 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography, CircularProgress, Button
+    IconButton, makeStyles, Typography, Button
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -15,6 +15,7 @@ import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
 import connectionIssueImg from '../../assets/images/connection-issue.png';
 import connectWhiteImg from '../../assets/images/connect-white.png';
+import loaderGif from '../../assets/images/loading.gif';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -141,7 +142,8 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="body">
                                     {connectWallet.connecting ? <div className="connecting">
-                                        <CircularProgress color="primary" style={{marginTop: 25}}/>
+                                        <img src={loaderGif} alt="loading" className="loading"/>
+                                        <div>connecting ...</div>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
                                         <img src={connectionIssueImg} alt="Connection issue"/>
@@ -152,7 +154,7 @@ function ConnectWallet(): JSX.Element {
                                             color={"primary"}
                                             variant={"contained"}
                                             size={"large"}
-                                            style={{marginTop: 75}}
+                                            style={{marginTop: 70}}
                                             onClick={() => {
                                                 dispatch(connect(selectedSigner));
                                             }}

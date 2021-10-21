@@ -11,14 +11,14 @@ import {
 } from "@material-ui/core";
 import {
     Launch,
-    Edit,
-    Lock,
-    Delete,
-    Send,
+    EditOutlined,
+    LockOutlined,
+    DeleteOutlined,
+    SendOutlined,
     SettingsBackupRestoreSharp,
     CheckCircle,
     NotInterested,
-    SwapHorizontalCircle,
+    SwapHorizontalCircleOutlined,
     MoreVert,
     ControlPoint
 } from '@material-ui/icons';
@@ -217,7 +217,7 @@ function Assets(): JSX.Element {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
-                  <Send className="asset-action-icon" fontSize={"small"}></Send>
+                  <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
                   Send assets
               </MenuItem>
               <MenuItem onClick={() => {
@@ -232,7 +232,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Edit className="asset-action-icon" fontSize={"small"}></Edit>
+                  <EditOutlined className="asset-action-icon" fontSize={"small"}></EditOutlined>
                   Modify asset
               </MenuItem>
               <MenuItem onClick={() => {
@@ -247,7 +247,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Lock className="asset-action-icon" fontSize={"small"}></Lock>
+                  <LockOutlined className="asset-action-icon" fontSize={"small"}></LockOutlined>
                   Freeze / Unfreeze
               </MenuItem>
               <MenuItem onClick={() => {
@@ -277,7 +277,7 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Delete className="asset-action-icon" fontSize={"small"}></Delete>
+                  <DeleteOutlined className="asset-action-icon" fontSize={"small"}></DeleteOutlined>
                   Delete asset
               </MenuItem>
               <MenuItem onClick={(ev) => {
@@ -289,7 +289,7 @@ function Assets(): JSX.Element {
                   window.open(url, "_blank");
                   closeMenu();
               }}>
-                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircle>
+                  <SwapHorizontalCircleOutlined className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
           </Menu>

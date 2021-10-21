@@ -101,12 +101,6 @@ function DeleteAsset(): JSX.Element {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div style={{marginTop: 20, marginBottom: 20}}>
-                                    <Button color={"default"} variant={"outlined"} size={"large"}
-                                            onClick={() => {
-                                                dispatch(setAction(''));
-                                            }}
-                                            style={{marginRight: 15}}
-                                    >Cancel</Button>
                                     <Button color={"secondary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 deleteAsset();

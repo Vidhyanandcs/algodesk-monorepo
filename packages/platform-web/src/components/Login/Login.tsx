@@ -35,8 +35,16 @@ function Login(): JSX.Element {
           <div className="login-container">
               <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Logo></Logo>
                       <Grid container>
+                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
+
+                          </Grid>
+                          <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
+                              <Logo></Logo>
+                          </Grid>
+                      </Grid>
+
+                      <Grid container spacing={2}>
                           <Grid item xs={12} sm={2} md={4} lg={4} xl={4}>
 
                           </Grid>

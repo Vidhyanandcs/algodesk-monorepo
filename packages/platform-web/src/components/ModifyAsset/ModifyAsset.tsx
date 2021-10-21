@@ -191,7 +191,6 @@ function ModifyAsset(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableManager}
@@ -203,6 +202,7 @@ function ModifyAsset(): JSX.Element {
                                     }}
                                     name="manager"
                                 />
+                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <TextField
                                     value={manager}
                                     disabled={!enableManager}
@@ -215,8 +215,7 @@ function ModifyAsset(): JSX.Element {
                                     label="Manager" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
-                                <Switch
+                                 <Switch
                                     className="enable-switch"
                                     checked={enableReserve}
                                     disabled={!Boolean(selectedAsset.params.reserve)}
@@ -227,6 +226,7 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="reserve"
                                 />
+                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <TextField
                                     value={reserve}
                                     multiline
@@ -239,7 +239,6 @@ function ModifyAsset(): JSX.Element {
                                     label="Reserve" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableFreeze}
@@ -251,6 +250,7 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="freeze"
                                 />
+                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <TextField
                                     value={freeze}
                                     multiline
@@ -263,7 +263,6 @@ function ModifyAsset(): JSX.Element {
                                     label="Freeze" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     size={"small"}
@@ -275,6 +274,7 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="clawback"
                                 />
+                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <TextField
                                     value={clawback}
                                     multiline

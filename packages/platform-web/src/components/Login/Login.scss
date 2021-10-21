@@ -5,16 +5,15 @@
     height: 100vh;
     background: url("../../assets/images/login-back.jpeg");
     background-size: 100% 100%;
-    text-align: center;
     .logo-img {
-      margin-top: 100px;
+      margin-top: 25px;
     }
     .login-form {
       text-align: center;
       background: $color-light;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-      height: 370px;
-      margin: 20px auto;
+      height: 340px;
+      margin: 100px auto;
       padding-top: 100px;
       border-radius: 15px;
       .networks {
