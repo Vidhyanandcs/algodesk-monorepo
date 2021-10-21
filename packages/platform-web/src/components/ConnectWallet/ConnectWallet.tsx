@@ -13,7 +13,7 @@ import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
-import connectionIssueImg from '../../assets/images/connection-issue.png';
+import connectionIssueImg from '../../assets/images/error.gif';
 import connectWhiteImg from '../../assets/images/connect-white.png';
 import loaderGif from '../../assets/images/loading.gif';
 

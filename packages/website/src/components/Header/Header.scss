@@ -10,16 +10,16 @@
     .logo {
     }
     .anchor {
-      border-bottom: 2px solid;
+      border-bottom: 1px solid;
       border-bottom-left-radius: 25px;
-      border-left: 2px solid;
+      border-left: 1px solid;
       border-top-left-radius: 25px;
-      padding: 10px 10px 10px 30px;
+      padding: 10px 10px 10px 15px;
       font-style: normal;
       font-weight: normal;
       font-size: 18px;
       position: relative;
-      border-top: 2px solid;
+      border-top: 1px solid;
       &:before {
         content : "";
         position: absolute;

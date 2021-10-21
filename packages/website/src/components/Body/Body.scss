@@ -10,13 +10,13 @@
       }
     }
     .anchor {
-      border-bottom: 2px solid;
+      border-bottom: 1px solid;
       border-bottom-right-radius: 120px;
-      border-right: 2px solid;
+      border-right: 1px solid;
       border-top-right-radius: 120px;
       padding: 40px 20px 40px 30px;
       position: relative;
-      border-top: 2px solid;
+      border-top: 1px solid;
       &:before {
         content : "";
         position: absolute;
