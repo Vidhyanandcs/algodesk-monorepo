@@ -10,7 +10,7 @@ import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Cancel} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
 import algosdk from "../../utils/algosdk";
@@ -122,7 +122,7 @@ function FreezeAccount(): JSX.Element {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -175,7 +175,7 @@ function FreezeAccount(): JSX.Element {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={freezeState ? 'secondary' : 'primary'}
-                                        style={{marginTop: 15}}
+                                        style={{marginTop: 10}}
                                         variant={"contained"} size={"large"} onClick={() => {
                                             freeze();
                                 }}>{freezeState ? 'Freeze' : 'Unfreeze'}</Button>

@@ -88,6 +88,11 @@ export const theme = createTheme({
                 }
             }
         },
+        MuiOutlinedInput: {
+            root: {
+                borderRadius: 4
+            }
+        }
     }
 });
 

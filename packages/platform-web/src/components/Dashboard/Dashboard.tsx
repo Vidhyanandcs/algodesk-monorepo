@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {ellipseAddress} from "@algodesk/core";
 import sdk from "algosdk";
-import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree, Cancel} from '@material-ui/icons';
+import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree, CancelOutlined} from '@material-ui/icons';
 import {openAccountInExplorer} from "../../utils/core";
 import copy from "copy-to-clipboard";
 import {showSnack} from "../../redux/actions/snackbar";
@@ -94,10 +94,10 @@ function Dashboard(): JSX.Element {
                                           </span>
                                       </Tooltip>
                                       <Tooltip title="Logout" style={{float: 'right'}}>
-                                          <span className={'action ' + classes.secondaryColorOnHover + ' ' + classes.secondaryBorderOnHover} onClick={(ev) => {
+                                          <span className={'action ' + classes.secondaryBorder} onClick={(ev) => {
                                               dispatch(logout());
                                           }}>
-                                                  <PowerSettingsNew fontSize={"large"}></PowerSettingsNew>
+                                                  <PowerSettingsNew fontSize={"large"} color={"secondary"}></PowerSettingsNew>
                                           </span>
 
                                       </Tooltip>
@@ -145,7 +145,7 @@ function Dashboard(): JSX.Element {
                           <IconButton color="primary" onClick={() => {
                               setState(prevState => ({ ...prevState, showQr: false }));
                           }}>
-                              <Cancel />
+                              <CancelOutlined />
                           </IconButton>
                       </div>
                   </DialogTitle>

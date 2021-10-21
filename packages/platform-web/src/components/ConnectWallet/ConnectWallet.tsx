@@ -8,7 +8,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {ChevronRightSharp, ArrowBack, Cancel} from "@material-ui/icons";
+import {ChevronRightSharp, ArrowBack, CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
@@ -86,7 +86,7 @@ function ConnectWallet(): JSX.Element {
                         dispatch(hideConnectWallet());
                         clearState();
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>

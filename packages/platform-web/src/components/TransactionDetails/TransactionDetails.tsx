@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {CheckCircleOutline, Cancel} from "@material-ui/icons";
+import {CheckCircleOutline, CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {hideTransactionDetails} from "../../redux/actions/transaction";
 import {getCommonStyles} from "../../utils/styles";
@@ -49,7 +49,7 @@ function TransactionDetails(): JSX.Element {
                     <IconButton color="primary" onClick={() => {
                         dispatch(hideTransactionDetails());
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -58,7 +58,7 @@ function TransactionDetails(): JSX.Element {
                     <div className="transaction-details-container">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="asset-details">
+                                <div className="txn">
                                     <div>
                                         <CheckCircleOutline fontSize={"large"} className="success-icon" color={"primary"}></CheckCircleOutline>
                                     </div>

@@ -31,5 +31,8 @@ export function getCommonStyles(theme: Theme) {
                 borderColor: theme.palette.secondary.main + ' !important'
             }
         },
+        secondaryBorder: {
+            borderColor: theme.palette.secondary.main + ' !important'
+        },
     };
 }

@@ -9,11 +9,13 @@ function AppSnackbar(): JSX.Element {
     const dispatch = useDispatch();
 
     return (<Snackbar
+        style={{top: 75}}
         open={snackbar.show}
         anchorOrigin={{ vertical: 'top',
             horizontal: 'center' }}
         autoHideDuration={5000} onClose={() => {dispatch(hideSnack())}}>
         <Alert
+            style={{borderRadius: 10}}
             icon={false}
             severity={snackbar.severity}
             onClose={() => {dispatch(hideSnack())}}>

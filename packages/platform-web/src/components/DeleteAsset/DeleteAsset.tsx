@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Cancel} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
@@ -74,7 +74,7 @@ function DeleteAsset(): JSX.Element {
                     <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -100,7 +100,7 @@ function DeleteAsset(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div style={{marginTop: 20, marginBottom: 20}}>
+                                <div style={{marginTop: 10, marginBottom: 5}}>
                                     <Button color={"secondary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 deleteAsset();

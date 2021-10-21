@@ -11,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Cancel, InfoOutlined} from "@material-ui/icons";
+import {CancelOutlined, InfoOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
@@ -213,7 +213,7 @@ function CreateAsset(): JSX.Element {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>

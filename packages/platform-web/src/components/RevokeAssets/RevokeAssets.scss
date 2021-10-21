@@ -1,14 +1,15 @@
 @import '../../assets/colors';
 
-.send-assets-wrapper {
-  .send-assets-container {
+.revoke-assets-wrapper {
+  .revoke-assets-container {
+    margin-top: -20px;
     .asset-details {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 10px;
       text-align: center;
       .name {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         font-size: 20px;
       }
       .id {

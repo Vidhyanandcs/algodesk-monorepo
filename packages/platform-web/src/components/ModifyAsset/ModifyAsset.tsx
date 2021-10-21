@@ -11,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {setAction, setSelectedAsset} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Cancel, InfoOutlined} from "@material-ui/icons";
+import {CancelOutlined, InfoOutlined} from "@material-ui/icons";
 import React, {useEffect, useState} from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
@@ -177,7 +177,7 @@ function ModifyAsset(): JSX.Element {
                         dispatch(setAction(''));
                         dispatch(setSelectedAsset(null));
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -186,8 +186,13 @@ function ModifyAsset(): JSX.Element {
                     <div className="modify-asset-container">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="heading">
-                                    Asset management
+                                <div className="asset-details">
+                                    <div className="name">
+                                        {selectedAsset.params.name}
+                                    </div>
+                                    <div className="id">
+                                        ID: {selectedAsset.index}
+                                    </div>
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>

@@ -11,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Cancel} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
 import {isNumber} from "../../utils/core";
@@ -138,13 +138,13 @@ function RevokeAssets(): JSX.Element {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Cancel />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
             <DialogContent>
-                <div className="send-assets-wrapper">
-                    <div className="send-assets-container">
+                <div className="revoke-assets-wrapper">
+                    <div className="revoke-assets-container">
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -202,7 +202,7 @@ function RevokeAssets(): JSX.Element {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
-                                        style={{marginTop: 15}}
+                                        style={{marginTop: 10}}
                                         variant={"contained"} size={"large"} onClick={() => {
                                             revoke();
                                 }}>Revoke</Button>

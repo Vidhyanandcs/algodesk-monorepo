@@ -213,14 +213,14 @@ function Assets(): JSX.Element {
                   }
               }}
           >
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
                   <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
                   Send assets
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('modify'));
                   }
@@ -235,7 +235,7 @@ function Assets(): JSX.Element {
                   <EditOutlined className="asset-action-icon" fontSize={"small"}></EditOutlined>
                   Modify asset
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
                       dispatch(setAction('freeze'));
                   }
@@ -250,7 +250,7 @@ function Assets(): JSX.Element {
                   <LockOutlined className="asset-action-icon" fontSize={"small"}></LockOutlined>
                   Freeze / Unfreeze
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
                       dispatch(setAction('revoke'));
                   }
@@ -265,7 +265,7 @@ function Assets(): JSX.Element {
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
                   }
@@ -280,7 +280,7 @@ function Assets(): JSX.Element {
                   <DeleteOutlined className="asset-action-icon" fontSize={"small"}></DeleteOutlined>
                   Delete asset
               </MenuItem>
-              <MenuItem onClick={(ev) => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={(ev) => {
                   let url = 'https://app.tinyman.org';
                   if (network.name === NETWORKS.TESTNET) {
                       url = 'https://testnet.tinyman.org';
@@ -289,7 +289,7 @@ function Assets(): JSX.Element {
                   window.open(url, "_blank");
                   closeMenu();
               }}>
-                  <SwapHorizontalCircleOutlined className="asset-action-icon" fontSize={"small"}></SwapHorizontalCircleOutlined>
+                  <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
           </Menu>
