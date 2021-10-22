@@ -1,13 +1,10 @@
 import './Logo.scss';
-import {Category} from "@material-ui/icons";
+import logo from "../../assets/images/logo.png";
 
 function Logo(): JSX.Element {
   return (
       <div>
-        <div className="logo-icon">
-            <Category></Category>
-        </div>
-        <div className="logo-text">Algodesk</div>
+          <img src={logo} className="logo-img" alt="logo"/>
       </div>
   );
 }

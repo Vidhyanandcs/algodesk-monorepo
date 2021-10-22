@@ -3,22 +3,28 @@
 @import "./assets/colors";
 
 @font-face {
-  font-family: 'SourceSansPro';
-  src: url('assets/fonts/SourceSansPro-Regular.otf.woff') format('woff'),
-  url('assets/fonts/SourceSansPro-Regular.ttf') format('truetype');
+  font-family: 'Poppins';
+  src: url('assets/fonts/Poppins/Poppins-Regular.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SourceSansProLight';
-  src: url('assets/fonts/SourceSansPro-Light.otf.woff') format('woff'),
-  url('assets/fonts/SourceSansPro-Light.otf.woff') format('truetype');
+  font-family: 'PoppinsLight';
+  src: url('assets/fonts/Poppins/Poppins-Light.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'PoppinsThin';
+  src: url('assets/fonts/Poppins/Poppins-Thin.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Thin.ttf') format('truetype');
 }
 
 body {
-  font-family: "SourceSansPro";
+  font-family: "Poppins";
 }
 * {
-  font-family: "SourceSansPro" !important;
+  font-family: "Poppins" !important;
 }
 
 .address-field {

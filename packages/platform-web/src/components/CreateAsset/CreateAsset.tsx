@@ -4,23 +4,31 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, FormControl, Grid,
-    IconButton, InputLabel, MenuItem, Select, Switch, TextField
+    IconButton, InputLabel, makeStyles, MenuItem, Select, Switch, TextField, Tooltip
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close, InfoOutlined} from "@material-ui/icons";
+import {CancelOutlined, InfoOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_CreateAssetParams} from "@algodesk/core";
-import {CustomTooltip} from '../../utils/theme';
 import sdk from 'algosdk';
 import {showTransactionDetails} from "../../redux/actions/transaction";
+import {getCommonStyles} from "../../utils/styles";
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            maxWidth: 700
+        }
+    };
+});
 
 interface CreateAssetState extends A_CreateAssetParams {
     note: string,
@@ -53,18 +61,18 @@ for (let i = 0; i <= 10; i++) {
     decimalsList.push(i);
 }
 
-export
-
-function getTooltip(message: string): JSX.Element {
-    return (<CustomTooltip className="custom-tooltip" title={message}>
+export function getTooltip(message: string): JSX.Element {
+    return (<Tooltip className="custom-tooltip" title={message}>
         <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
-    </CustomTooltip>);
+    </Tooltip>);
 }
+
 function CreateAsset(): JSX.Element {
 
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const assetActions = useSelector((state: RootState) => state.assetActions);
     const show = assetActions.action === 'create';
@@ -192,17 +200,20 @@ function CreateAsset(): JSX.Element {
             fullWidth={true}
             maxWidth={"sm"}
             open={show}
+            classes={{
+                paper: classes.customDialog
+            }}
         >
             <DialogTitle >
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -299,7 +310,6 @@ function CreateAsset(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableManager}
@@ -310,6 +320,7 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     name="manager"
                                 />
+                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <TextField
                                     value={manager}
                                     disabled={!enableManager}
@@ -322,7 +333,6 @@ function CreateAsset(): JSX.Element {
                                     label="Manager" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableReserve}
@@ -333,6 +343,7 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="reserve"
                                 />
+                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <TextField
                                     value={reserve}
                                     multiline
@@ -345,7 +356,6 @@ function CreateAsset(): JSX.Element {
                                     label="Reserve" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableFreeze}
@@ -356,6 +366,7 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="freeze"
                                 />
+                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <TextField
                                     value={freeze}
                                     multiline
@@ -368,7 +379,6 @@ function CreateAsset(): JSX.Element {
                                     label="Freeze" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     size={"small"}
@@ -379,6 +389,7 @@ function CreateAsset(): JSX.Element {
                                     color={"primary"}
                                     name="clawback"
                                 />
+                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <TextField
                                     value={clawback}
                                     multiline
@@ -400,10 +411,10 @@ function CreateAsset(): JSX.Element {
                                     }}
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
                                         style={{marginTop: 15, marginBottom: 10}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                        variant={"contained"} size={"large"} onClick={() => {
                                     create();
                                 }}>Create</Button>
                             </Grid>

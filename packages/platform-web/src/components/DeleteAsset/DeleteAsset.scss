@@ -3,6 +3,7 @@
 .delete-asset-wrapper {
   .delete-asset-container {
     text-align: center;
+    margin-top: -20px;
     .message {
       font-size: 16px;
       font-weight: bold;
@@ -13,7 +14,7 @@
       margin-bottom: 10px;
       text-align: center;
       .name {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         font-size: 20px;
       }
       .id {

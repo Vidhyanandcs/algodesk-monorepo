@@ -10,14 +10,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {getCommonStyles} from "../../utils/styles";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -72,10 +71,10 @@ function DeleteAsset(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -101,13 +100,7 @@ function DeleteAsset(): JSX.Element {
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div style={{marginTop: 20, marginBottom: 20}}>
-                                    <Button color={"default"} variant={"outlined"} size={"large"}
-                                            onClick={() => {
-                                                dispatch(setAction(''));
-                                            }}
-                                            style={{marginRight: 15}}
-                                    >Cancel</Button>
+                                <div style={{marginTop: 10, marginBottom: 5}}>
                                     <Button color={"secondary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 deleteAsset();

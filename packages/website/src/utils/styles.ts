@@ -7,6 +7,12 @@ export function getCommonStyles(theme: Theme) {
         },
         secondaryText: {
             color: theme.palette.secondary.main
+        },
+        primaryBorder: {
+            borderColor: theme.palette.primary.main + " !important",
+            '&:before': {
+                borderColor: "#fff !important"
+            }
         }
     };
 }

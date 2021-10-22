@@ -1,7 +1,79 @@
 @import '../../assets/colors';
 
+.qr-code-wrapper {
+  .qr-code-container {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+}
+
 .dashboard-wrapper {
   .dashboard-container {
+    margin-top: 10px;
+    .dashboard-body {
+      background: $color-light;
+      padding: 40px;
+      border-radius: 15px;
+      margin-bottom: 40px;
+      min-height: calc(100vh - 200px);
+      .account-details {
+        margin-bottom: 30px;
+        .action {
+          vertical-align: middle;
+          border-radius: 50%;
+          width: 25px;
+          border: 1px solid #c7c7c7;
+          display: inline-block;
+          height: 25px;
+          margin-left: 10px;
+          color: #c7c7c7;
+          text-align: center;
+          &:hover {
+            cursor: pointer;
+          }
+          svg {
+            margin-top: 5px;
+            font-size: 15px;
+          }
+        }
+        .addr {
+          display: inline-block;
+          img {
+            width: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+        .addr-actions {
+          display: inline-block;
+          float: right;
+          .addr-action {
+            margin-left: 10px;
+            &:hover {
+              cursor: pointer;
+            }
+            svg {
+              vertical-align: text-bottom;
+            }
+          }
+
+        }
+        .balance {
+          display: inline-block;
+          margin-left: 20px;
+          border-left: 2px solid #c7c7c7;
+          padding-left: 15px;
+          svg {
+            vertical-align: text-bottom;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
     .dashboard-tabs {
       margin-top: 20px;
       border-bottom: 1px solid $color-grey-light;

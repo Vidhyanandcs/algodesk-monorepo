@@ -3,24 +3,22 @@ import {
     Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle, FormControl, Grid,
-    IconButton, InputLabel, MenuItem, Select, Switch, TextField
+    DialogTitle, Grid,
+    IconButton, Switch, TextField, Tooltip
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction, setSelectedAsset} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close, InfoOutlined} from "@material-ui/icons";
+import {CancelOutlined, InfoOutlined} from "@material-ui/icons";
 import React, {useEffect, useState} from "react";
 import algosdk from "../../utils/algosdk";
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {A_ModifyAssetParams} from "@algodesk/core";
-import {CustomTooltip} from '../../utils/theme';
 import sdk from "algosdk";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-import {decimalsList} from "../CreateAsset/CreateAsset";
 
 interface ModifyAssetState extends A_ModifyAssetParams {
     note: string,
@@ -45,11 +43,11 @@ const initialState: ModifyAssetState = {
 };
 
 function getTooltip(message: string): JSX.Element {
-    return (<CustomTooltip className="custom-tooltip" title={message}>
+    return (<Tooltip className="custom-tooltip" title={message}>
         <IconButton>
             <InfoOutlined fontSize={"small"}/>
         </IconButton>
-    </CustomTooltip>);
+    </Tooltip>);
 }
 function ModifyAsset(): JSX.Element {
 
@@ -174,12 +172,12 @@ function ModifyAsset(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         clearState();
                         dispatch(setAction(''));
                         dispatch(setSelectedAsset(null));
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -188,72 +186,16 @@ function ModifyAsset(): JSX.Element {
                     <div className="modify-asset-container">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="heading">
-                                    Asset details
+                                <div className="asset-details">
+                                    <div className="name">
+                                        {selectedAsset.params.name}
+                                    </div>
+                                    <div className="id">
+                                        ID: {selectedAsset.index}
+                                    </div>
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params.name}
-                                    disabled
-                                    label="Name" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params['unit-name']}
-                                    disabled
-                                    label="Unit name" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    required
-                                    value={selectedAsset.params.total}
-                                    disabled
-                                    label="Total supply" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-
-                                <FormControl fullWidth variant="outlined">
-                                    <InputLabel id="decimals-label">Decimals</InputLabel>
-                                    <Select
-                                        value={selectedAsset.params.decimals}
-                                        fullWidth
-                                        labelId="decimals-label"
-                                        color={"primary"}
-                                        label="Decimals"
-                                        disabled
-                                    >
-                                        {decimalsList.map((dec) => {
-                                            return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    value={selectedAsset.params.url}
-                                    disabled
-                                    multiline
-                                    rows={2}
-                                    label="Url" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <TextField
-                                    value={selectedAsset.params['metadata-hash']}
-                                    disabled
-                                    multiline
-                                    rows={2}
-                                    label="Metadata hash" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="heading">
-                                    Asset management
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableManager}
@@ -265,6 +207,7 @@ function ModifyAsset(): JSX.Element {
                                     }}
                                     name="manager"
                                 />
+                                {getTooltip('The address of the account that can manage the configuration of the asset and destroy it')}
                                 <TextField
                                     value={manager}
                                     disabled={!enableManager}
@@ -273,12 +216,11 @@ function ModifyAsset(): JSX.Element {
                                     }}
                                     className="asset-manage-field address-field"
                                     multiline
-                                    rows={2}
+                                    rows={3}
                                     label="Manager" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
-                                <Switch
+                                 <Switch
                                     className="enable-switch"
                                     checked={enableReserve}
                                     disabled={!Boolean(selectedAsset.params.reserve)}
@@ -289,11 +231,12 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="reserve"
                                 />
+                                {getTooltip('The address of the account that holds the reserve (non-minted) units of the asset. This address has no specific authority in the protocol itself. It is used in the case where you want to signal to holders of your asset that the non-minted units of the asset reside in an account that is different from the default creator account (the sender)')}
                                 <TextField
                                     value={reserve}
                                     multiline
                                     disabled={!enableReserve}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, reserve: ev.target.value}));
@@ -301,7 +244,6 @@ function ModifyAsset(): JSX.Element {
                                     label="Reserve" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     checked={enableFreeze}
@@ -313,11 +255,12 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="freeze"
                                 />
+                                {getTooltip('The address of the account used to freeze holdings of this asset. If empty, freezing is not permitted')}
                                 <TextField
                                     value={freeze}
                                     multiline
                                     disabled={!enableFreeze}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, freeze: ev.target.value}));
@@ -325,7 +268,6 @@ function ModifyAsset(): JSX.Element {
                                     label="Freeze" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <Switch
                                     className="enable-switch"
                                     size={"small"}
@@ -337,11 +279,12 @@ function ModifyAsset(): JSX.Element {
                                     color={"primary"}
                                     name="clawback"
                                 />
+                                {getTooltip('The address of the account that can clawback holdings of this asset. If empty, clawback is not permitted')}
                                 <TextField
                                     value={clawback}
                                     multiline
                                     disabled={!enableClawback}
-                                    rows={2}
+                                    rows={3}
                                     className="asset-manage-field address-field"
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, clawback: ev.target.value}));
@@ -352,16 +295,16 @@ function ModifyAsset(): JSX.Element {
                                 <TextField
                                     value={note}
                                     multiline
-                                    rows={2}
+                                    rows={3}
                                     onChange={(ev) => {
                                         setState(prevState => ({...prevState, note: ev.target.value}));
                                     }}
                                     label="Note" variant="outlined" fullWidth/>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
                                         style={{marginTop: 15, marginBottom: 10}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                        variant={"contained"} size={"large"} onClick={() => {
                                     modify();
                                 }}>Modify</Button>
                             </Grid>

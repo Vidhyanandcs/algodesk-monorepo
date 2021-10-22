@@ -3,17 +3,19 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, makeStyles, Typography, Button, CircularProgress
+    IconButton, makeStyles, Typography, Button
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {Close, Power, ChevronRightSharp, ArrowBack} from "@material-ui/icons";
+import {ChevronRightSharp, ArrowBack, CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
-import {Alert} from '@material-ui/lab';
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
+import connectionIssueImg from '../../assets/images/error.gif';
+import connectWhiteImg from '../../assets/images/connect-white.png';
+import loaderGif from '../../assets/images/loading.gif';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -80,21 +82,24 @@ function ConnectWallet(): JSX.Element {
                         </IconButton> : ''}
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(hideConnectWallet());
                         clearState();
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent style={{padding: 0}}>
                 <div className="connect-wallet-wrapper">
                     <div className="connect-wallet-container">
                         {view === 'home' ? <div className="home-wrapper">
                             <div className="home-container">
                                 <div className="header">
-                                    <Power fontSize={"large"} color={"primary"} className="logo"></Power>
+                                    <div className={classes.primaryBackground + ' logo'}>
+                                        <img src={connectWhiteImg} alt="connect-wallet"/>
+                                    </div>
+
                                     <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
                                         Connect wallet
                                     </Typography>
@@ -113,7 +118,7 @@ function ConnectWallet(): JSX.Element {
                                         >
                                             {signer.logo ? <img className="logo" src={signer.logo} alt="logo"/> : ''}
                                             <span className='name'>{signer.label}</span>
-                                            <ChevronRightSharp fontSize={"large"} color={"primary"}></ChevronRightSharp>
+                                            <ChevronRightSharp fontSize={"large"}></ChevronRightSharp>
                                         </div>);
                                     })}
                                 </div>
@@ -137,17 +142,19 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="body">
                                     {connectWallet.connecting ? <div className="connecting">
-                                        <CircularProgress color="primary" style={{marginTop: 25}}/>
+                                        <img src={loaderGif} alt="loading" className="loading"/>
+                                        <div>connecting ...</div>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
-                                        <div className={classes.secondaryText}>
+                                        <img src={connectionIssueImg} alt="Connection issue"/>
+                                        <div>
                                             {connectWallet.errMessage}
                                         </div>
                                         <Button
                                             color={"primary"}
-                                            variant={"outlined"}
+                                            variant={"contained"}
                                             size={"large"}
-                                            style={{marginTop: 25}}
+                                            style={{marginTop: 70}}
                                             onClick={() => {
                                                 dispatch(connect(selectedSigner));
                                             }}
@@ -165,10 +172,7 @@ function ConnectWallet(): JSX.Element {
                                             dispatch(hideConnectWallet());
                                             clearState();
                                         }}>
-                                            <Alert
-                                                severity="warning" icon={false}>
-                                                {account.address}
-                                            </Alert>
+                                            {account.address}
                                         </div>);
                                     })}
                                 </div>

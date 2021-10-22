@@ -6,7 +6,7 @@ export class BrowserAlgoSigner implements Signer{
     private supportedNetworks: string[];
 
     constructor() {
-        this.supportedNetworks = [NETWORKS.BETANET, NETWORKS.TESTNET, NETWORKS.MAINNET];
+        this.supportedNetworks = [NETWORKS.TESTNET, NETWORKS.MAINNET];
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {

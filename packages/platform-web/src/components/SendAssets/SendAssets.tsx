@@ -11,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showSnack} from "../../redux/actions/snackbar";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {Close} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
 import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
@@ -120,11 +120,11 @@ function SendAssets(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(setAction(''));
                         clearState();
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
@@ -167,7 +167,7 @@ function SendAssets(): JSX.Element {
                                                setState(prevState => ({...prevState, amount: parseFloat(value)}));
                                            }}
                                            InputProps={{
-                                               endAdornment: <InputAdornment position="end" color="primary"><Button onClick={() => {
+                                               endAdornment: <InputAdornment position="end" color="primary"><Button color="primary" onClick={() => {
                                                    const totalBalance = getAssetBal(selectedAsset, information);
                                                    setState(prevState => ({...prevState, amount: totalBalance}));
                                                }
@@ -183,10 +183,10 @@ function SendAssets(): JSX.Element {
                                     }}
                                     label="Note" variant="outlined" rows={3} fullWidth multiline/>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                 <Button color={"primary"}
-                                        style={{marginTop: 15}}
-                                        fullWidth variant={"contained"} size={"large"} onClick={() => {
+                                        style={{marginTop: 10}}
+                                        variant={"contained"} size={"large"} onClick={() => {
                                             send();
                                 }}>Send</Button>
                             </Grid>

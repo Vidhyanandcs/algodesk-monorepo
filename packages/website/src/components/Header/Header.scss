@@ -8,8 +8,15 @@
     width: 100%;
     height: 70px;
     .logo {
-      margin-top: 5px;
-      margin-left: -15px;
+    }
+    .anchor {
+      &:hover {
+        cursor: pointer;
+      }
+      svg {
+        vertical-align: middle;
+        margin-right: 10px;
+      }
     }
   }
 }

@@ -6,9 +6,9 @@
 
 .assets-wrapper {
   .assets-container {
-    margin-top: 30px;
+    margin-top: 10px;
     .assets {
-      margin-top: 40px;
+      margin-top: 30px;
       .asset {
         .card-action-custom {
           background: $color-grey-very-light;
@@ -22,62 +22,70 @@
             color: $color-grey-dark;
           }
         }
-        .balance {
-          font-size: 18px;
-          font-weight: bold;
-        }
-        .balance-val {
-          margin-top: 10px;
-          font-weight: bold;
-          font-size: 18px;
-          color: $color-grey-dark
-        }
-        .asset-name {
+        .asset-id {
           font-size: 18px;
           font-weight: bold;
           margin-bottom: 10px;
         }
-        .asset-id {
-          margin-top: 5px;
-          font-size: 15px;
-          font-weight: bold;
-          text-decoration: underline;
-          color: $color-grey-dark;
-          &:hover {
-            cursor: pointer;
-            text-decoration: underline;
-          }
-        }
         .params {
-          border-top: 1px solid $color-grey-light;
-          padding-top: 25px;
-          margin-top: -15px;
+          margin-top: -25px;
+          .balance {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 42px;
+            svg {
+              vertical-align: middle;
+              margin-right: 10px;
+            }
+          }
+          .name {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 36px;
+          }
           .param {
             padding-bottom: 10px;
             &:hover {
 
             }
             .key {
-              font-weight: bold;
-              .indicator {
-                margin-left: 5px;
-                vertical-align: middle;
-                svg {
-                  font-size: 16px;
-                }
-              }
+              font-style: normal;
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 18px;
+              margin-left: 5px;
             }
             .value {
               margin-top: 5px;
               font-size: 15px;
-              color: $color-grey-dark;
               overflow: hidden;
               text-overflow: ellipsis;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 16px;
+              line-height: 24px;
+              .indicator {
+                float: right;
+                margin-top: 2px;
+                svg {
+                  font-size: 16px;
+                }
+              }
+              &.back-highlight {
+                background: #f5f5f5;
+                padding: 12px;
+                border-radius: 10px;
+              }
               &.clickable {
                 &:hover {
                   cursor: pointer;
                   text-decoration: underline;
                 }
+              }
+              &.empty {
+                color: #A9A9A9;
               }
             }
           }
@@ -85,7 +93,17 @@
       }
     }
     .empty-message {
-      margin-top: 25px;
+      margin-top: 150px;
+      text-align: center;
+      img {
+        width: 200px;
+      }
+      .text {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #A9A9A9;
+        font-size: 18px;
+      }
     }
     .title {
       font-size: 20px;

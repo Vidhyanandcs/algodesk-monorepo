@@ -6,22 +6,21 @@ import {
     CardHeader,
     IconButton,
     CardContent,
-    Button,
     MenuItem,
-    Menu, Link
+    Menu, makeStyles, Button, Tooltip, Card
 } from "@material-ui/core";
-import {Alert} from '@material-ui/lab';
 import {
-    Add,
-    Menu as MenuIcon,
-    Edit,
-    Lock,
-    Delete,
-    Send,
+    Launch,
+    EditOutlined,
+    LockOutlined,
+    DeleteOutlined,
+    SendOutlined,
     SettingsBackupRestoreSharp,
     CheckCircle,
     NotInterested,
-    SwapHorizontalCircle
+    SwapHorizontalCircleOutlined,
+    MoreVert,
+    ControlPoint
 } from '@material-ui/icons';
 import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
 import {ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -33,37 +32,41 @@ import ModifyAsset from "../ModifyAsset/ModifyAsset";
 import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
-import {CustomCard, CustomTooltip} from '../../utils/theme';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
+import {getCommonStyles} from "../../utils/styles";
+import emptyVector from '../../assets/images/empty-assets.png';
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
-    const cls: string[] = ['value'];
+    const cls: string[] = ['value back-highlight'];
     const indicatorCls: string [] = ['indicator'];
-    let icon = <NotInterested fontSize={"small"} color={"secondary"}></NotInterested>;
+    let icon = <NotInterested fontSize={"large"} color={"secondary"}></NotInterested>;
 
     if (value) {
         cls.push('clickable');
         if (value === addr) {
-            icon = <CheckCircle fontSize={"small"} color={"primary"}></CheckCircle>;
+            icon = <CheckCircle fontSize={"large"} color={"primary"}></CheckCircle>;
         }
+    }
+    else {
+        cls.push('empty');
     }
 
     return (<div className="param">
         <div className="key">
             {label}
-            <span className={indicatorCls.join(" ")}>
-                {icon}
-            </span>
         </div>
         <div className={cls.join(" ")} onClick={() => {
             openAccountInExplorer(value);
         }}>
             {processAssetParam(value)}
+            <span className={indicatorCls.join(" ")}>
+                {icon}
+            </span>
         </div>
     </div>);
 }
@@ -76,6 +79,12 @@ const initialState: AssetsState = {
 
 };
 
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+    };
+});
+
 function Assets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
@@ -84,6 +93,7 @@ function Assets(): JSX.Element {
     const {selectedAsset} = assetActions;
     const network = useSelector((state: RootState) => state.network);
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const [
         { menuAnchorEl },
@@ -100,7 +110,7 @@ function Assets(): JSX.Element {
               <div>
                   <Button
                       color="primary"
-                      startIcon={<Add></Add>}
+                      startIcon={<ControlPoint></ControlPoint>}
                       variant={"contained"}
                       className="add-asset"
                       onClick={() => {
@@ -114,35 +124,39 @@ function Assets(): JSX.Element {
 
               {createdAssets.length === 0 ?
                   <div className="empty-message">
-                      <Alert icon={false} color={"warning"}>
+                      <img src={emptyVector} alt="No assets"/>
+                      <div className="text">
                           This account doesn't have any created assets
-                      </Alert>
+                      </div>
                   </div> : ''}
               <div className="assets">
-                  <Grid container spacing={2}>
+                  <Grid container spacing={4}>
                       {createdAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
-                              <CustomCard className={'asset'}>
+                              <Card className={'asset'}>
                                   <CardHeader
                                       action={
                                           <div>
-                                              <CustomTooltip title="Asset actions">
+                                              <Tooltip title="View in explorer">
+                                                  <IconButton color={"primary"} onClick={(ev) => {
+                                                      openAssetInExplorer(asset.index);
+                                                  }}>
+                                                      <Launch/>
+                                                  </IconButton>
+                                              </Tooltip>
+                                              <Tooltip title="Asset actions">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
-                                                      <MenuIcon/>
+                                                      <MoreVert/>
                                                   </IconButton>
-                                              </CustomTooltip>
+                                              </Tooltip>
                                           </div>
                                       }
                                       avatar={<div>
-                                          <span className='asset-name'>{asset.params.name} ({asset.params['unit-name']})</span>
-                                          <div className={'asset-id'} onClick={() => {
-                                              openAssetInExplorer(asset.index);
-                                          }
-                                          }>ID: {asset.index}</div>
+                                          <div className={'asset-id'}>ID: {asset.index}</div>
                                       </div>}
                                       subheader=""
                                       variant="outlined"
@@ -153,21 +167,15 @@ function Assets(): JSX.Element {
 
 
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className="param">
-                                                      <div className={"key"}>Balance </div>
-                                                      <div className="value">
-                                                          {getAssetBalWithTicker(asset, information)}
-                                                      </div>
-                                                  </div>
 
+                                                  <div className={"name " + classes.primaryText}>
+                                                      {asset.params.name}
+                                                  </div>
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className="param">
-                                                      <div className={"key"}>Url </div>
-                                                      <div className="value">
-                                                          {asset.params.url ? <Link href={asset.params.url} target="_blank">{asset.params.url}</Link> : '[Empty asset url]'}
+                                                  <div className={"balance "}>
 
-                                                      </div>
+                                                      Bal: {getAssetBalWithTicker(asset, information)}
                                                   </div>
 
                                               </Grid>
@@ -187,7 +195,7 @@ function Assets(): JSX.Element {
                                           </Grid>
                                       </div>
                                   </CardContent>
-                              </CustomCard>
+                              </Card>
                           </Grid>);
                       })}
                   </Grid>
@@ -205,14 +213,14 @@ function Assets(): JSX.Element {
                   }
               }}
           >
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
-                  <Send className="asset-action-icon" fontSize={"small"} color={"primary"}></Send>
+                  <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
                   Send assets
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('modify'));
                   }
@@ -224,10 +232,10 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Edit className="asset-action-icon" fontSize={"small"} color={"primary"}></Edit>
+                  <EditOutlined className="asset-action-icon" fontSize={"small"}></EditOutlined>
                   Modify asset
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
                       dispatch(setAction('freeze'));
                   }
@@ -239,10 +247,10 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Lock className="asset-action-icon" fontSize={"small"} color={"primary"}></Lock>
+                  <LockOutlined className="asset-action-icon" fontSize={"small"}></LockOutlined>
                   Freeze / Unfreeze
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
                       dispatch(setAction('revoke'));
                   }
@@ -254,10 +262,10 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"} color={"primary"}></SettingsBackupRestoreSharp>
+                  <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
-              <MenuItem onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
                   }
@@ -269,18 +277,21 @@ function Assets(): JSX.Element {
                   }
                   closeMenu();
               }}>
-                  <Delete className="asset-action-icon" fontSize={"small"} color={"primary"}></Delete>
+                  <DeleteOutlined className="asset-action-icon" fontSize={"small"}></DeleteOutlined>
                   Delete asset
               </MenuItem>
-              {network.name === NETWORKS.TESTNET ? <MenuItem onClick={(ev) => {
-                  const url = 'https://testnet.tinyman.org/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
+              <MenuItem className={classes.primaryColorOnHover} onClick={(ev) => {
+                  let url = 'https://app.tinyman.org';
+                  if (network.name === NETWORKS.TESTNET) {
+                      url = 'https://testnet.tinyman.org';
+                  }
+                  url += '/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
                   window.open(url, "_blank");
                   closeMenu();
               }}>
-                  <SwapHorizontalCircle className="asset-action-icon" fontSize={"small"} color={"primary"}></SwapHorizontalCircle>
+                  <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
-              </MenuItem> : ''}
-
+              </MenuItem>
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>

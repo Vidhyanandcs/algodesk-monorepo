@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Close, CheckCircleOutline} from "@material-ui/icons";
+import {CheckCircleOutline, CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {hideTransactionDetails} from "../../redux/actions/transaction";
 import {getCommonStyles} from "../../utils/styles";
@@ -46,21 +46,19 @@ function TransactionDetails(): JSX.Element {
                     <div>
 
                     </div>
-                    <IconButton color="default" onClick={() => {
+                    <IconButton color="primary" onClick={() => {
                         dispatch(hideTransactionDetails());
                     }}>
-                        <Close />
+                        <CancelOutlined />
                     </IconButton>
                 </div>
             </DialogTitle>
             <DialogContent>
                 <div className="transaction-details-wrapper">
                     <div className="transaction-details-container">
-
-
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="asset-details">
+                                <div className="txn">
                                     <div>
                                         <CheckCircleOutline fontSize={"large"} className="success-icon" color={"primary"}></CheckCircleOutline>
                                     </div>
@@ -70,17 +68,10 @@ function TransactionDetails(): JSX.Element {
                                     <div className="id">
                                         {txId}
                                     </div>
-
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div style={{marginTop: 20, marginBottom: 20}}>
-                                    <Button color={"default"} variant={"outlined"} size={"large"}
-                                            onClick={() => {
-                                                dispatch(hideTransactionDetails());
-                                            }}
-                                            style={{marginRight: 15}}
-                                    >Close</Button>
+                                <div style={{marginTop: 20, marginBottom: 30}}>
                                     <Button color={"primary"} variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 openTransactionInExplorer(txId);
