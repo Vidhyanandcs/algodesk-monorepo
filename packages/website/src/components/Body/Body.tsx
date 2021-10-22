@@ -2,7 +2,7 @@ import './Body.scss';
 import React from "react";
 import {Button, Grid, makeStyles} from "@material-ui/core";
 import {ArrowRightAlt, Twitter} from "@material-ui/icons";
-import pageGif from '../../assets/images/page-gif.png';
+import pageGif from '../../assets/images/portal-back.png';
 import {getCommonStyles} from "../../utils/styles";
 
 const useStyles = makeStyles((theme) => {
@@ -17,10 +17,10 @@ function Body(): JSX.Element {
     return (<div className={"body-wrapper"}>
         <div className={"body-container"}>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={1} md={1} lg={1} xl={1}></Grid>
-                <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
+                <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
+                <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <div className={"anchor " + classes.primaryBorder}>
                                 <div className="title">
                                     Layer-1 Assets
@@ -51,8 +51,7 @@ function Body(): JSX.Element {
 
                             </div>
                         </Grid>
-                        <Grid item xs={12} sm={1} md={1} lg={1} xl={1}></Grid>
-                        <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                             <div className="page-gif">
                                 <img alt="background" src={pageGif} />
                             </div>

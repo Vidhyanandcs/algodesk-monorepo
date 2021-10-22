@@ -6,34 +6,15 @@
     .page-gif {
       img {
         width: 100%;
-        margin-top: -150px;
+        margin-top: -50px;
       }
     }
     .anchor {
-      border-bottom: 1px solid;
-      border-bottom-right-radius: 120px;
-      border-right: 1px solid;
-      border-top-right-radius: 120px;
-      padding: 40px 20px 40px 30px;
-      position: relative;
-      border-top: 1px solid;
-      &:before {
-        content : "";
-        position: absolute;
-        left    : 0px;
-        top  : 0;
-        height  : 2px;
-        width   : 60%;
-        border-top: 2px solid;
-        border-top-right-radius: 90px;
-        margin-top: -2px;
-      }
       .title {
         font-style: normal;
         font-weight: 500;
         font-size: 48px;
         margin-bottom: 20px;
-        margin-left: 30%;
       }
       .subtitle {
         font-style: normal;
@@ -41,17 +22,11 @@
         font-size: 18px;
         width: 60%;
         line-height: 24px;
-        margin-left: 30%;
       }
     }
 
     .open-app {
       margin-top: 40px;
-      text-align: right;
-      margin-right: 10%;
-      .open-app-button {
-
-      }
     }
   }
 }

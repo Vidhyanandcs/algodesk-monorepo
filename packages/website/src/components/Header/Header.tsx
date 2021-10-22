@@ -16,8 +16,8 @@ function Header(): JSX.Element {
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={1} md={1} lg={1} xl={1}></Grid>
-                <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
+                <Grid item xs={12} sm={2} md={2} lg={2} xl={2}></Grid>
+                <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
                     <Box display="flex" p={1} alignItems="flex-start">
                         <Box p={1} flexGrow={1}>
                             <div className={"logo "}>
