@@ -2,11 +2,25 @@
 
 .body-wrapper {
   .body-container {
-    margin-top: 250px;
+    margin-top: 200px;
+    .bullets {
+      margin-top: 50px;
+      margin-bottom: 30px;
+      .bullet {
+        margin: 15px 0px;
+        font-size: 22px;
+        font-family: PoppinsThin !important;
+        font-weight: bold;
+        span {
+          vertical-align: middle;
+          margin-right: 10px;
+        }
+      }
+    }
     .page-gif {
       img {
         width: 100%;
-        margin-top: -50px;
+        margin-top: -25px;
       }
     }
     .anchor {
@@ -24,7 +38,6 @@
         line-height: 24px;
       }
     }
-
     .open-app {
       margin-top: 40px;
     }
