@@ -48,6 +48,12 @@ function Body(): JSX.Element {
                                     </span>
                                     Transaction Cost: 0.001 Algo
                                 </div>
+                                <div className={"bullet " + classes.primaryText}>
+                                    <span>
+                                        <CheckCircleOutlined color={"primary"}></CheckCircleOutlined>
+                                    </span>
+                                    Unforkable blockchain
+                                </div>
                             </div>
 
                             <div className="open-app">
