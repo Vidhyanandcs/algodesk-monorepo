@@ -35,25 +35,25 @@ function Body(): JSX.Element {
                                 </div>
                             </div>
                             <div className="bullets">
-                                <div className={"bullet "}>
+                                <div className={"bullet " + classes.primaryText}>
                                     <span>
                                         <img alt="speed" src={tSpeed} />
                                     </span>
                                     Transaction Speed: 4 Seconds
                                 </div>
-                                <div className={"bullet "}>
+                                <div className={"bullet " + classes.primaryText}>
                                     <span>
                                         <img alt="finality" src={tInstant} />
                                     </span>
                                     Instant finality
                                 </div>
-                                <div className={"bullet "}>
+                                <div className={"bullet " + classes.primaryText}>
                                     <span>
                                         <img alt="cost" src={tCost} />
                                     </span>
                                     Transaction Cost: 0.001 Algo
                                 </div>
-                                <div className={"bullet "}>
+                                <div className={"bullet " + classes.primaryText}>
                                     <span>
                                         <img alt="unforkable" src={tUnforkable} />
                                     </span>
