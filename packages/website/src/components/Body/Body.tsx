@@ -1,8 +1,13 @@
 import './Body.scss';
 import React from "react";
 import {Button, Grid, makeStyles, Slide} from "@material-ui/core";
-import {ArrowRightAlt, Twitter, CheckCircleOutlined} from "@material-ui/icons";
+import {ArrowRightAlt, Twitter} from "@material-ui/icons";
 import pageGif from '../../assets/images/page-gif.png';
+import tSpeed from '../../assets/images/t-speed.png';
+import tCost from '../../assets/images/t-cost.png';
+import tInstant from '../../assets/images/t-instant.png';
+import tUnforkable from '../../assets/images/t-unforkable.png';
+
 import {getCommonStyles} from "../../utils/styles";
 
 const useStyles = makeStyles((theme) => {
@@ -30,27 +35,27 @@ function Body(): JSX.Element {
                                 </div>
                             </div>
                             <div className="bullets">
-                                <div className={"bullet " + classes.primaryText}>
+                                <div className={"bullet "}>
                                     <span>
-                                        <CheckCircleOutlined color={"primary"}></CheckCircleOutlined>
+                                        <img alt="speed" src={tSpeed} />
                                     </span>
                                     Transaction Speed: 4 Seconds
                                 </div>
-                                <div className={"bullet " + classes.primaryText}>
+                                <div className={"bullet "}>
                                     <span>
-                                        <CheckCircleOutlined color={"primary"}></CheckCircleOutlined>
+                                        <img alt="finality" src={tInstant} />
                                     </span>
                                     Instant finality
                                 </div>
-                                <div className={"bullet " + classes.primaryText}>
+                                <div className={"bullet "}>
                                     <span>
-                                        <CheckCircleOutlined color={"primary"}></CheckCircleOutlined>
+                                        <img alt="cost" src={tCost} />
                                     </span>
                                     Transaction Cost: 0.001 Algo
                                 </div>
-                                <div className={"bullet " + classes.primaryText}>
+                                <div className={"bullet "}>
                                     <span>
-                                        <CheckCircleOutlined color={"primary"}></CheckCircleOutlined>
+                                        <img alt="unforkable" src={tUnforkable} />
                                     </span>
                                     Unforkable blockchain
                                 </div>
