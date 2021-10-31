@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card
+    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox
 } from "@material-ui/core";
 import {
     Launch,
@@ -22,9 +22,9 @@ import {
     MoreVert,
     ControlPoint
 } from '@material-ui/icons';
-import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
-import {ellipseAddress, NETWORKS} from "@algodesk/core";
-import {useState} from "react";
+import {getAssetBal, getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
+import {A_Asset, ellipseAddress, NETWORKS} from "@algodesk/core";
+import {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
 import CreateAsset from "../CreateAsset/CreateAsset";
@@ -73,10 +73,13 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
 
 interface AssetsState{
     menuAnchorEl?: any
+    hideZeroBal: boolean
+    filteredAssets: A_Asset[]
 }
 
 const initialState: AssetsState = {
-
+    hideZeroBal: false,
+    filteredAssets: []
 };
 
 const useStyles = makeStyles((theme) => {
@@ -96,9 +99,32 @@ function Assets(): JSX.Element {
     const classes = useStyles();
 
     const [
-        { menuAnchorEl },
+        { menuAnchorEl, hideZeroBal, filteredAssets },
         setState
     ] = useState(initialState);
+
+
+
+    useEffect(() => {
+        const filterAssets = () => {
+            let filteredAssets: A_Asset[] = [];
+            if (hideZeroBal) {
+                createdAssets.forEach((asset) => {
+                    const assetBal = getAssetBal(asset, information);
+                    if (assetBal !== 0) {
+                        filteredAssets.push(asset);
+                    }
+                });
+            }
+            else {
+                filteredAssets = createdAssets;
+            }
+
+            setState(prevState => ({ ...prevState, filteredAssets}));
+        }
+
+        filterAssets();
+    }, [hideZeroBal, createdAssets, information]);
 
     const closeMenu = () => {
         setState(prevState => ({ ...prevState, menuAnchorEl: undefined }));
@@ -119,6 +145,10 @@ function Assets(): JSX.Element {
                       size={"large"}>
                       Create asset
                   </Button>
+
+                  <FormControlLabel control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
+                      setState((prevState) => ({ ...prevState, hideZeroBal: value }));
+                  }}/>} label="Hide 0 balances" style={{float: 'right'}}/>
               </div>
 
 
@@ -131,7 +161,7 @@ function Assets(): JSX.Element {
                   </div> : ''}
               <div className="assets">
                   <Grid container spacing={4}>
-                      {createdAssets.map((asset) => {
+                      {filteredAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
                               <Card className={'asset'}>
