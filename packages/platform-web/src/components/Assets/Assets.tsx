@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField
+    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment
 } from "@material-ui/core";
 import {
     Launch,
@@ -20,7 +20,7 @@ import {
     NotInterested,
     SwapHorizontalCircleOutlined,
     MoreVert,
-    ControlPoint
+    ControlPoint, Search
 } from '@material-ui/icons';
 import {
     debounce,
@@ -163,7 +163,14 @@ function Assets(): JSX.Element {
 
                   <TextField
                       placeholder="Name"
-                      style={{float: 'right', marginTop: -7}}
+                      style={{float: 'right', marginTop: -7, marginLeft: 20}}
+                      InputProps={{
+                          startAdornment: (
+                              <InputAdornment position="start" style={{color: '#828282'}}>
+                                  <Search />
+                              </InputAdornment>
+                          ),
+                      }}
                       onChange={(ev) => {
                           debounce(() => {
                               setState(prevState => ({...prevState, searchText: ev.target.value}));
@@ -173,7 +180,7 @@ function Assets(): JSX.Element {
 
                   <FormControlLabel control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
                       setState((prevState) => ({ ...prevState, hideZeroBal: value }));
-                  }}/>} label="Hide 0 balances" style={{marginLeft: 10, float: 'right'}}/>
+                  }}/>} label="Hide 0 balances" style={{float: 'right'}}/>
 
               </div>
 
