@@ -163,7 +163,7 @@ function Assets(): JSX.Element {
 
                   <TextField
                       placeholder="Name"
-                      style={{float: 'right'}}
+                      style={{float: 'right', marginTop: -7}}
                       onChange={(ev) => {
                           debounce(() => {
                               setState(prevState => ({...prevState, searchText: ev.target.value}));
