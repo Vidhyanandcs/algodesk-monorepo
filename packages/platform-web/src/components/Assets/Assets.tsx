@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card
+    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField
 } from "@material-ui/core";
 import {
     Launch,
@@ -22,9 +22,15 @@ import {
     MoreVert,
     ControlPoint
 } from '@material-ui/icons';
-import {getAssetBalWithTicker, openAccountInExplorer, openAssetInExplorer} from "../../utils/core";
-import {ellipseAddress, NETWORKS} from "@algodesk/core";
-import {useState} from "react";
+import {
+    debounce,
+    getAssetBal,
+    getAssetBalWithTicker,
+    openAccountInExplorer,
+    openAssetInExplorer
+} from "../../utils/core";
+import {A_Asset, ellipseAddress, NETWORKS} from "@algodesk/core";
+import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
 import CreateAsset from "../CreateAsset/CreateAsset";
@@ -73,10 +79,15 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
 
 interface AssetsState{
     menuAnchorEl?: any
+    hideZeroBal: boolean
+    filteredAssets: A_Asset[]
+    searchText: string
 }
 
 const initialState: AssetsState = {
-
+    hideZeroBal: false,
+    filteredAssets: [],
+    searchText: ''
 };
 
 const useStyles = makeStyles((theme) => {
@@ -96,9 +107,36 @@ function Assets(): JSX.Element {
     const classes = useStyles();
 
     const [
-        { menuAnchorEl },
+        { menuAnchorEl, hideZeroBal, filteredAssets, searchText },
         setState
     ] = useState(initialState);
+
+
+
+    useEffect(() => {
+        const filterAssets = () => {
+            let filteredAssets: A_Asset[] = [];
+            if (hideZeroBal) {
+                filteredAssets = createdAssets.filter((asset) => {
+                    const assetBal = getAssetBal(asset, information);
+                    return assetBal !== 0;
+                });
+            }
+            else {
+                filteredAssets = createdAssets;
+            }
+
+            if (searchText) {
+                filteredAssets = filteredAssets.filter((asset) => {
+                    return asset.params.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+                });
+            }
+
+            setState(prevState => ({ ...prevState, filteredAssets}));
+        }
+
+        filterAssets();
+    }, [hideZeroBal, createdAssets, information, searchText]);
 
     const closeMenu = () => {
         setState(prevState => ({ ...prevState, menuAnchorEl: undefined }));
@@ -119,6 +157,24 @@ function Assets(): JSX.Element {
                       size={"large"}>
                       Create asset
                   </Button>
+
+
+
+
+                  <TextField
+                      placeholder="Name"
+                      style={{float: 'right', marginTop: -7}}
+                      onChange={(ev) => {
+                          debounce(() => {
+                              setState(prevState => ({...prevState, searchText: ev.target.value}));
+                          }, 500)();
+                      }}
+                      label="Search asset" variant="outlined"/>
+
+                  <FormControlLabel control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
+                      setState((prevState) => ({ ...prevState, hideZeroBal: value }));
+                  }}/>} label="Hide 0 balances" style={{marginLeft: 10, float: 'right'}}/>
+
               </div>
 
 
@@ -129,9 +185,16 @@ function Assets(): JSX.Element {
                           This account doesn't have any created assets
                       </div>
                   </div> : ''}
+              {createdAssets.length > 0 && filteredAssets.length === 0?
+                  <div className="empty-message">
+                      <img src={emptyVector} alt="No results found"/>
+                      <div className="text">
+                          No results found
+                      </div>
+                  </div> : ''}
               <div className="assets">
                   <Grid container spacing={4}>
-                      {createdAssets.map((asset) => {
+                      {filteredAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
                               <Card className={'asset'}>
