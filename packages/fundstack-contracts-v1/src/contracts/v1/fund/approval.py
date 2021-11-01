@@ -45,18 +45,25 @@ def deployFund():
     fundsWithdrawn = Int(0)
     targetReached = Int(0)
 
-    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.platform_success_fee)
-    platformSuccessFee = Seq([
-        Assert(Txn.applications[1] == platformAppId),
-        platformSuccessFeeExpr,
-        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
-    ])
-    
     platformEscrowExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.escrow)
     platformEscrow = Seq([
         Assert(Txn.applications[1] == platformAppId),
         platformEscrowExpr,
         If(platformEscrowExpr.hasValue(), platformEscrowExpr.value(), Bytes("none"))
+    ])
+
+    platformPublishFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.publish_fee)
+    platformPublishFee = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformPublishFeeExpr,
+        If(platformPublishFeeExpr.hasValue(), platformPublishFeeExpr.value(), Int(1))
+    ])
+
+    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.success_fee)
+    platformSuccessFee = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformSuccessFeeExpr,
+        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
     ])
 
     deploymentAssertions = [
@@ -104,8 +111,9 @@ def deployFund():
         App.globalPut(globalState.funds_withdrawn, fundsWithdrawn),
         App.globalPut(globalState.target_reached, targetReached),
         App.globalPut(globalState.platform_app_id, platformAppId),
-        App.globalPut(globalState.platform_success_fee, platformSuccessFee),
-        App.globalPut(globalState.platform_escrow, platformEscrow)
+        App.globalPut(globalState.platform_escrow, platformEscrow),
+        App.globalPut(globalState.platform_publish_fee, platformPublishFee),
+        App.globalPut(globalState.platform_success_fee, platformSuccessFee)
     ]
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]

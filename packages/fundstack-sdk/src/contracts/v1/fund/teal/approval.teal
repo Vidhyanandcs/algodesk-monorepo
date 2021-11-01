@@ -845,21 +845,6 @@ app_global_put
 byte "pai"
 int 438565946
 app_global_put
-byte "psf"
-txna Applications 1
-int 438565946
-==
-assert
-txna Applications 1
-byte "psf"
-app_global_get_ex
-store 0
-store 1
-load 0
-bnz main_l34
-int 1
-main_l30:
-app_global_put
 byte "pe"
 txna Applications 1
 int 438565946
@@ -868,19 +853,52 @@ assert
 txna Applications 1
 byte "e"
 app_global_get_ex
+store 0
+store 1
+load 0
+bnz main_l37
+byte "none"
+main_l30:
+app_global_put
+byte "ppf"
+txna Applications 1
+int 438565946
+==
+assert
+txna Applications 1
+byte "pf"
+app_global_get_ex
 store 2
 store 3
 load 2
-bnz main_l33
-byte "none"
+bnz main_l36
+int 1
 main_l32:
+app_global_put
+byte "psf"
+txna Applications 1
+int 438565946
+==
+assert
+txna Applications 1
+byte "sf"
+app_global_get_ex
+store 4
+store 5
+load 4
+bnz main_l35
+int 1
+main_l34:
 app_global_put
 int 1
 return
-main_l33:
+main_l35:
+load 5
+b main_l34
+main_l36:
 load 3
 b main_l32
-main_l34:
+main_l37:
 load 1
 b main_l30
 sub0: // getAppId
@@ -910,13 +928,13 @@ int OptIn
 ==
 retsub
 sub6: // getAssetMicros
-store 4
-load 4
-asset_params_get AssetDecimals
-store 5
 store 6
-int 10
 load 6
+asset_params_get AssetDecimals
+store 7
+store 8
+int 10
+load 8
 exp
 retsub
 sub7: // allowOperation
@@ -925,14 +943,14 @@ int 1
 ==
 retsub
 sub8: // microAlgoToAlgo
-store 7
-load 7
+store 9
+load 9
 int 1000000
 /
 retsub
 sub9: // AlgoToMicroAlgo
-store 8
-load 8
+store 10
+load 10
 int 1000000
 *
 retsub

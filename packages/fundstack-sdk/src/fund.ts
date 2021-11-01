@@ -1,5 +1,5 @@
 import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {globalStateKeys} from "./state";
+import {globalStateKeys} from "./state/fund";
 import * as sdk from "algosdk";
 import {A_AccountInformation, A_Asset, encodeTxId} from "@algodesk/core";
 import atob from 'atob';
@@ -32,8 +32,9 @@ export type F_FundGlobalState = {
     fw: boolean
     rac: boolean
     pai: number
-    psf: number
     pe: string
+    psf: number
+    ppf: number
 }
 
 export function getFundState(fund: Application): F_FundGlobalState {
@@ -140,6 +141,10 @@ export class Fund {
     getClaimEnd(): number {
         const claimStart = this.getClaimStart();
         return claimStart + 76800;//add 4 days
+    }
+
+    getPlatformPublishFee(): number {
+        return this.globalState[globalStateKeys.platform_publish_fee];
     }
 
     updateStatusDetails(status: F_FundStatus) {

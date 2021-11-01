@@ -19,10 +19,9 @@ import {
     FUND_PHASE,
     PLATFORM_APP_ID,
     PLATFORM_OPERATIONS,
-    PLATFORM_PUBLISH_FEE
 } from "./constants";
 import {getContracts} from "./contracts";
-import {assignGroupID, OnApplicationComplete} from "algosdk";
+import {assignGroupID, OnApplicationComplete, microalgosToAlgos} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund} from "./fund";
 import atob from 'atob';
@@ -75,7 +74,7 @@ export class Fundstack {
         const assetId = fund.getAssetId();
         const totalAllocation = fund.getTotalAllocation();
 
-        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, PLATFORM_PUBLISH_FEE);
+        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(fund.getPlatformPublishFee()));
         const platformAppTxnParams: A_InvokeApplicationParams = {
             appId: <number>platform.getId(),
             from: creator,

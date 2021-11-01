@@ -25,6 +25,7 @@ export const globalStateKeys = {
     funds_withdrawn: "fw",
     remaining_assets_claimed: "rac",
     platform_app_id: "pai",
-    platform_success_fee: 'psf',
-    platform_escrow: 'pe'
+    platform_escrow: 'pe',
+    platform_publish_fee: 'ppf',
+    platform_success_fee: 'psf'
 }

@@ -1,5 +1,5 @@
 import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {globalStateKeys} from "./state";
+import {platformGlobalStateKeys} from "./state/platform";
 import * as sdk from "algosdk";
 import atob from 'atob';
 
@@ -7,8 +7,10 @@ export type F_PlatformGlobalState = {
     v: number
     c: string
     cat: number
-    fd: number
+    dc: number
     e: string
+    ppf: number
+    psf: number
 }
 
 export function getPlatformState(fund: Application): F_PlatformGlobalState {
@@ -20,7 +22,7 @@ export function getPlatformState(fund: Application): F_PlatformGlobalState {
         const {value} = gStateProp;
 
         if (value.type == 1) {
-            if (key == globalStateKeys.creator || key == globalStateKeys.escrow) {
+            if (key == platformGlobalStateKeys.creator || key == platformGlobalStateKeys.escrow) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else {
@@ -51,10 +53,14 @@ export class Platform {
     }
 
     getCreator(): string {
-        return this.globalState[globalStateKeys.creator];
+        return this.globalState[platformGlobalStateKeys.creator];
     }
 
     getEscrow(): string {
-        return this.globalState[globalStateKeys.escrow];
+        return this.globalState[platformGlobalStateKeys.escrow];
+    }
+
+    getPublishFee(): number {
+        return this.globalState[platformGlobalStateKeys.publish_fee];
     }
 }

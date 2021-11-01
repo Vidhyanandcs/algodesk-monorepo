@@ -1,5 +1,5 @@
 export * from './constants';
 export * from './contracts';
-export * from './state';
+export * from './state/fund';
 export * from './fund';
 export * from './fundstack';

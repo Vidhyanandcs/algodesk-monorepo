@@ -19,7 +19,7 @@ def createApplication():
     escrow = Global.current_application_address()
     fundsDeployed = Int(0)
     publishFee = Int(1000000)
-    platformSuccessFee = Int(1)
+    successFee = Int(1)
 
     setState = [
         App.globalPut(globalState.version, version),
@@ -27,8 +27,8 @@ def createApplication():
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.escrow, escrow),
         App.globalPut(globalState.publish_fee, publishFee),
-        App.globalPut(globalState.platform_success_fee, platformSuccessFee),
-        App.globalPut(globalState.funds_deployed, fundsDeployed)
+        App.globalPut(globalState.success_fee, successFee),
+        App.globalPut(globalState.deployed_count, fundsDeployed)
     ]
 
     conditions = gtxnAssertions + setState + [Approve()]
@@ -67,9 +67,9 @@ def validateFund():
         Assert(fundPublishTxn.sender() == Txn.sender())
     ]
 
-    fundsDeployed = App.globalGet(globalState.funds_deployed)
+    fundsDeployed = App.globalGet(globalState.deployed_count)
     setState = [
-        App.globalPut(globalState.funds_deployed, fundsDeployed + Int(1)),
+        App.globalPut(globalState.deployed_count, fundsDeployed + Int(1)),
     ]
 
     assetId = App.globalGetEx(Txn.applications[1], fundGlobalState.asset_id)

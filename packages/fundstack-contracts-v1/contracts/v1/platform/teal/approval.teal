@@ -70,8 +70,8 @@ itxn_field AssetReceiver
 int 0
 itxn_field AssetAmount
 itxn_submit
-byte "fd"
-byte "fd"
+byte "dc"
+byte "dc"
 app_global_get
 int 1
 +
@@ -107,10 +107,10 @@ app_global_put
 byte "pf"
 int 1000000
 app_global_put
-byte "psf"
+byte "sf"
 int 1
 app_global_put
-byte "fd"
+byte "dc"
 int 0
 app_global_put
 int 1
