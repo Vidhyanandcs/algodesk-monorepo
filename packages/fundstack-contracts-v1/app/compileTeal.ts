@@ -28,10 +28,10 @@ const fundClearTealPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'f
 const fundClearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'fund', 'bytes', 'clear.json');
 compile(fundClearTealPath, fundClearBytesPath);
 
-const revenueApprovalTealPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'teal', 'approval.teal');
-const revenueApprovalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'approval.json');
-compile(revenueApprovalTealPath, revenueApprovalBytesPath);
+const platformApprovalTealPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'teal', 'approval.teal');
+const platformApprovalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'approval.json');
+compile(platformApprovalTealPath, platformApprovalBytesPath);
 
-const revenueClearTealPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'teal', 'clear.teal');
-const revenueClearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'clear.json');
-compile(revenueClearTealPath, revenueClearBytesPath);
+const platformClearTealPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'teal', 'clear.teal');
+const platformClearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'clear.json');
+compile(platformClearTealPath, platformClearBytesPath);

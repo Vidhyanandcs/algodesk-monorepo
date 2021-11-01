@@ -11,7 +11,7 @@
   },
   "include": [
     "app/compileTeal.ts",
-    "app/deployRevenueApplication.ts",
-    "app/updateRevenueApplication.ts"
+    "app/deployPlatformApplication.ts",
+    "app/updatePlatformApplication.ts"
   ]
 }

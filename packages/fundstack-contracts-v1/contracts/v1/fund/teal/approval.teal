@@ -1,28 +1,28 @@
 #pragma version 5
 callsub sub2
-bnz main_l40
+bnz main_l28
 callsub sub3
-bnz main_l39
+bnz main_l27
 callsub sub4
-bnz main_l38
+bnz main_l26
 callsub sub5
-bnz main_l37
+bnz main_l25
 txna ApplicationArgs 0
 byte "publish"
 ==
-bnz main_l36
+bnz main_l24
 txna ApplicationArgs 0
 byte "invest"
 ==
-bnz main_l32
+bnz main_l20
 txna ApplicationArgs 0
 byte "investor_claim"
 ==
-bnz main_l31
+bnz main_l19
 txna ApplicationArgs 0
 byte "investor_withdraw"
 ==
-bnz main_l30
+bnz main_l18
 txna ApplicationArgs 0
 byte "owner_claim"
 ==
@@ -143,19 +143,8 @@ byte "sr"
 app_global_get
 /
 int 100
-txna Applications 1
-int 438565946
-==
-assert
-txna Applications 1
 byte "psf"
-app_global_get_ex
-store 0
-store 1
-load 0
-bnz main_l29
-int 1
-main_l14:
+app_global_get
 -
 *
 int 10000
@@ -165,19 +154,8 @@ itxn_submit
 itxn_begin
 int pay
 itxn_field TypeEnum
-txna Applications 1
-int 438565946
-==
-assert
-txna Applications 1
-byte "e"
-app_global_get_ex
-store 2
-store 3
-load 2
-bnz main_l28
-byte "none"
-main_l16:
+byte "pe"
+app_global_get
 itxn_field Receiver
 byte "ta"
 app_global_get
@@ -187,19 +165,8 @@ app_global_get
 byte "sr"
 app_global_get
 /
-txna Applications 1
-int 438565946
-==
-assert
-txna Applications 1
 byte "psf"
-app_global_get_ex
-store 0
-store 1
-load 0
-bnz main_l27
-int 1
-main_l18:
+app_global_get
 *
 int 10000
 *
@@ -211,35 +178,24 @@ app_global_put
 txna ApplicationArgs 1
 byte "claim"
 ==
-bnz main_l26
+bnz main_l17
 txna ApplicationArgs 1
 byte "donate"
 ==
-bnz main_l22
-main_l20:
-main_l21:
+bnz main_l16
+main_l14:
+main_l15:
 int 1
 return
-main_l22:
+main_l16:
 itxn_begin
 int axfer
 itxn_field TypeEnum
 byte "aid"
 app_global_get
 itxn_field XferAsset
-txna Applications 1
-int 438565946
-==
-assert
-txna Applications 1
-byte "e"
-app_global_get_ex
-store 2
-store 3
-load 2
-bnz main_l25
-byte "none"
-main_l24:
+byte "pe"
+app_global_get
 itxn_field AssetReceiver
 byte "ra"
 app_global_get
@@ -248,11 +204,8 @@ callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
-b main_l20
-main_l25:
-load 3
-b main_l24
-main_l26:
+b main_l14
+main_l17:
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -268,17 +221,8 @@ callsub sub6
 *
 itxn_field AssetAmount
 itxn_submit
-b main_l21
-main_l27:
-load 1
-b main_l18
-main_l28:
-load 3
-b main_l16
-main_l29:
-load 1
-b main_l14
-main_l30:
+b main_l15
+main_l18:
 global GroupSize
 int 1
 ==
@@ -342,7 +286,7 @@ int 1
 app_local_put
 int 1
 return
-main_l31:
+main_l19:
 global GroupSize
 int 2
 ==
@@ -438,7 +382,7 @@ int 1
 app_local_put
 int 1
 return
-main_l32:
+main_l20:
 global GroupSize
 int 2
 ==
@@ -559,9 +503,9 @@ int 100
 *
 int 50
 >=
-bnz main_l35
+bnz main_l23
 int 0
-main_l34:
+main_l22:
 app_global_put
 int 0
 byte "i"
@@ -577,10 +521,10 @@ app_global_get
 app_local_put
 int 1
 return
-main_l35:
+main_l23:
 int 1
-b main_l34
-main_l36:
+b main_l22
+main_l24:
 global GroupSize
 int 5
 ==
@@ -678,7 +622,8 @@ int appl
 ==
 assert
 gtxn 1 ApplicationID
-int 438565946
+byte "pai"
+app_global_get
 ==
 assert
 gtxna 1 ApplicationArgs 0
@@ -690,7 +635,7 @@ int 1
 app_global_put
 int 1
 return
-main_l37:
+main_l25:
 global GroupSize
 int 1
 ==
@@ -740,7 +685,7 @@ int 0
 app_local_put
 int 1
 return
-main_l38:
+main_l26:
 byte "p"
 app_global_get
 int 0
@@ -748,10 +693,10 @@ int 0
 assert
 int 1
 return
-main_l39:
+main_l27:
 callsub sub7
 return
-main_l40:
+main_l28:
 global GroupSize
 int 1
 ==
@@ -897,8 +842,47 @@ app_global_put
 byte "tr"
 int 0
 app_global_put
+byte "pai"
+int 438565946
+app_global_put
+byte "psf"
+txna Applications 1
+int 438565946
+==
+assert
+txna Applications 1
+byte "psf"
+app_global_get_ex
+store 0
+store 1
+load 0
+bnz main_l34
+int 1
+main_l30:
+app_global_put
+byte "pe"
+txna Applications 1
+int 438565946
+==
+assert
+txna Applications 1
+byte "e"
+app_global_get_ex
+store 2
+store 3
+load 2
+bnz main_l33
+byte "none"
+main_l32:
+app_global_put
 int 1
 return
+main_l33:
+load 3
+b main_l32
+main_l34:
+load 1
+b main_l30
 sub0: // getAppId
 txn ApplicationID
 retsub

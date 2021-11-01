@@ -9,9 +9,9 @@ import {A_CreateApplicationParams, Algodesk, betanet, WalletSigner, getUintProgr
 const adminMnemonic = 'consider mind artefact motion margin more skate pave skill arrange reform media occur sugar section summer fantasy accident high column rescue horn amount able top';
 const adminAccount = mnemonicToSecretKey(adminMnemonic);//77PMFSNBYH7UMT7ZQGAZAE6IFYC5SLMG4VQHNMYVBTALC74AD66KV4T5CE
 
-export async function deployRevenueApplication() {
-    const approvalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'approval.json');
-    const clearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'clear.json');
+export async function deployPlatformApplication() {
+    const approvalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'approval.json');
+    const clearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'clear.json');
 
     let approvalBytes = readFile.sync(approvalBytesPath);
     let clearBytes = readFile.sync(clearBytesPath);
@@ -40,5 +40,5 @@ export async function deployRevenueApplication() {
     return pendingTransactionInfo;
 }
 
-deployRevenueApplication()
+deployPlatformApplication()
 

@@ -31,6 +31,9 @@ export type F_FundGlobalState = {
     tr: boolean
     fw: boolean
     rac: boolean
+    pai: number
+    psf: number
+    pe: string
 }
 
 export function getFundState(fund: Application): F_FundGlobalState {
@@ -42,7 +45,7 @@ export function getFundState(fund: Application): F_FundGlobalState {
         const {value} = gStateProp;
 
         if (value.type == 1) {
-            if (key == globalStateKeys.creator || key == globalStateKeys.escrow) {
+            if (key == globalStateKeys.creator || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else if (key == globalStateKeys.company_details) {

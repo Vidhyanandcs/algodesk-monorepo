@@ -11,13 +11,13 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "watch": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/revenue/main.py & npm run compile-teal\"",
+    "watch": "nodemon --watch src -e py --exec \"python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/platform/main.py & npm run compile-teal\"",
     "build": "npm run build:clean && npm run build:cjs",
     "build:clean": "rimraf dist/",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "compile-teal": "NODE_ENV=development npm run build && node ./dist/cjs/compileTeal.js",
-    "deploy-revenue-application": "NODE_ENV=development npm run build && node ./dist/cjs/deployRevenueApplication.js",
-    "update-revenue-application": "NODE_ENV=development npm run build && node ./dist/cjs/updateRevenueApplication.js"
+    "deploy-platform-application": "NODE_ENV=development npm run build && node ./dist/cjs/deployPlatformApplication.js",
+    "update-platform-application": "NODE_ENV=development npm run build && node ./dist/cjs/updatePlatformApplication.js"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"

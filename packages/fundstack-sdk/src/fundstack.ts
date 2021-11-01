@@ -17,16 +17,16 @@ import {
     ESCROW_MIN_TOP_UP,
     FUND_OPERATIONS,
     FUND_PHASE,
-    REVENUE_APP_ID,
-    REVENUE_OPERATIONS,
-    REVENUE_PUBLISH_FEE
+    PLATFORM_APP_ID,
+    PLATFORM_OPERATIONS,
+    PLATFORM_PUBLISH_FEE
 } from "./constants";
 import {getContracts} from "./contracts";
 import {assignGroupID, OnApplicationComplete} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund} from "./fund";
 import atob from 'atob';
-import {Revenue} from "./revenue";
+import {Platform} from "./platform";
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -54,6 +54,7 @@ export class Fundstack {
             localBytes: 7,
             localInts: 7,
             onComplete: OnApplicationComplete.NoOpOC,
+            foreignApps: [PLATFORM_APP_ID],
             appArgs
         };
 
@@ -61,10 +62,10 @@ export class Fundstack {
     }
 
     async publish(fundId: number): Promise<A_SendTxnResponse> {
-        const revenueApp = await this.algodesk.applicationClient.get(REVENUE_APP_ID);
-        const revenue = new Revenue(revenueApp);
-        const revenueEscrow = revenue.getEscrow();
-        console.log('revenue escrow: ' + revenueEscrow);
+        const platformApp = await this.algodesk.applicationClient.get(PLATFORM_APP_ID);
+        const platform = new Platform(platformApp);
+        const platformEscrow = platform.getEscrow();
+        console.log('platform escrow: ' + platformEscrow);
 
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
@@ -74,15 +75,15 @@ export class Fundstack {
         const assetId = fund.getAssetId();
         const totalAllocation = fund.getTotalAllocation();
 
-        const revenuePaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, revenueEscrow, REVENUE_PUBLISH_FEE);
-        const revenueAppTxnParams: A_InvokeApplicationParams = {
-            appId: <number>revenue.getId(),
+        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, PLATFORM_PUBLISH_FEE);
+        const platformAppTxnParams: A_InvokeApplicationParams = {
+            appId: <number>platform.getId(),
             from: creator,
             foreignApps: [fundId],
             foreignAssets: [assetId],
-            appArgs: [REVENUE_OPERATIONS.VALIDATE_FUND]
+            appArgs: [PLATFORM_OPERATIONS.VALIDATE_FUND]
         };
-        const revenueAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(revenueAppTxnParams);
+        const platformAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(platformAppTxnParams);
 
         const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, ESCROW_MIN_TOP_UP);
 
@@ -101,7 +102,7 @@ export class Fundstack {
             amount: totalAllocation
         };
         const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
-        const txnGroup = assignGroupID([revenuePaymentTxn, revenueAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
+        const txnGroup = assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -176,9 +177,9 @@ export class Fundstack {
     }
 
     async ownerClaim(fundId: number, unsoldAssetAction: string): Promise<A_SendTxnResponse> {
-        const revenueApp = await this.algodesk.applicationClient.get(REVENUE_APP_ID);
-        const revenue = new Revenue(revenueApp);
-        const revenueEscrow = revenue.getEscrow();
+        const platformApp = await this.algodesk.applicationClient.get(PLATFORM_APP_ID);
+        const platform = new Platform(platformApp);
+        const platformEscrow = platform.getEscrow();
 
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
@@ -191,8 +192,8 @@ export class Fundstack {
             from: creator,
             foreignAssets: [assetId],
             appArgs: [FUND_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
-            foreignApps: [REVENUE_APP_ID],
-            foreignAccounts: [revenueEscrow]
+            foreignApps: [PLATFORM_APP_ID],
+            foreignAccounts: [platformEscrow]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
 
@@ -405,14 +406,14 @@ export class Fundstack {
 
     async getPublishedFundsIds(): Promise<number[]> {
         const fundIds: number[] = [];
-        const {transactions} = await this.algodesk.applicationClient.getAppTransactions(REVENUE_APP_ID);
+        const {transactions} = await this.algodesk.applicationClient.getAppTransactions(PLATFORM_APP_ID);
 
         transactions.forEach((tx) => {
             const appCallArgs = tx['application-transaction']['application-args'];
             const foreignApps = tx['application-transaction']['foreign-apps'];
             if (appCallArgs && appCallArgs.length > 0 && foreignApps && foreignApps.length > 0) {
                 const firstParam = appCallArgs[0];
-                if (atob(firstParam) == REVENUE_OPERATIONS.VALIDATE_FUND) {
+                if (atob(firstParam) == PLATFORM_OPERATIONS.VALIDATE_FUND) {
                     fundIds.push(foreignApps[0]);
                 }
             }

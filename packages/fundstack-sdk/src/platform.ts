@@ -3,7 +3,7 @@ import {globalStateKeys} from "./state";
 import * as sdk from "algosdk";
 import atob from 'atob';
 
-export type F_RevenueGlobalState = {
+export type F_PlatformGlobalState = {
     v: number
     c: string
     cat: number
@@ -11,7 +11,7 @@ export type F_RevenueGlobalState = {
     e: string
 }
 
-export function getRevenueState(fund: Application): F_RevenueGlobalState {
+export function getPlatformState(fund: Application): F_PlatformGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
 
@@ -32,18 +32,18 @@ export function getRevenueState(fund: Application): F_RevenueGlobalState {
         }
     });
 
-    return globalState as F_RevenueGlobalState;
+    return globalState as F_PlatformGlobalState;
 }
 
-export class Revenue {
+export class Platform {
     id: number | bigint;
     params: ApplicationParams;
-    globalState: F_RevenueGlobalState;
+    globalState: F_PlatformGlobalState;
 
-    constructor(revenue: Application) {
-        this.id = revenue.id;
-        this.params = revenue.params;
-        this.globalState = getRevenueState(revenue);
+    constructor(app: Application) {
+        this.id = app.id;
+        this.params = app.params;
+        this.globalState = getPlatformState(app);
     }
 
     getId(): number | bigint {

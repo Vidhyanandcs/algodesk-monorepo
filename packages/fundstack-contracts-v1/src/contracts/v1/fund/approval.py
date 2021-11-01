@@ -2,9 +2,9 @@ from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
-import src.contracts.v1.revenue.state.global_state as revenueGlobalState
+import src.contracts.v1.platform.state.global_state as platformGlobalState
 
-revenueAppId = Int(438565946)
+platformAppId = Int(438565946)
 
 def deployFund():
     txnArgs = Txn.application_args
@@ -44,6 +44,20 @@ def deployFund():
     fundsClaimed = Int(0)
     fundsWithdrawn = Int(0)
     targetReached = Int(0)
+
+    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.platform_success_fee)
+    platformSuccessFee = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformSuccessFeeExpr,
+        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
+    ])
+    
+    platformEscrowExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.escrow)
+    platformEscrow = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformEscrowExpr,
+        If(platformEscrowExpr.hasValue(), platformEscrowExpr.value(), Bytes("none"))
+    ])
 
     deploymentAssertions = [
         Assert(name != Bytes("")),
@@ -88,7 +102,10 @@ def deployFund():
         App.globalPut(globalState.escrow, escrow),
         App.globalPut(globalState.funds_claimed, fundsClaimed),
         App.globalPut(globalState.funds_withdrawn, fundsWithdrawn),
-        App.globalPut(globalState.target_reached, targetReached)
+        App.globalPut(globalState.target_reached, targetReached),
+        App.globalPut(globalState.platform_app_id, platformAppId),
+        App.globalPut(globalState.platform_success_fee, platformSuccessFee),
+        App.globalPut(globalState.platform_escrow, platformEscrow)
     ]
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]
@@ -144,11 +161,12 @@ def publish():
 
     validateFundTxn = Gtxn[1]
     validateFundTxnArgs = validateFundTxn.application_args
+    platformAppId = App.globalGet(globalState.platform_app_id)
 
     validateFundAssertions = [
         Assert(validateFundTxn.sender() == Txn.sender()),
         Assert(validateFundTxn.type_enum() == TxnType.ApplicationCall),
-        Assert(validateFundTxn.application_id() == revenueAppId),
+        Assert(validateFundTxn.application_id() == platformAppId),
         Assert(validateFundTxnArgs[0] == Bytes("validate_fund"))
     ]
 
@@ -410,13 +428,9 @@ def ownerClaim():
     soldAllocation = App.globalGet(globalState.total_allocation) - App.globalGet(globalState.remaining_allocation)
     totalAmount = soldAllocation / App.globalGet(globalState.swap_ratio)
 
-    platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], revenueGlobalState.platform_success_fee)
-    platformSuccessFeePerc = Seq([
-        Assert(Txn.applications[1] == revenueAppId),
-        platformSuccessFeeExpr,
-        If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
-    ])
+    platformAppId = App.globalGet(globalState.platform_app_id)
 
+    platformSuccessFeePerc = App.globalGet(globalState.platform_success_fee)
     claimableAmount = totalAmount * (Int(100) - platformSuccessFeePerc) * Int(10000)
     platformSuccessFee = totalAmount * platformSuccessFeePerc * Int(10000)
 
@@ -440,19 +454,14 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
-    revenueEscrow = App.globalGetEx(Txn.applications[1], revenueGlobalState.escrow)
-    revenueEscrowAddr = Seq([
-        Assert(Txn.applications[1] == revenueAppId),
-        revenueEscrow,
-        If(revenueEscrow.hasValue(), revenueEscrow.value(), Bytes("none"))
-    ])
+    platformEscrow = App.globalGet(globalState.platform_escrow)
 
     innerTransactionPlatformFee = [
         InnerTxnBuilder.Begin(),
         InnerTxnBuilder.SetFields(
             {
                 TxnField.type_enum: TxnType.Payment,
-                TxnField.receiver: revenueEscrowAddr,
+                TxnField.receiver: platformEscrow,
                 TxnField.amount: platformSuccessFee
             }
         ),
@@ -496,7 +505,7 @@ def ownerClaim():
                                   {
                                       TxnField.type_enum: TxnType.AssetTransfer,
                                       TxnField.xfer_asset: App.globalGet(globalState.asset_id),
-                                      TxnField.asset_receiver: revenueEscrowAddr,
+                                      TxnField.asset_receiver: platformEscrow,
                                       TxnField.asset_amount: remainingAllocationInMicros
                                   }
                               ),

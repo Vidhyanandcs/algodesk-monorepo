@@ -15,11 +15,11 @@ import {
 const adminMnemonic = 'consider mind artefact motion margin more skate pave skill arrange reform media occur sugar section summer fantasy accident high column rescue horn amount able top';
 const adminAccount = mnemonicToSecretKey(adminMnemonic);//77PMFSNBYH7UMT7ZQGAZAE6IFYC5SLMG4VQHNMYVBTALC74AD66KV4T5CE
 
-const revenueAppId = 438565946;
+const platformAppId = 438565946;
 
-export async function updateRevenueApplication() {
-    const approvalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'approval.json');
-    const clearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'revenue', 'bytes', 'clear.json');
+export async function updatePlatformApplication() {
+    const approvalBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'approval.json');
+    const clearBytesPath = path.join(__dirname, '..', '..', 'contracts', 'v1', 'platform', 'bytes', 'clear.json');
 
     let approvalBytes = readFile.sync(approvalBytesPath);
     let clearBytes = readFile.sync(clearBytesPath);
@@ -31,7 +31,7 @@ export async function updateRevenueApplication() {
     const algodesk = new Algodesk(betanet, walletSigner);
 
     const params: A_UpdateApplicationParams = {
-        appId: revenueAppId,
+        appId: platformAppId,
         approvalProgram: getUintProgram(approvalBytes.result),
         clearProgram: getUintProgram(clearBytes.result),
         from: adminAccount.addr
@@ -44,5 +44,5 @@ export async function updateRevenueApplication() {
     return pendingTransactionInfo;
 }
 
-updateRevenueApplication()
+updatePlatformApplication()
 

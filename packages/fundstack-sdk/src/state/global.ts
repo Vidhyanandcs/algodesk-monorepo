@@ -23,5 +23,8 @@ export const globalStateKeys = {
     company_details: "cd",
     target_reached: "tr",
     funds_withdrawn: "fw",
-    remaining_assets_claimed: "rac"
+    remaining_assets_claimed: "rac",
+    platform_app_id: "pai",
+    platform_success_fee: 'psf',
+    platform_escrow: 'pe'
 }
