@@ -153,7 +153,7 @@ test('fundstack', async () => {
 
         await register(investorInstance, appId, investor,  fundApp.getRegStart());
 
-        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6);
+        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6005);
 
         await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
 

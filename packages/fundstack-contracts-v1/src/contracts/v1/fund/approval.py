@@ -264,10 +264,9 @@ def invest():
     ]
 
     remainingAllocation = App.globalGet(globalState.remaining_allocation)
-    investedAmount = algos / App.globalGet(globalState.price)
-
     micros = getAssetMicros(Int(0))
-    investedAmountInMicros = investedAmount * micros
+
+    investedAmountInMicros = (algos * micros) / App.globalGet(globalState.price)
 
     applicationAssertions = [
         Assert(App.localGet(Int(0), localState.registered) == Int(1)),

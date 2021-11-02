@@ -440,23 +440,23 @@ int 1
 ==
 assert
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 byte "mia"
 app_global_get
 >=
 assert
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 byte "mxa"
 app_global_get
 <=
@@ -474,12 +474,12 @@ assert
 byte "ra"
 app_global_get
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 >=
 assert
 byte "noi"
@@ -492,12 +492,12 @@ byte "ra"
 byte "ra"
 app_global_get
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 -
 app_global_put
 byte "tr"
@@ -507,12 +507,12 @@ byte "ra"
 app_global_get
 -
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 +
 int 100
 *
@@ -532,12 +532,12 @@ app_local_put
 int 0
 byte "ia"
 gtxn 0 Amount
-byte "price"
-app_global_get
-/
 int 0
 callsub sub6
 *
+byte "price"
+app_global_get
+/
 app_local_put
 int 1
 return
