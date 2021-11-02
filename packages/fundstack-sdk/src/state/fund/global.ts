@@ -27,5 +27,6 @@ export const globalStateKeys = {
     platform_app_id: "pai",
     platform_escrow: 'pe',
     platform_publish_fee: 'ppf',
-    platform_success_fee: 'psf'
+    platform_success_fee: 'psf',
+    platform_fund_escrow_min_top_up: 'pfemtu'
 }

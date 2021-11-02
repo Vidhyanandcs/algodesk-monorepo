@@ -856,7 +856,7 @@ app_global_get_ex
 store 0
 store 1
 load 0
-bnz main_l37
+bnz main_l40
 byte "none"
 main_l30:
 app_global_put
@@ -871,8 +871,8 @@ app_global_get_ex
 store 2
 store 3
 load 2
-bnz main_l36
-int 1
+bnz main_l39
+int 1000000
 main_l32:
 app_global_put
 byte "psf"
@@ -886,19 +886,37 @@ app_global_get_ex
 store 4
 store 5
 load 4
-bnz main_l35
+bnz main_l38
 int 1
 main_l34:
 app_global_put
+byte "pfemtu"
+txna Applications 1
+int 438565946
+==
+assert
+txna Applications 1
+byte "femtu"
+app_global_get_ex
+store 6
+store 7
+load 6
+bnz main_l37
+int 2000000
+main_l36:
+app_global_put
 int 1
 return
-main_l35:
+main_l37:
+load 7
+b main_l36
+main_l38:
 load 5
 b main_l34
-main_l36:
+main_l39:
 load 3
 b main_l32
-main_l37:
+main_l40:
 load 1
 b main_l30
 sub0: // getAppId
@@ -928,13 +946,13 @@ int OptIn
 ==
 retsub
 sub6: // getAssetMicros
-store 6
-load 6
-asset_params_get AssetDecimals
-store 7
 store 8
-int 10
 load 8
+asset_params_get AssetDecimals
+store 9
+store 10
+int 10
+load 10
 exp
 retsub
 sub7: // allowOperation
@@ -943,14 +961,14 @@ int 1
 ==
 retsub
 sub8: // microAlgoToAlgo
-store 9
-load 9
+store 11
+load 11
 int 1000000
 /
 retsub
 sub9: // AlgoToMicroAlgo
-store 10
-load 10
+store 12
+load 12
 int 1000000
 *
 retsub

@@ -56,7 +56,7 @@ def deployFund():
     platformPublishFee = Seq([
         Assert(Txn.applications[1] == platformAppId),
         platformPublishFeeExpr,
-        If(platformPublishFeeExpr.hasValue(), platformPublishFeeExpr.value(), Int(1))
+        If(platformPublishFeeExpr.hasValue(), platformPublishFeeExpr.value(), Int(1000000))
     ])
 
     platformSuccessFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.success_fee)
@@ -64,6 +64,13 @@ def deployFund():
         Assert(Txn.applications[1] == platformAppId),
         platformSuccessFeeExpr,
         If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
+    ])
+
+    platformFundEscrowMinTopUpExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.fund_escrow_min_top_up)
+    platformFundEscrowMinTopUp = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformFundEscrowMinTopUpExpr,
+        If(platformFundEscrowMinTopUpExpr.hasValue(), platformFundEscrowMinTopUpExpr.value(), Int(2000000))
     ])
 
     deploymentAssertions = [
@@ -113,7 +120,8 @@ def deployFund():
         App.globalPut(globalState.platform_app_id, platformAppId),
         App.globalPut(globalState.platform_escrow, platformEscrow),
         App.globalPut(globalState.platform_publish_fee, platformPublishFee),
-        App.globalPut(globalState.platform_success_fee, platformSuccessFee)
+        App.globalPut(globalState.platform_success_fee, platformSuccessFee),
+        App.globalPut(globalState.platform_fund_escrow_min_top_up, platformFundEscrowMinTopUp)
     ]
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]
