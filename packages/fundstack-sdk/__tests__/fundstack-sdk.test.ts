@@ -54,7 +54,7 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         regEndsAt: networkParams.firstRound + 20,
         saleStartsAt: networkParams.firstRound + 30,
         saleEndsAt: networkParams.firstRound + 40,
-        swapRatio: 600,
+        price: 0.001,
         totalAllocation: 1000
     };
 
@@ -153,7 +153,7 @@ test('fundstack', async () => {
 
         await register(investorInstance, appId, investor,  fundApp.getRegStart());
 
-        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 1);
+        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6);
 
         await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
 

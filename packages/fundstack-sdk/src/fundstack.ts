@@ -20,7 +20,7 @@ import {
     PLATFORM_OPERATIONS,
 } from "./constants";
 import {getContracts} from "./contracts";
-import {assignGroupID, OnApplicationComplete, microalgosToAlgos} from "algosdk";
+import {assignGroupID, OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund} from "./fund";
 import atob from 'atob';
@@ -35,7 +35,11 @@ export class Fundstack {
     async deploy(params: F_DeployFund, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
         const {compiledApprovalProgram, compiledClearProgram} = getContracts();
 
-        const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation, params.minAllocation, params.maxAllocation, params.swapRatio];
+        const assetParams = await this.getAsset(params.assetId);
+        const decimals = assetParams.params.decimals;
+        const assetMicros = Math.pow(10, decimals);
+
+        const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation * assetMicros, params.minAllocation * assetMicros, params.maxAllocation * assetMicros, algosToMicroalgos(params.price)];
         const intsUint = [];
         ints.forEach((item) => {
             intsUint.push(numToUint(parseInt(String(item))));
@@ -72,6 +76,7 @@ export class Fundstack {
         const escrow = fund.getEscrow();
         const assetId = fund.getAssetId();
         const totalAllocation = fund.getTotalAllocation();
+        console.log('fund escrow: ' + escrow);
 
         const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(fund.getPlatformPublishFee()));
         const platformAppTxnParams: A_InvokeApplicationParams = {
@@ -120,13 +125,15 @@ export class Fundstack {
         const fund = new Fund(fundApp);
 
         const escrow = fund.getEscrow();
+        const assetId = fund.getAssetId();
 
         const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(address, escrow, amount);
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: fundId,
             from: address,
-            appArgs: [FUND_OPERATIONS.INVEST]
+            appArgs: [FUND_OPERATIONS.INVEST],
+            foreignAssets: [assetId],
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
@@ -164,10 +171,16 @@ export class Fundstack {
     }
 
     async investorWithdraw(fundId: number, address: string): Promise<A_SendTxnResponse> {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp);
+
+        const assetId = fund.getAssetId();
+
         const appTxnParams: A_InvokeApplicationParams = {
             appId: fundId,
             from: address,
-            appArgs: [FUND_OPERATIONS.INVESTOR_WITHDRAW]
+            appArgs: [FUND_OPERATIONS.INVESTOR_WITHDRAW],
+            foreignAssets: [assetId]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
 

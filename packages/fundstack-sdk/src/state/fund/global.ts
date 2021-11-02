@@ -14,7 +14,7 @@ export const globalStateKeys = {
     remaining_allocation: "ra",
     min_allocation: "mia",
     max_allocation: "mxa",
-    swap_ratio: "sr",
+    price: "price",
     no_of_registrations: "nor",
     no_of_investors: "noi",
     no_of_claims: "noc",

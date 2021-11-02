@@ -12,7 +12,7 @@ export interface F_DeployFund {
     totalAllocation: number,
     minAllocation: number,
     maxAllocation: number,
-    swapRatio: number
+    price: number
 }
 
 export type F_PhaseDetails = {
