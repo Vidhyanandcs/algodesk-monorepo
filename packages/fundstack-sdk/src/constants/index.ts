@@ -19,8 +19,6 @@ export enum FUND_OPERATIONS {
     REGISTER = 'register'
 }
 
-export const ESCROW_MIN_TOP_UP = 2;
-
 export const PLATFORM_APP_ID = 438565946;
 export enum PLATFORM_OPERATIONS {
     VALIDATE_FUND = 'validate_fund'

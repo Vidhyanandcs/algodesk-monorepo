@@ -35,6 +35,7 @@ export type F_FundGlobalState = {
     pe: string
     psf: number
     ppf: number
+    pfemtu: number
 }
 
 export function getFundState(fund: Application): F_FundGlobalState {
@@ -145,6 +146,10 @@ export class Fund {
 
     getPlatformPublishFee(): number {
         return this.globalState[globalStateKeys.platform_publish_fee];
+    }
+
+    getFundEscrowMinTopUp(): number {
+        return this.globalState[globalStateKeys.platform_fund_escrow_min_top_up];
     }
 
     updateStatusDetails(status: F_FundStatus) {

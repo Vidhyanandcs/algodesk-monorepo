@@ -17,9 +17,10 @@ def createApplication():
     creator = Txn.sender()
     createdAt = currentRound
     escrow = Global.current_application_address()
-    fundsDeployed = Int(0)
+    deployedCount = Int(0)
     publishFee = Int(1000000)
     successFee = Int(1)
+    fundEscrowMinTopUp = Int(2000000)
 
     setState = [
         App.globalPut(globalState.version, version),
@@ -28,7 +29,8 @@ def createApplication():
         App.globalPut(globalState.escrow, escrow),
         App.globalPut(globalState.publish_fee, publishFee),
         App.globalPut(globalState.success_fee, successFee),
-        App.globalPut(globalState.deployed_count, fundsDeployed)
+        App.globalPut(globalState.deployed_count, deployedCount),
+        App.globalPut(globalState.fund_escrow_min_top_up, fundEscrowMinTopUp)
     ]
 
     conditions = gtxnAssertions + setState + [Approve()]

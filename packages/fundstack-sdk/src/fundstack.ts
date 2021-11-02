@@ -14,7 +14,6 @@ import {
     A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction
 } from "@algodesk/core";
 import {
-    ESCROW_MIN_TOP_UP,
     FUND_OPERATIONS,
     FUND_PHASE,
     PLATFORM_APP_ID,
@@ -84,7 +83,7 @@ export class Fundstack {
         };
         const platformAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(platformAppTxnParams);
 
-        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, ESCROW_MIN_TOP_UP);
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, microalgosToAlgos(fund.getFundEscrowMinTopUp()));
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: fundId,
