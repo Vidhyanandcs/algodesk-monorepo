@@ -22,7 +22,7 @@ async function createAsset(account: Account, instance: Fundstack) {
     const params: A_CreateAssetParams = {
         clawback: account.addr,
         creator: account.addr,
-        decimals: 0,
+        decimals: 1,
         defaultFrozen: false,
         freeze: account.addr,
         manager: account.addr,

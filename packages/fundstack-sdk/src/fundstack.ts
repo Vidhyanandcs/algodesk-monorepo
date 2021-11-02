@@ -78,6 +78,9 @@ export class Fundstack {
         const totalAllocation = fund.getTotalAllocation();
         console.log('fund escrow: ' + escrow);
 
+        const assetDetails = await this.getAsset(assetId);
+        const micros = Math.pow(10, assetDetails.params.decimals);
+
         const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(fund.getPlatformPublishFee()));
         const platformAppTxnParams: A_InvokeApplicationParams = {
             appId: <number>platform.getId(),
@@ -102,7 +105,7 @@ export class Fundstack {
             from: creator,
             to: escrow,
             assetId,
-            amount: totalAllocation
+            amount: totalAllocation / micros
         };
         const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
         const txnGroup = assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
