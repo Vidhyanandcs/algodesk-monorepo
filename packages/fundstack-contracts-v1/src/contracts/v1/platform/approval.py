@@ -1,7 +1,6 @@
 from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.platform.state.global_state as globalState
-import src.contracts.v1.platform.state.local_state as localState
 import src.contracts.v1.fund.state.global_state as fundGlobalState
 
 
@@ -39,9 +38,6 @@ def createApplication():
     return block
 
 def validateFund():
-    txnArgs = Txn.application_args
-    currentRound = Global.round()
-
     gtxnAssertions = [
         Assert(Global.group_size() == Int(5)),
         Assert(Txn.group_index() == Int(1))
@@ -98,11 +94,83 @@ def validateFund():
     block = Seq(conditions)
     return block
 
+
+def claimAlgos():
+    txnArgs = Txn.application_args
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    amount = Btoi(txnArgs[1])
+    amount = AlgoToMicroAlgo(amount)
+
+    applicationAssertions = [
+        Assert(Txn.sender() == App.globalGet(globalState.creator))
+    ]
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: App.globalGet(globalState.creator),
+                TxnField.amount: amount
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    conditions = gtxnAssertions + applicationAssertions + innerTransactions + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
+def claimAssets():
+    txnArgs = Txn.application_args
+
+    gtxnAssertions = [
+        Assert(Global.group_size() == Int(1))
+    ]
+
+    amount = Btoi(txnArgs[1])
+    assetId = Txn.assets[0]
+    assetMicros = getAssetMicros(Int(0))
+    amount = amount * assetMicros
+
+    applicationAssertions = [
+        Assert(Txn.sender() == App.globalGet(globalState.creator))
+    ]
+
+    innerTransactions = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.AssetTransfer,
+                TxnField.xfer_asset: assetId,
+                TxnField.asset_receiver: App.globalGet(globalState.creator),
+                TxnField.asset_amount: amount
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
+    conditions = gtxnAssertions + applicationAssertions + innerTransactions + [Approve()]
+
+    block = Seq(conditions)
+
+    return block
+
+
 def approvalProgram():
     program = Cond(
         [isCreate(), createApplication()],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), Return(allowOperation())],
         [Txn.application_args[0] == Bytes("validate_fund"), validateFund()],
+        [Txn.application_args[0] == Bytes("claim_algos"), claimAlgos()],
+        [Txn.application_args[0] == Bytes("claim_assets"), claimAssets()],
     )
     return program
