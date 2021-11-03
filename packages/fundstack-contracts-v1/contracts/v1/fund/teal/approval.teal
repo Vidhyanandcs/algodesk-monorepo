@@ -72,9 +72,6 @@ txn Sender
 itxn_field AssetReceiver
 byte "ta"
 app_global_get
-int 0
-callsub sub6
-*
 itxn_field AssetAmount
 itxn_submit
 byte "fw"
@@ -139,15 +136,18 @@ app_global_get
 byte "ra"
 app_global_get
 -
-byte "sr"
+int 0
+callsub sub6
+/
+byte "price"
 app_global_get
+*
+int 100
 /
 int 100
 byte "psf"
 app_global_get
 -
-*
-int 10000
 *
 itxn_field Amount
 itxn_submit
@@ -162,14 +162,31 @@ app_global_get
 byte "ra"
 app_global_get
 -
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 /
+byte "price"
+app_global_get
+*
+byte "ta"
+app_global_get
+byte "ra"
+app_global_get
+-
+int 0
+callsub sub6
+/
+byte "price"
+app_global_get
+*
+int 100
+/
+int 100
 byte "psf"
 app_global_get
+-
 *
-int 10000
-*
+-
 itxn_field Amount
 itxn_submit
 byte "fc"
@@ -199,9 +216,6 @@ app_global_get
 itxn_field AssetReceiver
 byte "ra"
 app_global_get
-int 0
-callsub sub6
-*
 itxn_field AssetAmount
 itxn_submit
 b main_l14
@@ -216,9 +230,6 @@ txn Sender
 itxn_field AssetReceiver
 byte "ra"
 app_global_get
-int 0
-callsub sub6
-*
 itxn_field AssetAmount
 itxn_submit
 b main_l15
@@ -268,10 +279,12 @@ itxn_field Receiver
 int 0
 byte "ia"
 app_local_get
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 /
-callsub sub9
+byte "price"
+app_global_get
+*
 itxn_field Amount
 itxn_submit
 byte "now"
@@ -365,9 +378,6 @@ itxn_field AssetReceiver
 int 0
 byte "ia"
 app_local_get
-int 0
-callsub sub6
-*
 itxn_field AssetAmount
 itxn_submit
 byte "noc"
@@ -391,6 +401,11 @@ txn GroupIndex
 int 1
 ==
 assert
+txna Assets 0
+byte "aid"
+app_global_get
+==
+assert
 gtxn 0 TypeEnum
 int pay
 ==
@@ -398,13 +413,6 @@ assert
 gtxn 0 Amount
 int 0
 >
-assert
-gtxn 0 Amount
-callsub sub8
-int 1
-%
-int 0
-==
 assert
 gtxn 0 Sender
 txn Sender
@@ -432,19 +440,23 @@ int 1
 ==
 assert
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 byte "mia"
 app_global_get
 >=
 assert
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 byte "mxa"
 app_global_get
 <=
@@ -462,10 +474,12 @@ assert
 byte "ra"
 app_global_get
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 >=
 assert
 byte "noi"
@@ -478,10 +492,12 @@ byte "ra"
 byte "ra"
 app_global_get
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 -
 app_global_put
 byte "tr"
@@ -491,16 +507,18 @@ byte "ra"
 app_global_get
 -
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 +
+int 100
+*
 byte "ta"
 app_global_get
 /
-int 100
-*
 int 50
 >=
 bnz main_l23
@@ -514,10 +532,12 @@ app_local_put
 int 0
 byte "ia"
 gtxn 0 Amount
-callsub sub8
-byte "sr"
-app_global_get
+int 0
+callsub sub6
 *
+byte "price"
+app_global_get
+/
 app_local_put
 int 1
 return
@@ -556,7 +576,8 @@ global CurrentApplicationAddress
 ==
 assert
 gtxn 2 Amount
-int 2000000
+byte "pfemtu"
+app_global_get
 ==
 assert
 gtxn 4 Sender
@@ -750,12 +771,6 @@ btoi
 int 0
 >
 assert
-txna ApplicationArgs 9
-btoi
-txna ApplicationArgs 8
-btoi
-<=
-assert
 byte "v"
 int 1
 app_global_put
@@ -814,7 +829,7 @@ byte "mxa"
 txna ApplicationArgs 8
 btoi
 app_global_put
-byte "sr"
+byte "price"
 txna ApplicationArgs 9
 btoi
 app_global_put
@@ -959,16 +974,4 @@ sub7: // allowOperation
 int 1
 int 1
 ==
-retsub
-sub8: // microAlgoToAlgo
-store 11
-load 11
-int 1000000
-/
-retsub
-sub9: // AlgoToMicroAlgo
-store 12
-load 12
-int 1000000
-*
 retsub

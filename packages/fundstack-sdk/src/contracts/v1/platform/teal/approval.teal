@@ -1,16 +1,74 @@
 #pragma version 5
 callsub sub2
-bnz main_l11
+bnz main_l15
 callsub sub3
-bnz main_l10
+bnz main_l14
 callsub sub4
-bnz main_l9
+bnz main_l13
 txna ApplicationArgs 0
 byte "validate_fund"
 ==
-bnz main_l5
+bnz main_l9
+txna ApplicationArgs 0
+byte "claim_algos"
+==
+bnz main_l8
+txna ApplicationArgs 0
+byte "claim_assets"
+==
+bnz main_l7
 err
-main_l5:
+main_l7:
+global GroupSize
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Assets 0
+itxn_field XferAsset
+byte "c"
+app_global_get
+itxn_field AssetReceiver
+txna ApplicationArgs 1
+btoi
+int 0
+callsub sub5
+*
+itxn_field AssetAmount
+itxn_submit
+int 1
+return
+main_l8:
+global GroupSize
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+byte "c"
+app_global_get
+itxn_field Receiver
+txna ApplicationArgs 1
+btoi
+callsub sub7
+itxn_field Amount
+itxn_submit
+int 1
+return
+main_l9:
 global GroupSize
 int 5
 ==
@@ -61,9 +119,9 @@ app_global_get_ex
 store 0
 store 1
 load 0
-bnz main_l8
+bnz main_l12
 byte "0"
-main_l7:
+main_l11:
 itxn_field XferAsset
 global CurrentApplicationAddress
 itxn_field AssetReceiver
@@ -78,16 +136,16 @@ int 1
 app_global_put
 int 1
 return
-main_l8:
+main_l12:
 load 1
-b main_l7
-main_l9:
-callsub sub5
+b main_l11
+main_l13:
+callsub sub6
 return
-main_l10:
-callsub sub5
+main_l14:
+callsub sub6
 return
-main_l11:
+main_l15:
 global GroupSize
 int 1
 ==
@@ -139,8 +197,24 @@ callsub sub1
 int DeleteApplication
 ==
 retsub
-sub5: // allowOperation
+sub5: // getAssetMicros
+store 2
+load 2
+asset_params_get AssetDecimals
+store 3
+store 4
+int 10
+load 4
+exp
+retsub
+sub6: // allowOperation
 int 1
 int 1
 ==
+retsub
+sub7: // AlgoToMicroAlgo
+store 5
+load 5
+int 1000000
+*
 retsub
