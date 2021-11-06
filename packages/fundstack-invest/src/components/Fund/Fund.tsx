@@ -8,6 +8,7 @@ import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ellipseAddress} from "@algodesk/core";
 import PieTile from "../PieTile/PieTile";
+import CompanyDetails from "../CompanyDetails/CompanyDetails";
 
 
 function Fund(): JSX.Element {
@@ -82,6 +83,10 @@ function Fund(): JSX.Element {
                                         </div>
                                     </div>
                                 </Grid>
+                                <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                    <CompanyDetails></CompanyDetails>
+                                </Grid>
+
                             </Grid>
                         </div>
                     </Grid>
