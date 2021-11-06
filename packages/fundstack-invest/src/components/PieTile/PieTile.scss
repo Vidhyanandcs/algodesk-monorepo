@@ -1,0 +1,38 @@
+@import '../../assets/colors';
+
+.pie-tile-wrapper {
+  .pie-tile-container {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    height: 600px;
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .chart {
+      margin-top: 70px;
+    }
+    .data {
+      margin-top: 50px;
+      .pair {
+        display: flex;
+        margin: 20px 0px;
+        .key {
+          font-family: MontserratLight !important;
+          font-size: 18px;
+        }
+        .value {
+          font-size: 20px;
+          font-weight: bold;
+          .perc {
+            font-weight: normal;
+            font-family: MontserratLight !important;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+}

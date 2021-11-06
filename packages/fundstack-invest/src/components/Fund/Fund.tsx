@@ -7,6 +7,7 @@ import {RootState} from "../../redux/store";
 import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ellipseAddress} from "@algodesk/core";
+import PieTile from "../PieTile/PieTile";
 
 
 function Fund(): JSX.Element {
@@ -85,6 +86,7 @@ function Fund(): JSX.Element {
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                        <PieTile></PieTile>
                     </Grid>
                 </Grid> : ''}
 
