@@ -3,6 +3,7 @@ from pyteal import Bytes
 version = Bytes("v")
 published = Bytes("p")
 creator = Bytes("c")
+creator = Bytes("c")
 created_at = Bytes("cat")
 name = Bytes("n")
 asset_id = Bytes("aid")
