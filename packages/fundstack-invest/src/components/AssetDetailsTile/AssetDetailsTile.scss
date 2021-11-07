@@ -1,0 +1,41 @@
+@import '../../assets/colors';
+
+.asset-details-tile-wrapper {
+  .asset-details-tile-container {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    height: 360px;
+    .tile-name {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .data {
+      margin-top: 20px;
+      .tabs {
+        border-bottom: 1px solid #ffffff;
+      }
+      .tab-content {
+        margin-top: 30px;
+        .pair {
+          display: flex;
+          margin: 40px 0px;
+          justify-content: space-between;
+          .key {
+            font-size: 18px;
+          }
+          .value {
+            font-size: 20px;
+            font-weight: bold;
+            &.clickable {
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

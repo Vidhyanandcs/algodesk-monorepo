@@ -1,0 +1,64 @@
+@import '../../assets/colors';
+
+.fund-wrapper {
+  .fund-container {
+    margin-top: 50px;
+    .fund-header {
+      .fund-name {
+        font-size: 30px;
+        font-weight: 600;
+      }
+      .items {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .fund-id {
+        font-size: 18px;
+        font-family: MontserratLight !important;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+      .fund-creator {
+        font-size: 18px;
+        span {
+          font-weight: bold;
+        }
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+    .fund-body-tiles {
+      margin-top: 30px;
+      .tile {
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        height: 150px;
+        padding: 30px;
+        .tile-header {
+          .tile-name {
+            font-size: 20px;
+            font-weight: 600;
+          }
+          .tile-status {
+            float: right;
+            margin-top: -28px;
+          }
+        }
+        .tile-body {
+          margin-top: 40px;
+          .count {
+            font-size: 18px;
+            span {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,8 +3,7 @@ import {Box, Button, ButtonGroup, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Logo from "../Logo/Logo";
-import {getNetworks} from "@algodesk/core";
-import {setNetwork} from "../Settings/Settings";
+import {getNetworks, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
 import algosdk from "../../utils/algosdk";
@@ -38,7 +37,7 @@ function Header(): JSX.Element {
                                         const {name} = network;
                                         console.log(name);
                                         if (algosdk.signer.isNetworkSupported(name)) {
-                                            setNetwork(name);
+                                            setLocalNetwork(name);
                                             dispatch(selectNetwork(name));
                                             dispatch(loadAccount(address));
                                         }

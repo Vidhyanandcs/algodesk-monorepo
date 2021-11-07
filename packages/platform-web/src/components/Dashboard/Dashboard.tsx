@@ -15,7 +15,6 @@ import {RootState} from "../../redux/store";
 import {ellipseAddress} from "@algodesk/core";
 import sdk from "algosdk";
 import {AccountBalanceWallet, FileCopyOutlined, PowerSettingsNew, CropFree, CancelOutlined} from '@material-ui/icons';
-import {openAccountInExplorer} from "../../utils/core";
 import copy from "copy-to-clipboard";
 import {showSnack} from "../../redux/actions/snackbar";
 import {logout} from '../../redux/actions/account';
@@ -23,6 +22,7 @@ import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
 import QRCode from "qrcode.react";
 import accountImg from '../../assets/images/account-icon.png';
+import algosdk from "../../utils/algosdk";
 
 
 const useStyles = makeStyles((theme) => {
@@ -66,7 +66,7 @@ function Dashboard(): JSX.Element {
                               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                   <div className="account-details">
                                       <div className="addr" onClick={() => {
-                                          openAccountInExplorer(address);
+                                          algosdk.explorer.openAccount(address);
                                       }}>
                                           <img src={accountImg} alt="address"/>
                                           {ellipseAddress(address, 12)}

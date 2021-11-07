@@ -13,9 +13,8 @@ import {setNetwork as selectNetwork} from '../../redux/actions/network';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
-import {getNetworks} from "@algodesk/core";
+import {getNetworks, setLocalNetwork} from "@algodesk/core";
 import Logo from '../Logo/Logo';
-import {setNetwork} from "../Settings/Settings";
 import connectWhiteImg from '../../assets/images/connect-white.png';
 
 
@@ -55,7 +54,7 @@ function Login(): JSX.Element {
                                       <FormControl component="fieldset">
                                           <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
                                               const network = e.currentTarget.value;
-                                              setNetwork(network);
+                                              setLocalNetwork(network);
                                               dispatch(selectNetwork(network));
                                           }}>
                                               {networks.map((network) => {

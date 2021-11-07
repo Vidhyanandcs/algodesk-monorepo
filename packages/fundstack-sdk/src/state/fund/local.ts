@@ -1,6 +1,6 @@
-export const localStateKeys = {
-    registered: "r",
-    invested: "i",
-    invested_amount: "ia",
-    claimed: "c"
+export enum localStateKeys {
+    registered = "r",
+    invested = "i",
+    invested_amount = "ia",
+    claimed = "c"
 }

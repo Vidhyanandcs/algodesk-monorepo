@@ -22,14 +22,7 @@ import {
     MoreVert,
     ControlPoint, Search
 } from '@material-ui/icons';
-import {
-    debounce,
-    getAssetBal,
-    getAssetBalWithTicker,
-    openAccountInExplorer,
-    openAssetInExplorer
-} from "../../utils/core";
-import {A_Asset, ellipseAddress, NETWORKS} from "@algodesk/core";
+import {A_Asset, debounce, ellipseAddress, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import SendAssets from "../SendAssets/SendAssets";
@@ -67,7 +60,7 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
             {label}
         </div>
         <div className={cls.join(" ")} onClick={() => {
-            openAccountInExplorer(value);
+            algosdk.explorer.openAccount(value);
         }}>
             {processAssetParam(value)}
             <span className={indicatorCls.join(" ")}>
@@ -118,7 +111,7 @@ function Assets(): JSX.Element {
             let filteredAssets: A_Asset[] = [];
             if (hideZeroBal) {
                 filteredAssets = createdAssets.filter((asset) => {
-                    const assetBal = getAssetBal(asset, information);
+                    const assetBal = algosdk.algodesk.accountClient.getAssetBal(asset, information);
                     return assetBal !== 0;
                 });
             }
@@ -210,7 +203,7 @@ function Assets(): JSX.Element {
                                           <div>
                                               <Tooltip title="View in explorer">
                                                   <IconButton color={"primary"} onClick={(ev) => {
-                                                      openAssetInExplorer(asset.index);
+                                                      algosdk.explorer.openAsset(asset.index);
                                                   }}>
                                                       <Launch/>
                                                   </IconButton>
@@ -245,7 +238,7 @@ function Assets(): JSX.Element {
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
 
-                                                      Bal: {getAssetBalWithTicker(asset, information)}
+                                                      Bal: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                                   </div>
 
                                               </Grid>
