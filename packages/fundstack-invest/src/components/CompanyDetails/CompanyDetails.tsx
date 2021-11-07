@@ -19,7 +19,7 @@ function CompanyDetails(): JSX.Element {
   return (
       <div className="company-details-wrapper">
           <div className="company-details-container">
-                <div className="title">Company details</div>
+                <div className="tile-name">Company details</div>
               <div className="data">
                   <div className="pair">
                       <div className="key">Website</div>

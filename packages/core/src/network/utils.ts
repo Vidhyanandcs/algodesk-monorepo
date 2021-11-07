@@ -20,23 +20,8 @@ export function getNetworks(): Network[] {
     return [testnet, betanet, mainnet];
 }
 
-const networkEnv: string = process.env.REACT_APP_NETWORK;
-
-export function getEnvNetwork(considerLocalStorage: boolean): string {
-    let network: string;
-
-    if (considerLocalStorage) {
-        network = localStorage.getItem(LOCAL_STORAGE.NETWORK) || networkEnv;
-    }
-    else {
-        network = networkEnv;
-    }
-
-    if (!network) {
-        network = NETWORKS.MAINNET;
-    }
-
-    return network;
+export function getLocalNetwork(): string {
+    return localStorage.getItem(LOCAL_STORAGE.NETWORK);
 }
 
 export function setLocalNetwork(name: string): void {

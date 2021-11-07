@@ -6,14 +6,15 @@ import ConnectWallet from "../ConnectWallet/ConnectWallet";
 import {setNetwork} from '../../redux/actions/network';
 import {useDispatch} from "react-redux";
 import Loader from "../Loader/Loader";
-import {getEnvNetwork} from "@algodesk/core";
+import {NETWORKS} from "@algodesk/core";
 
+const networkEnv: string = process.env.REACT_APP_NETWORK;
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const selectedNetwork = getEnvNetwork();
+        const selectedNetwork = networkEnv || NETWORKS.MAINNET;
         dispatch(setNetwork(selectedNetwork));
     });
 

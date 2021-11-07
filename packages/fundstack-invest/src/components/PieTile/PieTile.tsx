@@ -22,7 +22,7 @@ function PieTile(): JSX.Element {
   return (
       <div className="pie-tile-wrapper">
           <div className="pie-tile-container">
-                <div className="title">Fund allocation</div>
+                <div className="tile-name">Fund allocation</div>
                 <div className="chart">
                     <ResponsiveContainer width="100%" height={250}>
                         <PieChart>

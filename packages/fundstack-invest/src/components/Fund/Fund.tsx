@@ -10,6 +10,7 @@ import {ellipseAddress} from "@algodesk/core";
 import PieTile from "../PieTile/PieTile";
 import CompanyDetails from "../CompanyDetails/CompanyDetails";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
+import fundstackSdk from "../../utils/fundstackSdk";
 
 
 function Fund(): JSX.Element {
@@ -33,11 +34,21 @@ function Fund(): JSX.Element {
                             <div className="fund-name">
                                 {fund.globalState[globalStateKeys.name]}
                             </div>
-                            <div className="fund-id">
-                                ID: {fund.id}
-                            </div>
-                            <div className="fund-creator">
-                                <span>Creator: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
+                            <div className="items">
+                                <div className="item">
+                                    <div className="fund-id" onClick={() => {
+                                        fundstackSdk.explorer.openApplication(fund.id);
+                                    }}>
+                                        ID: {fund.id}
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="fund-creator" onClick={() => {
+                                        fundstackSdk.explorer.openAccount(fund.globalState[globalStateKeys.creator]);
+                                    }}>
+                                        <span>Creator: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="fund-body-tiles">

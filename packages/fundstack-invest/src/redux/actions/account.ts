@@ -4,7 +4,7 @@ import {
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
-import algosdk from "../../utils/algosdk";
+import fundstackSdk from "../../utils/fundstackSdk";
 
 
 export interface Account {
@@ -44,7 +44,7 @@ export const loadAccount = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             dispatch(showLoader("Loading account information ..."));
-            const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
+            const accountInfo = await fundstackSdk.fundstack.algodesk.accountClient.getAccountInformation(address);
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -62,7 +62,7 @@ export const accountSlice = createSlice({
         logout: (state) => {
             state.loggedIn = false;
             state.information = information;
-            algosdk.signer.logout();
+            fundstackSdk.signer.logout();
         }
     },
     extraReducers: (builder) => {

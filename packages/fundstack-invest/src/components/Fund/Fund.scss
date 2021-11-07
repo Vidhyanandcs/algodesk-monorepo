@@ -4,24 +4,31 @@
   .fund-container {
     margin-top: 50px;
     .fund-header {
-      position: relative;
       .fund-name {
-        font-size: 36px;
+        font-size: 30px;
         font-weight: 600;
+      }
+      .items {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
       }
       .fund-id {
         font-size: 18px;
-        margin-top: 15px;
         font-family: MontserratLight !important;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
       }
       .fund-creator {
-        float: right;
         font-size: 18px;
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
         span {
           font-weight: bold;
+        }
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
         }
       }
     }
@@ -34,7 +41,7 @@
         padding: 30px;
         .tile-header {
           .tile-name {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
           }
           .tile-status {

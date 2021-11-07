@@ -9,7 +9,7 @@ export class Explorer {
         return this.url + '/address/' + address;
     }
 
-    getAssetUrl(assetId: number): string {
+    getAssetUrl(assetId: number | bigint): string {
         return this.url + '/asset/' + assetId;
     }
 
@@ -17,7 +17,11 @@ export class Explorer {
         return this.url + '/tx/' + txId;
     }
 
-    openAsset(assetId: number): void {
+    getApplicationUrl(appId: number | bigint): string {
+        return this.url + '/application/' + appId;
+    }
+
+    openAsset(assetId: number | bigint): void {
         if (assetId) {
             const url = this.getAssetUrl(assetId);
             window.open(url, "_blank");
@@ -34,6 +38,13 @@ export class Explorer {
     openTransaction(txId: string): void {
         if (txId) {
             const url = this.getTransactionUrl(txId);
+            window.open(url, "_blank");
+        }
+    }
+
+    openApplication(appId: number | bigint): void {
+        if (appId) {
+            const url = this.getApplicationUrl(appId);
             window.open(url, "_blank");
         }
     }

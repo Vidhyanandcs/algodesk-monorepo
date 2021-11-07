@@ -6,7 +6,7 @@ import {useState} from "react";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {A_Asset, ellipseAddress} from "@algodesk/core";
 import {microalgosToAlgos} from "algosdk";
-import algosdk from "../../utils/algosdk";
+import fundstackSdk from "../../utils/fundstackSdk";
 
 interface AssetDetailsTileState{
     tab: string
@@ -33,7 +33,7 @@ function AssetDetailsTile(): JSX.Element {
   return (
       <div className="asset-details-tile-wrapper">
           <div className="asset-details-tile-container">
-                <div className="title">Asset details</div>
+                <div className="tile-name">Asset details</div>
               <div className="data">
                   <Tabs value={tab} onChange={(event, newValue) => {
                       setState(prevState => ({ ...prevState, tab: newValue }));
@@ -63,7 +63,7 @@ function AssetDetailsTile(): JSX.Element {
                       <div className="pair">
                           <div className="key">Asset ID</div>
                           <div className="value" onClick={() => {
-                              algosdk.explorer.openAsset(fund.asset.index);
+                              fundstackSdk.explorer.openAsset(fund.asset.index);
                           }}>{fund.asset.index}</div>
                       </div>
                       <div className="pair">
