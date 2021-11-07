@@ -1,0 +1,16 @@
+@import '../../assets/colors';
+
+.asset-details-tile-wrapper {
+  .asset-details-tile-container {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .data {
+      margin-top: 20px;
+    }
+  }
+}
