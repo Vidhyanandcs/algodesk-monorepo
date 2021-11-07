@@ -37,17 +37,20 @@ function PieTile(): JSX.Element {
                     </ResponsiveContainer>
                 </div>
               <div className="data">
-                  <div className="pair">
-                      <div className="key">Total</div>
-                      <div className="value">: {totalAllocation} {fund.asset.params["unit-name"]}</div>
+                  <div className="items">
+                      <div className="item key">Total</div>
+                      <div className="item" style={{textAlign: "center"}}>:</div>
+                      <div className="item value">{totalAllocation} {fund.asset.params["unit-name"]}</div>
                   </div>
-                  <div className="pair">
-                      <div className="key">Sold</div>
-                      <div className="value">: {soldAllocation} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
+                  <div className="items">
+                      <div className="item key">Sold</div>
+                      <div className="item" style={{textAlign: "center"}}>:</div>
+                      <div className="item value">{soldAllocation} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
                   </div>
-                  <div className="pair">
-                      <div className="key">Remaining</div>
-                      <div className="value">: {remainingAllocation} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
+                  <div className="items">
+                      <div className="item key">Remaining</div>
+                      <div className="item" style={{textAlign: "center"}}>:</div>
+                      <div className="item value">{remainingAllocation} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
                   </div>
               </div>
           </div>

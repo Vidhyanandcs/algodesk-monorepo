@@ -5,7 +5,7 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
     padding: 30px;
-    height: 600px;
+    height: 680px;
     .tile-name {
       font-size: 20px;
       font-weight: 600;
@@ -16,16 +16,23 @@
     }
     .data {
       margin-top: 50px;
-      .pair {
+      .items {
         display: flex;
+        justify-content: space-between;
         margin: 20px 0px;
+        .item {
+          flex-grow: 1;
+          flex-basis: 0;
+        }
         .key {
           font-family: MontserratLight !important;
           font-size: 18px;
+          flex-grow: 3;
         }
         .value {
           font-size: 20px;
           font-weight: bold;
+          flex-grow: 3;
           .perc {
             font-weight: normal;
             font-family: MontserratLight !important;

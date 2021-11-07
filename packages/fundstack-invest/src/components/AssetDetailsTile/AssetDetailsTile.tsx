@@ -35,7 +35,7 @@ function AssetDetailsTile(): JSX.Element {
           <div className="asset-details-tile-container">
                 <div className="tile-name">Asset details</div>
               <div className="data">
-                  <Tabs value={tab} onChange={(event, newValue) => {
+                  <Tabs value={tab} className="tabs" onChange={(event, newValue) => {
                       setState(prevState => ({ ...prevState, tab: newValue }));
                   }} indicatorColor="primary">
                       <Tab label="Pool information" value="pool_information"/>
@@ -62,7 +62,7 @@ function AssetDetailsTile(): JSX.Element {
                   {tab === 'asset_information' ? <div className="tab-content">
                       <div className="pair">
                           <div className="key">Asset ID</div>
-                          <div className="value" onClick={() => {
+                          <div className="value clickable" onClick={() => {
                               fundstackSdk.explorer.openAsset(fund.asset.index);
                           }}>{fund.asset.index}</div>
                       </div>
