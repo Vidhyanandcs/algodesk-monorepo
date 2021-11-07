@@ -2,6 +2,7 @@ import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {A_AccountInformation, Signer, A_Asset, A_AssetHolding, A_Application, A_AppsLocalState} from "../types";
 import {TransactionClient} from "./transactionClient";
+import {formatNumWithDecimals} from "../utils/index";
 
 export class AccountClient{
     client: Algodv2;
@@ -82,5 +83,13 @@ export class AccountClient{
     canClawback(address: string, asset: A_Asset): boolean {
         const clawback = asset.params.clawback;
         return address === clawback;
+    }
+
+    getAssetBal(asset: A_Asset, information: A_AccountInformation): number {
+        return this.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals);
+    }
+
+    getAssetBalWithTicker(asset: A_Asset, information: A_AccountInformation): string {
+        return formatNumWithDecimals(this.getAssetBal(asset, information), asset.params.decimals) + ' ' + asset.params['unit-name'];
     }
 }

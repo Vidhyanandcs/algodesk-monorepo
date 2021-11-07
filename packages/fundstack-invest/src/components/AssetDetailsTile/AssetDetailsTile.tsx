@@ -6,7 +6,7 @@ import {useState} from "react";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {A_Asset, ellipseAddress} from "@algodesk/core";
 import {microalgosToAlgos} from "algosdk";
-import {openAssetInExplorer} from "../../utils/core";
+import algosdk from "../../utils/algosdk";
 
 interface AssetDetailsTileState{
     tab: string
@@ -63,7 +63,7 @@ function AssetDetailsTile(): JSX.Element {
                       <div className="pair">
                           <div className="key">Asset ID</div>
                           <div className="value" onClick={() => {
-                              openAssetInExplorer(fund.asset.index);
+                              algosdk.explorer.openAsset(fund.asset.index);
                           }}>{fund.asset.index}</div>
                       </div>
                       <div className="pair">

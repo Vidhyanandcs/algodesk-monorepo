@@ -12,8 +12,7 @@ import {CheckCircleOutline, CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {hideTransactionDetails} from "../../redux/actions/transaction";
 import {getCommonStyles} from "../../utils/styles";
-import {openTransactionInExplorer} from "../../utils/core";
-
+import algosdk from "../../utils/algosdk";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -74,7 +73,7 @@ function TransactionDetails(): JSX.Element {
                                 <div style={{marginTop: 20, marginBottom: 30}}>
                                     <Button color={"primary"} variant={"contained"} size={"large"}
                                             onClick={() => {
-                                                openTransactionInExplorer(txId);
+                                                algosdk.explorer.openTransaction(txId);
                                             }}
                                     >View transaction</Button>
                                 </div>

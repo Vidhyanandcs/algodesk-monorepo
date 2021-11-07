@@ -16,4 +16,25 @@ export class Explorer {
     getTransactionUrl(txId: string): string {
         return this.url + '/tx/' + txId;
     }
+
+    openAsset(assetId: number): void {
+        if (assetId) {
+            const url = this.getAssetUrl(assetId);
+            window.open(url, "_blank");
+        }
+    }
+
+    openAccount(address: string = ""): void {
+        if (address) {
+            const url = this.getAccountUrl(address);
+            window.open(url, "_blank");
+        }
+    }
+
+    openTransaction(txId: string): void {
+        if (txId) {
+            const url = this.getTransactionUrl(txId);
+            window.open(url, "_blank");
+        }
+    }
 }

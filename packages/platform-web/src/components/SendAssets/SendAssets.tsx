@@ -14,13 +14,12 @@ import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
-import {getAssetBal, getAssetBalWithTicker, isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
-import {A_TransferAssetParams} from "@algodesk/core";
+import {A_TransferAssetParams, isNumber} from "@algodesk/core";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -139,7 +138,7 @@ function SendAssets(): JSX.Element {
                                         {selectedAsset.params.name}
                                     </div>
                                     <div className="bal">
-                                        Balance: {getAssetBalWithTicker(selectedAsset, information)}
+                                        Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(selectedAsset, information)}
                                     </div>
                                 </div>
                             </Grid>
@@ -168,7 +167,7 @@ function SendAssets(): JSX.Element {
                                            }}
                                            InputProps={{
                                                endAdornment: <InputAdornment position="end" color="primary"><Button color="primary" onClick={() => {
-                                                   const totalBalance = getAssetBal(selectedAsset, information);
+                                                   const totalBalance = algosdk.algodesk.accountClient.getAssetBal(selectedAsset, information);
                                                    setState(prevState => ({...prevState, amount: totalBalance}));
                                                }
                                                }>Max</Button></InputAdornment>,

@@ -19,3 +19,7 @@ export enum ALGO_SIGNER_NET {
     TESTNET = 'TestNet',
     MAINNET = 'MainNet'
 }
+
+export enum LOCAL_STORAGE {
+    NETWORK = 'network'
+}

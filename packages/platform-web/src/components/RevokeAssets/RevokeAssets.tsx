@@ -14,12 +14,11 @@ import {showLoader, hideLoader} from "../../redux/actions/loader";
 import {CancelOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useState} from "react";
-import {isNumber} from "../../utils/core";
 import algosdk from "../../utils/algosdk";
 import sdk from 'algosdk';
 import {handleException} from "../../redux/actions/exception";
 import {loadAccount} from "../../redux/actions/account";
-import {A_RevokeAssetParams} from "@algodesk/core";
+import {A_RevokeAssetParams, isNumber} from "@algodesk/core";
 import {showTransactionDetails} from "../../redux/actions/transaction";
 
 const useStyles = makeStyles((theme) => {

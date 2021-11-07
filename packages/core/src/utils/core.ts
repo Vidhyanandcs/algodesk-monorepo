@@ -1,5 +1,6 @@
 import Duration from 'duration';
 import {BLOCK_TIME} from "../constants";
+import {formatNumber} from "accounting";
 
 export function encodeText(text: string | undefined): Uint8Array | undefined {
     if (text) {
@@ -19,4 +20,40 @@ export function durationBetweenBlocks(futureRound: number, currentRound: number)
 
 export function ellipseAddress(address: string = "", width: number = 5): string {
     return `${address.slice(0, width)}...${address.slice(-width)}`;
+}
+
+export function formatNumWithDecimals(num: number, decimals: number): string {
+    return formatNumber(num, {
+        precision: decimals
+    });
+}
+
+export function isNumber(n: any) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+export function isPositive(n: number) {
+    return n >= 0;
+}
+
+export function debounce (task: any, ms: number) {
+    let t = { promise: null, cancel: _ => void 0 }
+    return async (...args: any) => {
+        try {
+            // @ts-ignore
+            t.cancel()
+            t = deferred(ms)
+            await t.promise
+            await task(...args)
+        }
+        catch (_) { /* prevent memory leak */ }
+    }
+}
+
+export function deferred (ms: number) {
+    let cancel, promise = new Promise((resolve, reject) => {
+        cancel = reject
+        setTimeout(resolve, ms)
+    })
+    return { promise, cancel }
 }
