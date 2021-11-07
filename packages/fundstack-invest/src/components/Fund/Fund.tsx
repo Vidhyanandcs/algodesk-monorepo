@@ -84,11 +84,11 @@ function Fund(): JSX.Element {
                                         </div>
                                     </div>
                                 </Grid>
-                                <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                    <CompanyDetails></CompanyDetails>
-                                </Grid>
                                 <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
                                     <AssetDetailsTile></AssetDetailsTile>
+                                </Grid>
+                                <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                    <CompanyDetails></CompanyDetails>
                                 </Grid>
                             </Grid>
                         </div>

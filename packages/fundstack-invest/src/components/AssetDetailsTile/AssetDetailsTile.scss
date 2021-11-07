@@ -11,6 +11,21 @@
     }
     .data {
       margin-top: 20px;
+      .tab-content {
+        margin-top: 30px;
+        .pair {
+          display: flex;
+          margin: 40px 0px;
+          justify-content: space-between;
+          .key {
+            font-size: 18px;
+          }
+          .value {
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+      }
     }
   }
 }
