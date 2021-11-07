@@ -103,9 +103,6 @@ function ConnectWallet(): JSX.Element {
                                     <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
                                         Connect wallet
                                     </Typography>
-                                    <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        to start using Algodesk
-                                    </Typography>
                                 </div>
                                 <div className="body">
                                     {signers.map((signer) => {
@@ -124,7 +121,7 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="footer">
                                     <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        By connecting, I accept Algodesk Terms of Service
+                                        By connecting, I accept Fundstack Terms of Service
                                     </Typography>
                                 </div>
                             </div>
