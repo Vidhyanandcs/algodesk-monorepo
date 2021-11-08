@@ -23,6 +23,11 @@
           justify-content: space-between;
           .key {
             font-size: 18px;
+            svg {
+              margin-left: 10px;
+              vertical-align: middle;
+              color: #666666;
+            }
           }
           .value {
             font-size: 20px;

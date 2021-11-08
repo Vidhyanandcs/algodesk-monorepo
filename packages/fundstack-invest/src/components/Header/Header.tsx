@@ -1,5 +1,5 @@
 import './Header.scss';
-import {Button, Grid} from "@material-ui/core";
+import {Button, Grid, Tooltip} from "@material-ui/core";
 import Logo from "../Logo/Logo";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,6 +9,8 @@ import React from "react";
 import accountImg from '../../assets/images/account-icon.png';
 import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
+import {logout} from "../../redux/actions/account";
+import {PowerSettingsNew} from "@material-ui/icons";
 
 function Header(): JSX.Element {
     const dispatch = useDispatch();
@@ -48,7 +50,14 @@ function Header(): JSX.Element {
                                             {microalgosToAlgos(account.information.amount)} Algos
                                         </div>
                                     </div>
+                                    <Tooltip title="Logout">
+                                          <span className="logout" onClick={(ev) => {
+                                              dispatch(logout());
+                                          }}>
+                                                  <PowerSettingsNew fontSize={"medium"} color={"secondary"}></PowerSettingsNew>
+                                          </span>
 
+                                    </Tooltip>
                                 </div>
                             </div>
                         </div>}

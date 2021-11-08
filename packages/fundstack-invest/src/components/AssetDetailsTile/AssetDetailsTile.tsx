@@ -1,12 +1,13 @@
 import './AssetDetailsTile.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Tab, Tabs} from "@material-ui/core";
-import {useState} from "react";
+import {Tab, Tabs, Tooltip} from "@material-ui/core";
+import React, {useState} from "react";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {A_Asset, ellipseAddress} from "@algodesk/core";
 import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
+import {InfoOutlined} from "@material-ui/icons";
 
 interface AssetDetailsTileState{
     tab: string
@@ -43,19 +44,36 @@ function AssetDetailsTile(): JSX.Element {
                   </Tabs>
                   {tab === 'pool_information' ? <div className="tab-content">
                       <div className="pair">
-                          <div className="key">Total allocation</div>
+                          <div className="key">
+                              Total allocation
+                              <Tooltip title="Total assets sold in this sale">
+                                  <InfoOutlined fontSize={"small"}></InfoOutlined>
+                              </Tooltip>
+                          </div>
                           <div className="value">{getValueInAssetDecimalsWithTicker(globalState[globalStateKeys.total_allocation], fund.asset)}</div>
                       </div>
                       <div className="pair">
-                          <div className="key">Min allocation</div>
+                          <div className="key">
+                              Min allocation
+                              <Tooltip title="Minimum allocation for each investor">
+                                  <InfoOutlined fontSize={"small"}></InfoOutlined>
+                              </Tooltip>
+                          </div>
                           <div className="value">{getValueInAssetDecimalsWithTicker(globalState[globalStateKeys.min_allocation], fund.asset)}</div>
                       </div>
                       <div className="pair">
-                          <div className="key">Max allocation</div>
+                          <div className="key">
+                              Max allocation
+                              <Tooltip title="Maximum allocation for each investor">
+                                  <InfoOutlined fontSize={"small"}></InfoOutlined>
+                              </Tooltip>
+                          </div>
                           <div className="value">{getValueInAssetDecimalsWithTicker(globalState[globalStateKeys.max_allocation], fund.asset)}</div>
                       </div>
                       <div className="pair">
-                          <div className="key">Price</div>
+                          <div className="key">
+                              Price
+                          </div>
                           <div className="value">1 {fund.asset.params["unit-name"]} = {microalgosToAlgos(globalState[globalStateKeys.price])} Algos</div>
                       </div>
                   </div> : ''}
@@ -76,7 +94,9 @@ function AssetDetailsTile(): JSX.Element {
                       </div>
                       <div className="pair">
                           <div className="key">Creator</div>
-                          <div className="value">{ellipseAddress(fund.asset.params.creator, 8)}</div>
+                          <div className="value clickable" onClick={() => {
+                              fundstackSdk.explorer.openAccount(fund.asset.params.creator);
+                          }}>{ellipseAddress(fund.asset.params.creator, 8)}</div>
                       </div>
                   </div> : ''}
               </div>
