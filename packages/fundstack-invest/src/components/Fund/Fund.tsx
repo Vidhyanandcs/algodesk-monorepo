@@ -2,35 +2,32 @@ import './Fund.scss';
 import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loadFund, setRegistration} from "../../redux/actions/fund";
+import {loadFund} from "../../redux/actions/fund";
 import {RootState} from "../../redux/store";
-import {Chip, Grid} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ellipseAddress} from "@algodesk/core";
 import PieTile from "../PieTile/PieTile";
 import CompanyDetails from "../CompanyDetails/CompanyDetails";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
+import RegistrationTile from "../RegistrationTile/RegistrationTile";
+import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
+import ClaimsTile from "../ClaimsTile/ClaimsTile";
 
 
 function Fund(): JSX.Element {
     const params = useParams();
     const dispatch = useDispatch();
     const fundDetails = useSelector((state: RootState) => state.fund);
-    const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
-    const {registered} = fundDetails.account;
+
     // @ts-ignore
     const id: number = params.id;
 
     useEffect(() => {
         dispatch(loadFund(id));
     }, [dispatch, id]);
-
-    useEffect(() => {
-        dispatch(setRegistration(id));
-    }, [dispatch, id, account]);
 
     return (<div className={"fund-wrapper"}>
         <div className={"fund-container"}>
@@ -61,54 +58,13 @@ function Fund(): JSX.Element {
                         <div className="fund-body-tiles">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <div className="tile">
-                                        <div className="tile-header">
-                                            <div className="tile-name">
-                                                Registration
-                                            </div>
-                                            {fund.status.registration.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                                            {fund.status.registration.completed ? <Chip label={"Completed"} size={"small"} className="tile-status"/> : ''}
-                                        </div>
-                                        <div className="tile-body">
-                                            <div className="tile-row">
-                                                <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                                                Total registrations: <span>{fund.globalState[globalStateKeys.no_of_registrations]}</span>
-                                            </div>
-                                            {registered ? <div className="tile-row">
-                                                <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                                                You have registered
-                                            </div> : ''}
-
-                                        </div>
-                                    </div>
+                                    <RegistrationTile></RegistrationTile>
                                 </Grid>
                                 <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <div className="tile">
-                                        <div className="tile-header">
-                                            <div className="tile-name">
-                                                Investments
-                                            </div>
-                                            {fund.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                                            {fund.status.sale.completed ? <Chip label={"Completed"} size={"small"} className="tile-status"/> : ''}
-                                        </div>
-                                        <div className="tile-body">
-                                            <div className="count">Total investors: <span>{fund.globalState[globalStateKeys.no_of_investors]}</span></div>
-                                        </div>
-                                    </div>
+                                    <InvestmentsTile></InvestmentsTile>
                                 </Grid>
                                 <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <div className="tile">
-                                        <div className="tile-header">
-                                            <div className="tile-name">
-                                                Claims
-                                            </div>
-                                            {fund.status.claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                                            {fund.status.claim.completed ? <Chip label={"Completed"} size={"small"} className="tile-status"/> : ''}
-                                        </div>
-                                        <div className="tile-body">
-                                            <div className="count">Total claims: <span>{fund.globalState[globalStateKeys.no_of_claims]}</span></div>
-                                        </div>
-                                    </div>
+                                    <ClaimsTile></ClaimsTile>
                                 </Grid>
                                 <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
                                     <AssetDetailsTile></AssetDetailsTile>

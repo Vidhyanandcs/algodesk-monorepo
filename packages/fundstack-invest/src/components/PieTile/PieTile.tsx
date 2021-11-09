@@ -72,7 +72,7 @@ function PieTile(): JSX.Element {
                                                              dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
                                                          }
                                                          else {
-                                                             dispatch(register(fund.id));
+                                                             dispatch(register(Number(fund.id)));
                                                          }
                                                      }
                                                      else {

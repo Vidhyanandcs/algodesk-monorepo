@@ -44,18 +44,22 @@ export const loadFund = createAsyncThunk(
 
 export const register = createAsyncThunk(
     'fund/register',
-    async (fundId: bigint | number, thunkAPI) => {
+    async (fundId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
             dispatch(showLoader("Registering ..."));
-            const txDetails = await fundstackSdk.fundstack.register(Number(fundId), address);
+            const {txId} = await fundstackSdk.fundstack.register(fundId, address);
+            dispatch(hideLoader());
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(showSuccessModal("Your registration is successful"));
             dispatch(loadAccount(address));
-            return txDetails;
+            dispatch(loadFund(fundId));
+            return txId;
         }
         catch (e: any) {
             dispatch(handleException(e));
