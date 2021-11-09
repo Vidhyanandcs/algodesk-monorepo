@@ -6,7 +6,7 @@ import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
 import {Button} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
-import {register} from "../../redux/actions/registration";
+import {register} from "../../redux/actions/fund";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -15,8 +15,6 @@ function PieTile(): JSX.Element {
     const {status} = fund;
     const {registration}= status;
     const dispatch = useDispatch();
-
-    console.log(fund);
 
     const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
     const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation] / Math.pow(10, fund.asset.params.decimals);
@@ -70,7 +68,12 @@ function PieTile(): JSX.Element {
                                                  fullWidth
                                                  onClick={() => {
                                                      if (account.loggedIn) {
-                                                        dispatch(register(fund.id));
+                                                         if (fundDetails.account.registered) {
+                                                             dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
+                                                         }
+                                                         else {
+                                                             dispatch(register(fund.id));
+                                                         }
                                                      }
                                                      else {
                                                          dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));

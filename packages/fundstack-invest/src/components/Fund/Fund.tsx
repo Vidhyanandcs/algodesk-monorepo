@@ -1,8 +1,8 @@
 import './Fund.scss';
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loadFund} from "../../redux/actions/fund";
+import {loadFund, setRegistration} from "../../redux/actions/fund";
 import {RootState} from "../../redux/store";
 import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
@@ -13,13 +13,6 @@ import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 
-interface FundState{
-    registered: boolean
-}
-
-const initialState: FundState = {
-    registered: false,
-};
 
 function Fund(): JSX.Element {
     const params = useParams();
@@ -27,25 +20,16 @@ function Fund(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {registered} = fundDetails.account;
     // @ts-ignore
     const id: number = params.id;
-
-    const [
-        { registered },
-        setState
-    ] = useState(initialState);
 
     useEffect(() => {
         dispatch(loadFund(id));
     }, [dispatch, id]);
 
     useEffect(() => {
-        let reg = false;
-        if (account.loggedIn) {
-            reg = fundstackSdk.fundstack.hasRegistered(account.information, id);
-        }
-
-        setState(prevState => ({ ...prevState, registered: reg}));
+        dispatch(setRegistration(id));
     }, [dispatch, id, account]);
 
     return (<div className={"fund-wrapper"}>
