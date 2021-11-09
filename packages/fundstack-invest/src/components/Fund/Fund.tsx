@@ -1,5 +1,5 @@
 import './Fund.scss';
-import {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadFund} from "../../redux/actions/fund";
@@ -11,19 +11,42 @@ import PieTile from "../PieTile/PieTile";
 import CompanyDetails from "../CompanyDetails/CompanyDetails";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import fundstackSdk from "../../utils/fundstackSdk";
+import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 
+interface FundState{
+    registered: boolean
+}
+
+const initialState: FundState = {
+    registered: false,
+};
 
 function Fund(): JSX.Element {
     const params = useParams();
     const dispatch = useDispatch();
     const fundDetails = useSelector((state: RootState) => state.fund);
+    const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
     // @ts-ignore
     const id: number = params.id;
 
+    const [
+        { registered },
+        setState
+    ] = useState(initialState);
+
     useEffect(() => {
-        dispatch(loadFund(id))
-    }, [id, dispatch]);
+        dispatch(loadFund(id));
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        let reg = false;
+        if (account.loggedIn) {
+            reg = fundstackSdk.fundstack.hasRegistered(account.information, id);
+        }
+
+        setState(prevState => ({ ...prevState, registered: reg}));
+    }, [dispatch, id, account]);
 
     return (<div className={"fund-wrapper"}>
         <div className={"fund-container"}>
@@ -63,7 +86,15 @@ function Fund(): JSX.Element {
                                             {fund.status.registration.completed ? <Chip label={"Completed"} size={"small"} className="tile-status"/> : ''}
                                         </div>
                                         <div className="tile-body">
-                                            <div className="count">Total registrations: <span>{fund.globalState[globalStateKeys.no_of_registrations]}</span></div>
+                                            <div className="tile-row">
+                                                <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
+                                                Total registrations: <span>{fund.globalState[globalStateKeys.no_of_registrations]}</span>
+                                            </div>
+                                            {registered ? <div className="tile-row">
+                                                <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
+                                                You have registered
+                                            </div> : ''}
+
                                         </div>
                                     </div>
                                 </Grid>

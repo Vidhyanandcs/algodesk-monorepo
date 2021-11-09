@@ -51,10 +51,12 @@
         }
         .tile-body {
           margin-top: 40px;
-          .count {
-            font-size: 18px;
-            span {
-              font-weight: bold;
+          .tile-row {
+            font-size: 16px;
+            margin-top: 15px;
+            svg {
+              margin-right: 10px;
+              vertical-align: middle;
             }
           }
         }

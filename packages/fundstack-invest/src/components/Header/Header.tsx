@@ -15,7 +15,6 @@ import {PowerSettingsNew} from "@material-ui/icons";
 function Header(): JSX.Element {
     const dispatch = useDispatch();
     const account = useSelector((state: RootState) => state.account);
-    console.log(account);
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>

@@ -435,4 +435,8 @@ export class Fundstack {
         
         return fundIds;
     }
+
+    hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {
+        return this.algodesk.applicationClient.hasOpted(accountInfo, fundId);
+    }
 }

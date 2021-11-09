@@ -7,6 +7,7 @@ import {setNetwork} from '../../redux/actions/network';
 import {useDispatch} from "react-redux";
 import Loader from "../Loader/Loader";
 import {NETWORKS} from "@algodesk/core";
+import SuccessModal from "../SuccessModal/SuccessModal";
 
 const networkEnv: string = process.env.REACT_APP_NETWORK;
 
@@ -24,6 +25,7 @@ function App(): JSX.Element {
           <AppSnackbar></AppSnackbar>
           <ConnectWallet></ConnectWallet>
           <Loader></Loader>
+          <SuccessModal></SuccessModal>
       </div>
   );
 }

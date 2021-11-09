@@ -1,12 +1,22 @@
 import './PieTile.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
+import {Button} from "@material-ui/core";
+import React from "react";
+import {showSnack} from "../../redux/actions/snackbar";
+import {register} from "../../redux/actions/registration";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
+    const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {status} = fund;
+    const {registration}= status;
+    const dispatch = useDispatch();
+
+    console.log(fund);
 
     const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
     const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation] / Math.pow(10, fund.asset.params.decimals);
@@ -52,6 +62,21 @@ function PieTile(): JSX.Element {
                       <div className="item" style={{textAlign: "center"}}>:</div>
                       <div className="item value">{remainingAllocation} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
                   </div>
+              </div>
+              <div className="user-actions">
+                  {registration.active ? <Button variant={"contained"}
+                                                 color={"primary"}
+                                                 size={"large"}
+                                                 fullWidth
+                                                 onClick={() => {
+                                                     if (account.loggedIn) {
+                                                        dispatch(register(fund.id));
+                                                     }
+                                                     else {
+                                                         dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                     }
+                                                 }}
+                  >Register</Button> : ''}
               </div>
           </div>
       </div>
