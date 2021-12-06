@@ -11,15 +11,19 @@ export interface FundDetails {
     loading: boolean,
     fund?: Fund,
     account: {
-        registered: boolean
-    }
+        registered: boolean,
+        invested: boolean
+    },
+    action: string
 }
 
 const initialState: FundDetails = {
     loading: false,
     account: {
-        registered: false
-    }
+        registered: false,
+        invested: false
+    },
+    action: ''
 }
 
 export const loadFund = createAsyncThunk(
@@ -32,6 +36,7 @@ export const loadFund = createAsyncThunk(
             const fund = await fundstackSdk.fundstack.get(id);
             const fundInfo = JSON.parse(JSON.stringify(fund));
             dispatch(setRegistration(id));
+            dispatch(setInvestment(id));
             dispatch(setLoading(false));
             return fundInfo;
         }
@@ -56,6 +61,7 @@ export const register = createAsyncThunk(
             dispatch(showLoader("Waiting for confirmation ..."));
             await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
+            dispatch(setAction(''));
             dispatch(showSuccessModal("Your registration is successful"));
             dispatch(loadAccount(address));
             dispatch(loadFund(fundId));
@@ -87,12 +93,60 @@ export const setRegistration = createAsyncThunk(
     }
 );
 
+export const invest = createAsyncThunk(
+    'fund/invest',
+    async (data: any, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            const {address} = account.information;
+            dispatch(showLoader("Investing ..."));
+            const {txId} = await fundstackSdk.fundstack.invest(data.fundId, address, data.amount);
+            dispatch(hideLoader());
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+            dispatch(showSuccessModal("Your investment is successful"));
+            dispatch(loadAccount(address));
+            dispatch(loadFund(data.fundId));
+            return txId;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
+export const setInvestment = createAsyncThunk(
+    'fund/setInvestment',
+    (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            if (account.loggedIn) {
+                return fundstackSdk.fundstack.hasInvested(account.information, fundId);
+            }
+
+            return false;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const fundSlice = createSlice({
     name: 'fund',
     initialState,
     reducers: {
         setLoading: (state , action: PayloadAction<boolean>) => {
             state.loading = action.payload;
+        },
+        setAction: (state , action: PayloadAction<string>) => {
+            state.action = action.payload;
         },
         resetFund: state => initialState
     },
@@ -103,8 +157,11 @@ export const fundSlice = createSlice({
         builder.addCase(setRegistration.fulfilled, (state, action: PayloadAction<any>) => {
             state.account.registered = action.payload;
         });
+        builder.addCase(setInvestment.fulfilled, (state, action: PayloadAction<any>) => {
+            state.account.invested = action.payload;
+        });
     },
 });
 
-export const {setLoading, resetFund} = fundSlice.actions
+export const {setLoading, resetFund, setAction} = fundSlice.actions
 export default fundSlice.reducer

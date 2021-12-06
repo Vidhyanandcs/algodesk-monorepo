@@ -5,6 +5,14 @@ import {A_AccountInformation, A_Asset, encodeTxId} from "@algodesk/core";
 import atob from 'atob';
 import {F_CompanyDetails, F_FundStatus} from "./types";
 
+export type F_FundLocalState = {
+    r: number
+    i: number
+    ia: number
+    c: number
+    w: number
+};
+
 export type F_FundGlobalState = {
     v: number
     p: number
@@ -65,7 +73,7 @@ export function getFundState(fund: Application): F_FundGlobalState {
     return globalState as F_FundGlobalState;
 }
 
-export function getAccountState(localApp) {
+export function getAccountState(localApp): F_FundLocalState {
     const lState = localApp['key-value'];
     const localState = {};
 
@@ -81,7 +89,7 @@ export function getAccountState(localApp) {
         }
     });
 
-    return localState;
+    return localState as F_FundLocalState;
 }
 
 export class Fund {

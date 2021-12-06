@@ -22,9 +22,10 @@ import {
 import {getContracts} from "./contracts";
 import {assignGroupID, OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
-import {Fund} from "./fund";
+import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
+import {localStateKeys} from "./state/fund";
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -438,5 +439,21 @@ export class Fundstack {
 
     hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {
         return this.algodesk.applicationClient.hasOpted(accountInfo, fundId);
+    }
+
+    hasInvested(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let invested = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    invested = accountState[localStateKeys.invested] === 1;
+                }
+            });
+        }
+
+        return invested;
     }
 }

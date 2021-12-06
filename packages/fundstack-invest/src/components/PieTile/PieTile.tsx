@@ -6,14 +6,15 @@ import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
 import {Button} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
-import {register} from "../../redux/actions/fund";
+import {setAction} from "../../redux/actions/fund";
+import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
     const {status} = fund;
-    const {registration}= status;
+    const {registration, sale}= status;
     const dispatch = useDispatch();
 
     const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
@@ -72,7 +73,7 @@ function PieTile(): JSX.Element {
                                                              dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
                                                          }
                                                          else {
-                                                             dispatch(register(Number(fund.id)));
+                                                             dispatch(setAction("registration_confirmation"));
                                                          }
                                                      }
                                                      else {
@@ -80,8 +81,27 @@ function PieTile(): JSX.Element {
                                                      }
                                                  }}
                   >Register</Button> : ''}
+                  {sale.active ? <Button variant={"contained"}
+                                                 color={"primary"}
+                                                 size={"large"}
+                                                 fullWidth
+                                                 onClick={() => {
+                                                     if (account.loggedIn) {
+                                                         if (fundDetails.account.invested) {
+                                                             dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
+                                                         }
+                                                         else {
+                                                             //open modal
+                                                         }
+                                                     }
+                                                     else {
+                                                         dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                     }
+                                                 }}
+                  >Invest</Button> : ''}
               </div>
           </div>
+          <RegistrationConfirmation></RegistrationConfirmation>
       </div>
   );
 }
