@@ -8,6 +8,8 @@ import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
 import {setAction} from "../../redux/actions/fund";
 import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
+import InvestModal from "../InvestModal/InvestModal";
+import {showConnectWallet} from "../../redux/actions/connectWallet";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -63,45 +65,62 @@ function PieTile(): JSX.Element {
                   </div>
               </div>
               <div className="user-actions">
-                  {registration.active ? <Button variant={"contained"}
-                                                 color={"primary"}
-                                                 size={"large"}
-                                                 fullWidth
-                                                 onClick={() => {
-                                                     if (account.loggedIn) {
-                                                         if (fundDetails.account.registered) {
-                                                             dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
+                  {account.loggedIn? <div>
+                      {registration.active ? <Button variant={"contained"}
+                                                     color={"primary"}
+                                                     size={"large"}
+                                                     fullWidth
+                                                     onClick={() => {
+                                                         if (account.loggedIn) {
+                                                             if (fundDetails.account.registered) {
+                                                                 dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
+                                                             }
+                                                             else {
+                                                                 dispatch(setAction("registration_confirmation"));
+                                                             }
                                                          }
                                                          else {
-                                                             dispatch(setAction("registration_confirmation"));
+                                                             dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
                                                          }
-                                                     }
-                                                     else {
-                                                         dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
-                                                     }
-                                                 }}
-                  >Register</Button> : ''}
-                  {sale.active ? <Button variant={"contained"}
-                                                 color={"primary"}
-                                                 size={"large"}
-                                                 fullWidth
-                                                 onClick={() => {
-                                                     if (account.loggedIn) {
+                                                     }}
+                      >Register</Button> : ''}
+                      {sale.active ? <Button variant={"contained"}
+                                             color={"primary"}
+                                             size={"large"}
+                                             fullWidth
+                                             onClick={() => {
+                                                 if (account.loggedIn) {
+                                                     if (fundDetails.account.registered) {
                                                          if (fundDetails.account.invested) {
                                                              dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
                                                          }
                                                          else {
-                                                             //open modal
+                                                             dispatch(setAction("invest"));
                                                          }
                                                      }
                                                      else {
-                                                         dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                         dispatch(showSnack({severity: 'error', message: 'You have not registered'}));
                                                      }
-                                                 }}
-                  >Invest</Button> : ''}
+                                                 }
+                                                 else {
+                                                     dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                 }
+                                             }}
+                      >Invest</Button> : ''}
+                  </div> : <div>
+                      <Button variant={"contained"}
+                              color={"primary"}
+                              size={"large"}
+                              fullWidth
+                              onClick={() => {
+                                  dispatch(showConnectWallet());
+                              }}
+                      >Connect wallet</Button>
+                  </div>}
               </div>
           </div>
           <RegistrationConfirmation></RegistrationConfirmation>
+          <InvestModal></InvestModal>
       </div>
   );
 }

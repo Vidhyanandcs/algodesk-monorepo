@@ -29,7 +29,7 @@ function Header(): JSX.Element {
                             </div>
                         </div>
                         {!account.loggedIn ? <div className="item">
-                            <Button variant={"contained"}
+                            <Button variant={"outlined"}
                                     color={"primary"}
                                     size={"small"}
                                     style={{marginTop: 12}}
