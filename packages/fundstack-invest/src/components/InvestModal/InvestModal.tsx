@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {setAction} from "../../redux/actions/fund";
+import {invest, setAction} from "../../redux/actions/fund";
 import {CancelOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
@@ -81,13 +81,26 @@ function InvestModal(): JSX.Element {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="exchange-ratio">
-                                    1 {fund.asset.params["unit-name"]} = {microalgosToAlgos(fund.globalState[globalStateKeys.price])} Algos
+                                    Price: 1 {fund.asset.params["unit-name"]} = {microalgosToAlgos(fund.globalState[globalStateKeys.price])} Algos
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="asset-section">
                                     <div className="header-text">
                                         You receive
+
+                                        <div className="float-btn" onClick={() => {
+                                            const amount = fund.globalState[globalStateKeys.max_allocation];
+                                            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                            setState(prevState => ({...prevState, amount, payableAmount}));
+                                        }}>Max</div>
+
+                                        <div className="float-btn" onClick={() => {
+                                            const amount = fund.globalState[globalStateKeys.min_allocation];
+                                            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                            setState(prevState => ({...prevState, amount, payableAmount}));
+                                        }}>Min</div>
+
                                     </div>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -111,28 +124,6 @@ function InvestModal(): JSX.Element {
                                                            </InputAdornment>,
                                                        }}
                                             />
-                                            <div style={{marginTop: 10}}>
-                                                <Button
-                                                    color="primary"
-                                                    size={"small"}
-                                                    variant={"outlined"}
-                                                    onClick={() => {
-                                                        const amount = fund.globalState[globalStateKeys.min_allocation];
-                                                        const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
-                                                        setState(prevState => ({...prevState, amount, payableAmount}));
-                                                    }}>Min</Button>
-
-                                                <Button
-                                                    color="primary"
-                                                    size={"small"}
-                                                    variant={"outlined"}
-                                                    style={{marginLeft: 10}}
-                                                    onClick={() => {
-                                                        const amount = fund.globalState[globalStateKeys.max_allocation];
-                                                        const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
-                                                        setState(prevState => ({...prevState, amount, payableAmount}));
-                                                    }}>Max</Button>
-                                            </div>
                                         </Grid>
                                     </Grid>
                                 </div>
@@ -160,10 +151,9 @@ function InvestModal(): JSX.Element {
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div style={{marginTop: 10, textAlign: "center"}}>
                                     <Button color={"primary"}
-                                            fullWidth
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
-
+                                                dispatch(invest({fund, amount}));
                                             }}
                                     >Invest</Button>
                                 </div>

@@ -1,10 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {Fund} from "@algodesk/fundstack-sdk";
+import {Fund, globalStateKeys} from "@algodesk/fundstack-sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
+import {isNumber} from "util";
+import {showSnack} from "./snackbar";
 
 
 export interface FundDetails {
@@ -101,15 +103,42 @@ export const invest = createAsyncThunk(
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
+            console.log(address);
+            const {amount, fund} = data;
+
+            if (amount === undefined || amount === null || !isNumber(amount)) {
+                dispatch(showSnack({
+                    severity: 'error',
+                    message: 'Invalid amount'
+                }));
+                return;
+            }
+            if (amount < fund.globalState[globalStateKeys.min_allocation]) {
+                dispatch(showSnack({
+                    severity: 'error',
+                    message: 'Minimum allocation is ' + fund.globalState[globalStateKeys.min_allocation]
+                }));
+                return;
+            }
+            if (amount > fund.globalState[globalStateKeys.max_allocation]) {
+                dispatch(showSnack({
+                    severity: 'error',
+                    message: 'Maximum allocation is  ' + fund.globalState[globalStateKeys.max_allocation]
+                }));
+                return;
+            }
+
+            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+
             dispatch(showLoader("Investing ..."));
-            const {txId} = await fundstackSdk.fundstack.invest(data.fundId, address, data.amount);
+            const {txId} = await fundstackSdk.fundstack.invest(fund.id, address, payableAmount);
             dispatch(hideLoader());
             dispatch(showLoader("Waiting for confirmation ..."));
             await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(showSuccessModal("Your investment is successful"));
             dispatch(loadAccount(address));
-            dispatch(loadFund(data.fundId));
+            dispatch(loadFund(fund.id));
             return txId;
         }
         catch (e: any) {
