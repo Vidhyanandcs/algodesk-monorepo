@@ -160,6 +160,18 @@ export class Fund {
         return this.globalState[globalStateKeys.platform_fund_escrow_min_top_up];
     }
 
+    getMinAllocation(): number {
+        return this.globalState[globalStateKeys.min_allocation];
+    }
+
+    getMaxAllocation(): number {
+        return this.globalState[globalStateKeys.max_allocation];
+    }
+
+    getPrice(): number {
+        return this.globalState[globalStateKeys.price];
+    }
+
     updateStatusDetails(status: F_FundStatus) {
         this.status = status;
     }

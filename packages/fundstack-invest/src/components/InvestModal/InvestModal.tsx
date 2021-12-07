@@ -14,6 +14,7 @@ import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {microalgosToAlgos} from "algosdk";
+import fundstackSdk from "../../utils/fundstackSdk";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -26,11 +27,13 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface InvestModalState{
-    amount: number
+    amount: number,
+    payableAmount: number
 }
 
 const initialState: InvestModalState = {
-    amount: 0
+    amount: 0,
+    payableAmount: 0
 };
 
 function InvestModal(): JSX.Element {
@@ -42,7 +45,7 @@ function InvestModal(): JSX.Element {
     const classes = useStyles();
 
     const [
-        { amount },
+        { amount, payableAmount },
         setState
     ] = useState(initialState);
 
@@ -98,7 +101,9 @@ function InvestModal(): JSX.Element {
                                                            if(ev.target.value) {
                                                                value = parseFloat(ev.target.value).toFixed(fund.asset.params.decimals);
                                                            }
-                                                           setState(prevState => ({...prevState, amount: parseFloat(value)}));
+                                                           const amount = parseFloat(value);
+                                                           const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                                           setState(prevState => ({...prevState, amount, payableAmount}));
                                                        }}
                                                        InputProps={{
                                                            endAdornment: <InputAdornment position="end" color="primary">
@@ -112,7 +117,9 @@ function InvestModal(): JSX.Element {
                                                     size={"small"}
                                                     variant={"outlined"}
                                                     onClick={() => {
-                                                        setState(prevState => ({...prevState, amount: fund.globalState[globalStateKeys.min_allocation]}));
+                                                        const amount = fund.globalState[globalStateKeys.min_allocation];
+                                                        const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                                        setState(prevState => ({...prevState, amount, payableAmount}));
                                                     }}>Min</Button>
 
                                                 <Button
@@ -121,7 +128,9 @@ function InvestModal(): JSX.Element {
                                                     variant={"outlined"}
                                                     style={{marginLeft: 10}}
                                                     onClick={() => {
-                                                        setState(prevState => ({...prevState, amount: fund.globalState[globalStateKeys.max_allocation]}));
+                                                        const amount = fund.globalState[globalStateKeys.max_allocation];
+                                                        const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                                        setState(prevState => ({...prevState, amount, payableAmount}));
                                                     }}>Max</Button>
                                             </div>
                                         </Grid>
@@ -135,9 +144,8 @@ function InvestModal(): JSX.Element {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={7} md={8} lg={8} xl={8}>
                                             <div className="white-back">
-                                                <div className="amount">{amount}</div>
+                                                <div className="amount">{payableAmount}</div>
                                             </div>
-
                                         </Grid>
                                         <Grid item xs={12} sm={1} md={1} lg={1} xl={1}>
 

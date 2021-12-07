@@ -25,7 +25,7 @@ import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_Phase
 import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
-import {localStateKeys} from "./state/fund";
+import {localStateKeys, globalStateKeys} from "./state/fund";
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -455,5 +455,13 @@ export class Fundstack {
         }
 
         return invested;
+    }
+
+    calculatePayableAmount(amount: number, fund: Fund): number {
+        let price = fund.globalState[globalStateKeys.price];
+        price = microalgosToAlgos(price);
+
+        let payableAmount = parseFloat((amount * price).toString()).toFixed(6);
+        return  parseFloat(payableAmount);
     }
 }
