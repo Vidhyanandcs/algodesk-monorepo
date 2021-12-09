@@ -53,7 +53,7 @@ function Header(): JSX.Element {
                                           <span className="logout" onClick={(ev) => {
                                               dispatch(logout());
                                           }}>
-                                                  <PowerSettingsNew fontSize={"medium"} color={"secondary"}></PowerSettingsNew>
+                                                  <PowerSettingsNew fontSize={"medium"}></PowerSettingsNew>
                                           </span>
 
                                     </Tooltip>

@@ -29,7 +29,7 @@ function RegistrationTile(): JSX.Element {
             <div className="tile">
                 <div className="tile-header">
                     <div className="tile-name">
-                        Registration
+                        Registrations
                     </div>
                     {fund.status.registration.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
                     {fund.status.registration.completed ? <Chip label={"Closed"} size={"small"} className="tile-status"/> : ''}

@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadFund} from "../../redux/actions/fund";
 import {RootState} from "../../redux/store";
-import {Grid} from "@material-ui/core";
+import {Grid, Tooltip} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ellipseAddress} from "@algodesk/core";
 import PieTile from "../PieTile/PieTile";
@@ -14,6 +14,7 @@ import fundstackSdk from "../../utils/fundstackSdk";
 import RegistrationTile from "../RegistrationTile/RegistrationTile";
 import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import ClaimsTile from "../ClaimsTile/ClaimsTile";
+import {CachedRounded} from "@material-ui/icons";
 
 
 function Fund(): JSX.Element {
@@ -45,6 +46,14 @@ function Fund(): JSX.Element {
                                     }}>
                                         ID: {fund.id}
                                     </div>
+                                    <Tooltip title="Refresh">
+                                        <div className="reload" onClick={() => {
+                                            dispatch(loadFund(id));
+                                        }}>
+                                            <CachedRounded style={{color: '#666'}}></CachedRounded>
+                                        </div>
+                                    </Tooltip>
+
                                 </div>
                                 <div className="item">
                                     <div className="fund-creator" onClick={() => {

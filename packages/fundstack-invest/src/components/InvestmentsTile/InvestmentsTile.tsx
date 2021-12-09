@@ -14,7 +14,7 @@ function InvestmentsTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
     const {invested} = fundDetails.account;
-    console.log(fundDetails.account);
+
     const dispatch = useDispatch();
 
     const params = useParams();
