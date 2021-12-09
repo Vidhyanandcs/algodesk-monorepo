@@ -1,14 +1,8 @@
 import {encodeText} from "../utils";
-import sdk, {Algodv2, SuggestedParams, Transaction, TransactionParams} from 'algosdk';
+import sdk, {Algodv2, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {A_SendTxnResponse, Signer} from "../types";
-import PaymentTransaction from "algosdk/dist/types/src/types/transactions/payment";
-import PendingTransactionInformation from "algosdk/dist/types/src/client/v2/algod/pendingTransactionInformation";
-import {
-    PendingTransactionResponse,
-    TransactionParametersResponse
-} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export class PaymentClient{
     client: Algodv2;

@@ -20,7 +20,7 @@ import {
     PLATFORM_OPERATIONS,
 } from "./constants";
 import {getContracts} from "./contracts";
-import {assignGroupID, OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
+import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
@@ -109,7 +109,7 @@ export class Fundstack {
             amount: totalAllocation / micros
         };
         const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
-        const txnGroup = assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -142,7 +142,7 @@ export class Fundstack {
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
 
-        const txnGroup = assignGroupID([paymentTxn, appCallTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([paymentTxn, appCallTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -169,7 +169,7 @@ export class Fundstack {
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
-        const txnGroup = assignGroupID([assetXferTxn, appCallTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([assetXferTxn, appCallTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -463,5 +463,28 @@ export class Fundstack {
 
         let payableAmount = parseFloat((amount * price).toString()).toFixed(6);
         return  parseFloat(payableAmount);
+    }
+
+    getMinAllocationInDecimals(fund: Fund): number {
+        const minAllocation = fund.globalState[globalStateKeys.min_allocation];
+        const decimals = fund.asset.params.decimals
+        return minAllocation / Math.pow(10, decimals);
+    }
+
+    getMaxAllocationInDecimals(fund: Fund): number {
+        const maxAllocation = fund.globalState[globalStateKeys.max_allocation];
+        const decimals = fund.asset.params.decimals
+        return maxAllocation / Math.pow(10, decimals);
+    }
+
+    getTotalAllocationInDecimals(fund: Fund): number {
+        const totalAllocation = fund.globalState[globalStateKeys.total_allocation];
+        const decimals = fund.asset.params.decimals
+        return totalAllocation / Math.pow(10, decimals);
+    }
+
+    getPrice(fund: Fund): number {
+        const price = fund.globalState[globalStateKeys.price];
+        return microalgosToAlgos(price);
     }
 }

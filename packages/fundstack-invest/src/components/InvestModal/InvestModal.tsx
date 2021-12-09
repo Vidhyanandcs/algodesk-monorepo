@@ -90,13 +90,13 @@ function InvestModal(): JSX.Element {
                                         You receive
 
                                         <div className="float-btn" onClick={() => {
-                                            const amount = fund.globalState[globalStateKeys.max_allocation];
+                                            const amount = fundstackSdk.fundstack.getMaxAllocationInDecimals(fund);
                                             const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
                                             setState(prevState => ({...prevState, amount, payableAmount}));
                                         }}>Max</div>
 
                                         <div className="float-btn" onClick={() => {
-                                            const amount = fund.globalState[globalStateKeys.min_allocation];
+                                            const amount = fundstackSdk.fundstack.getMinAllocationInDecimals(fund);
                                             const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
                                             setState(prevState => ({...prevState, amount, payableAmount}));
                                         }}>Min</div>

@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {Fund, globalStateKeys} from "@algodesk/fundstack-sdk";
+import {Fund} from "@algodesk/fundstack-sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
@@ -103,7 +103,7 @@ export const invest = createAsyncThunk(
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
-            console.log(address);
+
             const {amount, fund} = data;
 
             if (amount === undefined || amount === null || !isNumber(amount)) {
@@ -113,17 +113,21 @@ export const invest = createAsyncThunk(
                 }));
                 return;
             }
-            if (amount < fund.globalState[globalStateKeys.min_allocation]) {
+
+            const minAllocation = fundstackSdk.fundstack.getMinAllocationInDecimals(fund);
+            if (amount < minAllocation) {
                 dispatch(showSnack({
                     severity: 'error',
-                    message: 'Minimum allocation is ' + fund.globalState[globalStateKeys.min_allocation]
+                    message: 'Minimum allocation is ' + minAllocation
                 }));
                 return;
             }
-            if (amount > fund.globalState[globalStateKeys.max_allocation]) {
+
+            const maxAllocation = fundstackSdk.fundstack.getMaxAllocationInDecimals(fund);
+            if (amount > maxAllocation) {
                 dispatch(showSnack({
                     severity: 'error',
-                    message: 'Maximum allocation is  ' + fund.globalState[globalStateKeys.max_allocation]
+                    message: 'Maximum allocation is  ' + maxAllocation
                 }));
                 return;
             }
