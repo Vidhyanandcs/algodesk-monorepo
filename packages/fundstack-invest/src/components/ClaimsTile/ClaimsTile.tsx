@@ -18,7 +18,7 @@ function ClaimsTile(): JSX.Element {
                         Claims
                     </div>
                     {fund.status.claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                    {fund.status.claim.completed ? <Chip label={"Completed"} size={"small"} className="tile-status"/> : ''}
+                    {fund.status.claim.completed ? <Chip label={"Closed"} size={"small"} className="tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
                     <div className="count">Total claims : <span>{fund.globalState[globalStateKeys.no_of_claims]}</span></div>
