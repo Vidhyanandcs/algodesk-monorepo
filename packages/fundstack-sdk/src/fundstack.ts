@@ -457,6 +457,22 @@ export class Fundstack {
         return invested;
     }
 
+    hasClaimed(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let claimed = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    claimed = accountState[localStateKeys.claimed] === 1;
+                }
+            });
+        }
+
+        return claimed;
+    }
+
     calculatePayableAmount(amount: number, fund: Fund): number {
         let price = fund.globalState[globalStateKeys.price];
         price = microalgosToAlgos(price);

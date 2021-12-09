@@ -53,7 +53,7 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         regStartsAt: networkParams.firstRound + 10,
         regEndsAt: networkParams.firstRound + 30,
         saleStartsAt: networkParams.firstRound + 42,
-        saleEndsAt: networkParams.firstRound + 20020,
+        saleEndsAt: networkParams.firstRound + 60,
         price: 0.001,
         totalAllocation: 1000
     };
@@ -153,27 +153,27 @@ test('fundstack', async () => {
 
         await register(investorInstance, appId, investor,  fundApp.getRegStart());
 
-        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6005);
-
-        await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
-
-        await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
-
-        // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
+        // await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6005);
         //
-        // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
-
-
-        console.log('investor returning unspent balance');
-        const {txId: invReturnTxId} = await investorInstance.algodesk.paymentClient.payment(investor.addr, dispenserAccount.addr, 3);
-        await investorInstance.algodesk.transactionClient.waitForConfirmation(invReturnTxId);
-
-
-        console.log('fundraiser returning unspent balance');
-        const {txId: ownerReturnTxId} = await fundRaiserInstance.algodesk.paymentClient.payment(fundRaiser.addr, dispenserAccount.addr, 1);
-        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
-
-        console.log('flow completed');
+        // await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+        //
+        // await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
+        //
+        // // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
+        // //
+        // // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
+        //
+        //
+        // console.log('investor returning unspent balance');
+        // const {txId: invReturnTxId} = await investorInstance.algodesk.paymentClient.payment(investor.addr, dispenserAccount.addr, 3);
+        // await investorInstance.algodesk.transactionClient.waitForConfirmation(invReturnTxId);
+        //
+        //
+        // console.log('fundraiser returning unspent balance');
+        // const {txId: ownerReturnTxId} = await fundRaiserInstance.algodesk.paymentClient.payment(fundRaiser.addr, dispenserAccount.addr, 1);
+        // await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
+        //
+        // console.log('flow completed');
     }
     catch (e) {
         console.log(e);
