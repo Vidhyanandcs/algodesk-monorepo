@@ -15,6 +15,7 @@ import RegistrationTile from "../RegistrationTile/RegistrationTile";
 import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import ClaimsTile from "../ClaimsTile/ClaimsTile";
 import {CachedRounded} from "@material-ui/icons";
+import WithdrawTile from "../WithdrawTile/WithdrawTile";
 
 
 function Fund(): JSX.Element {
@@ -73,7 +74,7 @@ function Fund(): JSX.Element {
                                     <InvestmentsTile></InvestmentsTile>
                                 </Grid>
                                 <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <ClaimsTile></ClaimsTile>
+                                    {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
                                 </Grid>
                                 <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
                                     <AssetDetailsTile></AssetDetailsTile>

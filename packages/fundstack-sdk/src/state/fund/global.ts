@@ -18,6 +18,7 @@ export enum globalStateKeys {
     no_of_registrations = "nor",
     no_of_investors = "noi",
     no_of_claims = "noc",
+    no_of_withdrawls = "now",
     escrow = "e",
     funds_claimed = "fc",
     company_details = "cd",

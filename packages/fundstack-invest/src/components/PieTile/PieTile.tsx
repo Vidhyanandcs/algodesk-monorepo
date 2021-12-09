@@ -6,7 +6,7 @@ import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
 import {Button} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
-import {claimAssets, setAction} from "../../redux/actions/fund";
+import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fund";
 import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
@@ -16,7 +16,7 @@ function PieTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
     const {status} = fund;
-    const {registration, sale, claim}= status;
+    const {registration, sale, claim, withdraw}= status;
     const dispatch = useDispatch();
 
     const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
@@ -130,6 +130,29 @@ function PieTile(): JSX.Element {
                                                  }
                                              }}
                       >Claim assets</Button> : ''}
+                      {withdraw.active ? <Button variant={"contained"}
+                                                                      color={"primary"}
+                                                                      size={"large"}
+                                                                      fullWidth
+                                                                      onClick={() => {
+                                                                          if (account.loggedIn) {
+                                                                              if (fundDetails.account.invested) {
+                                                                                  if (fundDetails.account.withdrawn) {
+                                                                                      dispatch(showSnack({severity: 'error', message: 'You have already withdrawn'}));
+                                                                                  }
+                                                                                  else {
+                                                                                      dispatch(withdrawInvestment(Number(fund.id)));
+                                                                                  }
+                                                                              }
+                                                                              else {
+                                                                                  dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
+                                                                              }
+                                                                          }
+                                                                          else {
+                                                                              dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                          }
+                                                                      }}
+                      >Withdraw investment</Button> : ''}
                   </div> : <div>
                       <Button variant={"contained"}
                               color={"primary"}

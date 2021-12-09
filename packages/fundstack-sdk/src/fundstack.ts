@@ -310,11 +310,21 @@ export class Fundstack {
             completed: phase > FUND_PHASE.DURING_SALE
         };
 
+        const targetReached = this.isTargetReached(fund);
+
         const claim: F_PhaseDetails = {
             start: durationBetweenBlocks(claimStart, currentRound),
             end: durationBetweenBlocks(claimEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_CLAIM,
-            active: phase == FUND_PHASE.DURING_CLAIM,
+            active: phase == FUND_PHASE.DURING_CLAIM && targetReached,
+            completed: phase > FUND_PHASE.DURING_CLAIM
+        };
+
+        const withdraw: F_PhaseDetails = {
+            start: durationBetweenBlocks(claimStart, currentRound),
+            end: durationBetweenBlocks(claimEnd, currentRound),
+            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
+            active: phase == FUND_PHASE.DURING_CLAIM && !targetReached,
             completed: phase > FUND_PHASE.DURING_CLAIM
         };
 
@@ -323,6 +333,8 @@ export class Fundstack {
             sale,
             phase,
             claim,
+            withdraw,
+            targetReached,
             date: Date.now()
         }
 
@@ -473,6 +485,22 @@ export class Fundstack {
         return claimed;
     }
 
+    hasWithDrawn(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let withdrawn = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    withdrawn = accountState[localStateKeys.withdrawn] === 1;
+                }
+            });
+        }
+
+        return withdrawn;
+    }
+
     calculatePayableAmount(amount: number, fund: Fund): number {
         let price = fund.globalState[globalStateKeys.price];
         price = microalgosToAlgos(price);
@@ -502,5 +530,9 @@ export class Fundstack {
     getPrice(fund: Fund): number {
         const price = fund.globalState[globalStateKeys.price];
         return microalgosToAlgos(price);
+    }
+
+    isTargetReached(fund: Fund): boolean {
+        return fund.globalState[globalStateKeys.target_reached] === 1;
     }
 }

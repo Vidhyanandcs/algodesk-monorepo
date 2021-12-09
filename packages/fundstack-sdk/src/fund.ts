@@ -34,11 +34,11 @@ export type F_FundGlobalState = {
     noi: number
     noc: number
     e: string
-    fc: boolean
+    fc: number
     cd: string
-    tr: boolean
-    fw: boolean
-    rac: boolean
+    tr: number
+    fw: number
+    rac: number
     pai: number
     pe: string
     psf: number

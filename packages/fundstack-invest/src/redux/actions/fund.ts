@@ -15,7 +15,8 @@ export interface FundDetails {
     account: {
         registered: boolean,
         invested: boolean,
-        claimed: boolean
+        claimed: boolean,
+        withdrawn: boolean
     },
     action: string
 }
@@ -25,7 +26,8 @@ const initialState: FundDetails = {
     account: {
         registered: false,
         invested: false,
-        claimed: false
+        claimed: false,
+        withdrawn: false
     },
     action: ''
 }
@@ -42,6 +44,7 @@ export const loadFund = createAsyncThunk(
             dispatch(setRegistration(id));
             dispatch(setInvestment(id));
             dispatch(setClaim(id));
+            dispatch(setWithdraw(id));
             dispatch(setLoading(false));
             return fundInfo;
         }
@@ -220,6 +223,52 @@ export const setClaim = createAsyncThunk(
     }
 );
 
+export const withdrawInvestment = createAsyncThunk(
+    'fund/withdrawInvestment',
+    async (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            const {address} = account.information;
+            dispatch(showLoader("withdrawing investment ..."));
+            const {txId} = await fundstackSdk.fundstack.investorWithdraw(fundId, address);
+            dispatch(hideLoader());
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+            dispatch(setAction(''));
+            dispatch(showSuccessModal("Your withdraw is successful"));
+            dispatch(loadAccount(address));
+            dispatch(loadFund(fundId));
+            return txId;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
+export const setWithdraw = createAsyncThunk(
+    'fund/setWithdraw',
+    (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            if (account.loggedIn) {
+                return fundstackSdk.fundstack.hasWithDrawn(account.information, fundId);
+            }
+
+            return false;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const fundSlice = createSlice({
     name: 'fund',
     initialState,
@@ -244,6 +293,9 @@ export const fundSlice = createSlice({
         });
         builder.addCase(setClaim.fulfilled, (state, action: PayloadAction<any>) => {
             state.account.claimed = action.payload;
+        });
+        builder.addCase(setWithdraw.fulfilled, (state, action: PayloadAction<any>) => {
+            state.account.withdrawn = action.payload;
         });
     },
 });

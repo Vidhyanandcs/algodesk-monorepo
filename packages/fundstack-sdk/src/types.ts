@@ -27,8 +27,10 @@ export type F_FundStatus = {
     registration: F_PhaseDetails,
     sale: F_PhaseDetails,
     claim: F_PhaseDetails,
+    withdraw: F_PhaseDetails,
     phase: number,
-    date: number
+    date: number,
+    targetReached: boolean
 }
 
 export type F_CompanyDetails =  {
