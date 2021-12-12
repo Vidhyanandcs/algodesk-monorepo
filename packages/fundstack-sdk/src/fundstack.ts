@@ -336,6 +336,8 @@ export class Fundstack {
             claim,
             withdraw,
             targetReached,
+            published: fund.isPublished(),
+            valid: fund.isValid(),
             date: Date.now()
         }
 

@@ -12,7 +12,7 @@ function MyFundActivity(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {activity} = fundDetails.account;
-    console.log(activity);
+
     let {list: activityList} = activity;
 
     if (!activityList) {

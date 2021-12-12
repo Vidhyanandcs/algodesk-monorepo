@@ -30,7 +30,9 @@ export type F_FundStatus = {
     withdraw: F_PhaseDetails,
     phase: number,
     date: number,
-    targetReached: boolean
+    targetReached: boolean,
+    published: boolean,
+    valid: boolean
 }
 
 export type F_CompanyDetails =  {

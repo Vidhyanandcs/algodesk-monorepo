@@ -24,6 +24,7 @@ function Fund(): JSX.Element {
     const dispatch = useDispatch();
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
+    console.log(fund);
 
     // @ts-ignore
     const id: number = params.id;
@@ -35,68 +36,72 @@ function Fund(): JSX.Element {
     return (<div className={"fund-wrapper"}>
         <div className={"fund-container"}>
             {fundDetails.loading ? 'loading ...' : <div>
-                {fund ? <Grid container spacing={2}>
-                    <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
-                        <div className="fund-header">
-                            <div className="fund-name">
-                                {fund.globalState[globalStateKeys.name]}
-                            </div>
-                            <div className="items">
-                                <div className="item">
-                                    <div className="fund-id" onClick={() => {
-                                        fundstackSdk.explorer.openApplication(fund.id);
-                                    }}>
-                                        ID: {fund.id}
-                                    </div>
-                                    <Tooltip title="Refresh">
-                                        <div className="reload" onClick={() => {
-                                            dispatch(loadFund(id));
+                {fund ? <div>
+                    {!fund.status.valid ? 'Invalid fund' : ''}
+                    {fund.status.valid && !fund.status.published? 'Fund not published' : ''}
+                    {fund.status.valid && fund.status.published ? <Grid container spacing={2}>
+                        <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
+                            <div className="fund-header">
+                                <div className="fund-name">
+                                    {fund.globalState[globalStateKeys.name]}
+                                </div>
+                                <div className="items">
+                                    <div className="item">
+                                        <div className="fund-id" onClick={() => {
+                                            fundstackSdk.explorer.openApplication(fund.id);
                                         }}>
-                                            <CachedRounded style={{color: '#666'}}></CachedRounded>
+                                            ID: {fund.id}
                                         </div>
-                                    </Tooltip>
+                                        <Tooltip title="Refresh">
+                                            <div className="reload" onClick={() => {
+                                                dispatch(loadFund(id));
+                                            }}>
+                                                <CachedRounded style={{color: '#666'}}></CachedRounded>
+                                            </div>
+                                        </Tooltip>
 
-                                </div>
-                                <div className="item">
-                                    <div className="fund-creator" onClick={() => {
-                                        fundstackSdk.explorer.openAccount(fund.globalState[globalStateKeys.creator]);
-                                    }}>
-                                        <span>Creator: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
+                                    </div>
+                                    <div className="item">
+                                        <div className="fund-creator" onClick={() => {
+                                            fundstackSdk.explorer.openAccount(fund.globalState[globalStateKeys.creator]);
+                                        }}>
+                                            <span>Creator: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="fund-body-tiles">
+                            <div className="fund-body-tiles">
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                        <RegistrationTile></RegistrationTile>
+                                    </Grid>
+                                    <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                        <InvestmentsTile></InvestmentsTile>
+                                    </Grid>
+                                    <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                        {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
+                                    </Grid>
+                                    <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
+                                        <AssetDetailsTile></AssetDetailsTile>
+                                    </Grid>
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <CompanyDetails></CompanyDetails>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <RegistrationTile></RegistrationTile>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <PieTile></PieTile>
                                 </Grid>
-                                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    <InvestmentsTile></InvestmentsTile>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <MyFundActivity></MyFundActivity>
                                 </Grid>
-                                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                    {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
-                                </Grid>
-                                <Grid item xs={12} sm={7} md={7} lg={7} xl={7}>
-                                    <AssetDetailsTile></AssetDetailsTile>
-                                </Grid>
-                                <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                    <CompanyDetails></CompanyDetails>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <PieTile></PieTile>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <MyFundActivity></MyFundActivity>
                             </Grid>
                         </Grid>
-                    </Grid>
-                </Grid> : ''}
+                    </Grid> : ''}
+                </div> : ''}
 
             </div>}
 

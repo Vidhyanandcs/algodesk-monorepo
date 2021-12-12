@@ -10,10 +10,9 @@ import {
     A_OptInApplicationParams,
     A_DeleteApplicationParams,
     A_SearchTransactions,
-    A_UpdateApplicationParams, A_AccountInformation
+    A_UpdateApplicationParams, A_AccountInformation, A_Application
 } from "../types";
 import {processApplicationArgs} from "../utils/application";
-import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {AccountClient} from "./accountClient";
 
 export class ApplicationClient{
@@ -31,9 +30,9 @@ export class ApplicationClient{
         this.accountClient = new AccountClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<Application> {
+    async get(id: number): Promise<A_Application> {
         const app = await this.client.getApplicationByID(id).do();
-        return app as Application;
+        return app as A_Application;
     }
 
     async prepareOptInTxn(params: A_OptInApplicationParams, note?: string): Promise<Transaction> {
