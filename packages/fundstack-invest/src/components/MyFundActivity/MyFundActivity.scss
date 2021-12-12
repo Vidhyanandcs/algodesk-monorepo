@@ -1,0 +1,45 @@
+@import '../../assets/colors';
+
+.my-fund-activity-wrapper {
+  .my-fund-activity-container {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    min-height: 100px;
+    .not-connected-message {
+      color: $color-grey-dark;
+      margin-top: 25px;
+    }
+    .loading {
+      color: $color-grey-dark;
+      margin-top: 25px;
+    }
+    .tile-name {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .activity-list {
+      margin-top: 20px;
+      .activity {
+        margin: 15px 0px;
+        border-bottom: 1px solid $color-grey;
+        padding-bottom: 15px;
+        .title {
+          font-size: 16px;
+          font-weight: 600;
+        }
+        .txn-id {
+          font-size: 13px;
+          font-weight: 400;
+          margin-top: 5px;
+          color: $color-grey-dark;
+          display: inline-block;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

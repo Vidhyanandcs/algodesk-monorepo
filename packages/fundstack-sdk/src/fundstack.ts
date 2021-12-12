@@ -26,6 +26,7 @@ import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
+import {getAccountActivity} from "@algodesk/fundstack-invest/src/redux/actions/fund";
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -365,7 +366,7 @@ export class Fundstack {
         return deleteTxn;
     }
 
-    async getAccountHistory(fundId: number, address: string): Promise<F_AccountActivity[]> {
+    async getAccountFundActivity(fundId: number, address: string): Promise<F_AccountActivity[]> {
         const {transactions} = await this.algodesk.applicationClient.getAccountTransactions(fundId, address);
 
         const activityTxs: F_AccountActivity[] = [];
@@ -417,11 +418,11 @@ export class Fundstack {
             }
             if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
                 isValidOperation = true;
-                activity.label = 'Claim Assets';
+                activity.label = 'Claim';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'Withdraw Algos';
+                activity.label = 'Withdraw';
             }
 
             if (isValidOperation) {

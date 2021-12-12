@@ -16,6 +16,7 @@ import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import ClaimsTile from "../ClaimsTile/ClaimsTile";
 import {CachedRounded} from "@material-ui/icons";
 import WithdrawTile from "../WithdrawTile/WithdrawTile";
+import MyFundActivity from "../MyFundActivity/MyFundActivity";
 
 
 function Fund(): JSX.Element {
@@ -86,7 +87,14 @@ function Fund(): JSX.Element {
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
-                        <PieTile></PieTile>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <PieTile></PieTile>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <MyFundActivity></MyFundActivity>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid> : ''}
 

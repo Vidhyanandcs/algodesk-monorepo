@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {Fund} from "@algodesk/fundstack-sdk";
+import {F_AccountActivity, Fund} from "@algodesk/fundstack-sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
@@ -16,7 +16,11 @@ export interface FundDetails {
         registered: boolean,
         invested: boolean,
         claimed: boolean,
-        withdrawn: boolean
+        withdrawn: boolean,
+        activity: {
+            loading: boolean,
+            list: F_AccountActivity[]
+        }
     },
     action: string
 }
@@ -27,7 +31,11 @@ const initialState: FundDetails = {
         registered: false,
         invested: false,
         claimed: false,
-        withdrawn: false
+        withdrawn: false,
+        activity: {
+            loading: false,
+            list: []
+        }
     },
     action: ''
 }
@@ -45,6 +53,7 @@ export const loadFund = createAsyncThunk(
             dispatch(setInvestment(id));
             dispatch(setClaim(id));
             dispatch(setWithdraw(id));
+            dispatch(getAccountActivity(id));
             dispatch(setLoading(false));
             return fundInfo;
         }
@@ -269,15 +278,39 @@ export const setWithdraw = createAsyncThunk(
     }
 );
 
+export const getAccountActivity = createAsyncThunk(
+    'fund/getAccountActivity',
+    async (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            if (account.loggedIn) {
+                dispatch(setActivityLoading(true));
+                return await fundstackSdk.fundstack.getAccountFundActivity(fundId, account.information.address);
+            }
+        }
+        catch (e: any) {
+            dispatch(setActivityLoading(false));
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const fundSlice = createSlice({
     name: 'fund',
-    initialState,
+    initialState: {
+        ...initialState
+    },
     reducers: {
         setLoading: (state , action: PayloadAction<boolean>) => {
             state.loading = action.payload;
         },
         setAction: (state , action: PayloadAction<string>) => {
             state.action = action.payload;
+        },
+        setActivityLoading: (state , action: PayloadAction<boolean>) => {
+            state.account.activity.loading = action.payload;
         },
         resetFund: state => initialState
     },
@@ -297,8 +330,14 @@ export const fundSlice = createSlice({
         builder.addCase(setWithdraw.fulfilled, (state, action: PayloadAction<any>) => {
             state.account.withdrawn = action.payload;
         });
+        builder.addCase(getAccountActivity.fulfilled, (state, action: PayloadAction<any>) => {
+            state.account.activity = {
+                loading: false,
+                list: action.payload
+            };
+        });
     },
 });
 
-export const {setLoading, resetFund, setAction} = fundSlice.actions
+export const {setLoading, resetFund, setAction, setActivityLoading} = fundSlice.actions
 export default fundSlice.reducer

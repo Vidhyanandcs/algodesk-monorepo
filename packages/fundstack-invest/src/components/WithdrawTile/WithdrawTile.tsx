@@ -42,7 +42,7 @@ function WithdrawTile(): JSX.Element {
                     </div>
                     {withdrawn ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                        You have withdrawn your investment
+                        You have withdrawn
                     </div> : ''}
                 </div>
             </div>
