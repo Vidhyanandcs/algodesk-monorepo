@@ -4,7 +4,7 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
+import {CheckCircleOutline, EqualizerOutlined, HighlightOffOutlined} from "@material-ui/icons";
 import {setInvestment} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
 
@@ -13,6 +13,7 @@ function InvestmentsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {status} = fund;
     const {invested} = fundDetails.account;
 
     const dispatch = useDispatch();
@@ -44,6 +45,15 @@ function InvestmentsTile(): JSX.Element {
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
                         You have invested
                     </div> : ''}
+                    {status.sale.completed ? <div>
+                        {status.targetReached ? <div className="tile-row">
+                            <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
+                            Success criteria met
+                        </div> : <div className="tile-row">
+                            <HighlightOffOutlined fontSize={"small"} color={"secondary"}></HighlightOffOutlined>
+                            Success criteria failed
+                        </div>}
+                    </div> :''}
                 </div>
             </div>
         </div>

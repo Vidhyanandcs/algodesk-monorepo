@@ -73,6 +73,13 @@ def deployFund():
         If(platformFundEscrowMinTopUpExpr.hasValue(), platformFundEscrowMinTopUpExpr.value(), Int(2000000))
     ])
 
+    platformSuccessCriteriaExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.success_criteria_percentage)
+    platformSuccessCriteria = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformSuccessCriteriaExpr,
+        If(platformSuccessCriteriaExpr.hasValue(), platformSuccessCriteriaExpr.value(), Int(50))
+    ])
+
     deploymentAssertions = [
         Assert(name != Bytes("")),
 
@@ -120,7 +127,8 @@ def deployFund():
         App.globalPut(globalState.platform_escrow, platformEscrow),
         App.globalPut(globalState.platform_publish_fee, platformPublishFee),
         App.globalPut(globalState.platform_success_fee, platformSuccessFee),
-        App.globalPut(globalState.platform_fund_escrow_min_top_up, platformFundEscrowMinTopUp)
+        App.globalPut(globalState.platform_fund_escrow_min_top_up, platformFundEscrowMinTopUp),
+        App.globalPut(globalState.platform_success_criteria_percentage, platformSuccessCriteria)
     ]
 
     conditions = gtxnAssertions + deploymentAssertions + setState + [Approve()]
@@ -283,7 +291,7 @@ def invest():
     soldAllocation = soldAllocation + investedAmountInMicros
     soldAllocationPercentage = (soldAllocation * Int(100)) / App.globalGet(globalState.total_allocation)
 
-    targetReached = If(soldAllocationPercentage >= Int(50),
+    targetReached = If(soldAllocationPercentage >= App.globalGet(globalState.platform_success_criteria_percentage),
                        Int(1),
                        Int(0)
                        )

@@ -45,6 +45,7 @@ export type F_FundGlobalState = {
     psf: number
     ppf: number
     pfemtu: number
+    pscp: number
 }
 
 export function getFundState(fund: A_Application): F_FundGlobalState {

@@ -31,7 +31,6 @@ function AssetDetailsTile(): JSX.Element {
   return (
       <div className="asset-details-tile-wrapper">
           <div className="asset-details-tile-container">
-                <div className="tile-name">Asset details</div>
               <div className="data">
                   <Tabs value={tab} className="tabs" onChange={(event, newValue) => {
                       setState(prevState => ({ ...prevState, tab: newValue }));
@@ -69,6 +68,15 @@ function AssetDetailsTile(): JSX.Element {
                       </div>
                       <div className="pair">
                           <div className="key">
+                              Success criteria
+                              <Tooltip title="Fund raising is successful only if this percent of tokens are sold">
+                                  <InfoOutlined fontSize={"small"}></InfoOutlined>
+                              </Tooltip>
+                          </div>
+                          <div className="value">{fundstackSdk.fundstack.getSuccessCriteriaPercentage(fund)}%</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">
                               Price
                           </div>
                           <div className="value">1 {fund.asset.params["unit-name"]} = {fundstackSdk.fundstack.getPrice(fund)} Algos</div>
@@ -94,6 +102,10 @@ function AssetDetailsTile(): JSX.Element {
                           <div className="value clickable" onClick={() => {
                               fundstackSdk.explorer.openAccount(fund.asset.params.creator);
                           }}>{ellipseAddress(fund.asset.params.creator, 8)}</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">Decimals</div>
+                          <div className="value">{fund.asset.params.decimals}</div>
                       </div>
                   </div> : ''}
               </div>

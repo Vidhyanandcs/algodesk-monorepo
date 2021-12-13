@@ -29,5 +29,6 @@ export enum globalStateKeys {
     platform_escrow = 'pe',
     platform_publish_fee = 'ppf',
     platform_success_fee = 'psf',
-    platform_fund_escrow_min_top_up = 'pfemtu'
+    platform_fund_escrow_min_top_up = 'pfemtu',
+    platform_success_criteria_percentage = "pscp"
 }

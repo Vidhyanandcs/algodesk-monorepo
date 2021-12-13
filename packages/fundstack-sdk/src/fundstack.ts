@@ -536,6 +536,10 @@ export class Fundstack {
         return microalgosToAlgos(price);
     }
 
+    getSuccessCriteriaPercentage(fund: Fund): number {
+        return  fund.globalState[globalStateKeys.platform_success_criteria_percentage];
+    }
+
     isTargetReached(fund: Fund): boolean {
         return fund.globalState[globalStateKeys.target_reached] === 1;
     }
