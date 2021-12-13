@@ -147,11 +147,11 @@ test('fundstack', async () => {
         const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
         const appId = appDetails['application-index'];
 
-        await publish(fundRaiserInstance, appId);
-
-        const fundApp = await investorInstance.get(appId);
-
-        await register(investorInstance, appId, investor,  fundApp.getRegStart());
+        // await publish(fundRaiserInstance, appId);
+        //
+        // const fundApp = await investorInstance.get(appId);
+        //
+        // await register(investorInstance, appId, investor,  fundApp.getRegStart());
 
         // await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6005);
         //

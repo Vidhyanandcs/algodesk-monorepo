@@ -31,8 +31,7 @@ export type F_FundStatus = {
     phase: number,
     date: number,
     targetReached: boolean,
-    published: boolean,
-    valid: boolean
+    published: boolean
 }
 
 export type F_CompanyDetails =  {

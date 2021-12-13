@@ -101,11 +101,28 @@ export class Fund {
     asset: A_Asset;
     escrow: A_AccountInformation;
     company: F_CompanyDetails;
+    valid: boolean
+    error: {
+        message: string
+    }
 
     constructor(fund: A_Application) {
         this.id = fund.id;
         this.params = fund.params;
-        this.globalState = getFundState(fund);
+        this.valid = this.isValid();
+
+        if (this.valid) {
+            this.globalState = getFundState(fund);
+        }
+        else {
+            this.setError('Invalid fund');
+        }
+    }
+
+    setError(message: string) {
+        this.error = {
+            message
+        };
     }
 
     getCreator(): string {

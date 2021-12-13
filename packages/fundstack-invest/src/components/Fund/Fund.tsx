@@ -17,6 +17,7 @@ import ClaimsTile from "../ClaimsTile/ClaimsTile";
 import {CachedRounded} from "@material-ui/icons";
 import WithdrawTile from "../WithdrawTile/WithdrawTile";
 import MyFundActivity from "../MyFundActivity/MyFundActivity";
+import {Alert} from "@material-ui/lab";
 
 
 function Fund(): JSX.Element {
@@ -24,7 +25,6 @@ function Fund(): JSX.Element {
     const dispatch = useDispatch();
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
-    console.log(fund);
 
     // @ts-ignore
     const id: number = params.id;
@@ -37,9 +37,17 @@ function Fund(): JSX.Element {
         <div className={"fund-container"}>
             {fundDetails.loading ? 'loading ...' : <div>
                 {fund ? <div>
-                    {!fund.status.valid ? 'Invalid fund' : ''}
-                    {fund.status.valid && !fund.status.published? 'Fund not published' : ''}
-                    {fund.status.valid && fund.status.published ? <Grid container spacing={2}>
+                    {!fund.valid ? <div>
+                        <Alert color={"success"} icon={false} style={{borderRadius: 10}}>
+                            Invalid fund
+                        </Alert>
+                    </div> : ''}
+                    {fund.valid && !fund.status.published? <div>
+                        <Alert color={"success"} icon={false} style={{borderRadius: 10}}>
+                            Fund not published
+                        </Alert>
+                    </div> : ''}
+                    {fund.valid && fund.status.published ? <Grid container spacing={2}>
                         <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
                             <div className="fund-header">
                                 <div className="fund-name">

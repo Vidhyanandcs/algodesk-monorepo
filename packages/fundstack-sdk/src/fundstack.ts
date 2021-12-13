@@ -238,16 +238,18 @@ export class Fundstack {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
 
-        const assetId = fund.getAssetId();
-        const escrowAddress = fund.getEscrow();
-        const companyDetailsTxId = fund.getCompanyDetailsTxId();
+        if (fund.valid) {
+            const assetId = fund.getAssetId();
+            const escrowAddress = fund.getEscrow();
+            const companyDetailsTxId = fund.getCompanyDetailsTxId();
 
-        const [status, asset, escrow, company] = await Promise.all([this.getStatus(fund), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
+            const [status, asset, escrow, company] = await Promise.all([this.getStatus(fund), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
 
-        fund.updateStatusDetails(status);
-        fund.updateAssetDetails(asset);
-        fund.updateEscrowDetails(escrow);
-        fund.updateCompanyDetails(company);
+            fund.updateStatusDetails(status);
+            fund.updateAssetDetails(asset);
+            fund.updateEscrowDetails(escrow);
+            fund.updateCompanyDetails(company);
+        }
 
         return fund;
     }
@@ -337,7 +339,6 @@ export class Fundstack {
             withdraw,
             targetReached,
             published: fund.isPublished(),
-            valid: fund.isValid(),
             date: Date.now()
         }
 
