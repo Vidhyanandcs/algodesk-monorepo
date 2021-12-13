@@ -34,6 +34,7 @@ function MyFundActivity(): JSX.Element {
                 <div className="tile-name">My activity</div>
               {account.loggedIn ? <div>
                   {activity.loading ? <div className="loading">loading ...</div> : <div className="activity-list">
+                      {activityList.length === 0 ? <div className="no-activity">Your wallet doesn't have any activity for this fund</div> : ''}
                       {activityList.map((item) => {
                           return (<div className="activity" key={item.id}>
                               <div className="title">

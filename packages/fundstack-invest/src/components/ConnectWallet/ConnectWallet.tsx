@@ -167,6 +167,8 @@ function ConnectWallet(): JSX.Element {
                                             const address = account.address;
                                             await dispatch(loadAccount(address));
                                             dispatch(hideConnectWallet());
+                                            localStorage.setItem("signer", selectedSigner.name);
+                                            localStorage.setItem("address", address);
                                             clearState();
                                         }}>
                                             {account.address}
