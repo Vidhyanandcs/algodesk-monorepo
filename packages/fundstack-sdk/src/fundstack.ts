@@ -26,7 +26,7 @@ import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
-import {getAccountActivity} from "@algodesk/fundstack-invest/src/redux/actions/fund";
+import humanizeDuration from 'humanize-duration';
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -298,39 +298,103 @@ export class Fundstack {
         }
 
         const registration: F_PhaseDetails = {
-            start: durationBetweenBlocks(regStart, currentRound),
-            end: durationBetweenBlocks(regEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_REGISTRATION,
             active: phase == FUND_PHASE.DURING_REGISTRATION,
-            completed: phase > FUND_PHASE.DURING_REGISTRATION
+            completed: phase > FUND_PHASE.DURING_REGISTRATION,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
 
+        if (registration.pending) {
+            const duration = durationBetweenBlocks(regStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            registration.durationMilliSeconds = milliseconds;
+            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            registration.durationReadable = 'Starts in ' + registration.durationHumanize;
+        }
+        if (registration.active) {
+            const duration = durationBetweenBlocks(regEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            registration.durationMilliSeconds = milliseconds;
+            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            registration.durationReadable = 'Ends in ' + registration.durationHumanize;
+        }
+
         const sale: F_PhaseDetails = {
-            start: durationBetweenBlocks(saleStart, currentRound),
-            end: durationBetweenBlocks(saleEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_SALE,
             active: phase == FUND_PHASE.DURING_SALE,
-            completed: phase > FUND_PHASE.DURING_SALE
+            completed: phase > FUND_PHASE.DURING_SALE,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
+
+        if (sale.pending) {
+            const duration = durationBetweenBlocks(saleStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            sale.durationMilliSeconds = milliseconds;
+            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            sale.durationReadable = 'Starts in ' + sale.durationHumanize;
+        }
+        if (sale.active) {
+            const duration = durationBetweenBlocks(saleEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            sale.durationMilliSeconds = milliseconds;
+            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            sale.durationReadable = 'Ends in ' + sale.durationHumanize;
+        }
 
         const targetReached = this.isTargetReached(fund);
 
         const claim: F_PhaseDetails = {
-            start: durationBetweenBlocks(claimStart, currentRound),
-            end: durationBetweenBlocks(claimEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_CLAIM,
             active: phase == FUND_PHASE.DURING_CLAIM && targetReached,
-            completed: phase > FUND_PHASE.DURING_CLAIM
+            completed: phase > FUND_PHASE.DURING_CLAIM,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
 
+        if (claim.pending) {
+            const duration = durationBetweenBlocks(claimStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            claim.durationMilliSeconds = milliseconds;
+            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            claim.durationReadable = 'Starts in ' + claim.durationHumanize;
+        }
+        if (claim.active) {
+            const duration = durationBetweenBlocks(claimEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            claim.durationMilliSeconds = milliseconds;
+            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            claim.durationReadable = 'Ends in ' + claim.durationHumanize;
+        }
+        
         const withdraw: F_PhaseDetails = {
-            start: durationBetweenBlocks(claimStart, currentRound),
-            end: durationBetweenBlocks(claimEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_CLAIM,
             active: phase == FUND_PHASE.DURING_CLAIM && !targetReached,
-            completed: phase > FUND_PHASE.DURING_CLAIM
+            completed: phase > FUND_PHASE.DURING_CLAIM,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
 
+        if (withdraw.pending) {
+            const duration = durationBetweenBlocks(claimStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            withdraw.durationMilliSeconds = milliseconds;
+            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            withdraw.durationReadable = 'Starts in ' + withdraw.durationHumanize;
+        }
+        if (withdraw.active) {
+            const duration = durationBetweenBlocks(claimEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            withdraw.durationMilliSeconds = milliseconds;
+            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            withdraw.durationReadable = 'Ends in ' + withdraw.durationHumanize;
+        }
+        
         const status = {
             registration,
             sale,

@@ -16,11 +16,12 @@ export interface F_DeployFund {
 }
 
 export type F_PhaseDetails = {
-    start: Duration,
-    end: Duration,
     pending: boolean,
     active: boolean,
-    completed: boolean
+    completed: boolean,
+    durationMilliSeconds: number,
+    durationHumanize: string,
+    durationReadable: string
 }
 
 export type F_FundStatus = {

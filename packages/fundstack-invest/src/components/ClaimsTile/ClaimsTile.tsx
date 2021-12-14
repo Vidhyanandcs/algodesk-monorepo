@@ -4,7 +4,7 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
+import {CheckCircleOutline, EqualizerOutlined, AccessTime} from "@material-ui/icons";
 import {useParams} from "react-router-dom";
 import {setClaim} from "../../redux/actions/fund";
 import {formatNumWithDecimals} from "@algodesk/core";
@@ -14,6 +14,9 @@ function ClaimsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {status} = fund;
+    const {claim} = status;
+
     const {claimed} = fundDetails.account;
 
     const dispatch = useDispatch();
@@ -44,6 +47,10 @@ function ClaimsTile(): JSX.Element {
                     {claimed ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
                         You have claimed assets
+                    </div> : ''}
+                    {claim.pending || claim.active ? <div className="tile-row">
+                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
+                        {claim.durationReadable}
                     </div> : ''}
                 </div>
             </div>

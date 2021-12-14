@@ -4,7 +4,7 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {CheckCircleOutline, EqualizerOutlined, HighlightOffOutlined} from "@material-ui/icons";
+import {AccessTime, CheckCircleOutline, EqualizerOutlined, HighlightOffOutlined} from "@material-ui/icons";
 import {setInvestment} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
@@ -15,6 +15,7 @@ function InvestmentsTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
     const {status} = fund;
+    const {sale} = status;
     const {invested} = fundDetails.account;
 
     const dispatch = useDispatch();
@@ -55,6 +56,10 @@ function InvestmentsTile(): JSX.Element {
                             Success criteria failed
                         </div>}
                     </div> :''}
+                    {sale.pending || sale.active ? <div className="tile-row">
+                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
+                        {sale.durationReadable}
+                    </div> : ''}
                 </div>
             </div>
         </div>

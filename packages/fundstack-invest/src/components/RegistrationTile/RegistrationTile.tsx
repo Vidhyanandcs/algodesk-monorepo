@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip} from "@material-ui/core";
-import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
+import {AccessTime, CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {setRegistration} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
@@ -14,6 +14,8 @@ function RegistrationTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {status} = fund;
+    const {registration} = status;
     const {registered} = fundDetails.account;
     const dispatch = useDispatch();
 
@@ -44,7 +46,10 @@ function RegistrationTile(): JSX.Element {
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
                         You have registered
                     </div> : ''}
-
+                    {registration.pending || registration.active ? <div className="tile-row">
+                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
+                        {registration.durationReadable}
+                    </div> : ''}
                 </div>
             </div>
         </div>
