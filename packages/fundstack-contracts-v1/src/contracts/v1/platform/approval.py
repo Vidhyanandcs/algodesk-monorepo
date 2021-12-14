@@ -20,6 +20,7 @@ def createApplication():
     publishFee = Int(1000000)
     successFee = Int(1)
     fundEscrowMinTopUp = Int(2000000)
+    successCriteriaPercentage = Int(50)
 
     setState = [
         App.globalPut(globalState.version, version),
@@ -29,7 +30,8 @@ def createApplication():
         App.globalPut(globalState.publish_fee, publishFee),
         App.globalPut(globalState.success_fee, successFee),
         App.globalPut(globalState.deployed_count, deployedCount),
-        App.globalPut(globalState.fund_escrow_min_top_up, fundEscrowMinTopUp)
+        App.globalPut(globalState.fund_escrow_min_top_up, fundEscrowMinTopUp),
+        App.globalPut(globalState.success_criteria_percentage, successCriteriaPercentage)
     ]
 
     conditions = gtxnAssertions + setState + [Approve()]

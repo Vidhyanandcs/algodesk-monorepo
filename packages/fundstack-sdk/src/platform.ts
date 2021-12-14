@@ -2,6 +2,7 @@ import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/a
 import {platformGlobalStateKeys} from "./state/platform";
 import * as sdk from "algosdk";
 import atob from 'atob';
+import {A_Application, A_ApplicationParams} from "@algodesk/core";
 
 export type F_PlatformGlobalState = {
     v: number
@@ -13,7 +14,7 @@ export type F_PlatformGlobalState = {
     psf: number
 }
 
-export function getPlatformState(fund: Application): F_PlatformGlobalState {
+export function getPlatformState(fund: A_Application): F_PlatformGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
 
@@ -39,10 +40,10 @@ export function getPlatformState(fund: Application): F_PlatformGlobalState {
 
 export class Platform {
     id: number | bigint;
-    params: ApplicationParams;
+    params: A_ApplicationParams;
     globalState: F_PlatformGlobalState;
 
-    constructor(app: Application) {
+    constructor(app: A_Application) {
         this.id = app.id;
         this.params = app.params;
         this.globalState = getPlatformState(app);

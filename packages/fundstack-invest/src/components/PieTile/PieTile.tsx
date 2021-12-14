@@ -1,12 +1,24 @@
 import './PieTile.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
+import {Button} from "@material-ui/core";
+import React from "react";
+import {showSnack} from "../../redux/actions/snackbar";
+import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fund";
+import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
+import InvestModal from "../InvestModal/InvestModal";
+import {showConnectWallet} from "../../redux/actions/connectWallet";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
+    const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
+    const {status} = fund;
+    const {registration, sale, claim, withdraw}= status;
+    const dispatch = useDispatch();
 
     const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
     const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation] / Math.pow(10, fund.asset.params.decimals);
@@ -22,7 +34,7 @@ function PieTile(): JSX.Element {
   return (
       <div className="pie-tile-wrapper">
           <div className="pie-tile-container">
-                <div className="tile-name">Fund allocation</div>
+                {/*<div className="tile-name">Fund allocation</div>*/}
                 <div className="chart">
                     <ResponsiveContainer width="100%" height={250}>
                         <PieChart>
@@ -40,20 +52,122 @@ function PieTile(): JSX.Element {
                   <div className="items">
                       <div className="item key">Total</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{totalAllocation} {fund.asset.params["unit-name"]}</div>
+                      <div className="item value">{formatNumWithDecimals(totalAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
                   </div>
                   <div className="items">
                       <div className="item key">Sold</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{soldAllocation} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(soldAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
                   </div>
                   <div className="items">
                       <div className="item key">Remaining</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{remainingAllocation} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(remainingAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
                   </div>
               </div>
+              <div className="user-actions">
+                  {account.loggedIn? <div>
+                      {registration.active ? <Button variant={"contained"}
+                                                     color={"primary"}
+                                                     size={"large"}
+                                                     fullWidth
+                                                     onClick={() => {
+                                                         if (account.loggedIn) {
+                                                             if (fundDetails.account.registered) {
+                                                                 dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
+                                                             }
+                                                             else {
+                                                                 dispatch(setAction("registration_confirmation"));
+                                                             }
+                                                         }
+                                                         else {
+                                                             dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                         }
+                                                     }}
+                      >Register</Button> : ''}
+                      {sale.active ? <Button variant={"contained"}
+                                             color={"primary"}
+                                             size={"large"}
+                                             fullWidth
+                                             onClick={() => {
+                                                 if (account.loggedIn) {
+                                                     if (fundDetails.account.registered) {
+                                                         if (fundDetails.account.invested) {
+                                                             dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
+                                                         }
+                                                         else {
+                                                             dispatch(setAction("invest"));
+                                                         }
+                                                     }
+                                                     else {
+                                                         dispatch(showSnack({severity: 'error', message: 'You have not registered'}));
+                                                     }
+                                                 }
+                                                 else {
+                                                     dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                 }
+                                             }}
+                      >Invest</Button> : ''}
+                      {claim.active ? <Button variant={"contained"}
+                                             color={"primary"}
+                                             size={"large"}
+                                             fullWidth
+                                             onClick={() => {
+                                                 if (account.loggedIn) {
+                                                     if (fundDetails.account.invested) {
+                                                         if (fundDetails.account.claimed) {
+                                                             dispatch(showSnack({severity: 'error', message: 'You have already claimed'}));
+                                                         }
+                                                         else {
+                                                             dispatch(claimAssets(Number(fund.id)));
+                                                         }
+                                                     }
+                                                     else {
+                                                         dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
+                                                     }
+                                                 }
+                                                 else {
+                                                     dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                 }
+                                             }}
+                      >Claim assets</Button> : ''}
+                      {withdraw.active ? <Button variant={"contained"}
+                                                                      color={"primary"}
+                                                                      size={"large"}
+                                                                      fullWidth
+                                                                      onClick={() => {
+                                                                          if (account.loggedIn) {
+                                                                              if (fundDetails.account.invested) {
+                                                                                  if (fundDetails.account.withdrawn) {
+                                                                                      dispatch(showSnack({severity: 'error', message: 'You have already withdrawn'}));
+                                                                                  }
+                                                                                  else {
+                                                                                      dispatch(withdrawInvestment(Number(fund.id)));
+                                                                                  }
+                                                                              }
+                                                                              else {
+                                                                                  dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
+                                                                              }
+                                                                          }
+                                                                          else {
+                                                                              dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                          }
+                                                                      }}
+                      >Withdraw investment</Button> : ''}
+                  </div> : <div>
+                      <Button variant={"contained"}
+                              color={"primary"}
+                              size={"large"}
+                              fullWidth
+                              onClick={() => {
+                                  dispatch(showConnectWallet());
+                              }}
+                      >Connect wallet</Button>
+                  </div>}
+              </div>
           </div>
+          <RegistrationConfirmation></RegistrationConfirmation>
+          <InvestModal></InvestModal>
       </div>
   );
 }

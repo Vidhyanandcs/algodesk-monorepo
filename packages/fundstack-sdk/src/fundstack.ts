@@ -20,11 +20,13 @@ import {
     PLATFORM_OPERATIONS,
 } from "./constants";
 import {getContracts} from "./contracts";
-import {assignGroupID, OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
+import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
 import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
-import {Fund} from "./fund";
+import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
+import {localStateKeys, globalStateKeys} from "./state/fund";
+import humanizeDuration from 'humanize-duration';
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -108,7 +110,7 @@ export class Fundstack {
             amount: totalAllocation / micros
         };
         const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
-        const txnGroup = assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([platformPaymentTxn, platformAppCallTxn, paymentTxn, appCallTxn, assetXferTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -141,7 +143,7 @@ export class Fundstack {
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
 
-        const txnGroup = assignGroupID([paymentTxn, appCallTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([paymentTxn, appCallTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -168,7 +170,7 @@ export class Fundstack {
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
-        const txnGroup = assignGroupID([assetXferTxn, appCallTxn]);
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([assetXferTxn, appCallTxn]);
 
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
@@ -236,16 +238,18 @@ export class Fundstack {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
         const fund = new Fund(fundApp);
 
-        const assetId = fund.getAssetId();
-        const escrowAddress = fund.getEscrow();
-        const companyDetailsTxId = fund.getCompanyDetailsTxId();
+        if (fund.valid) {
+            const assetId = fund.getAssetId();
+            const escrowAddress = fund.getEscrow();
+            const companyDetailsTxId = fund.getCompanyDetailsTxId();
 
-        const [status, asset, escrow, company] = await Promise.all([this.getStatus(fund), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
+            const [status, asset, escrow, company] = await Promise.all([this.getStatus(fund), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
 
-        fund.updateStatusDetails(status);
-        fund.updateAssetDetails(asset);
-        fund.updateEscrowDetails(escrow);
-        fund.updateCompanyDetails(company);
+            fund.updateStatusDetails(status);
+            fund.updateAssetDetails(asset);
+            fund.updateEscrowDetails(escrow);
+            fund.updateCompanyDetails(company);
+        }
 
         return fund;
     }
@@ -294,34 +298,111 @@ export class Fundstack {
         }
 
         const registration: F_PhaseDetails = {
-            start: durationBetweenBlocks(regStart, currentRound),
-            end: durationBetweenBlocks(regEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_REGISTRATION,
             active: phase == FUND_PHASE.DURING_REGISTRATION,
-            completed: phase > FUND_PHASE.DURING_REGISTRATION
+            completed: phase > FUND_PHASE.DURING_REGISTRATION,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
+
+        if (registration.pending) {
+            const duration = durationBetweenBlocks(regStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            registration.durationMilliSeconds = milliseconds;
+            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            registration.durationReadable = 'Starts in ' + registration.durationHumanize;
+        }
+        if (registration.active) {
+            const duration = durationBetweenBlocks(regEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            registration.durationMilliSeconds = milliseconds;
+            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            registration.durationReadable = 'Ends in ' + registration.durationHumanize;
+        }
 
         const sale: F_PhaseDetails = {
-            start: durationBetweenBlocks(saleStart, currentRound),
-            end: durationBetweenBlocks(saleEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_SALE,
             active: phase == FUND_PHASE.DURING_SALE,
-            completed: phase > FUND_PHASE.DURING_SALE
+            completed: phase > FUND_PHASE.DURING_SALE,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
+
+        if (sale.pending) {
+            const duration = durationBetweenBlocks(saleStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            sale.durationMilliSeconds = milliseconds;
+            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            sale.durationReadable = 'Starts in ' + sale.durationHumanize;
+        }
+        if (sale.active) {
+            const duration = durationBetweenBlocks(saleEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            sale.durationMilliSeconds = milliseconds;
+            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            sale.durationReadable = 'Ends in ' + sale.durationHumanize;
+        }
+
+        const targetReached = this.isTargetReached(fund);
 
         const claim: F_PhaseDetails = {
-            start: durationBetweenBlocks(claimStart, currentRound),
-            end: durationBetweenBlocks(claimEnd, currentRound),
             pending: phase <= FUND_PHASE.BEFORE_CLAIM,
-            active: phase == FUND_PHASE.DURING_CLAIM,
-            completed: phase > FUND_PHASE.DURING_CLAIM
+            active: phase == FUND_PHASE.DURING_CLAIM && targetReached,
+            completed: phase > FUND_PHASE.DURING_CLAIM,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
         };
 
+        if (claim.pending) {
+            const duration = durationBetweenBlocks(claimStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            claim.durationMilliSeconds = milliseconds;
+            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            claim.durationReadable = 'Starts in ' + claim.durationHumanize;
+        }
+        if (claim.active) {
+            const duration = durationBetweenBlocks(claimEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            claim.durationMilliSeconds = milliseconds;
+            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            claim.durationReadable = 'Ends in ' + claim.durationHumanize;
+        }
+        
+        const withdraw: F_PhaseDetails = {
+            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
+            active: phase == FUND_PHASE.DURING_CLAIM && !targetReached,
+            completed: phase > FUND_PHASE.DURING_CLAIM,
+            durationHumanize: "",
+            durationReadable: "",
+            durationMilliSeconds: 0,
+        };
+
+        if (withdraw.pending) {
+            const duration = durationBetweenBlocks(claimStart, currentRound);
+            const milliseconds = duration.milliseconds;
+            withdraw.durationMilliSeconds = milliseconds;
+            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            withdraw.durationReadable = 'Starts in ' + withdraw.durationHumanize;
+        }
+        if (withdraw.active) {
+            const duration = durationBetweenBlocks(claimEnd, currentRound);
+            const milliseconds = duration.milliseconds;
+            withdraw.durationMilliSeconds = milliseconds;
+            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
+            withdraw.durationReadable = 'Ends in ' + withdraw.durationHumanize;
+        }
+        
         const status = {
             registration,
             sale,
             phase,
             claim,
+            withdraw,
+            targetReached,
+            published: fund.isPublished(),
             date: Date.now()
         }
 
@@ -352,7 +433,7 @@ export class Fundstack {
         return deleteTxn;
     }
 
-    async getAccountHistory(fundId: number, address: string): Promise<F_AccountActivity[]> {
+    async getAccountFundActivity(fundId: number, address: string): Promise<F_AccountActivity[]> {
         const {transactions} = await this.algodesk.applicationClient.getAccountTransactions(fundId, address);
 
         const activityTxs: F_AccountActivity[] = [];
@@ -404,11 +485,11 @@ export class Fundstack {
             }
             if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
                 isValidOperation = true;
-                activity.label = 'Claim Assets';
+                activity.label = 'Claim';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'Withdraw Algos';
+                activity.label = 'Withdraw';
             }
 
             if (isValidOperation) {
@@ -434,5 +515,96 @@ export class Fundstack {
         });
         
         return fundIds;
+    }
+
+    hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {
+        return this.algodesk.applicationClient.hasOpted(accountInfo, fundId);
+    }
+
+    hasInvested(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let invested = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    invested = accountState[localStateKeys.invested] === 1;
+                }
+            });
+        }
+
+        return invested;
+    }
+
+    hasClaimed(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let claimed = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    claimed = accountState[localStateKeys.claimed] === 1;
+                }
+            });
+        }
+
+        return claimed;
+    }
+
+    hasWithDrawn(accountInfo: A_AccountInformation, fundId: number): boolean {
+        let withdrawn = false;
+
+        if (this.hasRegistered(accountInfo, fundId)) {
+            const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
+            optedApps.forEach((app) => {
+                if (app.id == fundId) {
+                    const accountState = getAccountState(app);
+                    withdrawn = accountState[localStateKeys.withdrawn] === 1;
+                }
+            });
+        }
+
+        return withdrawn;
+    }
+
+    calculatePayableAmount(amount: number, fund: Fund): number {
+        let price = fund.globalState[globalStateKeys.price];
+        price = microalgosToAlgos(price);
+
+        let payableAmount = parseFloat((amount * price).toString()).toFixed(6);
+        return  parseFloat(payableAmount);
+    }
+
+    getMinAllocationInDecimals(fund: Fund): number {
+        const minAllocation = fund.globalState[globalStateKeys.min_allocation];
+        const decimals = fund.asset.params.decimals
+        return minAllocation / Math.pow(10, decimals);
+    }
+
+    getMaxAllocationInDecimals(fund: Fund): number {
+        const maxAllocation = fund.globalState[globalStateKeys.max_allocation];
+        const decimals = fund.asset.params.decimals
+        return maxAllocation / Math.pow(10, decimals);
+    }
+
+    getTotalAllocationInDecimals(fund: Fund): number {
+        const totalAllocation = fund.globalState[globalStateKeys.total_allocation];
+        const decimals = fund.asset.params.decimals
+        return totalAllocation / Math.pow(10, decimals);
+    }
+
+    getPrice(fund: Fund): number {
+        const price = fund.globalState[globalStateKeys.price];
+        return microalgosToAlgos(price);
+    }
+
+    getSuccessCriteriaPercentage(fund: Fund): number {
+        return  fund.globalState[globalStateKeys.platform_success_criteria_percentage];
+    }
+
+    isTargetReached(fund: Fund): boolean {
+        return fund.globalState[globalStateKeys.target_reached] === 1;
     }
 }

@@ -63,6 +63,8 @@ export const accountSlice = createSlice({
             state.loggedIn = false;
             state.information = information;
             fundstackSdk.signer.logout();
+            localStorage.removeItem("signer");
+            localStorage.removeItem("address");
         }
     },
     extraReducers: (builder) => {

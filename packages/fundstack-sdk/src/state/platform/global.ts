@@ -4,5 +4,6 @@ export const platformGlobalStateKeys = {
     created_at: "cat",
     escrow: 'e',
     publish_fee: 'pf',
-    success_fee: 'sf'
+    success_fee: 'sf',
+    success_criteria_percentage: 'scp'
 }

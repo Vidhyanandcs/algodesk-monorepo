@@ -1,9 +1,18 @@
 import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {globalStateKeys} from "./state/fund";
 import * as sdk from "algosdk";
-import {A_AccountInformation, A_Asset, encodeTxId} from "@algodesk/core";
+import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Application} from "@algodesk/core";
 import atob from 'atob';
 import {F_CompanyDetails, F_FundStatus} from "./types";
+import {getContracts} from "./contracts";
+
+export type F_FundLocalState = {
+    r: number
+    i: number
+    ia: number
+    c: number
+    w: number
+};
 
 export type F_FundGlobalState = {
     v: number
@@ -26,19 +35,20 @@ export type F_FundGlobalState = {
     noi: number
     noc: number
     e: string
-    fc: boolean
+    fc: number
     cd: string
-    tr: boolean
-    fw: boolean
-    rac: boolean
+    tr: number
+    fw: number
+    rac: number
     pai: number
     pe: string
     psf: number
     ppf: number
     pfemtu: number
+    pscp: number
 }
 
-export function getFundState(fund: Application): F_FundGlobalState {
+export function getFundState(fund: A_Application): F_FundGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
 
@@ -65,7 +75,7 @@ export function getFundState(fund: Application): F_FundGlobalState {
     return globalState as F_FundGlobalState;
 }
 
-export function getAccountState(localApp) {
+export function getAccountState(localApp): F_FundLocalState {
     const lState = localApp['key-value'];
     const localState = {};
 
@@ -81,22 +91,39 @@ export function getAccountState(localApp) {
         }
     });
 
-    return localState;
+    return localState as F_FundLocalState;
 }
 
 export class Fund {
     id: number | bigint;
-    params: ApplicationParams;
+    params: A_ApplicationParams;
     globalState: F_FundGlobalState;
     status: F_FundStatus;
     asset: A_Asset;
     escrow: A_AccountInformation;
     company: F_CompanyDetails;
+    valid: boolean
+    error: {
+        message: string
+    }
 
-    constructor(fund: Application) {
+    constructor(fund: A_Application) {
         this.id = fund.id;
         this.params = fund.params;
-        this.globalState = getFundState(fund);
+        this.valid = this.isValid();
+
+        if (this.valid) {
+            this.globalState = getFundState(fund);
+        }
+        else {
+            this.setError('Invalid fund');
+        }
+    }
+
+    setError(message: string) {
+        this.error = {
+            message
+        };
     }
 
     getCreator(): string {
@@ -152,6 +179,18 @@ export class Fund {
         return this.globalState[globalStateKeys.platform_fund_escrow_min_top_up];
     }
 
+    getMinAllocation(): number {
+        return this.globalState[globalStateKeys.min_allocation];
+    }
+
+    getMaxAllocation(): number {
+        return this.globalState[globalStateKeys.max_allocation];
+    }
+
+    getPrice(): number {
+        return this.globalState[globalStateKeys.price];
+    }
+
     updateStatusDetails(status: F_FundStatus) {
         this.status = status;
     }
@@ -166,5 +205,16 @@ export class Fund {
 
     updateCompanyDetails(company: F_CompanyDetails) {
         this.company = company;
+    }
+
+    isPublished(): boolean {
+        return this.globalState[globalStateKeys.published] === 1;
+    }
+
+    isValid(): boolean {
+       const {compiledApprovalProgram, compiledClearProgram} = getContracts();
+       const appApprovalProgram = this.params["approval-program"];
+       const appClearProgram = this.params["clear-state-program"];
+       return compiledApprovalProgram.result === appApprovalProgram && compiledClearProgram.result === appClearProgram;
     }
 }

@@ -1,4 +1,4 @@
-import {Algodv2, SuggestedParams, Transaction, modelsv2} from "algosdk";
+import {Algodv2, SuggestedParams, Transaction, assignGroupID} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Signer, A_PendingTransactionResponse, A_SendTxnResponse} from "../types";
 
@@ -63,5 +63,9 @@ export class TransactionClient{
     async sendGroupTxns(unsignedTxns: Transaction[]): Promise<any> {
         const rawSignedTxns = await this.signer.signGroupTxns(unsignedTxns);
         return await this.client.sendRawTransaction(rawSignedTxns).do();
+    }
+
+    assignGroupID(unsignedTransactions: Transaction[]): Transaction[] {
+        return assignGroupID(unsignedTransactions);
     }
 }

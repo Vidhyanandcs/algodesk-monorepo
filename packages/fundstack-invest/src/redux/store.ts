@@ -6,6 +6,7 @@ import loaderReducer from "./actions/loader";
 import signerReducer from "./actions/signer";
 import accountReducer from "./actions/account";
 import fundReducer from "./actions/fund";
+import successModal from "./actions/successModal";
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
         loader: loaderReducer,
         signer: signerReducer,
         account: accountReducer,
-        fund: fundReducer
+        fund: fundReducer,
+        successModal: successModal
     },
 });
 

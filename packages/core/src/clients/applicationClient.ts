@@ -9,31 +9,30 @@ import {
     Signer,
     A_OptInApplicationParams,
     A_DeleteApplicationParams,
-    A_SearchTransaction,
     A_SearchTransactions,
-    A_UpdateApplicationParams
+    A_UpdateApplicationParams, A_AccountInformation, A_Application
 } from "../types";
 import {processApplicationArgs} from "../utils/application";
-import {Application} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import SearchForTransactions from "algosdk/dist/types/src/client/v2/indexer/searchForTransactions";
-import fr from "algorand-walletconnect-qrcode-modal/dist/cjs/browser/languages/fr";
+import {AccountClient} from "./accountClient";
 
 export class ApplicationClient{
     client: Algodv2;
     indexer: IndexerClient;
     signer: Signer;
     transactionClient: TransactionClient;
+    accountClient: AccountClient;
 
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         this.client = client;
         this.indexer = indexer;
         this.signer = signer;
         this.transactionClient = new TransactionClient(client, indexer, signer);
+        this.accountClient = new AccountClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<Application> {
+    async get(id: number): Promise<A_Application> {
         const app = await this.client.getApplicationByID(id).do();
-        return app as Application;
+        return app as A_Application;
     }
 
     async prepareOptInTxn(params: A_OptInApplicationParams, note?: string): Promise<Transaction> {
@@ -126,5 +125,18 @@ export class ApplicationClient{
     async getAppTransactions(appId: number): Promise<A_SearchTransactions> {
         const txs = await this.indexer.searchForTransactions().applicationID(appId).do();
         return txs as A_SearchTransactions;
+    }
+
+    hasOpted(accountInfo: A_AccountInformation, appId: number): boolean {
+        const optedApps = this.accountClient.getOptedApps(accountInfo);
+
+        let opted = false;
+        optedApps.forEach((app) => {
+            if (app.id == appId) {
+                opted = true;
+            }
+        });
+
+        return opted;
     }
 }

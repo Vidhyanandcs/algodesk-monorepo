@@ -13,9 +13,20 @@
         display: flex;
         justify-content: space-between;
       }
+      .reload {
+        display: inline-block;
+        margin-left: 15px;
+        svg {
+          vertical-align: bottom;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
       .fund-id {
         font-size: 18px;
         font-family: MontserratLight !important;
+        display: inline-block;
         &:hover {
           cursor: pointer;
           text-decoration: underline;
@@ -51,10 +62,12 @@
         }
         .tile-body {
           margin-top: 40px;
-          .count {
-            font-size: 18px;
-            span {
-              font-weight: bold;
+          .tile-row {
+            font-size: 16px;
+            margin-top: 15px;
+            svg {
+              margin-right: 10px;
+              vertical-align: middle;
             }
           }
         }

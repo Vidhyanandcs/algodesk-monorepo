@@ -52,8 +52,8 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         name: "Testing v1 fund",
         regStartsAt: networkParams.firstRound + 10,
         regEndsAt: networkParams.firstRound + 20,
-        saleStartsAt: networkParams.firstRound + 30,
-        saleEndsAt: networkParams.firstRound + 40,
+        saleStartsAt: networkParams.firstRound + 24,
+        saleEndsAt: networkParams.firstRound + 34,
         price: 0.001,
         totalAllocation: 1000
     };
