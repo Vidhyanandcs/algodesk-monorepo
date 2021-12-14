@@ -7,6 +7,7 @@ import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {setRegistration} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 
 function RegistrationTile(): JSX.Element {
@@ -37,7 +38,7 @@ function RegistrationTile(): JSX.Element {
                 <div className="tile-body">
                     <div className="tile-row">
                         <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total registrations : <span>{fund.globalState[globalStateKeys.no_of_registrations]}</span>
+                        Total registrations : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_registrations], 0)}</span>
                     </div>
                     {registered ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>

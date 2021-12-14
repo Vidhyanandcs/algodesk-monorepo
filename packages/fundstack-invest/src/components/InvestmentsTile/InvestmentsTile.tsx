@@ -7,6 +7,7 @@ import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {CheckCircleOutline, EqualizerOutlined, HighlightOffOutlined} from "@material-ui/icons";
 import {setInvestment} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 
 function InvestmentsTile(): JSX.Element {
@@ -39,7 +40,7 @@ function InvestmentsTile(): JSX.Element {
                 <div className="tile-body">
                     <div className="tile-row">
                         <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total investors : <span>{fund.globalState[globalStateKeys.no_of_investors]}</span>
+                        Total investors : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_investors], 0)}</span>
                     </div>
                     {invested ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>

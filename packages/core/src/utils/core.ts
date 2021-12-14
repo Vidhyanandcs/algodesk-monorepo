@@ -23,9 +23,11 @@ export function ellipseAddress(address: string = "", width: number = 5): string 
 }
 
 export function formatNumWithDecimals(num: number, decimals: number): string {
-    return formatNumber(num, {
+    const number = formatNumber(num, {
         precision: decimals
     });
+
+    return number.replace(/(\.[0-9]*[1-9])0+$|\.0*$/,'');
 }
 
 export function isNumber(n: any) {

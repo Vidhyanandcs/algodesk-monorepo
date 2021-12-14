@@ -10,6 +10,7 @@ import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fu
 import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -51,17 +52,17 @@ function PieTile(): JSX.Element {
                   <div className="items">
                       <div className="item key">Total</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{totalAllocation} {fund.asset.params["unit-name"]}</div>
+                      <div className="item value">{formatNumWithDecimals(totalAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
                   </div>
                   <div className="items">
                       <div className="item key">Sold</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{soldAllocation} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(soldAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
                   </div>
                   <div className="items">
                       <div className="item key">Remaining</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{remainingAllocation} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(remainingAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
                   </div>
               </div>
               <div className="user-actions">

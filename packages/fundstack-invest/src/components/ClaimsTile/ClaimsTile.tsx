@@ -7,6 +7,7 @@ import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 import {useParams} from "react-router-dom";
 import {setClaim} from "../../redux/actions/fund";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 
 function ClaimsTile(): JSX.Element {
@@ -38,7 +39,7 @@ function ClaimsTile(): JSX.Element {
                 <div className="tile-body">
                     <div className="tile-row">
                         <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total claims : <span>{fund.globalState[globalStateKeys.no_of_claims]}</span>
+                        Total claims : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_claims], 0)}</span>
                     </div>
                     {claimed ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>

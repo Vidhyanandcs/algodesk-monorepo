@@ -7,6 +7,7 @@ import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
 import {useParams} from "react-router-dom";
 import {setWithdraw} from "../../redux/actions/fund";
+import {formatNumWithDecimals} from "@algodesk/core";
 
 
 function WithdrawTile(): JSX.Element {
@@ -38,7 +39,7 @@ function WithdrawTile(): JSX.Element {
                 <div className="tile-body">
                     <div className="tile-row">
                         <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total withdraws : <span>{fund.globalState[globalStateKeys.no_of_withdrawls]}</span>
+                        Total withdraws : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_withdrawls], 0)}</span>
                     </div>
                     {withdrawn ? <div className="tile-row">
                         <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>

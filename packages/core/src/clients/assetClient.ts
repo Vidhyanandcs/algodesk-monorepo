@@ -1,4 +1,4 @@
-import {encodeText} from "../utils";
+import {encodeText, formatNumWithDecimals} from "../utils";
 import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
@@ -8,7 +8,7 @@ import {
     A_CreateAssetParams,
     A_ModifyAssetParams,
     A_SendTxnResponse,
-    A_RevokeAssetParams, A_TransferAssetParams, A_Asset
+    A_RevokeAssetParams, A_TransferAssetParams, A_Asset, A_AccountInformation
 } from "../types";
 
 export class AssetClient{
@@ -137,5 +137,13 @@ export class AssetClient{
         };
 
         return this.transfer(transferParams, note);
+    }
+
+    getTotalSupply(asset: A_Asset): number {
+        return (asset.params.total / Math.pow(10, asset.params.decimals));
+    }
+
+    getTotalSupplyWithTicker(asset: A_Asset): string {
+        return formatNumWithDecimals(this.getTotalSupply(asset), asset.params.decimals) + ' ' + asset.params['unit-name'];
     }
 }

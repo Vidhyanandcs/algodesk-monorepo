@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Tab, Tabs, Tooltip} from "@material-ui/core";
 import React, {useState} from "react";
-import {A_Asset, ellipseAddress} from "@algodesk/core";
+import {ellipseAddress, formatNumWithDecimals} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {InfoOutlined} from "@material-ui/icons";
 
@@ -15,13 +15,12 @@ const initialState: AssetDetailsTileState = {
     tab: "pool_information"
 };
 
-function getValueInAssetDecimalsWithTicker(value: number, asset: A_Asset): string {
-    return (value / Math.pow(10, asset.params.decimals)) + " " + asset.params["unit-name"];
-}
-
 function AssetDetailsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
+    const {asset} = fund;
+    const {params} = asset;
+    const {decimals} = params;
 
     const [
         { tab },
@@ -46,7 +45,7 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{fundstackSdk.fundstack.getTotalAllocationInDecimals(fund) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getTotalAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
@@ -55,7 +54,7 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{fundstackSdk.fundstack.getMinAllocationInDecimals(fund) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getMinAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
@@ -64,7 +63,7 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{fundstackSdk.fundstack.getMaxAllocationInDecimals(fund) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getMaxAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
@@ -95,7 +94,7 @@ function AssetDetailsTile(): JSX.Element {
                       </div>
                       <div className="pair">
                           <div className="key">Total supply</div>
-                          <div className="value">{getValueInAssetDecimalsWithTicker(fund.asset.params.total, fund.asset)}</div>
+                          <div className="value">{fundstackSdk.fundstack.algodesk.assetClient.getTotalSupplyWithTicker(asset)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Creator</div>
