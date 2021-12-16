@@ -1,6 +1,6 @@
 import {Signer, SignerAccount} from "../types";
 import {Transaction} from "algosdk";
-import MyAlgoConnect, {Accounts, AlgorandTxn} from '@randlabs/myalgo-connect';
+import MyAlgoConnect from '@randlabs/myalgo-connect';
 import {NETWORKS} from "../constants";
 
 
