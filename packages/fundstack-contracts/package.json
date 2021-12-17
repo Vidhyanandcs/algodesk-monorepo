@@ -1,11 +1,11 @@
 {
-  "name": "fundstack-contracts-v1",
+  "name": "@algodesk/fundstack-contracts",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "AD <65587162+algodesk-io@users.noreply.github.com>",
   "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
   "license": "ISC",
-  "main": "lib/fundstack-contracts-v1.js",
+  "main": "lib/fundstack-contracts.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
