@@ -25,11 +25,17 @@
               &:hover {
                 cursor: pointer;
               }
+              svg {
+                border: 1px solid $color-dark;
+                border-radius: 50%;
+                padding: 3px;
+              }
             }
             img {
               width: 35px;
               vertical-align: bottom;
               margin-right: 15px;
+              border-radius: 50%;
             }
             .addr {
               display: inline-block;

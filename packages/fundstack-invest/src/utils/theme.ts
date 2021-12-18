@@ -48,14 +48,18 @@ export const theme = createTheme({
         },
         MuiChip: {
             root: {
-                borderRadius: 10,
-                padding: "15px 10px",
-                background: "linear-gradient(0deg, #D0D2D3 -59.14%, #A6A8AB 122.22%)",
-                color: '#fff',
-                fontWeight: 'bold'
+                '&.custom-chip': {
+                    borderRadius: 10,
+                    padding: "15px 10px",
+                    background: "linear-gradient(0deg, #D0D2D3 -59.14%, #A6A8AB 122.22%)",
+                    color: '#fff',
+                    fontWeight: 'bold'
+                }
             },
             colorPrimary: {
-                background: "linear-gradient(0deg, #60DD8B -59.14%, #0BB68C 122.22%);",
+                '&.custom-chip': {
+                    background: "linear-gradient(0deg, #60DD8B -59.14%, #0BB68C 122.22%);",
+                }
             }
         },
         MuiButtonGroup: {

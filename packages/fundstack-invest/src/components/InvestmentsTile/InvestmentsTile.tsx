@@ -35,8 +35,8 @@ function InvestmentsTile(): JSX.Element {
                     <div className="tile-name">
                         Investments
                     </div>
-                    {fund.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                    {fund.status.sale.completed ? <Chip label={"Closed"} size={"small"} className="tile-status"/> : ''}
+                    {fund.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {fund.status.sale.completed ? <Chip label={"Closed"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
                     <div className="tile-row">

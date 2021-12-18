@@ -36,8 +36,8 @@ function ClaimsTile(): JSX.Element {
                     <div className="tile-name">
                         Claims
                     </div>
-                    {fund.status.claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="tile-status"/> : ''}
-                    {fund.status.claim.completed ? <Chip label={"Closed"} size={"small"} className="tile-status"/> : ''}
+                    {fund.status.claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {fund.status.claim.completed ? <Chip label={"Closed"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
                     <div className="tile-row">

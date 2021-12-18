@@ -8,16 +8,44 @@
     .tile-name {
       font-size: 20px;
       font-weight: 600;
-      text-align: center;
+      span {
+        float: right;
+      }
     }
     .chart {
-
+      margin-top: 40px;
+      position: relative;
+      .target-reached {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        svg {
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+      .success-criteria {
+        position: absolute;
+        height: 20px;
+        width: 1px;
+        top: 0px;
+        background: $color-light;
+        border-radius: 10px;
+      }
+      .percentages {
+        margin: 12px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
     .user-actions {
       margin-top: 40px;
     }
     .data {
-      margin-top: 50px;
+      margin-top: 40px;
       .items {
         display: flex;
         justify-content: space-between;

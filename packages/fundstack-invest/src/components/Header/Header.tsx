@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {ellipseAddress} from "@algodesk/core";
 import React from "react";
-import accountImg from '../../assets/images/account-icon.png';
+import accountImg from '../../assets/images/avatar.svg';
 import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {logout} from "../../redux/actions/account";
@@ -53,7 +53,7 @@ function Header(): JSX.Element {
                                           <span className="logout" onClick={(ev) => {
                                               dispatch(logout());
                                           }}>
-                                                  <PowerSettingsNew fontSize={"medium"}></PowerSettingsNew>
+                                                  <PowerSettingsNew fontSize={"small"}></PowerSettingsNew>
                                           </span>
 
                                     </Tooltip>
