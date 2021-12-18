@@ -8,9 +8,12 @@
     .tile-name {
       font-size: 20px;
       font-weight: 600;
+      span {
+        float: right;
+      }
     }
     .chart {
-      margin-top: 30px;
+      margin-top: 40px;
       position: relative;
       .target-reached {
         text-align: center;

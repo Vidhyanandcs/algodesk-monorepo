@@ -2,7 +2,7 @@ import './PieTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {Button, LinearProgress, withStyles} from "@material-ui/core";
+import {Button, Chip, LinearProgress, withStyles} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
 import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fund";
@@ -45,18 +45,14 @@ function PieTile(): JSX.Element {
   return (
       <div className="pie-tile-wrapper">
           <div className="pie-tile-container">
-                <div className="tile-name">Fund status</div>
-                <div className="chart">
-                    {status.sale.completed ? <div>
-                        {fund.globalState[globalStateKeys.target_reached] ? <div className={"target-reached"}>
-                            <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle>
-                            Success
-                        </div> : <div className={"target-reached"}>
-                            <Cancel color={"secondary"} fontSize={"small"}></Cancel>
-                            Failed
-                        </div>}
-                    </div> : ''}
+                <div className="tile-name">
+                    Fund status
+                    {status.sale.completed ? <span style={{marginTop: -5}}>
+                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} variant={"outlined"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
+                    </span> : ''}
 
+                </div>
+                <div className="chart">
                     <BorderLinearProgress variant={"determinate"} value={soldPerc}/>
                     <div className="percentages">
                         <div>
