@@ -1,11 +1,12 @@
 import {getNetwork} from "./algorand/network";
-import {A_SearchTransactions} from "./types";
+import {A_Application, A_SearchTransactions, F_FundGlobalState} from "./types";
 import moment from 'moment';
 import {getContracts} from "./contracts";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Fund from './schemas/fundSchema';
 import * as sdk from "algosdk";
+import {globalStateKeys} from "./constants";
 
 
 dotenv.config();
@@ -33,7 +34,7 @@ async function getAppTransactions(appId: number, days: number): Promise<A_Search
     return transactions as A_SearchTransactions;
 }
 
-async function getFundStackApps(appId: number) {
+async function getFundStackApps(appId: number): Promise<number[]> {
     const fundIds: number[] = [];
     const {transactions} = await getAppTransactions(appId, days);
 
@@ -51,46 +52,11 @@ async function getFundStackApps(appId: number) {
     return fundIds;
 }
 
-async function getApplication(id: number) {
-    return await network.getClient().getApplicationByID(id).do();
+async function getApplication(id: number): Promise<A_Application> {
+    return await network.getClient().getApplicationByID(id).do() as A_Application;
 }
 
-enum globalStateKeys {
-    version = "v",
-    published = "p",
-    creator = "c",
-    created_at = "cat",
-    name = "n",
-    asset_id = "aid",
-    reg_starts_at = "rsat",
-    reg_ends_at = "reat",
-    sale_starts_at = "ssat",
-    sale_ends_at = "seat",
-    claim_after = "ca",
-    total_allocation = "ta",
-    remaining_allocation = "ra",
-    min_allocation = "mia",
-    max_allocation = "mxa",
-    price = "price",
-    no_of_registrations = "nor",
-    no_of_investors = "noi",
-    no_of_claims = "noc",
-    no_of_withdrawls = "now",
-    escrow = "e",
-    funds_claimed = "fc",
-    company_details = "cd",
-    target_reached = "tr",
-    funds_withdrawn = "fw",
-    remaining_assets_claimed = "rac",
-    platform_app_id = "pai",
-    platform_escrow = 'pe',
-    platform_publish_fee = 'ppf',
-    platform_success_fee = 'psf',
-    platform_fund_escrow_min_top_up = 'pfemtu',
-    platform_success_criteria_percentage = "pscp"
-}
-
-function getFundState(fund) {
+function getFundState(fund): F_FundGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
 
@@ -111,7 +77,7 @@ function getFundState(fund) {
         }
     });
 
-    return globalState;
+    return globalState as F_FundGlobalState;
 }
 
 async function syncFund(fundId: number) {

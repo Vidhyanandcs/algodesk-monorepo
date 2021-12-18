@@ -49,3 +49,65 @@ export interface A_SearchTransaction{
         receiver: string
     }
 }
+
+export interface A_Application {
+    id: number
+    params: A_ApplicationParams
+}
+
+export interface A_ApplicationParams {
+    "approval-program": string
+    "clear-state-program": string
+    creator: string
+    "global-state"?: A_GlobalState[]
+    "global-state-schema": A_StateSchema
+    "local-state-schema": A_StateSchema
+}
+
+export interface A_GlobalState {
+    key: string
+    value: {
+        bytes: string
+        type: number
+        uint: number
+    }
+}
+
+export interface A_StateSchema {
+    "num-byte-slice": number
+    "num-uint": number
+}
+
+export type F_FundGlobalState = {
+    v: number
+    p: number
+    c: string
+    cat: number
+    n: string
+    aid: number
+    rsat: number
+    reat: number
+    ssat: number
+    seat: number
+    ca: number
+    ta: number
+    ra: number
+    mia: number
+    mxa: number
+    sr: number
+    nor: number
+    noi: number
+    noc: number
+    e: string
+    fc: number
+    cd: string
+    tr: number
+    fw: number
+    rac: number
+    pai: number
+    pe: string
+    psf: number
+    ppf: number
+    pfemtu: number
+    pscp: number
+}
