@@ -2,8 +2,7 @@ import './PieTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {ResponsiveContainer, Pie, PieChart, Tooltip, Legend} from "recharts";
-import {Button} from "@material-ui/core";
+import {Button, LinearProgress, withStyles} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
 import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fund";
@@ -11,6 +10,23 @@ import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationCo
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
+import fundstackSdk from "../../utils/fundstackSdk";
+import {CheckCircle} from "@material-ui/icons";
+
+const BorderLinearProgress = withStyles((theme) => ({
+    root: {
+        height: 20,
+        borderRadius: 10,
+    },
+    colorPrimary: {
+        backgroundColor: "#E0D21F",
+    },
+    bar: {
+        borderRadius: 0,
+        backgroundColor: '#03B68C',
+    },
+}))(LinearProgress);
+
 
 function PieTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -26,27 +42,26 @@ function PieTile(): JSX.Element {
 
     const remainingPerc = (remainingAllocation / totalAllocation) * 100;
     const soldPerc = (soldAllocation / totalAllocation) * 100;
-    const pieData = [
-        { name: 'Sold', value: soldAllocation, fill: "#03B68C" },
-        { name: 'Remaining', value: remainingAllocation, fill: "#E0D21F" }
-    ];
 
   return (
       <div className="pie-tile-wrapper">
           <div className="pie-tile-container">
-                {/*<div className="tile-name">Fund allocation</div>*/}
+                <div className="tile-name">Fund status</div>
                 <div className="chart">
-                    <ResponsiveContainer width="100%" height={250}>
-                        <PieChart>
-                            <Pie data={pieData}
-                                 dataKey="value"
-                                 innerRadius={20}
-                                 startAngle={-270}
-                                 label></Pie>
-                            <Tooltip />
-                            <Legend></Legend>
-                        </PieChart>
-                    </ResponsiveContainer>
+                    {fund.globalState[globalStateKeys.target_reached] ? <div className={"success"}>
+                        <CheckCircle color={"primary"}></CheckCircle>
+                        Success
+                    </div> : ''}
+                    <BorderLinearProgress variant={"determinate"} value={soldPerc}/>
+                    <div className="percentages">
+                        <div>
+                            {parseFloat(soldPerc + '').toFixed(0)}%
+                        </div>
+                        <div>
+                            {parseFloat(remainingPerc + '').toFixed(0)}%
+                        </div>
+                    </div>
+                    <div className="success-criteria" style={{left: fundstackSdk.fundstack.getSuccessCriteriaPercentage(fund) + "%"}}></div>
                 </div>
               <div className="data">
                   <div className="items">
@@ -57,12 +72,12 @@ function PieTile(): JSX.Element {
                   <div className="items">
                       <div className="item key">Sold</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{formatNumWithDecimals(soldAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(soldPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(soldAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
                   </div>
                   <div className="items">
                       <div className="item key">Remaining</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{formatNumWithDecimals(remainingAllocation, fund.asset.params.decimals)} <span className="perc">({parseFloat(remainingPerc + '').toFixed(2)}%)</span></div>
+                      <div className="item value">{formatNumWithDecimals(remainingAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
                   </div>
               </div>
               <div className="user-actions">
