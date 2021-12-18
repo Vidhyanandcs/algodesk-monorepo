@@ -12,7 +12,7 @@ import {setSigner} from "../../redux/actions/signer";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {loadAccount} from "../../redux/actions/account";
 
-const networkEnv: string = process.env.REACT_APP_NETWORK;
+const networkEnv: string =
 
 function App(): JSX.Element {
     const dispatch = useDispatch();

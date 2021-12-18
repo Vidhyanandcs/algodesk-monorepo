@@ -1,7 +1,7 @@
 const https = require('https');
 const fs = require('fs');
 
-const contractsServer = 'https://contracts.fundstack.io';
+const contractsServer = 'https://betanet.contracts.fundstack.io';
 const download = (url, dest, callback) => {
     let file = fs.createWriteStream(dest);
     https.get(url, function(response) {
@@ -13,21 +13,9 @@ const download = (url, dest, callback) => {
     });
 }
 
-download(contractsServer + '/compiled/approval.json', 'src/contracts/teal/compiled/approval.json', () => {
-    console.log('Downloaded ' + contractsServer + '/compiled/approval.json')
+download(contractsServer + '/v1/fund/bytes/approval.json', 'src/contracts/v1/fund/bytes/approval.json', () => {
+    console.log('Downloaded ' + contractsServer + '/v1/fund/bytes/approval.json')
 });
-download(contractsServer + '/compiled/clear.json', 'src/contracts/teal/compiled/clear.json', () => {
-    console.log('Downloaded ' + contractsServer + '/compiled/clear.json')
-});
-download(contractsServer + '/compiled/escrow.json', 'src/contracts/teal/compiled/escrow.json', () => {
-    console.log('Downloaded ' + contractsServer + '/compiled/escrow.json')
-});
-download(contractsServer + '/approval.teal', 'src/contracts/teal/approval.teal', () => {
-    console.log('Downloaded ' + contractsServer + '/approval.teal')
-});
-download(contractsServer + '/clear.teal', 'src/contracts/teal/clear.teal', () => {
-    console.log('Downloaded ' + contractsServer + '/clear.teal')
-});
-download(contractsServer + '/escrow.teal', 'src/contracts/teal/escrow.teal', () => {
-    console.log('Downloaded ' + contractsServer + '/escrow.teal')
+download(contractsServer + '/v1/fund/bytes/clear.json', 'src/contracts/v1/fund/bytes/clear.json', () => {
+    console.log('Downloaded ' + contractsServer + '/v1/fund/bytes/clear.json')
 });
