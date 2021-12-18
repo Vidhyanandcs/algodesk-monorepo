@@ -11,7 +11,7 @@ import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {CheckCircle} from "@material-ui/icons";
+import {CheckCircle, Cancel} from "@material-ui/icons";
 
 const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -48,10 +48,6 @@ function PieTile(): JSX.Element {
           <div className="pie-tile-container">
                 <div className="tile-name">Fund status</div>
                 <div className="chart">
-                    {fund.globalState[globalStateKeys.target_reached] ? <div className={"success"}>
-                        <CheckCircle color={"primary"}></CheckCircle>
-                        Success
-                    </div> : ''}
                     <BorderLinearProgress variant={"determinate"} value={soldPerc}/>
                     <div className="percentages">
                         <div>
@@ -61,6 +57,16 @@ function PieTile(): JSX.Element {
                             {parseFloat(remainingPerc + '').toFixed(0)}%
                         </div>
                     </div>
+                    {status.sale.completed ? <div>
+                        {fund.globalState[globalStateKeys.target_reached] ? <div className={"target-reached"}>
+                            <CheckCircle color={"primary"}></CheckCircle>
+                            Success
+                        </div> : <div className={"target-reached"}>
+                            <Cancel color={"secondary"}></Cancel>
+                            Failed
+                        </div>}
+                    </div> : ''}
+
                     <div className="success-criteria" style={{left: fundstackSdk.fundstack.getSuccessCriteriaPercentage(fund) + "%"}}></div>
                 </div>
               <div className="data">

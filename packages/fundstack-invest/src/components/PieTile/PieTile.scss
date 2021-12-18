@@ -12,9 +12,10 @@
     .chart {
       margin-top: 30px;
       position: relative;
-      .success {
+      .target-reached {
         text-align: center;
-        margin-bottom: 5px;
+        font-size: 18px;
+        font-weight: 600;
         svg {
           vertical-align: middle;
           margin-right: 5px;
@@ -24,7 +25,7 @@
         position: absolute;
         height: 20px;
         width: 1px;
-        top: 29px;
+        top: 0px;
         background: $color-light;
         border-radius: 10px;
       }
