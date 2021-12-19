@@ -493,19 +493,19 @@ export class Fundstack {
             if (isRegister) {
                 isValidOperation = true;
                 activity.operation = FUND_OPERATIONS.REGISTER;
-                activity.label = 'Register';
+                activity.label = 'Registered';
             }
             if (operation == FUND_OPERATIONS.INVEST) {
                 isValidOperation = true;
-                activity.label = 'Invest';
+                activity.label = 'Invested';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
                 isValidOperation = true;
-                activity.label = 'Claim';
+                activity.label = 'Claimed';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'Withdraw';
+                activity.label = 'Withdrawn';
             }
 
             if (isValidOperation) {

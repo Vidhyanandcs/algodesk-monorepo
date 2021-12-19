@@ -5,7 +5,7 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
     padding: 30px;
-    min-height: 100px;
+    height: 250px;
     .not-connected-message, .no-activity {
       color: $color-grey-dark;
       margin-top: 25px;
@@ -20,11 +20,15 @@
       font-weight: 600;
     }
     .activity-list {
-      margin-top: 20px;
+      margin-top: 40px;
       .activity {
-        margin: 15px 0px;
-        border-bottom: 1px solid $color-grey;
+        margin: 20px 0px;
         padding-bottom: 15px;
+        img {
+          float: left;
+          margin-right: 10px;
+          width: 35px;
+        }
         .title {
           font-size: 16px;
           font-weight: 600;

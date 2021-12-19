@@ -6,6 +6,9 @@ import {useEffect} from "react";
 import {getAccountActivity} from "../../redux/actions/fund";
 import {ellipseAddress} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
+import regNormal from '../../assets/images/resistered-normal.png';
+import invNormal from '../../assets/images/invested-normal.png';
+import claimNormal from '../../assets/images/claim-normal.png';
 
 
 function MyFundActivity(): JSX.Element {
@@ -37,13 +40,16 @@ function MyFundActivity(): JSX.Element {
                       {activityList.length === 0 ? <div className="no-activity">Your wallet doesn't have any activity for this fund</div> : ''}
                       {activityList.map((item) => {
                           return (<div className="activity" key={item.id}>
+                              {item.label === 'Registered' ? <img src={regNormal} alt={item.label}/> : ''}
+                              {item.label === 'Invested' ? <img src={invNormal} alt={item.label}/> : ''}
+                              {item.label === 'Claimed' || item.label === 'Withdrawn'? <img src={claimNormal} alt={item.label}/> : ''}
                               <div className="title">
                                   {item.label}
                               </div>
                               <div className="txn-id" onClick={() => {
                                   fundstackSdk.explorer.openTransaction(item.id);
                               }}>
-                                  {ellipseAddress(item.id, 8)}
+                                  Txn ID: {ellipseAddress(item.id, 8)}
                               </div>
                           </div>);
                       })}
