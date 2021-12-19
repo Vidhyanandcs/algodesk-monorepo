@@ -2,13 +2,23 @@ import './RegistrationTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip} from "@material-ui/core";
-import {AccessTime, CheckCircleOutline, EqualizerOutlined} from "@material-ui/icons";
+import {Chip, Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
 import {setRegistration} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
+import {getCommonStyles} from "../../utils/styles";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        customDialog: {
+            position: "absolute",
+            top: 100
+        }
+    };
+});
 
 function RegistrationTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -16,8 +26,8 @@ function RegistrationTile(): JSX.Element {
     const {fund} = fundDetails;
     const {status} = fund;
     const {registration} = status;
-    const {registered} = fundDetails.account;
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const params = useParams();
     // @ts-ignore
@@ -32,24 +42,48 @@ function RegistrationTile(): JSX.Element {
             <div className="tile">
                 <div className="tile-header">
                     <div className="tile-name">
-                        Registrations
+                        Registration
                     </div>
-                    {fund.status.registration.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
-                    {fund.status.registration.completed ? <Chip label={"Closed"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {registration.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
-                    <div className="tile-row">
-                        <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total registrations : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_registrations], 0)}</span>
-                    </div>
-                    {registered ? <div className="tile-row">
-                        <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                        You have registered
-                    </div> : ''}
-                    {registration.pending || registration.active ? <div className="tile-row">
-                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
-                        {registration.durationReadable}
-                    </div> : ''}
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <div className="count">
+                                <div className="count-number">
+                                    <span className={classes.primaryText}>
+                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_registrations], 0)}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    Registrations
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            {registration.completed ? <div className="lock">
+                                <div className="locker">
+                                    <LockOutlinedIcon className="lock-icon"></LockOutlinedIcon>
+                                </div>
+                                <div className="lock-label">
+                                    Closed
+                                </div>
+                            </div> : ''}
+
+                            {registration.pending || registration.active ? <div className="count">
+                                <div className="count-number">
+                                    <span className={classes.primaryText}>
+                                        {registration.durationReadable}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    {registration.pending ? 'To start' : 'To end'}
+                                </div>
+                            </div> : ''}
+
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </div>
