@@ -21,12 +21,13 @@ import {
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
-import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
+import {F_AccountActivity, F_CompanyDetails, F_DB_FUND, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
 import humanizeDuration from 'humanize-duration';
+import axios from "axios";
 
 const shortEnglishHumanizer = humanizeDuration.humanizer({
     language: "shortEn",
@@ -515,22 +516,13 @@ export class Fundstack {
         return activityTxs;
     }
 
-    async getPublishedFundsIds(): Promise<number[]> {
-        const fundIds: number[] = [];
-        const {transactions} = await this.algodesk.applicationClient.getAppTransactions(PLATFORM_APP_ID);
-
-        transactions.forEach((tx) => {
-            const appCallArgs = tx['application-transaction']['application-args'];
-            const foreignApps = tx['application-transaction']['foreign-apps'];
-            if (appCallArgs && appCallArgs.length > 0 && foreignApps && foreignApps.length > 0) {
-                const firstParam = appCallArgs[0];
-                if (atob(firstParam) == PLATFORM_OPERATIONS.VALIDATE_FUND) {
-                    fundIds.push(foreignApps[0]);
-                }
-            }
+    async getPublishedFunds(apiBaseUrl: string): Promise<F_DB_FUND[]> {
+        const response = await axios({
+            method: 'get',
+            url: apiBaseUrl + '/api/funds'
         });
-        
-        return fundIds;
+
+        return response.data.documents;
     }
 
     hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {

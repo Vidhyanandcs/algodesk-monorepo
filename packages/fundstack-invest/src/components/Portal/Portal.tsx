@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Grid} from "@material-ui/core";
 import Fund from "../Fund/Fund";
+import Home from "../Home/Home";
 
 function Portal(): JSX.Element {
 
@@ -17,7 +18,7 @@ function Portal(): JSX.Element {
                   <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
                       <Switch>
                           <Route exact path="/portal/home">
-                              home
+                              <Home></Home>
                           </Route>
                           <Route exact path="/portal/fund/:id">
                               <Fund></Fund>
