@@ -1,30 +1,28 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import axios from 'axios';
+import {config as dotenvConfig} from 'dotenv';
 
-export default (request: VercelRequest, response: VercelResponse) => {
-    const data = JSON.stringify({
-        "collection": "funds",
-        "database": "fundstack",
-        "dataSource": "dappstack"
-    });
+dotenvConfig();
 
-    const config = {
-        method: 'post',
-        url: 'https://data.mongodb-api.com/app/data-kgdxf/endpoint/data/beta/action/find',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Request-Headers': '*',
-            'api-key': 'vmZt9AnyDatza1tqUDtssw3fCgR4A65KTNOpu6QUuaFCYoi3KRz1BCw0Z87PZHLy'
-        },
-        data : data
-    };
-
-    // @ts-ignore
-    axios(config)
-        .then(function ({data}) {
-            response.status(200).send(data);
-        })
-        .catch(function (error) {
-            response.status(400).send(error);
+export default async (request: VercelRequest, response: VercelResponse) => {
+    try {
+        const {data} = await axios({
+            method: 'post',
+            url: process.env.MONGO_DB_URL,
+            headers: {
+                'api-key': process.env.MONGO_API_KEY,
+                'Content-Type': 'application/json',
+                'Access-Control-Request-Headers': '*'
+            },
+            data: JSON.stringify({
+                "dataSource": process.env.CLUSTER_NAME,
+                "database": process.env.DB_NAME,
+                "collection": "funds"
+            })
         });
+        response.status(200).send(data);
+    }
+    catch (e) {
+        response.status(400).send(e);
+    }
 };
