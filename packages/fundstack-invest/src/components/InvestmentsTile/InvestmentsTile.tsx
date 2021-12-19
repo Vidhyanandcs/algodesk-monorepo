@@ -2,13 +2,20 @@ import './InvestmentsTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip} from "@material-ui/core";
+import {Chip, Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {AccessTime, CheckCircleOutline, EqualizerOutlined, HighlightOffOutlined} from "@material-ui/icons";
 import {setInvestment} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import {getCommonStyles} from "../../utils/styles";
 
+
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme)
+    };
+});
 
 function InvestmentsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -16,7 +23,7 @@ function InvestmentsTile(): JSX.Element {
     const {fund} = fundDetails;
     const {status} = fund;
     const {sale} = status;
-    const {invested} = fundDetails.account;
+    const classes = useStyles();
 
     const dispatch = useDispatch();
 
@@ -33,33 +40,49 @@ function InvestmentsTile(): JSX.Element {
             <div className="tile">
                 <div className="tile-header">
                     <div className="tile-name">
-                        Investments
+                        Investment
                     </div>
                     {fund.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
-                    {fund.status.sale.completed ? <Chip label={"Closed"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
-                    <div className="tile-row">
-                        <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total investors : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_investors], 0)}</span>
-                    </div>
-                    {invested ? <div className="tile-row">
-                        <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                        You have invested
-                    </div> : ''}
-                    {status.sale.completed ? <div>
-                        {status.targetReached ? <div className="tile-row">
-                            <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                            Success criteria met
-                        </div> : <div className="tile-row">
-                            <HighlightOffOutlined fontSize={"small"} color={"secondary"}></HighlightOffOutlined>
-                            Success criteria failed
-                        </div>}
-                    </div> :''}
-                    {sale.pending || sale.active ? <div className="tile-row">
-                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
-                        {sale.durationReadable}
-                    </div> : ''}
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <div className="count">
+                                <div className="count-number">
+                                    <span className={classes.primaryText}>
+                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_investors], 0)}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    Investors
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            {sale.completed ? <div className="lock">
+                                <div className="locker">
+                                    <LockOutlinedIcon className="lock-icon"></LockOutlinedIcon>
+                                </div>
+                                <div className="lock-label">
+                                    Closed
+                                </div>
+                            </div> : ''}
+
+                            {sale.pending || sale.active ? <div className="count">
+                                <div className="count-number date">
+                                    <span className={classes.primaryText}>
+                                        {sale.durationReadable}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    {sale.pending ? 'To start' : 'To end'}
+                                </div>
+                            </div> : ''}
+
+                        </Grid>
+                    </Grid>
+
                 </div>
             </div>
         </div>

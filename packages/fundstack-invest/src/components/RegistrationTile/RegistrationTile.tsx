@@ -12,11 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const useStyles = makeStyles((theme) => {
     return {
-        ...getCommonStyles(theme),
-        customDialog: {
-            position: "absolute",
-            top: 100
-        }
+        ...getCommonStyles(theme)
     };
 });
 
@@ -72,7 +68,7 @@ function RegistrationTile(): JSX.Element {
                             </div> : ''}
 
                             {registration.pending || registration.active ? <div className="count">
-                                <div className="count-number">
+                                <div className="count-number date">
                                     <span className={classes.primaryText}>
                                         {registration.durationReadable}
                                     </span>

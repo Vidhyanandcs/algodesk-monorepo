@@ -28,6 +28,22 @@ import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
 import humanizeDuration from 'humanize-duration';
 
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+    language: "shortEn",
+    languages: {
+        shortEn: {
+            y: () => "y",
+            mo: () => "mo",
+            w: () => "w",
+            d: () => "d",
+            h: () => "h",
+            m: () => "m",
+            s: () => "s",
+            ms: () => "ms",
+        },
+    },
+});
+
 export class Fundstack {
     algodesk: Algodesk;
     constructor(network: Network, signer?: Signer) {
@@ -310,15 +326,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(regStart, currentRound);
             const milliseconds = duration.milliseconds;
             registration.durationMilliSeconds = milliseconds;
-            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            registration.durationReadable = 'Starts in ' + registration.durationHumanize;
+            registration.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            registration.durationReadable = registration.durationHumanize;
         }
         if (registration.active) {
             const duration = durationBetweenBlocks(regEnd, currentRound);
             const milliseconds = duration.milliseconds;
             registration.durationMilliSeconds = milliseconds;
-            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            registration.durationReadable = 'Ends in ' + registration.durationHumanize;
+            registration.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            registration.durationReadable = registration.durationHumanize;
         }
 
         const sale: F_PhaseDetails = {
@@ -334,15 +350,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(saleStart, currentRound);
             const milliseconds = duration.milliseconds;
             sale.durationMilliSeconds = milliseconds;
-            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            sale.durationReadable = 'Starts in ' + sale.durationHumanize;
+            sale.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            sale.durationReadable = sale.durationHumanize;
         }
         if (sale.active) {
             const duration = durationBetweenBlocks(saleEnd, currentRound);
             const milliseconds = duration.milliseconds;
             sale.durationMilliSeconds = milliseconds;
-            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            sale.durationReadable = 'Ends in ' + sale.durationHumanize;
+            sale.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            sale.durationReadable = sale.durationHumanize;
         }
 
         const targetReached = this.isTargetReached(fund);
@@ -360,15 +376,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(claimStart, currentRound);
             const milliseconds = duration.milliseconds;
             claim.durationMilliSeconds = milliseconds;
-            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            claim.durationReadable = 'Starts in ' + claim.durationHumanize;
+            claim.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            claim.durationReadable = claim.durationHumanize;
         }
         if (claim.active) {
             const duration = durationBetweenBlocks(claimEnd, currentRound);
             const milliseconds = duration.milliseconds;
             claim.durationMilliSeconds = milliseconds;
-            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            claim.durationReadable = 'Ends in ' + claim.durationHumanize;
+            claim.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            claim.durationReadable = claim.durationHumanize;
         }
         
         const withdraw: F_PhaseDetails = {
@@ -384,15 +400,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(claimStart, currentRound);
             const milliseconds = duration.milliseconds;
             withdraw.durationMilliSeconds = milliseconds;
-            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            withdraw.durationReadable = 'Starts in ' + withdraw.durationHumanize;
+            withdraw.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            withdraw.durationReadable = withdraw.durationHumanize;
         }
         if (withdraw.active) {
             const duration = durationBetweenBlocks(claimEnd, currentRound);
             const milliseconds = duration.milliseconds;
             withdraw.durationMilliSeconds = milliseconds;
-            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            withdraw.durationReadable = 'Ends in ' + withdraw.durationHumanize;
+            withdraw.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            withdraw.durationReadable = withdraw.durationHumanize;
         }
         
         const status = {
