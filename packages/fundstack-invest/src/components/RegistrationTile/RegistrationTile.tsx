@@ -2,19 +2,12 @@ import './RegistrationTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip, Grid, makeStyles} from "@material-ui/core";
+import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {setRegistration} from "../../redux/actions/fund";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
-import {getCommonStyles} from "../../utils/styles";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme)
-    };
-});
 
 function RegistrationTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -23,7 +16,6 @@ function RegistrationTile(): JSX.Element {
     const {status} = fund;
     const {registration} = status;
     const dispatch = useDispatch();
-    const classes = useStyles();
 
     const params = useParams();
     // @ts-ignore
@@ -48,7 +40,7 @@ function RegistrationTile(): JSX.Element {
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                             <div className="count">
                                 <div className="count-number">
-                                    <span className={classes.primaryText}>
+                                    <span>
                                         {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_registrations], 0)}
                                     </span>
                                 </div>
@@ -69,7 +61,7 @@ function RegistrationTile(): JSX.Element {
 
                             {registration.pending || registration.active ? <div className="count">
                                 <div className="count-number date">
-                                    <span className={classes.primaryText}>
+                                    <span>
                                         {registration.durationReadable}
                                     </span>
                                 </div>

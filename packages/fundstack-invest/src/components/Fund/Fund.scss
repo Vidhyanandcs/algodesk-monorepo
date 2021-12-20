@@ -5,11 +5,11 @@
     margin-top: 50px;
     .fund-header {
       .fund-name {
-        font-size: 30px;
+        font-size: 22px;
         font-weight: 600;
       }
       .items {
-        margin-top: 15px;
+        margin-top: 5px;
         display: flex;
         justify-content: space-between;
       }
@@ -24,7 +24,7 @@
         }
       }
       .fund-id {
-        font-size: 18px;
+        font-size: 16px;
         font-family: MontserratLight !important;
         display: inline-block;
         &:hover {
@@ -33,7 +33,7 @@
         }
       }
       .fund-creator {
-        font-size: 18px;
+        font-size: 15px;
         span {
           font-weight: bold;
         }
@@ -44,15 +44,14 @@
       }
     }
     .fund-body-tiles {
-      margin-top: 30px;
+      margin-top: 20px;
       .tile {
         border-radius: 10px;
         background: rgba(255, 255, 255, 0.8);
-        height: 150px;
         padding: 30px;
         .tile-header {
           .tile-name {
-            font-size: 22px;
+            font-size: 16px;
             font-weight: 600;
           }
           .tile-status {
@@ -61,15 +60,14 @@
           }
         }
         .tile-body {
-          margin-top: 40px;
+          margin-top: 30px;
           .count {
             text-align: center;
             .count-number {
-              font-size: 42px;
+              font-size: 24px;
               font-weight: 700;
-              height: 42px;
               &.date {
-                font-size: 24px;
+                font-size: 20px;
               }
             }
             .count-label {
@@ -84,20 +82,18 @@
 
           .lock {
             text-align: center;
+            margin-top: -10px;
             .locker {
-              font-size: 42px;
-              font-weight: 700;
-              margin-top: -7px;
               .lock-icon {
                 color: #bfbfbf;
                 border: 1px solid #bfbfbf;
                 border-radius: 50%;
-                padding: 10px;
+                padding: 5px;
               }
             }
             .lock-label {
               font-size: 16px;
-              margin-top: 6px;
+              margin-top: 5px;
               color: #bfbfbf;
               font-family: MontserratLight !important;
             }
