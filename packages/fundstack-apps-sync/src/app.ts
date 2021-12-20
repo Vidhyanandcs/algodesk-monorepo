@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import Fund from './schemas/fundSchema';
 import * as sdk from "algosdk";
 import {globalStateKeys} from "./constants";
+import atob from 'atob';
 
 
 dotenv.config();
