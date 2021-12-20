@@ -1,7 +1,7 @@
 import './PieTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {globalStateKeys} from "@algodesk/fundstack-sdk";
+import {globalStateKeys} from "@fundstack/sdk";
 import {Button, Chip, LinearProgress, withStyles} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";

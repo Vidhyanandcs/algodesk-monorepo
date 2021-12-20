@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {F_DB_FUND} from "@algodesk/fundstack-sdk";
+import {F_DB_FUND} from "@fundstack/sdk";
 import {REACT_APP_API_BASE_URL} from "../../env";
 
 export interface Funds {

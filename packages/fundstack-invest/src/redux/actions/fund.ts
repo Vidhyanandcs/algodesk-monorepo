@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
-import {F_AccountActivity, Fund} from "@algodesk/fundstack-sdk";
+import {F_AccountActivity, Fund} from "@fundstack/sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";

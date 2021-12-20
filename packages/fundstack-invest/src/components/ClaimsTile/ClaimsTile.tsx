@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip, Grid, makeStyles} from "@material-ui/core";
-import {globalStateKeys} from "@algodesk/fundstack-sdk";
+import {globalStateKeys} from "@fundstack/sdk";
 import {useParams} from "react-router-dom";
 import {setClaim} from "../../redux/actions/fund";
 import {formatNumWithDecimals} from "@algodesk/core";

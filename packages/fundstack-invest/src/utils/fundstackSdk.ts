@@ -8,7 +8,7 @@ import {
     SIGNERS,
     Signer
 } from "@algodesk/core";
-import {Fundstack} from "@algodesk/fundstack-sdk";
+import {Fundstack} from "@fundstack/sdk";
 
 class FundstackSdk {
     network: Network

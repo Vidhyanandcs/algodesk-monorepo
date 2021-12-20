@@ -12,7 +12,7 @@ import {invest, setAction} from "../../redux/actions/fund";
 import {CancelOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
-import {globalStateKeys} from "@algodesk/fundstack-sdk";
+import {globalStateKeys} from "@fundstack/sdk";
 import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
 

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadFund} from "../../redux/actions/fund";
 import {RootState} from "../../redux/store";
 import {Grid, Tooltip} from "@material-ui/core";
-import {globalStateKeys} from "@algodesk/fundstack-sdk";
+import {globalStateKeys} from "@fundstack/sdk";
 import {ellipseAddress} from "@algodesk/core";
 import PieTile from "../PieTile/PieTile";
 import CompanyDetails from "../CompanyDetails/CompanyDetails";

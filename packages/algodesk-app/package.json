@@ -1,5 +1,5 @@
 {
-  "name": "@algodesk/platform-web",
+  "name": "@algodesk/app",
   "version": "0.1.0",
   "dependencies": {
     "@algodesk/core": "^1.1.8",
