@@ -6,6 +6,7 @@ import {RootState} from "../../redux/store";
 import {Grid} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import {microalgosToAlgos} from "algosdk";
+import Typewriter from 'typewriter-effect';
 
 function Home(): JSX.Element {
 
@@ -25,7 +26,20 @@ function Home(): JSX.Element {
 
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                      <div className={"headline"}>Get early access to the ideas of tomorrow.</div>
+
+                      <div className={"headline"}>
+
+                          <Typewriter options={{
+                              delay: 30,
+                          }}
+                              onInit={(typewriter) => {
+                                  typewriter.typeString('Get early access to the ideas of tomorrow ')
+                                      .start();
+                              }}
+                          />
+
+
+                      </div>
                   </Grid>
               </Grid>
 

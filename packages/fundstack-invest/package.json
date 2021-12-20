@@ -25,7 +25,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recharts": "^2.1.6",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "typewriter-effect": "^2.18.2"
   },
   "scripts": {
     "start": "cross-env REACT_APP_NETWORK=betanet REACT_APP_API_BASE_URL=https://fundstack-lambda-api.vercel.app node_modules/.bin/react-scripts start",
