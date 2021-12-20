@@ -1,0 +1,33 @@
+@import '../../assets/colors';
+
+.home-wrapper {
+  .home-container {
+    .funds-header {
+      margin-top: 50px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .funds {
+      margin-top: 25px;
+      .fund {
+        border-radius: 10px;
+        border: 1px solid $color-grey-light;
+        height: 100px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.5);
+        &:hover {
+          cursor: pointer;
+        }
+        .fund-name {
+          font-size: 20px;
+          font-weight: 600;
+        }
+        .fund-id {
+          margin-top: 10px;
+          font-size: 16px;
+          color: $color-grey-dark;
+        }
+      }
+    }
+  }
+}

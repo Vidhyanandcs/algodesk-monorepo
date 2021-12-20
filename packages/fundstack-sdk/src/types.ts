@@ -46,3 +46,11 @@ export interface F_AccountActivity extends A_SearchTransaction {
     operation: string
     label: string
 }
+
+export type F_DB_FUND =  {
+    _id: string,
+    app_id: number,
+    asset_id: number,
+    name: string,
+    price: number
+}

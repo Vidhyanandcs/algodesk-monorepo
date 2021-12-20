@@ -287,7 +287,8 @@ export const getAccountActivity = createAsyncThunk(
             const {account} = appState;
             if (account.loggedIn) {
                 dispatch(setActivityLoading(true));
-                return await fundstackSdk.fundstack.getAccountFundActivity(fundId, account.information.address);
+                const list = await fundstackSdk.fundstack.getAccountFundActivity(fundId, account.information.address);
+                return list.reverse();
             }
         }
         catch (e: any) {

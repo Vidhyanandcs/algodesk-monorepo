@@ -2,13 +2,19 @@ import './ClaimsTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip} from "@material-ui/core";
+import {Chip, Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@algodesk/fundstack-sdk";
-import {CheckCircleOutline, EqualizerOutlined, AccessTime} from "@material-ui/icons";
 import {useParams} from "react-router-dom";
 import {setClaim} from "../../redux/actions/fund";
 import {formatNumWithDecimals} from "@algodesk/core";
+import {getCommonStyles} from "../../utils/styles";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme)
+    };
+});
 
 function ClaimsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -16,8 +22,7 @@ function ClaimsTile(): JSX.Element {
     const {fund} = fundDetails;
     const {status} = fund;
     const {claim} = status;
-
-    const {claimed} = fundDetails.account;
+    const classes = useStyles();
 
     const dispatch = useDispatch();
 
@@ -34,24 +39,49 @@ function ClaimsTile(): JSX.Element {
             <div className="tile">
                 <div className="tile-header">
                     <div className="tile-name">
-                        Claims
+                        Claim
                     </div>
-                    {fund.status.claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
-                    {fund.status.claim.completed ? <Chip label={"Closed"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
-                    <div className="tile-row">
-                        <EqualizerOutlined fontSize={"small"} color={"primary"}></EqualizerOutlined>
-                        Total claims : <span>{formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_claims], 0)}</span>
-                    </div>
-                    {claimed ? <div className="tile-row">
-                        <CheckCircleOutline fontSize={"small"} color={"primary"}></CheckCircleOutline>
-                        You have claimed assets
-                    </div> : ''}
-                    {claim.pending || claim.active ? <div className="tile-row">
-                        <AccessTime fontSize={"small"} color={"primary"}></AccessTime>
-                        {claim.durationReadable}
-                    </div> : ''}
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <div className="count">
+                                <div className="count-number">
+                                    <span className={classes.primaryText}>
+                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_claims], 0)}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    Claims
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            {claim.completed ? <div className="lock">
+                                <div className="locker">
+                                    <LockOutlinedIcon className="lock-icon"></LockOutlinedIcon>
+                                </div>
+                                <div className="lock-label">
+                                    Closed
+                                </div>
+                            </div> : ''}
+
+                            {claim.pending || claim.active ? <div className="count">
+                                <div className="count-number date">
+                                    <span className={classes.primaryText}>
+                                        {claim.durationReadable}
+                                    </span>
+                                </div>
+                                <div className="count-label">
+                                    {claim.pending ? 'To start' : 'To end'}
+                                </div>
+                            </div> : ''}
+
+                        </Grid>
+                    </Grid>
+
                 </div>
             </div>
         </div>

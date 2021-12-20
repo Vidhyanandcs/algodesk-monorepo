@@ -21,12 +21,29 @@ import {
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
-import {F_AccountActivity, F_CompanyDetails, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
+import {F_AccountActivity, F_CompanyDetails, F_DB_FUND, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
 import {Fund, getAccountState} from "./fund";
 import atob from 'atob';
 import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
 import humanizeDuration from 'humanize-duration';
+import axios from "axios";
+
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+    language: "shortEn",
+    languages: {
+        shortEn: {
+            y: () => "y",
+            mo: () => "mo",
+            w: () => "w",
+            d: () => "d",
+            h: () => "h",
+            m: () => "m",
+            s: () => "s",
+            ms: () => "ms",
+        },
+    },
+});
 
 export class Fundstack {
     algodesk: Algodesk;
@@ -310,15 +327,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(regStart, currentRound);
             const milliseconds = duration.milliseconds;
             registration.durationMilliSeconds = milliseconds;
-            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            registration.durationReadable = 'Starts in ' + registration.durationHumanize;
+            registration.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            registration.durationReadable = registration.durationHumanize;
         }
         if (registration.active) {
             const duration = durationBetweenBlocks(regEnd, currentRound);
             const milliseconds = duration.milliseconds;
             registration.durationMilliSeconds = milliseconds;
-            registration.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            registration.durationReadable = 'Ends in ' + registration.durationHumanize;
+            registration.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            registration.durationReadable = registration.durationHumanize;
         }
 
         const sale: F_PhaseDetails = {
@@ -334,15 +351,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(saleStart, currentRound);
             const milliseconds = duration.milliseconds;
             sale.durationMilliSeconds = milliseconds;
-            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            sale.durationReadable = 'Starts in ' + sale.durationHumanize;
+            sale.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            sale.durationReadable = sale.durationHumanize;
         }
         if (sale.active) {
             const duration = durationBetweenBlocks(saleEnd, currentRound);
             const milliseconds = duration.milliseconds;
             sale.durationMilliSeconds = milliseconds;
-            sale.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            sale.durationReadable = 'Ends in ' + sale.durationHumanize;
+            sale.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            sale.durationReadable = sale.durationHumanize;
         }
 
         const targetReached = this.isTargetReached(fund);
@@ -360,15 +377,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(claimStart, currentRound);
             const milliseconds = duration.milliseconds;
             claim.durationMilliSeconds = milliseconds;
-            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            claim.durationReadable = 'Starts in ' + claim.durationHumanize;
+            claim.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            claim.durationReadable = claim.durationHumanize;
         }
         if (claim.active) {
             const duration = durationBetweenBlocks(claimEnd, currentRound);
             const milliseconds = duration.milliseconds;
             claim.durationMilliSeconds = milliseconds;
-            claim.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            claim.durationReadable = 'Ends in ' + claim.durationHumanize;
+            claim.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            claim.durationReadable = claim.durationHumanize;
         }
         
         const withdraw: F_PhaseDetails = {
@@ -384,15 +401,15 @@ export class Fundstack {
             const duration = durationBetweenBlocks(claimStart, currentRound);
             const milliseconds = duration.milliseconds;
             withdraw.durationMilliSeconds = milliseconds;
-            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            withdraw.durationReadable = 'Starts in ' + withdraw.durationHumanize;
+            withdraw.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            withdraw.durationReadable = withdraw.durationHumanize;
         }
         if (withdraw.active) {
             const duration = durationBetweenBlocks(claimEnd, currentRound);
             const milliseconds = duration.milliseconds;
             withdraw.durationMilliSeconds = milliseconds;
-            withdraw.durationHumanize = humanizeDuration(milliseconds, {largest: 2});
-            withdraw.durationReadable = 'Ends in ' + withdraw.durationHumanize;
+            withdraw.durationHumanize = shortEnglishHumanizer(milliseconds, {largest: 2});
+            withdraw.durationReadable = withdraw.durationHumanize;
         }
         
         const status = {
@@ -477,19 +494,19 @@ export class Fundstack {
             if (isRegister) {
                 isValidOperation = true;
                 activity.operation = FUND_OPERATIONS.REGISTER;
-                activity.label = 'Register';
+                activity.label = 'Registered';
             }
             if (operation == FUND_OPERATIONS.INVEST) {
                 isValidOperation = true;
-                activity.label = 'Invest';
+                activity.label = 'Invested';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
                 isValidOperation = true;
-                activity.label = 'Claim';
+                activity.label = 'Claimed';
             }
             if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'Withdraw';
+                activity.label = 'Withdrawn';
             }
 
             if (isValidOperation) {
@@ -499,22 +516,13 @@ export class Fundstack {
         return activityTxs;
     }
 
-    async getPublishedFundsIds(): Promise<number[]> {
-        const fundIds: number[] = [];
-        const {transactions} = await this.algodesk.applicationClient.getAppTransactions(PLATFORM_APP_ID);
-
-        transactions.forEach((tx) => {
-            const appCallArgs = tx['application-transaction']['application-args'];
-            const foreignApps = tx['application-transaction']['foreign-apps'];
-            if (appCallArgs && appCallArgs.length > 0 && foreignApps && foreignApps.length > 0) {
-                const firstParam = appCallArgs[0];
-                if (atob(firstParam) == PLATFORM_OPERATIONS.VALIDATE_FUND) {
-                    fundIds.push(foreignApps[0]);
-                }
-            }
+    async getPublishedFunds(apiBaseUrl: string): Promise<F_DB_FUND[]> {
+        const response = await axios({
+            method: 'get',
+            url: apiBaseUrl + '/api/funds'
         });
-        
-        return fundIds;
+
+        return response.data.documents;
     }
 
     hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {

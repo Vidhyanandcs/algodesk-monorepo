@@ -11,14 +11,13 @@ import SuccessModal from "../SuccessModal/SuccessModal";
 import {setSigner} from "../../redux/actions/signer";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {loadAccount} from "../../redux/actions/account";
-
-const networkEnv: string = process.env.REACT_APP_NETWORK;
+import {REACT_APP_NETWORK} from "../../env";
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const selectedNetwork = networkEnv || NETWORKS.MAINNET;
+        const selectedNetwork = REACT_APP_NETWORK || NETWORKS.MAINNET;
         dispatch(setNetwork(selectedNetwork));
         const selectedSigner = localStorage.getItem("signer");
         const selectedAddress = localStorage.getItem("address");

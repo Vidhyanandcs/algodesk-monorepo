@@ -186,7 +186,7 @@ test('fundstack', async () => {
 // test('fundstack', async () => {
 //     try {
 //         const fs = new Fundstack(betanet);
-//         const txs = await fs.getPublishedFundsIds();
+//         const txs = await fs.getPublishedFunds('https://fundstack-serverless-api.vercel.app');
 //     }
 //     catch (e) {
 //         console.log(e);
