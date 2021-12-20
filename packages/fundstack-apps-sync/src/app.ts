@@ -1,5 +1,5 @@
 import {getNetwork} from "./algorand/network";
-import {A_Application, A_SearchTransactions, F_FundGlobalState} from "./types";
+import {A_Application, A_Asset, A_SearchTransactions, F_FundGlobalState} from "./types";
 import moment from 'moment';
 import {getContracts} from "./contracts";
 import mongoose from 'mongoose';
@@ -56,6 +56,10 @@ async function getApplication(id: number): Promise<A_Application> {
     return await network.getClient().getApplicationByID(id).do() as A_Application;
 }
 
+async function getAsset(id: number): Promise<A_Asset> {
+    return await network.getClient().getAssetByID(id).do() as A_Asset;
+}
+
 function getFundState(fund): F_FundGlobalState {
     const gState = fund.params['global-state'];
     const globalState = {};
@@ -85,13 +89,14 @@ async function syncFund(fundId: number) {
     const approvalProgram = fund.params['approval-program'];
     if (approvalProgram === contracts.compiledApprovalProgram.result) {
         const globalState = getFundState(fund);
+        const asset = await getAsset(globalState[globalStateKeys.asset_id]);
 
         Fund.findOne({app_id: fund.id}, function (err, fundRecord) {
             if (err) {
                 console.log(err);
             }
             if (!fundRecord) {
-                new Fund({ app_id: fund.id, asset_id: globalState[globalStateKeys.asset_id], name: globalState[globalStateKeys.name], price: globalState[globalStateKeys.price]}).save(function (err, fundRecord) {
+                new Fund({ app_id: fund.id, total_allocation: globalState[globalStateKeys.total_allocation] / Math.pow(10, asset.params.decimals), asset_unit: asset.params["unit-name"], asset_id: globalState[globalStateKeys.asset_id], name: globalState[globalStateKeys.name], price: globalState[globalStateKeys.price]}).save(function (err, fundRecord) {
                     if (err){
                         console.log(err);
                     }

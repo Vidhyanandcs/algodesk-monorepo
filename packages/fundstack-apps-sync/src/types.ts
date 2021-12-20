@@ -111,3 +111,26 @@ export type F_FundGlobalState = {
     pfemtu: number
     pscp: number
 }
+
+export interface A_Asset {
+    index: number
+    params: A_AssetParams
+}
+
+export interface A_AssetParams {
+    clawback?: string
+    creator: string
+    decimals: number
+    "default-frozen": boolean
+    freeze?: string
+    manager?: string
+    name: string
+    "name-b64": string
+    reserve?: string
+    total: number
+    "unit-name": string
+    "unit-name-b64": string
+    url?: string
+    "url-b64"?: string
+    "metadata-hash"?: string
+}

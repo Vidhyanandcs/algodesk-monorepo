@@ -18,7 +18,15 @@ const FundSchema = new Schema({
     price: {
         type: Number,
         required: true,
-    }
+    },
+    asset_unit: {
+        type: String,
+        required: true,
+    },
+    total_allocation: {
+        type: Number,
+        required: true,
+    },
 });
 
 const Fund = mongoose.model('Fund', FundSchema);
