@@ -52,5 +52,7 @@ export type F_DB_FUND =  {
     app_id: number,
     asset_id: number,
     name: string,
-    price: number
+    price: number,
+    asset_unit: string,
+    total_allocation: number
 }
