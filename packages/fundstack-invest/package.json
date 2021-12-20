@@ -28,7 +28,7 @@
     "reset-css": "^5.0.1"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_NETWORK=betanet REACT_APP_API_BASE_URL=https://fundstack-serverless-api.vercel.app node_modules/.bin/react-scripts start",
+    "start": "cross-env REACT_APP_NETWORK=betanet REACT_APP_API_BASE_URL=https://fundstack-lambda-api.vercel.app node_modules/.bin/react-scripts start",
     "build": "node_modules/.bin/react-scripts build",
     "test": "node_modules/.bin/react-scripts test"
   },
