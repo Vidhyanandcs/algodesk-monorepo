@@ -29,7 +29,6 @@ function Home(): JSX.Element {
                   </Grid>
               </Grid>
 
-              {/*<div className="funds-header">Active projects</div>*/}
               <div className="funds">
                   <Grid container spacing={2}>
                       {funds.list.map((fund) => {
