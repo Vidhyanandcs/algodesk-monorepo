@@ -2,33 +2,31 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {F_DB_FUND} from "@algodesk/fundstack-sdk";
-import {NETWORKS} from "@algodesk/core";
-
+import {REACT_APP_API_BASE_URL} from "../../env";
 
 export interface Funds {
     loading: boolean,
-    funds: F_DB_FUND[]
+    list: F_DB_FUND[]
 }
 
 const initialState: Funds = {
     loading: false,
-    funds: []
+    list: []
 }
 
 export const loadFunds = createAsyncThunk(
     'funds/loadFunds',
-    async (address: string = "", thunkAPI) => {
+    async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const network: string = process.env.REACT_APP_NETWORK;
-            let apiBaseUrl = '';
-            if (network === NETWORKS.BETANET) {
-                apiBaseUrl = 'https://fundstack-serverless-api.vercel.app';
-            }
-            return await fundstackSdk.fundstack.getPublishedFunds(apiBaseUrl);
+            dispatch(setLoading(true));
+            const funds = await fundstackSdk.fundstack.getPublishedFunds(REACT_APP_API_BASE_URL);
+            dispatch(setLoading(false));
+            return funds;
         }
         catch (e: any) {
             dispatch(handleException(e));
+            dispatch(setLoading(false));
         }
     }
 );
@@ -43,7 +41,7 @@ export const fundsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadFunds.fulfilled, (state, action: PayloadAction<any>) => {
-            state.funds = action.payload;
+            state.list = action.payload;
         })
     },
 });

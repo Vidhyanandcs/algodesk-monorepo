@@ -11,10 +11,12 @@ import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {logout} from "../../redux/actions/account";
 import {PowerSettingsNew} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 
 function Header(): JSX.Element {
     const dispatch = useDispatch();
     const account = useSelector((state: RootState) => state.account);
+    const history = useHistory();
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
@@ -24,7 +26,10 @@ function Header(): JSX.Element {
                 <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
                     <div className="items">
                         <div className="item">
-                            <div className={"logo "}>
+                            <div className={"logo"} onClick={() => {
+                                history.push('/portal/home');
+                                }
+                            }>
                                 <Logo></Logo>
                             </div>
                         </div>

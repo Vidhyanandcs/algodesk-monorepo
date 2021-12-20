@@ -11,6 +11,9 @@
       .item {
         .logo {
           margin-top: 22px;
+          &:hover {
+            cursor: pointer;
+          }
         }
         .connect-wallet-item {
           background: #ffffff;
