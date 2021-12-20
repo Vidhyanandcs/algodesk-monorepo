@@ -3,25 +3,15 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loadFunds} from "../../redux/actions/funds";
 import {RootState} from "../../redux/store";
-import {Grid, makeStyles} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import {microalgosToAlgos} from "algosdk";
-import {getCommonStyles} from "../../utils/styles";
-
-
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme)
-    };
-});
-
 
 function Home(): JSX.Element {
 
     const funds = useSelector((state: RootState) => state.funds);
     const dispatch = useDispatch();
     const history = useHistory();
-    const classes = useStyles();
 
     useEffect(() => {
         dispatch(loadFunds());
@@ -32,13 +22,14 @@ function Home(): JSX.Element {
           <div className="home-container">
               <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                      <div className={"headline " + classes.primaryText}>Welcome to the future of fundraising.</div>
+                      <div className={"headline"}>Get early access to the ideas of tomorrow.</div>
                   </Grid>
               </Grid>
 
-              <div className="funds-header">Active projects</div>
+              {/*<div className="funds-header">Active projects</div>*/}
               <div className="funds">
                   <Grid container spacing={2}>
                       {funds.list.map((fund) => {
