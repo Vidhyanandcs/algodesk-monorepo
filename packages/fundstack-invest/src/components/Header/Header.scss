@@ -9,6 +9,17 @@
       display: flex;
       justify-content: space-between;
       .item {
+        display: flex;
+        justify-content: space-between;
+        .menu-link {
+          display: inline-block;
+          margin-right: 40px;
+          font-size: 20px;
+          color: $color-dark;
+          font-weight: normal;
+          font-family: MontserratLight !important;
+          margin-top: 27px;
+        }
         .logo {
           margin-top: 22px;
           &:hover {
@@ -20,6 +31,7 @@
           width: 350px;
           height: 70px;
           text-align: center;
+          display: inline-block;
           .user {
             .logout {
               margin-left: 25px;
@@ -27,6 +39,10 @@
               display: inline-block;
               &:hover {
                 cursor: pointer;
+                svg {
+                  color: orangered;
+                  border-color: orangered;
+                }
               }
               svg {
                 color: $color-grey-dark;

@@ -1,5 +1,5 @@
 import './Header.scss';
-import {Button, Grid, Tooltip} from "@material-ui/core";
+import {Button, Grid, Link, Tooltip} from "@material-ui/core";
 import Logo from "../Logo/Logo";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {useDispatch, useSelector} from "react-redux";
@@ -33,17 +33,18 @@ function Header(): JSX.Element {
                                 <Logo></Logo>
                             </div>
                         </div>
-                        {!account.loggedIn ? <div className="item">
-                            <Button variant={"outlined"}
-                                    color={"primary"}
-                                    size={"small"}
-                                    style={{marginTop: 12}}
-                                    onClick={() => {
-                                        dispatch(showConnectWallet());
-                                    }}
-                            >Connect wallet</Button>
-                        </div> : <div className="item">
-                            <div className="connect-wallet-item">
+                        <div className="item">
+                            <Link href={"#portal/home"} className="menu-link">Home</Link>
+                            <Link href="https://docs.fundstack.io" className="menu-link" target="_blank">Docs</Link>
+
+                            {!account.loggedIn ? <Button variant={"outlined"}
+                                                         color={"primary"}
+                                                         size={"small"}
+                                                         style={{marginTop: 12}}
+                                                         onClick={() => {
+                                                             dispatch(showConnectWallet());
+                                                         }}
+                            >Connect wallet</Button> : <div className="connect-wallet-item">
                                 <div className="user">
                                     <img src={accountImg} alt="address"/>
                                     <div className="addr">
@@ -63,8 +64,10 @@ function Header(): JSX.Element {
 
                                     </Tooltip>
                                 </div>
-                            </div>
-                        </div>}
+                            </div>}
+
+                        </div>
+
 
                     </div>
                 </Grid>
