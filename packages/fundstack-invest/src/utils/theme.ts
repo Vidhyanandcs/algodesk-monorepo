@@ -20,19 +20,19 @@ export const theme = createTheme({
         MuiButton: {
             root: {
                 borderRadius: 10,
-                padding: "12px 24px !important",
                 boxShadow: "none !important",
+                padding: "12px 24px !important",
             },
-            contained: {
-                '&:hover': {
-                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
-                }
-            },
-            outlined: {
-                '&:hover': {
-                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
-                }
-            },
+            // contained: {
+            //     '&:hover': {
+            //         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
+            //     }
+            // },
+            // outlined: {
+            //     '&:hover': {
+            //         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25) !important',
+            //     }
+            // },
             containedPrimary: {
                 background: "linear-gradient(56.21deg, #0BB68C -43.1%, #60DD8B 132.97%)",
                 '&:hover': {

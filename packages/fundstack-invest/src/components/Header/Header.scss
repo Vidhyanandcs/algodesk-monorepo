@@ -13,12 +13,14 @@
         justify-content: space-between;
         .menu-link {
           display: inline-block;
-          margin-right: 40px;
-          font-size: 20px;
+          margin-right: 25px;
+          font-size: 18px;
           color: $color-dark;
           font-weight: normal;
-          font-family: MontserratLight !important;
-          margin-top: 27px;
+          margin-top: 29px;
+          &:hover {
+            text-decoration: none;
+          }
         }
         .logo {
           margin-top: 22px;
@@ -27,6 +29,7 @@
           }
         }
         .connect-wallet-item {
+          margin-left: 25px;
           background: #ffffff;
           width: 350px;
           height: 70px;

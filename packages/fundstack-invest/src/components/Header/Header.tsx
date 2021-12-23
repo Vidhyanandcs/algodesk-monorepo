@@ -1,5 +1,5 @@
 import './Header.scss';
-import {Button, Grid, Link, Tooltip} from "@material-ui/core";
+import {Button, Grid, Link, makeStyles, Tooltip} from "@material-ui/core";
 import Logo from "../Logo/Logo";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,11 +12,19 @@ import fundstackSdk from "../../utils/fundstackSdk";
 import {logout} from "../../redux/actions/account";
 import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
+import {getCommonStyles} from "../../utils/styles";
+
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme)
+    };
+});
 
 function Header(): JSX.Element {
     const dispatch = useDispatch();
     const account = useSelector((state: RootState) => state.account);
     const history = useHistory();
+    const classes = useStyles();
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
@@ -34,10 +42,11 @@ function Header(): JSX.Element {
                             </div>
                         </div>
                         <div className="item">
-                            <Link href={"#portal/home"} className="menu-link">Home</Link>
-                            <Link href="https://docs.fundstack.io" className="menu-link" target="_blank">Docs</Link>
+                            <Link href={"#portal/home"} className={"menu-link " + classes.primaryColorOnHover}>Home</Link>
+                            <Link href="https://docs.fundstack.io" className={"menu-link " + classes.primaryColorOnHover} target="_blank">Docs</Link>
 
-                            {!account.loggedIn ? <Button variant={"outlined"}
+
+                            {!account.loggedIn ? <Button variant={"contained"}
                                                          color={"primary"}
                                                          size={"small"}
                                                          style={{marginTop: 12}}

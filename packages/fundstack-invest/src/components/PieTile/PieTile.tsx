@@ -10,7 +10,7 @@ import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationCo
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
-import {CheckCircle, Cancel} from "@material-ui/icons";
+import {CheckCircle, Error} from "@material-ui/icons";
 
 const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -48,7 +48,7 @@ function PieTile(): JSX.Element {
                 <div className="tile-name">
                     Fund status
                     {status.sale.completed ? <span style={{marginTop: -5}}>
-                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} variant={"outlined"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
+                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} variant={"default"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} variant={"default"} icon={<Error></Error>} color={"secondary"} size={"small"}/> }
                     </span> : ''}
 
                 </div>
