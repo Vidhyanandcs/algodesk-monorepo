@@ -46,7 +46,7 @@ function Header(): JSX.Element {
                             <Link href="https://docs.fundstack.io" className={"menu-link " + classes.primaryColorOnHover} target="_blank">Docs</Link>
 
 
-                            {!account.loggedIn ? <Button variant={"contained"}
+                            {!account.loggedIn ? <Button variant={"outlined"}
                                                          color={"primary"}
                                                          size={"small"}
                                                          style={{marginTop: 12}}

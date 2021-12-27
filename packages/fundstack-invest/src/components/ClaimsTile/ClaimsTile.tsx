@@ -47,7 +47,7 @@ function ClaimsTile(): JSX.Element {
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    Claims
+                                    {fund.globalState[globalStateKeys.no_of_claims] === 1 ? 'Claim' : 'Claims'}
                                 </div>
                             </div>
                         </Grid>

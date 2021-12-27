@@ -45,7 +45,7 @@ function RegistrationTile(): JSX.Element {
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    Registrations
+                                    {fund.globalState[globalStateKeys.no_of_registrations] === 1 ? 'Registration' : 'Registrations'}
                                 </div>
                             </div>
                         </Grid>

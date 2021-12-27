@@ -7,7 +7,7 @@ import {RootState} from "../../redux/store";
 import {Grid, Tooltip} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {ellipseAddress} from "@algodesk/core";
-import PieTile from "../PieTile/PieTile";
+import FundStatus from "../FundStatus/FundStatus";
 import CompanyDetails from "../CompanyDetails/CompanyDetails";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import fundstackSdk from "../../utils/fundstackSdk";
@@ -101,7 +101,7 @@ function Fund(): JSX.Element {
                         <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <PieTile></PieTile>
+                                    <FundStatus></FundStatus>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <MyFundActivity></MyFundActivity>

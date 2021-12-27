@@ -54,6 +54,9 @@ export const theme = createTheme({
                     background: "linear-gradient(0deg, #D0D2D3 -59.14%, #A6A8AB 122.22%)",
                     color: '#fff',
                     fontWeight: 'bold'
+                },
+                '&.no-border-chip': {
+                    border: 'none'
                 }
             },
             colorPrimary: {

@@ -49,7 +49,7 @@ function WithdrawTile(): JSX.Element {
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    Withdrawls
+                                    {fund.globalState[globalStateKeys.no_of_withdrawls] === 1 ? 'Withdrawl' : 'Withdrawls'}
                                 </div>
                             </div>
                         </Grid>

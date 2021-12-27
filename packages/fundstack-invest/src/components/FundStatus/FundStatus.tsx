@@ -1,4 +1,4 @@
-import './PieTile.scss';
+import './FundStatus.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@fundstack/sdk";
@@ -10,7 +10,7 @@ import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationCo
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
-import {CheckCircle, Error} from "@material-ui/icons";
+import {CheckCircle, Warning} from "@material-ui/icons";
 
 const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -27,7 +27,7 @@ const BorderLinearProgress = withStyles((theme) => ({
 }))(LinearProgress);
 
 
-function PieTile(): JSX.Element {
+function FundStatus(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
     const {fund} = fundDetails;
@@ -43,12 +43,12 @@ function PieTile(): JSX.Element {
     const soldPerc = (soldAllocation / totalAllocation) * 100;
 
   return (
-      <div className="pie-tile-wrapper">
-          <div className="pie-tile-container">
+      <div className="fund-status-wrapper">
+          <div className="fund-status-container">
                 <div className="tile-name">
                     Fund status
                     {status.sale.completed ? <span style={{marginTop: -5}}>
-                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} variant={"default"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} variant={"default"} icon={<Error></Error>} color={"secondary"} size={"small"}/> }
+                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} className="no-border-chip" variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} className="no-border-chip" variant={"outlined"} icon={<Warning></Warning>} color={"secondary"} size={"small"}/> }
                     </span> : ''}
 
                 </div>
@@ -179,6 +179,7 @@ function PieTile(): JSX.Element {
                                   dispatch(showConnectWallet());
                               }}
                       >Connect wallet</Button>
+                      {/*<div className="not-connected-message">Wallet not connected</div>*/}
                   </div>}
               </div>
           </div>
@@ -188,4 +189,4 @@ function PieTile(): JSX.Element {
   );
 }
 
-export default PieTile;
+export default FundStatus;

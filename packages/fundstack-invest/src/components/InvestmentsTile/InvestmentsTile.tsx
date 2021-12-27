@@ -48,7 +48,7 @@ function InvestmentsTile(): JSX.Element {
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    Investors
+                                    {fund.globalState[globalStateKeys.no_of_investors] === 1 ? 'Investor' : 'Investors'}
                                 </div>
                             </div>
                         </Grid>

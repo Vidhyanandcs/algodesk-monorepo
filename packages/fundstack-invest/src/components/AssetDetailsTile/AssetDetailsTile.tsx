@@ -1,11 +1,23 @@
 import './AssetDetailsTile.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Tab, Tabs, Tooltip} from "@material-ui/core";
+import {makeStyles, Tab, Tabs, Tooltip} from "@material-ui/core";
 import React, {useState} from "react";
 import {ellipseAddress, formatNumWithDecimals} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {InfoOutlined} from "@material-ui/icons";
+import {getCommonStyles} from "../../utils/styles";
+
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        tabLabel: {
+            fontSize: 18,
+            lineHeight: 1,
+            fontWeight: 600
+        }
+    };
+});
 
 interface AssetDetailsTileState{
     tab: string
@@ -21,6 +33,7 @@ function AssetDetailsTile(): JSX.Element {
     const {asset} = fund;
     const {params} = asset;
     const {decimals} = params;
+    const classes = useStyles();
 
     const [
         { tab },
@@ -34,8 +47,8 @@ function AssetDetailsTile(): JSX.Element {
                   <Tabs value={tab} className="tabs" onChange={(event, newValue) => {
                       setState(prevState => ({ ...prevState, tab: newValue }));
                   }} indicatorColor="primary">
-                      <Tab label="Pool information" value="pool_information"/>
-                      <Tab label="Asset information" value="asset_information"/>
+                      <Tab label="Pool information" value="pool_information" className={classes.tabLabel}/>
+                      <Tab label="Asset information" value="asset_information" className={classes.tabLabel}/>
                   </Tabs>
                   {tab === 'pool_information' ? <div className="tab-content">
                       <div className="pair">
