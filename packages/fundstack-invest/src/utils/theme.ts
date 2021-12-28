@@ -36,13 +36,15 @@ export const theme = createTheme({
             containedPrimary: {
                 background: "linear-gradient(56.21deg, #0BB68C -43.1%, #60DD8B 132.97%)",
                 '&:hover': {
-                    background: 'linear-gradient(247.73deg, #60DD8B -15.43%, #1B733B 125.76%)'
+                    // background: 'linear-gradient(247.73deg, #60DD8B -15.43%, #1B733B 125.76%)',
+                    boxShadow: '0px 0px 7px #03B68C  !important'
                 }
             },
             containedSecondary: {
                 background: "linear-gradient(247.73deg, #F7931E -15.43%, #FF0000 125.76%)",
                 '&:hover': {
-                    background: 'linear-gradient(247.73deg, #C1272D -15.43%, #FF0000 125.76%)'
+                    // background: 'linear-gradient(247.73deg, #C1272D -15.43%, #FF0000 125.76%)'
+                    boxShadow: '0px 0px 7px #fa5c7c  !important'
                 }
             }
         },

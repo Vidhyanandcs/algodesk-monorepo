@@ -2,13 +2,20 @@
 
 .home-wrapper {
   .home-container {
+    .banner-wrapper {
+      .banner-container {
+        height: 400px;
+        background: linear-gradient(0deg, #74C486 -8.64%, #0AB68C 107.71%);
+        margin-top: 10px;
+      }
+    }
     .headline {
       font-size: 50px;
       margin-top: 150px;
       margin-bottom: 100px;
       line-height: 1.1;
       text-align: center;
-      color: $color-grey-dark;
+      color: $color-light;
       font-family: MontserratLight !important;
       height: 200px;
     }
@@ -17,12 +24,17 @@
       font-weight: bold;
     }
     .funds {
-      margin-top: 25px;
+      margin-top: 60px;
+      .list-title {
+        font-size: 25px;
+        font-weight: 600;
+        margin-bottom: 30px;
+      }
       .fund {
         border-radius: 10px;
         border: 1px solid $color-grey-light;
         padding: 20px;
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.8);
         &:hover {
           cursor: pointer;
         }
