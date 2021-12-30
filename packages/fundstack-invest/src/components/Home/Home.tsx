@@ -35,7 +35,7 @@ function Home(): JSX.Element {
                                       delay: 30,
                                   }}
                                               onInit={(typewriter) => {
-                                                  typewriter.typeString('Get early access to the ideas of tomorrow ')
+                                                  typewriter.typeString('Invest in community driven projects ')
                                                       .start();
                                               }}
                                   />
