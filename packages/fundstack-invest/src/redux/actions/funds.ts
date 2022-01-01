@@ -20,7 +20,11 @@ export const loadFunds = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             dispatch(setLoading(true));
-            const funds = await fundstackSdk.fundstack.getPublishedFunds(REACT_APP_API_BASE_URL);
+            let funds = await fundstackSdk.fundstack.getPublishedFunds(REACT_APP_API_BASE_URL);
+            funds = funds.sort((a, b) => {
+                return b.app_id - a.app_id;
+            });
+
             dispatch(setLoading(false));
             return funds;
         }
