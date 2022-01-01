@@ -3,6 +3,18 @@
 .fund-wrapper {
   .fund-container {
     margin-top: 50px;
+    .loading-fund {
+      text-align: center;
+      img {
+        width: 200px;
+        margin-top: 150px;
+      }
+      .text {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
     .fund-header {
       .fund-name {
         font-size: 22px;

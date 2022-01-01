@@ -18,6 +18,7 @@ import {CachedRounded} from "@material-ui/icons";
 import WithdrawTile from "../WithdrawTile/WithdrawTile";
 import MyFundActivity from "../MyFundActivity/MyFundActivity";
 import {Alert} from "@material-ui/lab";
+import loadingLogo from '../../assets/images/logo-loading.gif';
 
 
 function Fund(): JSX.Element {
@@ -40,7 +41,10 @@ function Fund(): JSX.Element {
             <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
                 <div className={"fund-wrapper"}>
                     <div className={"fund-container"}>
-                        {fundDetails.loading ? 'loading ...' : <div>
+                        {fundDetails.loading ? <div className="loading-fund">
+                            <img src={loadingLogo} alt="loading ..."></img>
+                            <div className="text">loading ...</div>
+                        </div> : <div>
                             {fund ? <div>
                                 {!fund.valid ? <div>
                                     <Alert color={"success"} icon={false} style={{borderRadius: 10}}>
