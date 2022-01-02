@@ -151,6 +151,7 @@ function InvestModal(): JSX.Element {
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div style={{marginTop: 10, textAlign: "center"}}>
                                     <Button color={"primary"}
+                                            className="custom-button"
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 dispatch(invest({fund, amount}));

@@ -87,6 +87,7 @@ function FundStatus(): JSX.Element {
                                                      color={"primary"}
                                                      size={"large"}
                                                      fullWidth
+                                                     className="custom-button"
                                                      onClick={() => {
                                                          if (account.loggedIn) {
                                                              if (fundDetails.account.registered) {
@@ -105,6 +106,7 @@ function FundStatus(): JSX.Element {
                                              color={"primary"}
                                              size={"large"}
                                              fullWidth
+                                             className="custom-button"
                                              onClick={() => {
                                                  if (account.loggedIn) {
                                                      if (fundDetails.account.registered) {
@@ -127,6 +129,7 @@ function FundStatus(): JSX.Element {
                       {claim.active ? <Button variant={"contained"}
                                              color={"primary"}
                                              size={"large"}
+                                              className="custom-button"
                                              fullWidth
                                              onClick={() => {
                                                  if (account.loggedIn) {
@@ -151,6 +154,7 @@ function FundStatus(): JSX.Element {
                                                                       color={"primary"}
                                                                       size={"large"}
                                                                       fullWidth
+                                                 className="custom-button"
                                                                       onClick={() => {
                                                                           if (account.loggedIn) {
                                                                               if (fundDetails.account.invested) {
@@ -175,6 +179,7 @@ function FundStatus(): JSX.Element {
                               color={"primary"}
                               size={"large"}
                               fullWidth
+                              className="custom-button"
                               onClick={() => {
                                   dispatch(showConnectWallet());
                               }}

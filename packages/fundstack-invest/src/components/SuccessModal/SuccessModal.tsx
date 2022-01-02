@@ -68,6 +68,7 @@ function SuccessModal(): JSX.Element {
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div style={{marginTop: 20, marginBottom: 20}}>
                                     <Button color={"primary"} variant={"contained"} size={"large"}
+                                            className="custom-button"
                                             onClick={() => {
                                                 dispatch(hideSuccessModal());
                                             }}

@@ -83,7 +83,7 @@ function Home(): JSX.Element {
                                                       Price
                                                   </div>
                                                   <div>
-                                                      {microalgosToAlgos(fund.price)} $algo
+                                                      {microalgosToAlgos(fund.price)} Algo
                                                   </div>
                                               </div>
                                           </div>

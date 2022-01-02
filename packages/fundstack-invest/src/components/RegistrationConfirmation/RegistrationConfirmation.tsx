@@ -67,7 +67,9 @@ function RegistrationConfirmation(): JSX.Element {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div style={{marginTop: 10, marginBottom: 5}}>
-                                    <Button color={"primary"} variant={"contained"} size={"large"}
+                                    <Button color={"primary"}
+                                            className="custom-button"
+                                            variant={"contained"} size={"large"}
                                             onClick={() => {
                                                 dispatch(register(Number(fund.id)));
                                             }}

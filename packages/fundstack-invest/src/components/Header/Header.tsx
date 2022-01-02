@@ -46,10 +46,10 @@ function Header(): JSX.Element {
                             <Link href="https://docs.fundstack.io" className={"menu-link " + classes.primaryColorOnHover} target="_blank">Docs</Link>
 
 
-                            {!account.loggedIn ? <Button variant={"outlined"}
+                            {!account.loggedIn ? <Button variant={"contained"}
                                                          color={"primary"}
                                                          size={"small"}
-                                                         style={{marginTop: 12}}
+                                                         style={{marginTop: 22}}
                                                          onClick={() => {
                                                              dispatch(showConnectWallet());
                                                          }}

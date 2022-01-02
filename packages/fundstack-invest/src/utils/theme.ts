@@ -21,7 +21,9 @@ export const theme = createTheme({
             root: {
                 borderRadius: 10,
                 boxShadow: "none !important",
-                padding: "12px 24px !important",
+                '&.custom-button': {
+                    padding: "12px 24px !important"
+                }
             },
             // contained: {
             //     '&:hover': {

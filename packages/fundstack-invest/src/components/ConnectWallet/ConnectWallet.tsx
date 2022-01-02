@@ -152,6 +152,7 @@ function ConnectWallet(): JSX.Element {
                                             variant={"contained"}
                                             size={"large"}
                                             style={{marginTop: 70}}
+                                            className="custom-button"
                                             onClick={() => {
                                                 dispatch(connect(selectedSigner));
                                             }}
