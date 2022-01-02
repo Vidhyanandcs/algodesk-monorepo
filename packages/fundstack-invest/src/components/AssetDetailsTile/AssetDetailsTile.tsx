@@ -7,6 +7,7 @@ import {ellipseAddress, formatNumWithDecimals} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {InfoOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
+import algoLogo from '../../assets/images/algo-logo.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -91,7 +92,9 @@ function AssetDetailsTile(): JSX.Element {
                           <div className="key">
                               Price
                           </div>
-                          <div className="value">1 {fund.asset.params["unit-name"]} = {fundstackSdk.fundstack.getPrice(fund)} Algos</div>
+                          <div className="value">1 {fund.asset.params["unit-name"]} = {fundstackSdk.fundstack.getPrice(fund)}
+                              <img src={algoLogo} alt="Algo" className="algo-logo"/>
+                          </div>
                       </div>
                   </div> : ''}
                   {tab === 'asset_information' ? <div className="tab-content">

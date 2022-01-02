@@ -50,8 +50,10 @@
             margin-top: 15px;
             display: flex;
             justify-content: space-between;
-            div {
-
+            img {
+              display: inline-block;
+              width: 16px;
+              margin-left: 5px;
             }
           }
         }

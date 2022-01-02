@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {ellipseAddress} from "@algodesk/core";
 import React from "react";
-import accountImg from '../../assets/images/avatar.svg';
+import accountImg from '../../assets/images/user-logo-avatar.png';
 import {microalgosToAlgos} from "algosdk";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {logout} from "../../redux/actions/account";

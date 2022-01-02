@@ -132,6 +132,7 @@ function FundStatus(): JSX.Element {
                                               className="custom-button"
                                              fullWidth
                                              onClick={() => {
+                                                 console.log(fundDetails.account);
                                                  if (account.loggedIn) {
                                                      if (fundDetails.account.invested) {
                                                          if (fundDetails.account.claimed) {

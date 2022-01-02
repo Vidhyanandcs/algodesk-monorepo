@@ -9,6 +9,7 @@ import {microalgosToAlgos} from "algosdk";
 import ReactPlayer from 'react-player';
 import explainer from '../../assets/images/explainer.m4v';
 import {getCommonStyles} from "../../utils/styles";
+import algoLogo from '../../assets/images/algo-logo.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -83,7 +84,8 @@ function Home(): JSX.Element {
                                                       Price
                                                   </div>
                                                   <div>
-                                                      {microalgosToAlgos(fund.price)} Algo
+                                                      {microalgosToAlgos(fund.price)}
+                                                      <img src={algoLogo} alt="Algo"/>
                                                   </div>
                                               </div>
                                           </div>

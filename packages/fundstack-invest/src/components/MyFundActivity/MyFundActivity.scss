@@ -20,10 +20,15 @@
       font-weight: 600;
     }
     .activity-list {
-      margin-top: 40px;
+      margin-top: 25px;
       .activity {
-        margin: 20px 0px;
-        padding-bottom: 15px;
+        margin: 15px 0px;
+        background: $color-light;
+        padding: 15px;
+        border-radius: 10px;
+        &:hover {
+          background: $color-light;
+        }
         img {
           float: left;
           margin-right: 10px;
