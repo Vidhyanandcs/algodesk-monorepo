@@ -54,5 +54,6 @@ export type F_DB_FUND =  {
     name: string,
     price: number,
     asset_unit: string,
-    total_allocation: number
+    total_allocation: number,
+    active: boolean
 }

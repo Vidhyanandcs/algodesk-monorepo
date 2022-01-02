@@ -4,20 +4,12 @@
   .home-container {
     .banner-wrapper {
       .banner-container {
-        height: 400px;
-        background: linear-gradient(0deg, #74C486 -8.64%, #0AB68C 107.71%);
-        margin-top: 10px;
+        .headline {
+          video {
+            width: 100% !important;
+          }
+        }
       }
-    }
-    .headline {
-      font-size: 50px;
-      margin-top: 150px;
-      margin-bottom: 100px;
-      line-height: 1.1;
-      text-align: center;
-      color: $color-light;
-      font-family: MontserratLight !important;
-      height: 200px;
     }
     .funds-header {
       font-size: 24px;
@@ -35,8 +27,13 @@
         border: 1px solid $color-grey-light;
         padding: 20px;
         background: rgba(255, 255, 255, 0.8);
-        &:hover {
-          cursor: pointer;
+        position: relative;
+        .fund-status {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 14px;
+          font-weight: bold;
         }
         .fund-name {
           font-size: 20px;
