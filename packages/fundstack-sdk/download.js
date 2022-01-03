@@ -13,9 +13,15 @@ const download = (url, dest, callback) => {
     });
 }
 
-download(contractsServer + '/v1/fund/bytes/approval.json', 'src/contracts/v1/fund/bytes/approval.json', () => {
-    console.log('Downloaded ' + contractsServer + '/v1/fund/bytes/approval.json')
-});
-download(contractsServer + '/v1/fund/bytes/clear.json', 'src/contracts/v1/fund/bytes/clear.json', () => {
-    console.log('Downloaded ' + contractsServer + '/v1/fund/bytes/clear.json')
-});
+function downloadContracts(network, contractsUrl) {
+    download(contractsUrl + '/v1/fund/bytes/approval.json',  'src/contracts/' + network + '/v1/fund/bytes/approval.json', () => {
+        console.log('Downloaded ' + contractsUrl + '/v1/fund/bytes/approval.json')
+    });
+    download(contractsUrl + '/v1/fund/bytes/clear.json',  'src/contracts/' + network + '/v1/fund/bytes/clear.json', () => {
+        console.log('Downloaded ' + contractsUrl + '/v1/fund/bytes/clear.json')
+    });
+}
+
+downloadContracts('betanet', 'https://betanet.contracts.fundstack.io');
+
+

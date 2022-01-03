@@ -1,4 +1,3 @@
-import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {globalStateKeys} from "./state/fund";
 import * as sdk from "algosdk";
 import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Application} from "@algodesk/core";
@@ -106,10 +105,12 @@ export class Fund {
     error: {
         message: string
     }
+    network: string;
 
-    constructor(fund: A_Application) {
+    constructor(fund: A_Application, network: string) {
         this.id = fund.id;
         this.params = fund.params;
+        this.network = network;
         this.valid = this.isValid();
 
         if (this.valid) {
@@ -212,7 +213,7 @@ export class Fund {
     }
 
     isValid(): boolean {
-       const {compiledApprovalProgram, compiledClearProgram} = getContracts();
+       const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
        const appApprovalProgram = this.params["approval-program"];
        const appClearProgram = this.params["clear-state-program"];
        return compiledApprovalProgram.result === appApprovalProgram && compiledClearProgram.result === appClearProgram;

@@ -47,13 +47,15 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 export class Fundstack {
     algodesk: Algodesk;
     platformAppId: number;
+    network: string;
     constructor(platformAppId: number, network: Network, signer?: Signer) {
         this.algodesk = new Algodesk(network, signer);
         this.platformAppId = platformAppId;
+        this.network = network.name;
     }
 
     async deploy(params: F_DeployFund, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
-        const {compiledApprovalProgram, compiledClearProgram} = getContracts();
+        const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
 
         const assetParams = await this.getAsset(params.assetId);
         const decimals = assetParams.params.decimals;
@@ -90,7 +92,7 @@ export class Fundstack {
         console.log('platform escrow: ' + platformEscrow);
 
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const creator = fund.getCreator();
         const escrow = fund.getEscrow();
@@ -145,7 +147,7 @@ export class Fundstack {
 
     async invest(fundId: number, address: string, amount: number): Promise<A_SendTxnResponse> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const escrow = fund.getEscrow();
         const assetId = fund.getAssetId();
@@ -168,7 +170,7 @@ export class Fundstack {
 
     async investorClaim(fundId: number, address: string): Promise<A_SendTxnResponse> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const assetId = fund.getAssetId();
 
@@ -195,7 +197,7 @@ export class Fundstack {
 
     async investorWithdraw(fundId: number, address: string): Promise<A_SendTxnResponse> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const assetId = fund.getAssetId();
 
@@ -216,7 +218,7 @@ export class Fundstack {
         const platformEscrow = platform.getEscrow();
 
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const assetId = fund.getAssetId();
         const creator = fund.getCreator();
@@ -236,7 +238,7 @@ export class Fundstack {
 
     async ownerWithdraw(fundId: number): Promise<A_SendTxnResponse> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const assetId = fund.getAssetId();
         const creator = fund.getCreator();
@@ -254,7 +256,7 @@ export class Fundstack {
 
     async get(fundId: number): Promise<Fund> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         if (fund.valid) {
             const assetId = fund.getAssetId();
@@ -439,7 +441,7 @@ export class Fundstack {
 
     async delete(fundId: number): Promise<A_SendTxnResponse> {
         const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp);
+        const fund = new Fund(fundApp, this.network);
 
         const creator = fund.getCreator();
         const params: A_DeleteApplicationParams = {
