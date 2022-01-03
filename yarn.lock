@@ -4054,22 +4054,6 @@ algorand-walletconnect-qrcode-modal@^1.6.1:
     preact "10.4.1"
     qrcode "1.4.4"
 
-algosdk@^1.11.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.11.1.tgz#58bfc8e85de3624de0fb5f51c9f7408f96d841c0"
-  integrity sha512-2B7Tz8NSaME1aQDrzvhAuTm67c/2KCXTeuzgKvB61YXUU3pe0zyDzEw7bgv1sC6lbbD6BihroiUtidP+Fdh+cQ==
-  dependencies:
-    algo-msgpack-with-bigint "^2.1.1"
-    buffer "^6.0.2"
-    hi-base32 "^0.5.1"
-    js-sha256 "^0.9.0"
-    js-sha3 "^0.8.0"
-    js-sha512 "^0.8.0"
-    json-bigint "^1.0.0"
-    superagent "^6.1.0"
-    tweetnacl "^1.0.3"
-    url-parse "^1.5.1"
-
 algosdk@^1.12.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.12.0.tgz#77e2a22568495210d26ecd1f830e98cc069815b5"
