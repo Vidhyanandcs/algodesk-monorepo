@@ -16,7 +16,6 @@ import {
 import {
     FUND_OPERATIONS,
     FUND_PHASE,
-    PLATFORM_APP_ID,
     PLATFORM_OPERATIONS,
 } from "./constants";
 import {getContracts} from "./contracts";
@@ -47,8 +46,10 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export class Fundstack {
     algodesk: Algodesk;
-    constructor(network: Network, signer?: Signer) {
+    platformAppId: number;
+    constructor(platformAppId: number, network: Network, signer?: Signer) {
         this.algodesk = new Algodesk(network, signer);
+        this.platformAppId = platformAppId;
     }
 
     async deploy(params: F_DeployFund, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
@@ -75,7 +76,7 @@ export class Fundstack {
             localBytes: 7,
             localInts: 7,
             onComplete: OnApplicationComplete.NoOpOC,
-            foreignApps: [PLATFORM_APP_ID],
+            foreignApps: [this.platformAppId],
             appArgs
         };
 
@@ -83,7 +84,7 @@ export class Fundstack {
     }
 
     async publish(fundId: number): Promise<A_SendTxnResponse> {
-        const platformApp = await this.algodesk.applicationClient.get(PLATFORM_APP_ID);
+        const platformApp = await this.algodesk.applicationClient.get(this.platformAppId);
         const platform = new Platform(platformApp);
         const platformEscrow = platform.getEscrow();
         console.log('platform escrow: ' + platformEscrow);
@@ -210,7 +211,7 @@ export class Fundstack {
     }
 
     async ownerClaim(fundId: number, unsoldAssetAction: string): Promise<A_SendTxnResponse> {
-        const platformApp = await this.algodesk.applicationClient.get(PLATFORM_APP_ID);
+        const platformApp = await this.algodesk.applicationClient.get(this.platformAppId);
         const platform = new Platform(platformApp);
         const platformEscrow = platform.getEscrow();
 
@@ -225,7 +226,7 @@ export class Fundstack {
             from: creator,
             foreignAssets: [assetId],
             appArgs: [FUND_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
-            foreignApps: [PLATFORM_APP_ID],
+            foreignApps: [this.platformAppId],
             foreignAccounts: [platformEscrow]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);

@@ -1,4 +1,3 @@
-import {Application, ApplicationParams} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {platformGlobalStateKeys} from "./state/platform";
 import * as sdk from "algosdk";
 import atob from 'atob';
