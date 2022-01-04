@@ -1,12 +1,13 @@
+import os
 from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.fund.state.global_state as globalState
 import src.contracts.v1.fund.state.local_state as localState
 import src.contracts.v1.platform.state.global_state as platformGlobalState
 
-platformAppId = Int(438565946)
 
-def deployFund():
+
+def deployFund(platformAppId):
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -137,7 +138,7 @@ def deployFund():
     return block
 
 
-def publish():
+def publish(platformAppId):
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -455,8 +456,6 @@ def ownerClaim():
     soldAllocation = soldAllocationInMicros / assetMicros
     totalAmountInMicros = soldAllocation * App.globalGet(globalState.price)
 
-    platformAppId = App.globalGet(globalState.platform_app_id)
-
     platformSuccessFeePerc = App.globalGet(globalState.platform_success_fee)
     claimableAmount = (totalAmountInMicros / Int(100)) * (Int(100) - platformSuccessFeePerc)
     platformSuccessFee = totalAmountInMicros - claimableAmount
@@ -590,13 +589,13 @@ def ownerWithdraw():
     return block
 
 
-def approvalProgram():
+def approvalProgram(platformAppId):
     program = Cond(
-        [isCreate(), deployFund()],
+        [isCreate(), deployFund(platformAppId)],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), deleteFund()],
         [isOptIn(), register()],
-        [Txn.application_args[0] == Bytes("publish"), publish()],
+        [Txn.application_args[0] == Bytes("publish"), publish(platformAppId)],
         [Txn.application_args[0] == Bytes("invest"), invest()],
         [Txn.application_args[0] == Bytes("investor_claim"), investorClaim()],
         [Txn.application_args[0] == Bytes("investor_withdraw"), investorWithdraw()],
