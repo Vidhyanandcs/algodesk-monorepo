@@ -1,7 +1,6 @@
 const https = require('https');
 const fs = require('fs');
 
-const contractsServer = 'https://betanet.contracts.fundstack.io';
 const download = (url, dest, callback) => {
     let file = fs.createWriteStream(dest);
     https.get(url, function(response) {
