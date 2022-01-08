@@ -1,17 +1,22 @@
 'use strict';
 
 import {Account, generateAccount, mnemonicToSecretKey} from "algosdk";
-import {A_CreateAssetParams, betanet, WalletSigner} from "@algodesk/core";
-import {Fund, Fundstack} from '../index';
+import {A_CreateAssetParams, betanet, testnet, WalletSigner} from "@algodesk/core";
+import {Fundstack} from '../index';
 import {F_CompanyDetails, F_DeployFund} from "../src/types";
 
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
 const dispenserAccount = mnemonicToSecretKey(mnemonic);//CJW7LXVNIHJDDLOVIPP4YABAGINXURO7HZEZQYUH27FTFCQ7QWKZ7GO4UQ
-const platformAppId = 438565946;
+
+// const network = betanet;
+// const platformAppId = 438565946;
+
+const network = testnet;
+const platformAppId = 57204889;
 
 async function dispense(account: Account, amount: number = 7) {
     const walletSigner = new WalletSigner(dispenserAccount);
-    const dispenserInstance = new Fundstack(platformAppId, betanet, walletSigner);
+    const dispenserInstance = new Fundstack(platformAppId, network, walletSigner);
     console.log('funding account: ' + account.addr);
     const {txId} = await dispenserInstance.algodesk.paymentClient.payment(dispenserAccount.addr, account.addr, amount, 'dispensing amount');
     await dispenserInstance.algodesk.transactionClient.waitForConfirmation(txId);
@@ -135,14 +140,14 @@ test('fundstack', async () => {
     try {
         const fundRaiser = generateAccount();
         const fWalletSigner = new WalletSigner(fundRaiser);
-        const fundRaiserInstance = new Fundstack(platformAppId, betanet, fWalletSigner);
+        const fundRaiserInstance = new Fundstack(platformAppId, network, fWalletSigner);
         await dispense(fundRaiser);
         const asset = await createAsset(fundRaiser, fundRaiserInstance);
         const assetId = asset["asset-index"];
 
         const investor = generateAccount();
         const iWalletSigner = new WalletSigner(investor);
-        const investorInstance = new Fundstack(platformAppId, betanet, iWalletSigner);
+        const investorInstance = new Fundstack(platformAppId, network, iWalletSigner);
         await dispense(investor);
 
         const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
@@ -186,7 +191,7 @@ test('fundstack', async () => {
 
 // test('fundstack', async () => {
 //     try {
-//         const fs = new Fundstack(platformAppId, betanet);
+//         const fs = new Fundstack(platformAppId, network);
 //         const txs = await fs.getPublishedFunds('https://fundstack-serverless-api.vercel.app');
 //     }
 //     catch (e) {

@@ -22,5 +22,5 @@ function downloadContracts(network, contractsUrl) {
 }
 
 downloadContracts('betanet', 'https://betanet.contracts.fundstack.io');
-downloadContracts('testnet', 'https://testnet-contracts.vercel.app');
+downloadContracts('testnet', 'https://testnet.contracts.fundstack.io');
 
