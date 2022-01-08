@@ -17,11 +17,22 @@
     }
     .funds {
       margin-top: 60px;
-      .list-title {
-        font-size: 25px;
-        font-weight: 600;
+      .funds-header {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 30px;
+        .list-title {
+          font-size: 25px;
+          font-weight: 600;
+          margin-top: 12px;
+        }
       }
+
+      .empty-funds {
+        text-align: center;
+        margin-top: 100px;
+      }
+
       .fund {
         border-radius: 10px;
         border: 1px solid $color-grey-light;

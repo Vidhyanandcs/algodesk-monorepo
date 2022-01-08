@@ -13,6 +13,7 @@ import {logout} from "../../redux/actions/account";
 import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
+import connectWhiteImg from '../../assets/images/connect-white.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -50,6 +51,7 @@ function Header(): JSX.Element {
                                                          color={"primary"}
                                                          size={"small"}
                                                          style={{marginTop: 22}}
+                                                         startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 15}}/>}
                                                          onClick={() => {
                                                              dispatch(showConnectWallet());
                                                          }}

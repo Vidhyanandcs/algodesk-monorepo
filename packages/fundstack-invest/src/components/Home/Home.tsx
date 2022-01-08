@@ -1,15 +1,16 @@
 import './Home.scss';
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loadFunds} from "../../redux/actions/funds";
 import {RootState} from "../../redux/store";
-import {Button, Grid, makeStyles} from "@material-ui/core";
+import {Button, FormControlLabel, Grid, makeStyles, Radio, RadioGroup} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import {microalgosToAlgos} from "algosdk";
 import ReactPlayer from 'react-player';
 import explainer from '../../assets/images/explainer.m4v';
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -21,6 +22,14 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
+interface HomeState{
+    status: string
+}
+
+const initialState: HomeState = {
+    status: "all"
+};
+
 function Home(): JSX.Element {
 
     const funds = useSelector((state: RootState) => state.funds);
@@ -28,9 +37,26 @@ function Home(): JSX.Element {
     const history = useHistory();
     const classes = useStyles();
 
+    const [
+        { status },
+        setState
+    ] = useState(initialState);
+
     useEffect(() => {
         dispatch(loadFunds());
     }, [dispatch]);
+
+    const renderedList = funds.list.filter((fund) => {
+        if (status === "active") {
+            return fund.active;
+        }
+        if (status === "completed") {
+            return !fund.active;
+        }
+        return true;
+    });
+
+    console.log(renderedList);
 
   return (
       <div className="home-wrapper">
@@ -39,7 +65,7 @@ function Home(): JSX.Element {
                   <div className="banner-container">
                       <div className={"headline"}>
 
-                          <ReactPlayer url={explainer} playing={true} muted={true} width={"100%"} height="auto" loop={true}/>
+                          <ReactPlayer url={explainer} playing={true} muted={true} width={"100%"} height="auto" loop={false}/>
 
                       </div>
                   </div>
@@ -49,9 +75,38 @@ function Home(): JSX.Element {
                   </Grid>
                   <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
                       <div className="funds">
-                          <div className="list-title">Projects</div>
+                          <div className="funds-header">
+                              <div className="list-title">Projects</div>
+
+                              <div className="header-actions">
+                                  <RadioGroup value={status} row onChange={(event, value) => {
+                                      setState(prevState => ({ ...prevState, status: value }));
+                                  }}>
+                                      <FormControlLabel value="all" control={<Radio color={"primary"}/>} label="All" />
+                                      <FormControlLabel value="active" control={<Radio color={"primary"}/>} label="Active" />
+                                      <FormControlLabel value="completed" control={<Radio color={"primary"}/>} label="Completed" />
+                                  </RadioGroup>
+
+                                  {/*<ButtonGroup variant="outlined" size="small" color="primary">*/}
+                                  {/*    <Button variant={status === "all" ? 'contained' : 'outlined'} onClick={() => {*/}
+                                  {/*        setState(prevState => ({ ...prevState, status: "all" }));*/}
+                                  {/*    }}>View all</Button>*/}
+                                  {/*    <Button variant={status === "active" ? 'contained' : 'outlined'} onClick={() => {*/}
+                                  {/*        setState(prevState => ({ ...prevState, status: "active" }));*/}
+                                  {/*    }}>Active</Button>*/}
+                                  {/*    <Button variant={status === "completed" ? 'contained' : 'outlined'} onClick={() => {*/}
+                                  {/*        setState(prevState => ({ ...prevState, status: "completed" }));*/}
+                                  {/*    }}>Completed</Button>*/}
+                                  {/*</ButtonGroup>*/}
+
+                              </div>
+                          </div>
+
+                          {!funds.loading && renderedList.length === 0 ? <div className="empty-funds">
+                              <Alert color={"success"} icon={false} style={{borderRadius: 10}}>No projects</Alert>
+                          </div> : ''}
                           <Grid container spacing={2}>
-                              {funds.list.map((fund) => {
+                              {renderedList.map((fund) => {
                                   return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={fund._id}>
                                       <div className="fund">
                                           <div className="fund-name">
