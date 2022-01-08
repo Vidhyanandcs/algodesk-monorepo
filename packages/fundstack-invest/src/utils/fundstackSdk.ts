@@ -4,12 +4,11 @@ import {
     getNetwork,
     getSigner,
     Network,
-    NETWORKS,
     SIGNERS,
     Signer
 } from "@algodesk/core";
 import {Fundstack} from "@fundstack/sdk";
-import {REACT_APP_PLATFORM_APP_ID} from "../env";
+import {REACT_APP_NETWORK, REACT_APP_PLATFORM_APP_ID} from "../env";
 
 class FundstackSdk {
     network: Network
@@ -36,4 +35,4 @@ class FundstackSdk {
     }
 }
 
-export default new FundstackSdk(NETWORKS.BETANET, SIGNERS.MY_ALGO_WALLET);
+export default new FundstackSdk(REACT_APP_NETWORK, SIGNERS.MY_ALGO_WALLET);

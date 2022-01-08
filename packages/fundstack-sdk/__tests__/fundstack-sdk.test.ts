@@ -32,10 +32,10 @@ async function createAsset(account: Account, instance: Fundstack) {
         defaultFrozen: false,
         freeze: account.addr,
         manager: account.addr,
-        name: "Test Asset",
+        name: "Atlas",
         reserve: account.addr,
         total: 1000000,
-        unitName: "TS",
+        unitName: "STL",
         url: ""
     };
 
@@ -55,7 +55,7 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         assetId: assetId,
         maxAllocation: 800,
         minAllocation: 100,
-        name: "Algomint",
+        name: "Star Atlas " + Math.floor(Math.random()*(999-100+1)+100),
         regStartsAt: networkParams.firstRound + 10,
         regEndsAt: networkParams.firstRound + 45,
         saleStartsAt: networkParams.firstRound + 50,
