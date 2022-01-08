@@ -40,3 +40,4 @@ export async function compileNetworkContracts(network: string) {
 }
 
 compileNetworkContracts(NETWORKS.BETANET);
+compileNetworkContracts(NETWORKS.TESTNET);
