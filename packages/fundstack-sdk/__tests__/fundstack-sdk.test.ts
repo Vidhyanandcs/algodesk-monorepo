@@ -12,7 +12,7 @@ const network = betanet;
 const platformAppId = 638672503;
 
 // const network = testnet;
-// const platformAppId = 57204889;
+// const platformAppId = 58162217;
 
 async function dispense(account: Account, amount: number = 9) {
     const walletSigner = new WalletSigner(dispenserAccount);

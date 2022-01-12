@@ -37,6 +37,8 @@ export const connect = createAsyncThunk(
             if (accounts.length === 1) {
                 dispatch(loadAccount(accounts[0].address));
                 dispatch(hideConnectWallet());
+                localStorage.setItem("signer", signer.name);
+                localStorage.setItem("address", accounts[0].address);
             }
             dispatch(walletConnected());
             return accounts;
