@@ -11,12 +11,17 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "watch": "nodemon --watch src -e py --exec \"npm run transpile & npm run compile-teal\"",
+    "watch-platform-contracts": "nodemon --watch src -e py --exec \"npm run transpile-platform-contracts & npm run compile-platform-contracts\"",
     "build": "rimraf dist/ && tsc -p ./tsconfig-cjs.json",
-    "transpile": "python3 src/contracts/v1/fund/main.py & python3 src/contracts/v1/platform/main.py",
-    "compile-teal": "npm run build && node ./dist/cjs/compileTeal.js",
-    "deploy-platform-application": "npm run build && node ./dist/cjs/deployPlatformApplication.js",
-    "update-platform-application": "npm run build && node ./dist/cjs/updatePlatformApplication.js"
+    "transpile-platform-contracts": "python3 src/contracts/v1/platform/main.py",
+    "compile-platform-contracts": "npm run build && node ./dist/cjs/app/compilePlatformContracts.js",
+    "deploy-platform-contracts": "npm run build && node ./dist/cjs/app/deployPlatformContracts.js",
+    "update-platform-contracts": "npm run build && node ./dist/cjs/app/updatePlatformContracts.js",
+    "transpile-fund-contracts": "python3 src/contracts/v1/fund/main.py",
+    "compile-fund-contracts": "npm run build && node ./dist/cjs/app/compileFundContracts.js",
+    "process-platform-contracts": "npm run transpile-platform-contracts && npm run compile-platform-contracts && npm run update-platform-contracts",
+    "process-fund-contracts": "npm run transpile-fund-contracts && npm run compile-fund-contracts",
+    "process": "npm run process-platform-contracts && npm run process-fund-contracts"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"

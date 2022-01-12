@@ -136,13 +136,22 @@ export class Fundstack {
     }
 
     async register(fundId: number, address: string): Promise<A_SendTxnResponse> {
+        const fundApp = await this.algodesk.applicationClient.get(fundId);
+        const fund = new Fund(fundApp, this.network);
+
+        const escrow = fund.getEscrow();
+        const regFee = fund.getPlatformRegistrationFee();
+
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(address, escrow, microalgosToAlgos(regFee));
+
         const params: A_OptInApplicationParams = {
             appId: fundId,
             from: address
         };
+        const optInTxn = await this.algodesk.applicationClient.prepareOptInTxn(params);
 
-        const optInTxn = await this.algodesk.applicationClient.optIn(params);
-        return optInTxn;
+        const txnGroup = this.algodesk.transactionClient.assignGroupID([paymentTxn, optInTxn]);
+        return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
     async invest(fundId: number, address: string, amount: number): Promise<A_SendTxnResponse> {

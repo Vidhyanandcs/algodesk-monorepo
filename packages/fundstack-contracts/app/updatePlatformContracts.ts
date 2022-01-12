@@ -2,16 +2,23 @@ import readFile from 'read-file';
 import path from 'path';
 import nodeWindowPolyfill from "node-window-polyfill";
 nodeWindowPolyfill.register();
-import {mnemonicToSecretKey, OnApplicationComplete} from 'algosdk';
-import {A_CreateApplicationParams, Algodesk, testnet, WalletSigner, getUintProgram, NETWORKS} from "@algodesk/core";
+import {mnemonicToSecretKey} from 'algosdk';
+import {
+    Algodesk,
+    WalletSigner,
+    getUintProgram,
+    A_UpdateApplicationParams, NETWORKS, getNetwork
+} from "@algodesk/core";
+import * as networkApps from '../src/contracts/v1/platform/apps.json';
 
 
 const adminMnemonic = 'consider mind artefact motion margin more skate pave skill arrange reform media occur sugar section summer fantasy accident high column rescue horn amount able top';
 const adminAccount = mnemonicToSecretKey(adminMnemonic);//77PMFSNBYH7UMT7ZQGAZAE6IFYC5SLMG4VQHNMYVBTALC74AD66KV4T5CE
 
-export async function deployPlatformApplication(network) {
-    const approvalBytesPath = path.join(__dirname, '..', '..', 'contracts', network, 'v1', 'platform', 'bytes', 'approval.json');
-    const clearBytesPath = path.join(__dirname, '..', '..', 'contracts', network, 'v1', 'platform', 'bytes', 'clear.json');
+
+export async function updatePlatformContract(network: string, platformAppId: number) {
+    const approvalBytesPath = path.join(__dirname, '..', '..','..', 'contracts', network, 'v1', 'platform', 'bytes', 'approval.json');
+    const clearBytesPath = path.join(__dirname, '..', '..','..', 'contracts', network, 'v1', 'platform', 'bytes', 'clear.json');
 
     let approvalBytes = readFile.sync(approvalBytesPath);
     let clearBytes = readFile.sync(clearBytesPath);
@@ -20,25 +27,26 @@ export async function deployPlatformApplication(network) {
     clearBytes = JSON.parse(clearBytes.toString());
 
     const walletSigner = new WalletSigner(adminAccount);
-    const algodesk = new Algodesk(testnet, walletSigner);
+    const algodesk = new Algodesk(getNetwork(network), walletSigner);
 
-    const params: A_CreateApplicationParams = {
+    const params: A_UpdateApplicationParams = {
+        appId: platformAppId,
         approvalProgram: getUintProgram(approvalBytes.result),
         clearProgram: getUintProgram(clearBytes.result),
-        from: adminAccount.addr,
-        globalBytes: 20,
-        globalInts: 20,
-        localBytes: 7,
-        localInts: 7,
-        onComplete: OnApplicationComplete.NoOpOC
+        from: adminAccount.addr
     };
 
-    const {txId} = await algodesk.applicationClient.create(params);
+    const {txId} = await algodesk.applicationClient.update(params);
     await algodesk.transactionClient.waitForConfirmation(txId);
     const pendingTransactionInfo = await algodesk.transactionClient.pendingTransactionInformation(txId);
     console.log(pendingTransactionInfo);
     return pendingTransactionInfo;
 }
 
-deployPlatformApplication(NETWORKS.TESTNET);
+async function updatePlatformContracts() {
+    await updatePlatformContract(NETWORKS.BETANET, networkApps.betanet);
+    await updatePlatformContract(NETWORKS.TESTNET, networkApps.testnet);
+}
+
+updatePlatformContracts();
 

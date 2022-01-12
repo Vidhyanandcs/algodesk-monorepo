@@ -12,6 +12,9 @@ import {register, setAction} from "../../redux/actions/fund";
 import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {getCommonStyles} from "../../utils/styles";
+import {microalgosToAlgos} from "algosdk";
+import {globalStateKeys} from "@fundstack/sdk";
+import algoLogo from '../../assets/images/algo-logo.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -61,6 +64,14 @@ function RegistrationConfirmation(): JSX.Element {
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <div className='fee'>
+                                    Registration fee
+                                    <div className="value">
+                                        {microalgosToAlgos(fund.globalState[globalStateKeys.platform_registration_fee])}
+                                        <img src={algoLogo} alt="Algo"/>
+                                    </div>
+
+                                </div>
                                 <div className='message'>
                                     Are you sure, you want to register ?
                                 </div>

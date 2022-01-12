@@ -128,12 +128,6 @@ itxn_field AssetReceiver
 int 0
 itxn_field AssetAmount
 itxn_submit
-byte "dc"
-byte "dc"
-app_global_get
-int 1
-+
-app_global_put
 int 1
 return
 main_l12:
@@ -168,8 +162,8 @@ app_global_put
 byte "sf"
 int 1
 app_global_put
-byte "dc"
-int 0
+byte "rf"
+int 1000000
 app_global_put
 byte "femtu"
 int 2000000

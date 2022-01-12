@@ -67,6 +67,13 @@ def deployFund(platformAppId):
         If(platformSuccessFeeExpr.hasValue(), platformSuccessFeeExpr.value(), Int(1))
     ])
 
+    platformRegistrationFeeExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.registration_fee)
+    platformRegistrationFee = Seq([
+        Assert(Txn.applications[1] == platformAppId),
+        platformRegistrationFeeExpr,
+        If(platformRegistrationFeeExpr.hasValue(), platformRegistrationFeeExpr.value(), Int(1000000))
+    ])
+
     platformFundEscrowMinTopUpExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.fund_escrow_min_top_up)
     platformFundEscrowMinTopUp = Seq([
         Assert(Txn.applications[1] == platformAppId),
@@ -128,6 +135,7 @@ def deployFund(platformAppId):
         App.globalPut(globalState.platform_escrow, platformEscrow),
         App.globalPut(globalState.platform_publish_fee, platformPublishFee),
         App.globalPut(globalState.platform_success_fee, platformSuccessFee),
+        App.globalPut(globalState.platform_registration_fee, platformRegistrationFee),
         App.globalPut(globalState.platform_fund_escrow_min_top_up, platformFundEscrowMinTopUp),
         App.globalPut(globalState.platform_success_criteria_percentage, platformSuccessCriteria)
     ]
@@ -139,7 +147,6 @@ def deployFund(platformAppId):
 
 
 def publish(platformAppId):
-    txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
@@ -217,11 +224,21 @@ def publish(platformAppId):
     return block
 
 def register():
-    txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
-        Assert(Global.group_size() == Int(1))
+        Assert(Global.group_size() == Int(2)),
+        Assert(Txn.group_index() == Int(1)),
+    ]
+
+    paymentTxn = Gtxn[0]
+    platformRegistrationFee = App.globalGet(globalState.platform_registration_fee)
+
+    paymentAssertions = [
+        Assert(paymentTxn.sender() == Txn.sender()),
+        Assert(paymentTxn.type_enum() == TxnType.Payment),
+        Assert(paymentTxn.receiver() == Global.current_application_address()),
+        Assert(paymentTxn.amount() == platformRegistrationFee)
     ]
 
     registered = App.localGet(Int(0), localState.registered)
@@ -241,7 +258,7 @@ def register():
         App.localPut(Int(0), localState.invested_amount, Int(0))
     ]
 
-    conditions = gtxnAssertions + applicationAssertions + setState + [Approve()]
+    conditions = gtxnAssertions + paymentAssertions + applicationAssertions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -494,11 +511,23 @@ def ownerClaim():
         InnerTxnBuilder.Submit()
     ]
 
+    innerTransactionPlatformRegistrationFee = [
+        InnerTxnBuilder.Begin(),
+        InnerTxnBuilder.SetFields(
+            {
+                TxnField.type_enum: TxnType.Payment,
+                TxnField.receiver: platformEscrow,
+                TxnField.amount: App.globalGet(globalState.no_of_registrations) * App.globalGet(globalState.platform_registration_fee)
+            }
+        ),
+        InnerTxnBuilder.Submit()
+    ]
+
     setState = [
         App.globalPut(globalState.funds_claimed, Int(1))
     ]
 
-    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + innerTransactionPlatformFee + setState
+    conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + innerTransactionPlatformFee + innerTransactionPlatformRegistrationFee + setState
 
     remainingAllocationInMicros = App.globalGet(globalState.remaining_allocation)
 

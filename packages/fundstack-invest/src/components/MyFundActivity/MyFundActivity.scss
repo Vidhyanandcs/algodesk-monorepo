@@ -5,7 +5,7 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
     padding: 30px;
-    height: 250px;
+    min-height: 250px;
     .not-connected-message, .no-activity {
       color: $color-grey-dark;
       margin-top: 25px;

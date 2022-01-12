@@ -42,6 +42,7 @@ export type F_FundGlobalState = {
     pai: number
     pe: string
     psf: number
+    prf: number
     ppf: number
     pfemtu: number
     pscp: number
@@ -174,6 +175,10 @@ export class Fund {
 
     getPlatformPublishFee(): number {
         return this.globalState[globalStateKeys.platform_publish_fee];
+    }
+
+    getPlatformRegistrationFee(): number {
+        return this.globalState[globalStateKeys.platform_registration_fee];
     }
 
     getFundEscrowMinTopUp(): number {

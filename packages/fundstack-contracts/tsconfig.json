@@ -10,8 +10,6 @@
     "sourceMap": true
   },
   "include": [
-    "app/compileTeal.ts",
-    "app/deployPlatformApplication.ts",
-    "app/updatePlatformApplication.ts"
+    "app/*"
   ]
 }

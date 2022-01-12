@@ -8,13 +8,13 @@ import {F_CompanyDetails, F_DeployFund} from "../src/types";
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
 const dispenserAccount = mnemonicToSecretKey(mnemonic);//CJW7LXVNIHJDDLOVIPP4YABAGINXURO7HZEZQYUH27FTFCQ7QWKZ7GO4UQ
 
-// const network = betanet;
-// const platformAppId = 438565946;
+const network = betanet;
+const platformAppId = 638672503;
 
-const network = testnet;
-const platformAppId = 57204889;
+// const network = testnet;
+// const platformAppId = 57204889;
 
-async function dispense(account: Account, amount: number = 7) {
+async function dispense(account: Account, amount: number = 9) {
     const walletSigner = new WalletSigner(dispenserAccount);
     const dispenserInstance = new Fundstack(platformAppId, network, walletSigner);
     console.log('funding account: ' + account.addr);

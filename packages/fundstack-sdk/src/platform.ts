@@ -9,8 +9,9 @@ export type F_PlatformGlobalState = {
     cat: number
     dc: number
     e: string
-    ppf: number
-    psf: number
+    pf: number
+    rf: number
+    sf: number
 }
 
 export function getPlatformState(fund: A_Application): F_PlatformGlobalState {
@@ -58,9 +59,5 @@ export class Platform {
 
     getEscrow(): string {
         return this.globalState[platformGlobalStateKeys.escrow];
-    }
-
-    getPublishFee(): number {
-        return this.globalState[platformGlobalStateKeys.publish_fee];
     }
 }

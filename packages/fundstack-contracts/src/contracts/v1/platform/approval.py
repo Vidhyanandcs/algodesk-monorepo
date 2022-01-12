@@ -5,7 +5,6 @@ import src.contracts.v1.fund.state.global_state as fundGlobalState
 
 
 def createApplication():
-    txnArgs = Txn.application_args
     currentRound = Global.round()
 
     gtxnAssertions = [
@@ -16,8 +15,8 @@ def createApplication():
     creator = Txn.sender()
     createdAt = currentRound
     escrow = Global.current_application_address()
-    deployedCount = Int(0)
     publishFee = Int(1000000)
+    registrationFee = Int(1000000)
     successFee = Int(1)
     fundEscrowMinTopUp = Int(2000000)
     successCriteriaPercentage = Int(50)
@@ -29,7 +28,7 @@ def createApplication():
         App.globalPut(globalState.escrow, escrow),
         App.globalPut(globalState.publish_fee, publishFee),
         App.globalPut(globalState.success_fee, successFee),
-        App.globalPut(globalState.deployed_count, deployedCount),
+        App.globalPut(globalState.registration_fee, registrationFee),
         App.globalPut(globalState.fund_escrow_min_top_up, fundEscrowMinTopUp),
         App.globalPut(globalState.success_criteria_percentage, successCriteriaPercentage)
     ]
@@ -67,9 +66,8 @@ def validateFund():
         Assert(fundPublishTxn.sender() == Txn.sender())
     ]
 
-    fundsDeployed = App.globalGet(globalState.deployed_count)
     setState = [
-        App.globalPut(globalState.deployed_count, fundsDeployed + Int(1)),
+
     ]
 
     assetId = App.globalGetEx(Txn.applications[1], fundGlobalState.asset_id)

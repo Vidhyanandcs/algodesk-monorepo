@@ -189,6 +189,19 @@ app_global_get
 -
 itxn_field Amount
 itxn_submit
+itxn_begin
+int pay
+itxn_field TypeEnum
+byte "pe"
+app_global_get
+itxn_field Receiver
+byte "nor"
+app_global_get
+byte "prf"
+app_global_get
+*
+itxn_field Amount
+itxn_submit
 byte "fc"
 int 1
 app_global_put
@@ -659,7 +672,28 @@ int 1
 return
 main_l25:
 global GroupSize
+int 2
+==
+assert
+txn GroupIndex
 int 1
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 0 Amount
+byte "prf"
+app_global_get
 ==
 assert
 int 0
@@ -859,11 +893,11 @@ byte "tr"
 int 0
 app_global_put
 byte "pai"
-int 57204889
+int 58162217
 app_global_put
 byte "pe"
 txna Applications 1
-int 57204889
+int 58162217
 ==
 assert
 txna Applications 1
@@ -872,13 +906,13 @@ app_global_get_ex
 store 3
 store 4
 load 3
-bnz main_l43
+bnz main_l46
 byte "none"
 main_l30:
 app_global_put
 byte "ppf"
 txna Applications 1
-int 57204889
+int 58162217
 ==
 assert
 txna Applications 1
@@ -887,13 +921,13 @@ app_global_get_ex
 store 5
 store 6
 load 5
-bnz main_l42
+bnz main_l45
 int 1000000
 main_l32:
 app_global_put
 byte "psf"
 txna Applications 1
-int 57204889
+int 58162217
 ==
 assert
 txna Applications 1
@@ -902,55 +936,73 @@ app_global_get_ex
 store 7
 store 8
 load 7
-bnz main_l41
+bnz main_l44
 int 1
 main_l34:
 app_global_put
+byte "prf"
+txna Applications 1
+int 58162217
+==
+assert
+txna Applications 1
+byte "rf"
+app_global_get_ex
+store 9
+store 10
+load 9
+bnz main_l43
+int 1000000
+main_l36:
+app_global_put
 byte "pfemtu"
 txna Applications 1
-int 57204889
+int 58162217
 ==
 assert
 txna Applications 1
 byte "femtu"
 app_global_get_ex
-store 9
-store 10
-load 9
-bnz main_l40
+store 11
+store 12
+load 11
+bnz main_l42
 int 2000000
-main_l36:
+main_l38:
 app_global_put
 byte "pscp"
 txna Applications 1
-int 57204889
+int 58162217
 ==
 assert
 txna Applications 1
 byte "scp"
 app_global_get_ex
-store 11
-store 12
-load 11
-bnz main_l39
+store 13
+store 14
+load 13
+bnz main_l41
 int 50
-main_l38:
+main_l40:
 app_global_put
 int 1
 return
-main_l39:
+main_l41:
+load 14
+b main_l40
+main_l42:
 load 12
 b main_l38
-main_l40:
+main_l43:
 load 10
 b main_l36
-main_l41:
+main_l44:
 load 8
 b main_l34
-main_l42:
+main_l45:
 load 6
 b main_l32
-main_l43:
+main_l46:
 load 4
 b main_l30
 sub0: // getAppId
