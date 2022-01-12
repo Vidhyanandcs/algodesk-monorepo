@@ -534,7 +534,14 @@ export class Fundstack {
             url: apiBaseUrl + '/api/funds'
         });
 
-        return response.data.documents;
+        const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
+
+        let funds: F_DB_FUND[] = response.data.documents;
+        funds = funds.filter((fund) => {
+            return compiledApprovalProgram.result === fund.approval_program && compiledClearProgram.result === fund.clear_program;
+        });
+
+        return funds;
     }
 
     hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {

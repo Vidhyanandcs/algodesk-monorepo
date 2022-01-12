@@ -55,5 +55,8 @@ export type F_DB_FUND =  {
     price: number,
     asset_unit: string,
     total_allocation: number,
-    active: boolean
+    active: boolean,
+    platform_app_id: number,
+    approval_program: string,
+    clear_program: string
 }
