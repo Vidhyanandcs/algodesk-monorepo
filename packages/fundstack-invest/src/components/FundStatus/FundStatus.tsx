@@ -12,6 +12,7 @@ import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
 import {CheckCircle, Warning} from "@material-ui/icons";
 import connectWhiteImg from '../../assets/images/connect-white.png';
+import InfoIcon from '@material-ui/icons/Info';
 
 const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -103,78 +104,95 @@ function FundStatus(): JSX.Element {
                                                          }
                                                      }}
                       >Register</Button> : ''}
-                      {sale.active ? <Button variant={"contained"}
-                                             color={"primary"}
-                                             size={"large"}
-                                             fullWidth
-                                             className="custom-button"
-                                             onClick={() => {
-                                                 if (account.loggedIn) {
-                                                     if (fundDetails.account.registered) {
-                                                         if (fundDetails.account.invested) {
-                                                             dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
-                                                         }
-                                                         else {
-                                                             dispatch(setAction("invest"));
-                                                         }
-                                                     }
-                                                     else {
-                                                         dispatch(showSnack({severity: 'error', message: 'You have not registered'}));
-                                                     }
-                                                 }
-                                                 else {
-                                                     dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
-                                                 }
-                                             }}
-                      >Invest</Button> : ''}
-                      {claim.active ? <Button variant={"contained"}
-                                             color={"primary"}
-                                             size={"large"}
-                                              className="custom-button"
-                                             fullWidth
-                                             onClick={() => {
-                                                 if (account.loggedIn) {
-                                                     if (fundDetails.account.invested) {
-                                                         if (fundDetails.account.claimed) {
-                                                             dispatch(showSnack({severity: 'error', message: 'You have already claimed'}));
-                                                         }
-                                                         else {
-                                                             dispatch(claimAssets(Number(fund.id)));
-                                                         }
-                                                     }
-                                                     else {
-                                                         dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
-                                                     }
-                                                 }
-                                                 else {
-                                                     dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
-                                                 }
-                                             }}
-                      >Claim assets</Button> : ''}
-                      {withdraw.active ? <Button variant={"contained"}
-                                                                      color={"primary"}
-                                                                      size={"large"}
-                                                                      fullWidth
-                                                 className="custom-button"
-                                                                      onClick={() => {
-                                                                          if (account.loggedIn) {
-                                                                              if (fundDetails.account.invested) {
-                                                                                  if (fundDetails.account.withdrawn) {
-                                                                                      dispatch(showSnack({severity: 'error', message: 'You have already withdrawn'}));
-                                                                                  }
-                                                                                  else {
-                                                                                      dispatch(withdrawInvestment(Number(fund.id)));
-                                                                                  }
+                      {sale.active ? <div>
+                          {fundDetails.account.registered ? <Button variant={"contained"}
+                                                                    color={"primary"}
+                                                                    size={"large"}
+                                                                    fullWidth
+                                                                    className="custom-button"
+                                                                    onClick={() => {
+                                                                        if (account.loggedIn) {
+                                                                            if (fundDetails.account.registered) {
+                                                                                if (fundDetails.account.invested) {
+                                                                                    dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
+                                                                                }
+                                                                                else {
+                                                                                    dispatch(setAction("invest"));
+                                                                                }
+                                                                            }
+                                                                            else {
+                                                                                dispatch(showSnack({severity: 'error', message: 'You have not registered'}));
+                                                                            }
+                                                                        }
+                                                                        else {
+                                                                            dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                        }
+                                                                    }}
+                          >Invest</Button> : <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">Only registered users can invest</div>
+                          </div>}
+                      </div> : ''}
+                      {claim.active ? <div>
+                          {fundDetails.account.invested ? <Button variant={"contained"}
+                                                                  color={"primary"}
+                                                                  size={"large"}
+                                                                  className="custom-button"
+                                                                  fullWidth
+                                                                  onClick={() => {
+                                                                      if (account.loggedIn) {
+                                                                          if (fundDetails.account.invested) {
+                                                                              if (fundDetails.account.claimed) {
+                                                                                  dispatch(showSnack({severity: 'error', message: 'You have already claimed'}));
                                                                               }
                                                                               else {
-                                                                                  dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
+                                                                                  dispatch(claimAssets(Number(fund.id)));
                                                                               }
                                                                           }
                                                                           else {
-                                                                              dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                              dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
                                                                           }
-                                                                      }}
-                      >Withdraw investment</Button> : ''}
+                                                                      }
+                                                                      else {
+                                                                          dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                      }
+                                                                  }}
+                          >Claim assets</Button> : <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">Only invested users can claim the assets</div>
+                          </div>}
+
+                      </div> : ''}
+                      {withdraw.active ? <div>
+                          {fundDetails.account.invested ? <Button variant={"contained"}
+                                                                  color={"primary"}
+                                                                  size={"large"}
+                                                                  fullWidth
+                                                                  className="custom-button"
+                                                                  onClick={() => {
+                                                                      if (account.loggedIn) {
+                                                                          if (fundDetails.account.invested) {
+                                                                              if (fundDetails.account.withdrawn) {
+                                                                                  dispatch(showSnack({severity: 'error', message: 'You have already withdrawn'}));
+                                                                              }
+                                                                              else {
+                                                                                  dispatch(withdrawInvestment(Number(fund.id)));
+                                                                              }
+                                                                          }
+                                                                          else {
+                                                                              dispatch(showSnack({severity: 'error', message: 'You have not invested'}));
+                                                                          }
+                                                                      }
+                                                                      else {
+                                                                          dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                      }
+                                                                  }}
+                          >Withdraw investment</Button> : <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">Only invested users can withdraw</div>
+                          </div>}
+
+                      </div> : ''}
                   </div> : <div>
                       <Button variant={"contained"}
                               color={"primary"}

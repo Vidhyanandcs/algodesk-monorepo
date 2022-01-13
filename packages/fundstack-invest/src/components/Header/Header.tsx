@@ -14,6 +14,7 @@ import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
 import connectWhiteImg from '../../assets/images/connect-white.png';
+import algoLogo from '../../assets/images/algo-logo.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -57,13 +58,14 @@ function Header(): JSX.Element {
                                                          }}
                             >Connect wallet</Button> : <div className="connect-wallet-item">
                                 <div className="user">
-                                    <img src={accountImg} alt="address"/>
+                                    <img src={accountImg} alt="address" className="avatar"/>
                                     <div className="addr">
                                         <span onClick={() => {
                                             fundstackSdk.explorer.openAccount(account.information.address);
                                         }}>{ellipseAddress(account.information.address, 8)}</span>
                                         <div className="bal">
-                                            {microalgosToAlgos(account.information.amount)} Algos
+                                            {microalgosToAlgos(account.information.amount)}
+                                            <img src={algoLogo} alt="Algo"/>
                                         </div>
                                     </div>
                                     <Tooltip title="Logout">

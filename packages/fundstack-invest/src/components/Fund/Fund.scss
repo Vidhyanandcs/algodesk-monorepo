@@ -86,7 +86,6 @@
             .count-label {
               font-size: 16px;
               margin-top: 10px;
-              color: $color-grey-dark;
               font-family: MontserratLight !important;
             }
           }
@@ -98,8 +97,8 @@
             margin-top: -10px;
             .locker {
               .lock-icon {
-                color: #bfbfbf;
-                border: 1px solid #bfbfbf;
+                color: $color-light;
+                background: #808285;
                 border-radius: 50%;
                 padding: 5px;
               }
@@ -107,7 +106,6 @@
             .lock-label {
               font-size: 16px;
               margin-top: 5px;
-              color: #bfbfbf;
               font-family: MontserratLight !important;
             }
           }

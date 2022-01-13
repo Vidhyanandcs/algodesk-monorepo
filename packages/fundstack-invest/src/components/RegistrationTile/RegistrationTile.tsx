@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
+
 function RegistrationTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const account = useSelector((state: RootState) => state.account);
@@ -52,7 +53,7 @@ function RegistrationTile(): JSX.Element {
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                             {registration.completed ? <div className="lock">
                                 <div className="locker">
-                                    <LockOutlinedIcon className="lock-icon"></LockOutlinedIcon>
+                                    <LockOutlinedIcon className={"lock-icon"}></LockOutlinedIcon>
                                 </div>
                                 <div className="lock-label">
                                     Closed

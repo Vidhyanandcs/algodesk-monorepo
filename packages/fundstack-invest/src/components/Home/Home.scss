@@ -49,6 +49,10 @@
         .fund-name {
           font-size: 20px;
           font-weight: 600;
+          width: 80%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .fund-id {
           margin-top: 10px;

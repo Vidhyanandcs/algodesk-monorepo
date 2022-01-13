@@ -54,7 +54,7 @@
                 padding: 3px;
               }
             }
-            img {
+            img.avatar {
               width: 35px;
               vertical-align: bottom;
               margin-right: 15px;
@@ -77,6 +77,11 @@
                 font-family: MontserratLight !important;
                 margin-top: 5px;
                 text-align: left;
+                img {
+                  display: inline-block;
+                  width: 12px;
+                  margin-left: 5px;
+                }
               }
             }
           }

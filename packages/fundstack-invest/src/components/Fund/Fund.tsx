@@ -82,7 +82,7 @@ function Fund(): JSX.Element {
                                                     <div className="fund-creator" onClick={() => {
                                                         fundstackSdk.explorer.openAccount(fund.globalState[globalStateKeys.creator]);
                                                     }}>
-                                                        <span>Creator: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
+                                                        <span>Owner: </span> {ellipseAddress(fund.globalState[globalStateKeys.creator], 10)}
                                                     </div>
                                                 </div>
                                             </div>

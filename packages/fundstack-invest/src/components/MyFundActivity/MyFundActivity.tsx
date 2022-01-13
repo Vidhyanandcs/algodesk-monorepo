@@ -2,13 +2,14 @@ import './MyFundActivity.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {getAccountActivity} from "../../redux/actions/fund";
 import {ellipseAddress} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
 import regNormal from '../../assets/images/resistered-normal.png';
 import invNormal from '../../assets/images/invested-normal.png';
 import claimNormal from '../../assets/images/claim-normal.png';
+import InfoIcon from "@material-ui/icons/Info";
 
 
 function MyFundActivity(): JSX.Element {
@@ -37,7 +38,12 @@ function MyFundActivity(): JSX.Element {
                 <div className="tile-name">My activity</div>
               {account.loggedIn ? <div>
                   {activity.loading ? <div className="loading">loading ...</div> : <div>
-                      {activityList.length === 0 ? <div className="no-activity">Your wallet doesn't have any activity for this fund</div> : ''}
+                      {activityList.length === 0 ? <div className="no-activity">
+                          <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">Your wallet doesn't have any activity for this fund</div>
+                          </div>
+                      </div> : ''}
                       <div className="activity-list">
                           {activityList.map((item) => {
                               return (<div className="activity" key={item.id}>
@@ -58,7 +64,12 @@ function MyFundActivity(): JSX.Element {
 
                   </div>}
 
-              </div> : <div className="not-connected-message">Wallet not connected</div>}
+              </div> : <div className="not-connected-message">
+                  <div className="account-action-info">
+                      <InfoIcon fontSize={"small"}></InfoIcon>
+                      <div className="text">Wallet not connected</div>
+                  </div>
+              </div>}
 
           </div>
       </div>
