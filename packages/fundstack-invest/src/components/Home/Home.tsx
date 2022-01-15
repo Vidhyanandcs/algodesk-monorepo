@@ -56,8 +56,6 @@ function Home(): JSX.Element {
         return true;
     });
 
-    console.log(renderedList);
-
   return (
       <div className="home-wrapper">
           <div className="home-container">
