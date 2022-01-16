@@ -13,7 +13,6 @@ import {logout} from "../../redux/actions/account";
 import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
-import connectWhiteImg from '../../assets/images/connect-white.png';
 import algoLogo from '../../assets/images/algo-logo.png';
 
 const useStyles = makeStyles((theme) => {
@@ -48,11 +47,10 @@ function Header(): JSX.Element {
                             <Link href="https://docs.fundstack.io" className={"menu-link " + classes.primaryColorOnHover} target="_blank">Docs</Link>
 
 
-                            {!account.loggedIn ? <Button variant={"contained"}
+                            {!account.loggedIn ? <Button variant={"outlined"}
                                                          color={"primary"}
-                                                         size={"small"}
-                                                         style={{marginTop: 22}}
-                                                         startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 15}}/>}
+                                                         size={"medium"}
+                                                         style={{marginTop: 18}}
                                                          onClick={() => {
                                                              dispatch(showConnectWallet());
                                                          }}

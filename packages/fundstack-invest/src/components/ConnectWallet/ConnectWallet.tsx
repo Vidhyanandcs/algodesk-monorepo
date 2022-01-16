@@ -8,12 +8,11 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {ChevronRightSharp, ArrowBack, CancelOutlined} from "@material-ui/icons";
+import {ChevronRightSharp, ArrowBack, CancelOutlined, ErrorOutlineOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
-import connectionIssueImg from '../../assets/images/error.gif';
 import connectWhiteImg from '../../assets/images/connect-white.png';
 import loaderGif from '../../assets/images/loading.gif';
 
@@ -96,7 +95,7 @@ function ConnectWallet(): JSX.Element {
                         {view === 'home' ? <div className="home-wrapper">
                             <div className="home-container">
                                 <div className="header">
-                                    <div className={classes.primaryBackground + ' logo'}>
+                                    <div className={'logo'}>
                                         <img src={connectWhiteImg} alt="connect-wallet"/>
                                     </div>
 
@@ -143,7 +142,8 @@ function ConnectWallet(): JSX.Element {
                                         <div>connecting ...</div>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
-                                        <img src={connectionIssueImg} alt="Connection issue"/>
+                                        {/*<img src={connectionIssueImg} alt="Connection issue"/>*/}
+                                        <ErrorOutlineOutlined></ErrorOutlineOutlined>
                                         <div>
                                             {connectWallet.errMessage}
                                         </div>

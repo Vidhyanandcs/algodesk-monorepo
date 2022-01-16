@@ -11,7 +11,6 @@ import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
 import {CheckCircle, Warning} from "@material-ui/icons";
-import connectWhiteImg from '../../assets/images/connect-white.png';
 import InfoIcon from '@material-ui/icons/Info';
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -199,7 +198,6 @@ function FundStatus(): JSX.Element {
                               size={"large"}
                               fullWidth
                               className="custom-button"
-                              startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 20}}/>}
                               onClick={() => {
                                   dispatch(showConnectWallet());
                               }}
