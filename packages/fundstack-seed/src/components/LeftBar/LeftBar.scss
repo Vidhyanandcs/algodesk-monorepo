@@ -1,0 +1,53 @@
+@import '../../assets/colors';
+
+.left-bar-wrapper {
+  .left-bar-container {
+    height: 100vh;
+    background: #F6FBF8;
+    position: relative;
+    .footer {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+    }
+    .logo {
+      background: #4EB778;
+      height: 100px;
+      text-align: center;
+      img {
+        width: 150px;
+        margin-top: -25px;
+      }
+    }
+    .account {
+      height: 400px;
+      background: #DAF0E3;
+      text-align: center;
+      .avatar {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #4CB978 7.43%, #E0D122 92.2%);
+        border-radius: 50%;
+        margin-top: 75px;
+        display: inline-block;
+      }
+      .addr {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+      .bal {
+        margin-top: 10px;
+        font-size: 14px;
+        img {
+          width: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}

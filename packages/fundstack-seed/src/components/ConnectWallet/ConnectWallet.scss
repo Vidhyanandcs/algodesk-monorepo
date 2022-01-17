@@ -1,0 +1,121 @@
+@import '../../assets/colors';
+
+.connect-wallet-wrapper {
+  .connect-wallet-container {
+    min-height: 400px;
+    margin-bottom: 40px;
+    .home-wrapper {
+      .home-container {
+        .header {
+          margin-bottom: 20px;
+          text-align: center;
+          .logo {
+            border-radius: 50%;
+            padding: 10px;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+            color: $color-light;
+            text-align: center;
+            background: linear-gradient(56.21deg, #0BB68C -43.1%, #60DD8B 132.97%);
+            img {
+              width: 30px;
+              margin-top: 8px;
+            }
+          }
+        }
+        .body {
+          margin-top: 40px;
+          .signer {
+            padding: 30px 60px;
+            img.logo {
+              vertical-align: middle;
+              margin-right: 15px;
+              height: 30px;
+              width: 30px;
+              border-radius: 50%;
+            }
+            .name {
+              vertical-align: sub;
+              font-size: 18px;
+            }
+            svg {
+              float: right;
+            }
+            &:hover {
+              cursor: pointer;
+              color: $color-light;
+              background: linear-gradient(249.61deg, #60DD8B -8.07%, #0BB68C 99.24%);
+            }
+          }
+        }
+        .footer {
+          text-align: center;
+          margin-top: 35px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    .accounts-wrapper {
+      .accounts-container {
+        .header {
+          font-size: 20px;
+          text-align: center;
+          .logo {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+        .body {
+          margin-top: 40px;
+          img.loading {
+            width: 40%;
+          }
+          .connecting {
+            text-align: center;
+            margin-top: 75px;
+            font-size: 20px;
+            color: #A9A9A9;
+          }
+          .error-message {
+            text-align: center;
+            margin-top: 40px;
+            color: #A9A9A9;
+            padding: 0px 40px;
+            line-height: 1.2;
+            svg {
+              font-size: 100px;
+              margin-bottom: 20px;
+              margin-top: 50px;
+            }
+            img {
+              width: 170px;
+              height: 140px;
+              margin-bottom: 20px;
+            }
+          }
+          .account {
+            font-size: 14px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+            margin: 15px 40px;
+            background: #D7F7E2;
+            color: $color-dark;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.4;
+            &:hover {
+              box-shadow: 0 0 10px rgb(0 0 0 / 8%);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
