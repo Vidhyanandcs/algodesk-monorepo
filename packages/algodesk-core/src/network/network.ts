@@ -1,7 +1,7 @@
 import * as sdk from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {AlgodTokenHeader, CustomTokenHeader, IndexerTokenHeader} from "algosdk/dist/types/src/client/client";
 import {Algodv2} from "algosdk";
+import {AlgodTokenHeader, CustomTokenHeader, IndexerTokenHeader} from "algosdk/dist/types/src/client/urlTokenBaseHTTPClient";
 
 export class Network {
     public name: string
