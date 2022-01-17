@@ -1,22 +1,41 @@
 @import '../../assets/colors';
 
+.qr-code-wrapper {
+  .qr-code-container {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+}
+
 .left-bar-wrapper {
   .left-bar-container {
     height: 100vh;
     background: #F6FBF8;
     position: relative;
+    border-right: 1px solid $color-grey-light;
     .footer {
       position: absolute;
       bottom: 0px;
       width: 100%;
+      background: rgba(250, 92, 124, 0.04);
     }
     .logo {
       background: #4EB778;
-      height: 100px;
+      height: 80px;
       text-align: center;
       img {
         width: 150px;
-        margin-top: -25px;
+        margin-top: -36px;
+      }
+    }
+    .menu-list {
+      margin-top: 40px;
+      text-align: center;
+      a {
+        display: block;
+        margin: 20px;
+        font-weight: bold;
+        font-size: 18px;
       }
     }
     .account {
@@ -28,7 +47,7 @@
         height: 100px;
         background: linear-gradient(135deg, #4CB978 7.43%, #E0D122 92.2%);
         border-radius: 50%;
-        margin-top: 75px;
+        margin-top: 90px;
         display: inline-block;
       }
       .addr {
@@ -46,6 +65,18 @@
         img {
           width: 12px;
           margin-left: 5px;
+        }
+      }
+      .user-actions {
+        margin-top: 20px;
+        svg {
+          cursor: pointer;
+          margin-left: 10px;
+          margin-right: 5px;
+          border-radius: 50%;
+          border: 1px solid $color-grey-dark;
+          padding: 5px;
+          color: $color-grey-dark;
         }
       }
     }

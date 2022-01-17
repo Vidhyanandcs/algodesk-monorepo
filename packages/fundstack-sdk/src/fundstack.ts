@@ -11,7 +11,7 @@ import {
     A_AccountInformation,
     A_Asset,
     durationBetweenBlocks,
-    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction
+    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction, A_Application
 } from "@algodesk/core";
 import {
     FUND_OPERATIONS,
@@ -535,6 +535,25 @@ export class Fundstack {
         });
 
         return response.data;
+    }
+
+    getAccountFunds(accountInfo: A_AccountInformation): A_Application[] {
+        const funds:A_Application[] = [];
+
+        const contracts = getContracts(this.network);
+        const {compiledApprovalProgram, compiledClearProgram} = contracts;
+        const apps = this.algodesk.accountClient.getCreatedApps(accountInfo);
+
+        apps.forEach((app) => {
+            const appApprovalProgram = app.params["approval-program"];
+            const appClearProgram = app.params["clear-state-program"];
+
+            if (appApprovalProgram === compiledApprovalProgram.result && appClearProgram === compiledClearProgram.result) {
+                funds.push(app);
+            }
+        });
+
+        return funds;
     }
 
     hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {

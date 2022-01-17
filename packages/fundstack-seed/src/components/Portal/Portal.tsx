@@ -2,8 +2,9 @@ import './Portal.scss';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Grid} from "@material-ui/core";
 import {useSelector} from "react-redux";
-import {RootState} from "@algodesk/app/src/redux/store";
 import LeftBar from "../LeftBar/LeftBar";
+import {RootState} from "../../redux/store";
+import Dashboard from "../Dashboard/Dashboard";
 
 function Portal(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -20,8 +21,8 @@ function Portal(): JSX.Element {
                   </Grid>
                   <Grid item xs={12} sm={12} md={9} lg={10} xl={10}>
                       <Switch>
-                          <Route exact path="/portal/dashboard">
-
+                          <Route path="/portal/dashboard">
+                            <Dashboard></Dashboard>
                           </Route>
                           <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />
                       </Switch>

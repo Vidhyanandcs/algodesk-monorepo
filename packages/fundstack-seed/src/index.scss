@@ -19,6 +19,12 @@
   url('assets/fonts/Montserrat/Montserrat-Thin.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'MontserratBold';
+  src: url('assets/fonts/Montserrat/Montserrat-Bold.ttf') format('ttf'),
+  url('assets/fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+}
+
 body {
   font-family: "Montserrat";
 }

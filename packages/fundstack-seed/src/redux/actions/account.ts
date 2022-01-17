@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {
-    A_AccountInformation, A_Asset
+    A_AccountInformation, A_Application
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
@@ -10,7 +10,7 @@ import fundstackSdk from "../../utils/fundstackSdk";
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
-    createdAssets: A_Asset[]
+    funds: A_Application[]
 }
 
 const information: A_AccountInformation = {
@@ -35,7 +35,7 @@ const information: A_AccountInformation = {
 const initialState: Account = {
     loggedIn: false,
     information,
-    createdAssets: []
+    funds: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -69,8 +69,10 @@ export const accountSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
+            const accountInfo = action.payload;
             state.loggedIn = true;
-            state.information = action.payload;
+            state.information = accountInfo;
+            state.funds = fundstackSdk.fundstack.getAccountFunds(accountInfo);
         })
     },
 });
