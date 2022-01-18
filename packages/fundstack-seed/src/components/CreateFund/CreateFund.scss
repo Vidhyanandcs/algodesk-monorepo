@@ -1,0 +1,32 @@
+@import "../../assets/colors";
+
+.create-fund-wrapper {
+  .create-fund-container {
+    margin-top: -25px;
+    margin-bottom: 50px;
+    .create-fund-header {
+    }
+    .form-container {
+      .section-title {
+        margin-bottom: 20px;
+        margin-top: 20px;
+        font-size: 18px;
+        position: relative;
+        span {
+          background-color: white;
+          padding-right: 10px;
+        }
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 0.5em;
+          border-top: 1px solid $color-grey-light;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}

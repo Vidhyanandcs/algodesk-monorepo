@@ -7,7 +7,7 @@ function Dashboard(): JSX.Element {
       <div className="dashboard-wrapper">
           <div className="dashboard-container">
               <Switch>
-                  <Route exact path="/portal/dashboard/funds">
+                  <Route path="/portal/dashboard/funds">
                       <Funds></Funds>
                   </Route>
                   <Route path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/funds" />} />

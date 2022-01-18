@@ -7,12 +7,16 @@ import {theme} from "./utils/theme";
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 ReactDOM.render(
     <HashRouter>
         <Provider store={store}>
             <MuiThemeProvider theme={theme}>
-                <App />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <App />
+                </MuiPickersUtilsProvider>
             </MuiThemeProvider>
         </Provider>
     </HashRouter>,

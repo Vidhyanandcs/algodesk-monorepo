@@ -17,6 +17,18 @@ export const theme = createTheme({
         }
     },
     overrides: {
+        MuiTextField: {
+            root: {
+                [`& fieldset`]: {
+                    borderRadius: 10,
+                },
+            }
+        },
+        MuiSelect: {
+            root: {
+
+            }
+        },
         MuiButton: {
             root: {
                 borderRadius: 10,
