@@ -1,9 +1,9 @@
 import './CreateFund.scss';
 import {
-    Button,
+    Button, FormControl,
     Grid,
     IconButton,
-    InputAdornment,
+    InputAdornment, InputLabel,
     makeStyles,
     MenuItem,
     Select,
@@ -12,7 +12,7 @@ import {
 import 'date-fns';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {A_Asset} from "@algodesk/core";
+import {A_Asset, getBlockByDate} from "@algodesk/core";
 import React, {useState} from "react";
 import fundstackSdk from "../../utils/fundstackSdk";
 import {ArrowBack, DateRange} from "@material-ui/icons";
@@ -20,13 +20,13 @@ import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
 import { DateTimePicker } from "@material-ui/pickers";
-import {deploy, getBlockByDate} from "../../redux/actions/fund";
+import {deploy} from "../../redux/actions/fund";
 import {F_CompanyDetails, F_DeployFund} from "@fundstack/sdk";
 import {handleException} from "../../redux/actions/exception";
 
 const useStyles = makeStyles((theme) => {
     return {
-        ...getCommonStyles(theme),
+        ...getCommonStyles(theme)
     };
 });
 
@@ -37,7 +37,7 @@ interface CreateFundState{
     github: string,
     twitter: string,
     tokenomics: string,
-    assetId?: number,
+    assetId: number,
     assetDetails?: A_Asset,
     totalAllocation: number,
     minAllocation: number,
@@ -59,6 +59,7 @@ const initialState: CreateFundState = {
     github: "http://google.com",
     twitter: "http://google.com",
     tokenomics: "http://google.com",
+    assetId: 0,
     totalAllocation: 1000,
     minAllocation: 100,
     maxAllocation: 600,
@@ -81,36 +82,9 @@ function CreateFund(): JSX.Element {
         setState
     ] = useState(initialState);
 
-    // const clearState = () => {
-    //     setState({ ...initialState });
-    // };
 
     return (<div className={"create-fund-wrapper"}>
         <div className={"create-fund-container"}>
-            {/*<div className="create-fund-header">*/}
-            {/*    <Grid container spacing={2}>*/}
-            {/*        <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>*/}
-
-            {/*        </Grid>*/}
-            {/*        <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>*/}
-            {/*            <Button*/}
-            {/*                size={"small"}*/}
-            {/*                color="primary"*/}
-            {/*                variant={"text"}*/}
-            {/*                startIcon={<ArrowBack></ArrowBack>}*/}
-            {/*                onClick={() => {*/}
-            {/*                    history.push('/portal/dashboard/funds/home');*/}
-            {/*                }}>*/}
-            {/*                Back*/}
-            {/*            </Button>*/}
-            {/*        </Grid>*/}
-            {/*    </Grid>*/}
-            {/*</div>*/}
-
-            
-            
-            
-            
             
             <div className="form-wrapper">
                 <div className="form-container">
@@ -217,83 +191,33 @@ function CreateFund(): JSX.Element {
 
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <Select
-                                        fullWidth
-                                        variant={"outlined"}
-                                        color={"primary"}
-                                        value={assetId}
-                                        onChange={async (event) => {
-                                            const assetId = parseInt(event.target.value + "");
-                                            dispatch(showLoader("Loading asset details"));
-                                            const assetDetails = await fundstackSdk.fundstack.algodesk.assetClient.get(assetId);
-                                            setState(prevState => ({...prevState, assetId, assetDetails}));
-                                            dispatch(hideLoader());
-                                        }}
-                                        label="Asset"
-                                        displayEmpty={true}
-                                        renderValue={(v) => {
-                                            if (assetDetails) {
-                                                return assetDetails.params['unit-name'] + ' [ID: ' + assetDetails.index + ']';
-                                            }
-                                            return "Select asset"
-                                        }}
-                                    >
-                                        {createdAssets.map((asset) => {
-                                            return (<MenuItem value={asset.index} key={asset.index}>{asset.params.name}</MenuItem>)
-                                        })}
-                                    </Select>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="total_allocation"
-                                        required
-                                        fullWidth
-                                        label="Total allocation"
-                                        variant={"outlined"}
-                                        type={"number"}
-                                        InputProps={{
-                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
-                                        }}
-                                        value={totalAllocation}
-                                        onChange={(ev) => {
-                                            const totalAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, totalAllocation}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="min_allocation"
-                                        required
-                                        fullWidth
-                                        label="Minimum allocation"
-                                        variant={"outlined"}
-                                        InputProps={{
-                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
-                                        }}
-                                        value={minAllocation}
-                                        onChange={(ev) => {
-                                            const minAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, minAllocation}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="max_allocation"
-                                        required
-                                        fullWidth
-                                        label="Max allocation"
-                                        variant={"outlined"}
-                                        InputProps={{
-                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
-                                        }}
-                                        value={maxAllocation}
-                                        onChange={(ev) => {
-                                            const maxAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, maxAllocation}));
-                                        }}
-                                    />
+                                    <FormControl variant="outlined" fullWidth>
+                                        <InputLabel id="asset_id_label">Select asset</InputLabel>
+                                        <Select
+                                            fullWidth
+                                            color={"primary"}
+                                            value={assetId}
+                                            labelId="asset_id_label"
+                                            onChange={async (event) => {
+                                                const assetId = parseInt(event.target.value + "");
+                                                try {
+                                                    dispatch(showLoader("Loading asset details"));
+                                                    const assetDetails = await fundstackSdk.fundstack.algodesk.assetClient.get(assetId);
+                                                    setState(prevState => ({...prevState, assetId, assetDetails}));
+                                                    dispatch(hideLoader());
+                                                }
+                                                catch (e: any) {
+                                                    dispatch(handleException(e));
+                                                    dispatch(hideLoader());
+                                                }
+                                            }}
+                                            label="Select asset"
+                                        >
+                                            {createdAssets.map((asset) => {
+                                                return (<MenuItem value={asset.index} key={asset.index}>{asset.params.name}</MenuItem>)
+                                            })}
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                     <TextField
@@ -313,6 +237,59 @@ function CreateFund(): JSX.Element {
                                         }}
                                     />
                                 </Grid>
+                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                    <TextField
+                                        name="total_allocation"
+                                        required
+                                        fullWidth
+                                        label="Total allocation"
+                                        variant={"outlined"}
+                                        type={"number"}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
+                                        }}
+                                        value={totalAllocation}
+                                        onChange={(ev) => {
+                                            const totalAllocation = parseInt(ev.target.value + "");
+                                            setState(prevState => ({...prevState, totalAllocation}));
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                    <TextField
+                                        name="min_allocation"
+                                        required
+                                        fullWidth
+                                        label="Minimum allocation"
+                                        variant={"outlined"}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
+                                        }}
+                                        value={minAllocation}
+                                        onChange={(ev) => {
+                                            const minAllocation = parseInt(ev.target.value + "");
+                                            setState(prevState => ({...prevState, minAllocation}));
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                    <TextField
+                                        name="max_allocation"
+                                        required
+                                        fullWidth
+                                        label="Max allocation"
+                                        variant={"outlined"}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
+                                        }}
+                                        value={maxAllocation}
+                                        onChange={(ev) => {
+                                            const maxAllocation = parseInt(ev.target.value + "");
+                                            setState(prevState => ({...prevState, maxAllocation}));
+                                        }}
+                                    />
+                                </Grid>
+
                             </Grid>
 
                             <div className={classes.primaryText + " section-title"}>
@@ -439,8 +416,7 @@ function CreateFund(): JSX.Element {
 
                                     try {
                                         dispatch(showLoader("Checking network status ..."));
-                                        const suggestedParams = await fundstackSdk.fundstack.algodesk.transactionClient.getSuggestedParams();
-                                        currentRound = suggestedParams.firstRound;
+                                        currentRound = await fundstackSdk.fundstack.algodesk.transactionClient.getCurrentRound();
                                         dispatch(hideLoader());
                                     }
                                     catch (e: any) {
@@ -470,11 +446,17 @@ function CreateFund(): JSX.Element {
                                         whitePaper
                                     };
 
-                                    await dispatch(deploy({
+                                    const response = await dispatch(deploy({
                                         deployParams,
                                         company
                                     }));
-                                    history.push('/portal/dashboard/funds/home');
+
+                                    console.log(response);
+
+                                    // @ts-ignore
+                                    if (response.payload) {
+                                        history.push('/portal/dashboard/funds/home');
+                                    }
                                 }}
                             >Deploy</Button>
 

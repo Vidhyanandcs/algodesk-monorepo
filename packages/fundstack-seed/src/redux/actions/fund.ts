@@ -5,7 +5,6 @@ import {F_AccountActivity, F_CompanyDetails, Fund, F_DeployFund} from "@fundstac
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
-import {isNumber} from "@algodesk/core";
 
 
 export interface FundDetails {
@@ -51,89 +50,6 @@ export const loadFund = createAsyncThunk(
     }
 );
 
-export function getDiffInSeconds(d1, d2) {
-    return (d1 - d2) / 1000;
-}
-
-export function getBlockByDate(date: Date, currentRound: number): number {
-    const currentDateTime = new Date();
-    const secDiff = getDiffInSeconds(date, currentDateTime);
-    return currentRound + Math.abs(Math.round(secDiff/4.5));
-}
-
-export async function validateFundParams(deployParams: F_DeployFund, company: F_CompanyDetails): Promise<boolean> {
-    console.log(deployParams);
-    console.log(company);
-    const {name, assetId, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt} = deployParams;
-    const {website, whitePaper, github, tokenomics, twitter} = company;
-
-    if (name === undefined || name === null || name === '') {
-        throw Error('Invalid name');
-    }
-    if (website === undefined || website === null || website === '') {
-        throw Error('Invalid website');
-    }
-    if (whitePaper === undefined || whitePaper === null || whitePaper === '') {
-        throw Error('Invalid whitePaper');
-    }
-    if (github === undefined || github === null || github === '') {
-        throw Error('Invalid github');
-    }
-    if (tokenomics === undefined || tokenomics === null || tokenomics === '') {
-        throw Error('Invalid tokenomics');
-    }
-    if (twitter === undefined || twitter === null || twitter === '') {
-        throw Error('Invalid twitter');
-    }
-
-    if (assetId === undefined || assetId === null || !isNumber(assetId)) {
-        throw Error('Invalid asset');
-    }
-    if (totalAllocation === undefined || totalAllocation === null || !isNumber(totalAllocation) || totalAllocation <= 0) {
-        throw Error('Invalid totalAllocation');
-    }
-    if (minAllocation === undefined || minAllocation === null || !isNumber(minAllocation) || minAllocation <= 0) {
-        throw Error('Invalid minAllocation');
-    }
-    if (maxAllocation === undefined || maxAllocation === null || !isNumber(maxAllocation) || maxAllocation <= 0) {
-        throw Error('Invalid maxAllocation');
-    }
-    if (price === undefined || price === null || !isNumber(price)) {
-        throw Error('Invalid price');
-    }
-
-    if (regStartsAt < 0) {
-        throw Error('Registration start date cannot be in the past');
-    }
-
-    if (regStartsAt < 0) {
-        throw Error('Registration start date cannot be in the past');
-    }
-    if (regEndsAt < 0) {
-        throw Error('Registration end date cannot be in the past');
-    }
-    if (saleStartsAt < 0) {
-        throw Error('Sale start date cannot be in the past');
-    }
-    if (saleEndsAt < 0) {
-        throw Error('Sale end date cannot be in the past');
-    }
-
-    if (regEndsAt < regStartsAt) {
-        throw Error('Registration end date should be greater that registration start date');
-    }
-
-    if (saleStartsAt < regEndsAt) {
-        throw Error('Sale start date should be greater that registration end date');
-    }
-
-    if (saleEndsAt < saleStartsAt) {
-        throw Error('Sale end date should be greater that sale start date');
-    }
-
-    return true;
-}
-
 export const deploy = createAsyncThunk(
     'fund/deploy',
     async (data: any, thunkAPI) => {
@@ -146,10 +62,6 @@ export const deploy = createAsyncThunk(
             const deployParams: F_DeployFund = data.deployParams;
             const company: F_CompanyDetails = data.company;
 
-            dispatch(showLoader("Validating ..."));
-            await validateFundParams(deployParams, company);
-            dispatch(hideLoader());
-
             dispatch(showLoader("Deploying ..."));
             const {txId} = await fundstackSdk.fundstack.deploy(deployParams, company);
             dispatch(hideLoader());
@@ -160,6 +72,7 @@ export const deploy = createAsyncThunk(
 
             dispatch(showSuccessModal("Deployment successful"));
             dispatch(loadAccount(address));
+
             return txId;
         }
         catch (e: any) {

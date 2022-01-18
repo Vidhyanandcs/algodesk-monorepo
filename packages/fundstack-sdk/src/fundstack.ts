@@ -11,7 +11,7 @@ import {
     A_AccountInformation,
     A_Asset,
     durationBetweenBlocks,
-    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction, A_Application
+    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction, A_Application, isNumber
 } from "@algodesk/core";
 import {
     FUND_OPERATIONS,
@@ -27,6 +27,7 @@ import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/fund";
 import humanizeDuration from 'humanize-duration';
 import axios from "axios";
+import isEmpty from 'is-empty';
 
 const shortEnglishHumanizer = humanizeDuration.humanizer({
     language: "shortEn",
@@ -54,7 +55,73 @@ export class Fundstack {
         this.network = network.name;
     }
 
+    validateDeployParams(deployParams: F_DeployFund, company: F_CompanyDetails): boolean {
+        const {name, assetId, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt} = deployParams;
+        const {website, whitePaper, github, tokenomics, twitter} = company;
+
+        if (isEmpty(name)) {
+            throw Error('Invalid name');
+        }
+        if (isEmpty(website)) {
+            throw Error('Invalid website');
+        }
+        if (isEmpty(whitePaper)) {
+            throw Error('Invalid whitePaper');
+        }
+        if (isEmpty(github)) {
+            throw Error('Invalid github');
+        }
+        if (isEmpty(tokenomics)) {
+            throw Error('Invalid tokenomics');
+        }
+        if (isEmpty(twitter)) {
+            throw Error('Invalid twitter');
+        }
+        if (isEmpty(assetId) || !isNumber(assetId)) {
+            throw Error('Invalid asset');
+        }
+        if (isEmpty(totalAllocation) || !isNumber(totalAllocation) || totalAllocation <= 0) {
+            throw Error('Invalid totalAllocation');
+        }
+        if (isEmpty(minAllocation) || !isNumber(minAllocation) || minAllocation <= 0) {
+            throw Error('Invalid minAllocation');
+        }
+        if (isEmpty(maxAllocation) || !isNumber(maxAllocation) || maxAllocation <= 0) {
+            throw Error('Invalid maxAllocation');
+        }
+        if (isEmpty(price) || !isNumber(price)) {
+            throw Error('Invalid price');
+        }
+        if (regStartsAt < 0) {
+            throw Error('Registration start date cannot be in the past');
+        }
+        if (regStartsAt < 0) {
+            throw Error('Registration start date cannot be in the past');
+        }
+        if (regEndsAt < 0) {
+            throw Error('Registration end date cannot be in the past');
+        }
+        if (saleStartsAt < 0) {
+            throw Error('Sale start date cannot be in the past');
+        }
+        if (saleEndsAt < 0) {
+            throw Error('Sale end date cannot be in the past');
+        }
+        if (regEndsAt < regStartsAt) {
+            throw Error('Registration end date should be greater that registration start date');
+        }
+        if (saleStartsAt < regEndsAt) {
+            throw Error('Sale start date should be greater that registration end date');
+        }
+        if (saleEndsAt < saleStartsAt) {
+            throw Error('Sale end date should be greater that sale start date');
+        }
+
+        return true;
+    }
+
     async deploy(params: F_DeployFund, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
+        this.validateDeployParams(params, company);
         const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
 
         const assetParams = await this.getAsset(params.assetId);
