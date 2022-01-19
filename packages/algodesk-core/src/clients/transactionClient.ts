@@ -68,4 +68,9 @@ export class TransactionClient{
     assignGroupID(unsignedTransactions: Transaction[]): Transaction[] {
         return assignGroupID(unsignedTransactions);
     }
+
+    async getCurrentRound(): Promise<number> {
+        const suggestedParams = await this.getSuggestedParams();
+        return suggestedParams.firstRound;
+    }
 }

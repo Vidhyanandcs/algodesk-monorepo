@@ -1,13 +1,14 @@
 import './Dashboard.scss';
 import {Redirect, Route, Switch} from "react-router-dom";
+import Funds from "../Funds/Funds";
 
 function Dashboard(): JSX.Element {
   return (
       <div className="dashboard-wrapper">
           <div className="dashboard-container">
               <Switch>
-                  <Route exact path="/portal/dashboard/funds">
-                      Funds
+                  <Route path="/portal/dashboard/funds">
+                      <Funds></Funds>
                   </Route>
                   <Route path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/funds" />} />
               </Switch>

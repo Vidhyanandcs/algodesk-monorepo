@@ -39,7 +39,8 @@
     "humanize-duration": "^3.27.1",
     "jest": "^27.0.6",
     "qrcode.react": "^1.0.1",
-    "replaceall": "^0.1.6"
+    "replaceall": "^0.1.6",
+    "is-empty": "^1.2.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

@@ -1,0 +1,72 @@
+@import '../../assets/colors';
+
+.funds-wrapper {
+  .funds-container {
+    .no-funds {
+      text-align: center;
+      margin-top: 120px;
+      img {
+        width: 320px;
+        margin-bottom: 25px;
+      }
+    }
+    header {
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 1px solid $color-grey-light;
+      margin: 10px;
+      padding: 15px;
+      margin-top: 0px;
+      padding-left: 0px;
+    }
+    .funds {
+      margin-top: 25px;
+      .funds-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        .list-title {
+          font-size: 25px;
+          font-weight: 600;
+          margin-top: 12px;
+        }
+      }
+      .fund {
+        border-radius: 10px;
+        border: 1px solid $color-grey-light;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        position: relative;
+        .fund-status {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .fund-name {
+          font-size: 20px;
+          font-weight: 600;
+          width: 80%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          min-height: 23px;
+        }
+        .fund-id {
+          margin-top: 10px;
+          font-size: 16px;
+          color: $color-grey-dark;
+        }
+        .footer {
+          margin-top: 50px;
+          .detail {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+}

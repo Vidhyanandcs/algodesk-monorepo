@@ -1,6 +1,7 @@
 import Duration from 'duration';
 import {BLOCK_TIME} from "../constants";
 import {formatNumber} from "accounting";
+import moment from "moment";
 
 export function encodeText(text: string | undefined): Uint8Array | undefined {
     if (text) {
@@ -58,4 +59,14 @@ export function deferred (ms: number) {
         setTimeout(resolve, ms)
     })
     return { promise, cancel }
+}
+
+export function getBlockByDate(date: Date, currentRound: number): number {
+    const currentMoment = moment();
+    const futureMoment = moment(date);
+
+    const secDiff = futureMoment.diff(currentMoment, "seconds");
+    const roundsDiff = Math.abs(Math.round(secDiff / BLOCK_TIME));
+
+    return currentRound + roundsDiff;
 }
