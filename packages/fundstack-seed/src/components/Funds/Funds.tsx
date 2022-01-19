@@ -7,6 +7,7 @@ import noFundsImg from '../../assets/images/no-funds.png';
 import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import CreateFund from "../CreateFund/CreateFund";
 import {Fund, globalStateKeys} from "@fundstack/sdk";
+import FundPage from '../Fund/Fund';
 
 function Funds(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -56,7 +57,8 @@ function Funds(): JSX.Element {
                                                               color={"primary"}
                                                               size={"small"}
                                                               onClick={() => {
-                                                                  // history.push('/portal/fund/' + fund.app_id);
+                                                                  console.log(fund);
+                                                                  history.push('/portal/dashboard/funds/' + fund.id);
                                                               }}
                                                       >View</Button>
                                                   </div>
@@ -91,6 +93,9 @@ function Funds(): JSX.Element {
                   </Route>
                   <Route exact path="/portal/dashboard/funds/create">
                       <CreateFund></CreateFund>
+                  </Route>
+                  <Route path="/portal/dashboard/funds/:id">
+                      <FundPage></FundPage>
                   </Route>
                   <Route path="/portal/dashboard/funds" render={() => <Redirect to="/portal/dashboard/funds/home" />} />
               </Switch>
