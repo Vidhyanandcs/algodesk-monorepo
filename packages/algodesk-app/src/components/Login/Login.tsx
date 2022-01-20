@@ -1,94 +1,74 @@
 import './Login.scss';
-import {
-    Button,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    Radio,
-    RadioGroup,
-    Typography
-} from "@material-ui/core";
-import {showConnectWallet} from '../../redux/actions/connectWallet';
-import {setNetwork as selectNetwork} from '../../redux/actions/network';
+import {showConnectWallet} from "../../redux/actions/connectWallet";
+import React from "react";
+import {Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
 import {Redirect} from "react-router-dom";
+import {RootState} from "../../redux/store";
+import logo from "../../assets/images/logo.png";
 import {getNetworks, setLocalNetwork} from "@algodesk/core";
-import Logo from '../Logo/Logo';
-import connectWhiteImg from '../../assets/images/connect-white.png';
+import {setNetwork as selectNetwork} from "../../redux/actions/network";
 
 
 function Login(): JSX.Element {
     const dispatch = useDispatch();
-    let networks = getNetworks();
-
     const account = useSelector((state: RootState) => state.account);
     const currentNetwork = useSelector((state: RootState) => state.network);
+    const networks = getNetworks();
 
     if (account.loggedIn) {
         return (<Redirect to='/portal'></Redirect>);
     }
 
-  return (
-      <div className="login-wrapper">
-          <div className="login-container">
-              <Grid container>
-                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <Grid container>
-                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
+      return (
+          <div className="login-wrapper">
+              <div className="login-container">
 
-                          </Grid>
-                          <Grid item xs={12} sm={10} md={10} lg={10} xl={10}>
-                              <Logo></Logo>
-                          </Grid>
+                  <Grid container spacing={0}>
+                      <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
+                          <div className="left-container">
+                              <div className="login-cover">
+                                <div className="text">
+                                    Create & Manage your Assets
+                                </div>
+                              </div>
+                          </div>
                       </Grid>
+                      <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+                          <div className="right-container">
+                              <div className="logo">
+                                  <img src={logo} alt="logo"/>
+                              </div>
 
-                      <Grid container spacing={2}>
-                          <Grid item xs={12} sm={2} md={4} lg={4} xl={4}>
+                              <div className="user-actions">
+                                  <FormControl component="fieldset">
+                                      <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
+                                          const network = e.currentTarget.value;
+                                          setLocalNetwork(network);
+                                          dispatch(selectNetwork(network));
+                                      }}>
+                                          {networks.map((network) => {
+                                              return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label}/>
+                                          })}
+                                      </RadioGroup>
+                                  </FormControl>
 
-                          </Grid>
-                          <Grid item xs={12} sm={8} md={4} lg={4} xl={4}>
-                              <div className="login-form">
-                                  <div className="networks">
-                                      <div className="title">Connect wallet</div>
-                                      <FormControl component="fieldset">
-                                          <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
-                                              const network = e.currentTarget.value;
-                                              setLocalNetwork(network);
-                                              dispatch(selectNetwork(network));
-                                          }}>
-                                              {networks.map((network) => {
-                                                  return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label}/>
-                                              })}
-                                          </RadioGroup>
-                                      </FormControl>
-                                  </div>
-                                  <div className="login-button">
-                                      <Button
-                                          variant={"contained"}
-                                          size={"large"}
+                                  <Button variant={"contained"}
                                           color={"primary"}
-                                          startIcon={<img src={connectWhiteImg} alt="connect-wallet" style={{width: 20}}/>}
+                                          size={"large"}
+                                          style={{marginTop: 30}}
                                           onClick={() => {
                                               dispatch(showConnectWallet());
                                           }}
-                                      >Connect Wallet</Button>
-                                  </div>
-                                  <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-
-                                  </Typography>
+                                  >Connect wallet</Button>
                               </div>
-                          </Grid>
-                          <Grid item xs={12} sm={2} md={4} lg={4} xl={4}>
+                          </div>
 
-                          </Grid>
                       </Grid>
-
                   </Grid>
-              </Grid>
+              </div>
           </div>
-      </div>
-  );
+      );
 }
 
 export default Login;
