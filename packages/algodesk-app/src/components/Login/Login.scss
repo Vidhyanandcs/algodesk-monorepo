@@ -1,37 +1,38 @@
-@import "../../assets/colors";
+@import '../../assets/colors';
 
 .login-wrapper {
   .login-container {
     height: 100vh;
-    background: url("../../assets/images/login-back.jpeg");
-    background-size: 100% 100%;
-    .logo-img {
-      margin-top: 25px;
-    }
-    .login-form {
+    .left-container {
+      height: 100vh;
+      background: url("../../assets/images/login-cover.jpeg") no-repeat center;
+      background-size: cover;
       text-align: center;
-      background: $color-light;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-      height: 340px;
-      margin: 100px auto;
-      padding-top: 100px;
-      border-radius: 15px;
-      .networks {
-        .title {
-          font-style: normal;
-          font-weight: 600;
-          font-size: 24px;
-          line-height: 36px;
-          margin-bottom: 50px;
+      .text {
+        padding-top: 150px;
+        font-size: 48px;
+        font-weight: 500;
+        color: $color-light;
+      }
+    }
+    .right-container {
+      height: 100vh;
+      border-left: 1px solid $color-grey-light;
+      .logo {
+        img {
+          padding-top: 25px;
+          width: 140px;
+          padding-left: 40px;
         }
       }
-      .login-button {
-        margin-top: 50px;
-      }
-      .settings-button {
-        position: absolute;
-        top: 5px;
-        right: 10px;
+      .user-actions {
+        text-align: center;
+        margin-top: 275px;
+        .header-text {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 40px;
+        }
       }
     }
   }

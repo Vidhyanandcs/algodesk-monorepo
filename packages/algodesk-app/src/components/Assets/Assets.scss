@@ -6,10 +6,15 @@
 
 .assets-wrapper {
   .assets-container {
-    margin-top: 10px;
+    margin-top: 50px;
+    .assets-header {
+      display: flex;
+      justify-content: space-between;
+    }
     .assets {
       margin-top: 30px;
       .asset {
+        padding: 0px 10px;
         .card-action-custom {
           background: $color-grey-very-light;
         }
@@ -53,13 +58,12 @@
             .key {
               font-style: normal;
               font-weight: normal;
-              font-size: 12px;
+              font-size: 14px;
               line-height: 18px;
               margin-left: 5px;
             }
             .value {
               margin-top: 5px;
-              font-size: 15px;
               overflow: hidden;
               text-overflow: ellipsis;
               font-style: normal;
@@ -74,9 +78,10 @@
                 }
               }
               &.back-highlight {
-                background: #f5f5f5;
+                background: rgb(218,240,227, 0.6);
                 padding: 12px;
                 border-radius: 10px;
+                font-size: 14px;
               }
               &.clickable {
                 &:hover {

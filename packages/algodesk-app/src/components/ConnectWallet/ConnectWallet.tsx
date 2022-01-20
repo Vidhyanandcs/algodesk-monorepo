@@ -8,12 +8,11 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {connect, hideConnectWallet} from "../../redux/actions/connectWallet";
-import {ChevronRightSharp, ArrowBack, CancelOutlined} from "@material-ui/icons";
+import {ChevronRightSharp, ArrowBack, CancelOutlined, ErrorOutlineOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import {getSupportedSigners, SupportedSigner} from "@algodesk/core";
 import {useEffect, useState} from "react";
 import {loadAccount} from "../../redux/actions/account";
-import connectionIssueImg from '../../assets/images/error.gif';
 import connectWhiteImg from '../../assets/images/connect-white.png';
 import loaderGif from '../../assets/images/loading.gif';
 
@@ -96,15 +95,12 @@ function ConnectWallet(): JSX.Element {
                         {view === 'home' ? <div className="home-wrapper">
                             <div className="home-container">
                                 <div className="header">
-                                    <div className={classes.primaryBackground + ' logo'}>
+                                    <div className={'logo'}>
                                         <img src={connectWhiteImg} alt="connect-wallet"/>
                                     </div>
 
                                     <Typography variant="h5" display="block" style={{fontWeight: 'bold'}}>
                                         Connect wallet
-                                    </Typography>
-                                    <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        to start using Algodesk
                                     </Typography>
                                 </div>
                                 <div className="body">
@@ -124,7 +120,7 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="footer">
                                     <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        By connecting, I accept Algodesk Terms of Service
+                                        By connecting, I accept Fundstack Terms of Service
                                     </Typography>
                                 </div>
                             </div>
@@ -146,7 +142,9 @@ function ConnectWallet(): JSX.Element {
                                         <div>connecting ...</div>
                                     </div> : ''}
                                     {!connectWallet.connecting && connectWallet.errMessage ? <div className="error-message">
-                                        <img src={connectionIssueImg} alt="Connection issue"/>
+                                        {/*<img src={connectionIssueImg} alt="Connection issue"/>*/}
+                                        <ErrorOutlineOutlined></ErrorOutlineOutlined>
+
                                         <div>
                                             {connectWallet.errMessage}
                                         </div>
@@ -155,6 +153,7 @@ function ConnectWallet(): JSX.Element {
                                             variant={"contained"}
                                             size={"large"}
                                             style={{marginTop: 70}}
+                                            className="custom-button"
                                             onClick={() => {
                                                 dispatch(connect(selectedSigner));
                                             }}
@@ -170,6 +169,8 @@ function ConnectWallet(): JSX.Element {
                                             const address = account.address;
                                             await dispatch(loadAccount(address));
                                             dispatch(hideConnectWallet());
+                                            localStorage.setItem("signer", selectedSigner.name);
+                                            localStorage.setItem("address", address);
                                             clearState();
                                         }}>
                                             {account.address}
