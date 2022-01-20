@@ -41,6 +41,7 @@ function Login(): JSX.Element {
                               </div>
 
                               <div className="user-actions">
+                                  <div className="header-text">Select network</div>
                                   <FormControl component="fieldset">
                                       <RadioGroup row={true} value={currentNetwork.name} onChange={(e) => {
                                           const network = e.currentTarget.value;

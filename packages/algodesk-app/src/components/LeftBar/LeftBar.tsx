@@ -107,7 +107,7 @@ function LeftBar(): JSX.Element {
               </div>
 
               <div className="menu-list">
-                  <Link href="https://developer.algorand.org/docs/get-details/asa/" color={"textPrimary"} target={"_blank"}>What is Asset ?</Link>
+                  <Link href="https://developer.algorand.org/docs/get-details/asa/" color={"textPrimary"} target={"_blank"}>What is an Asset ?</Link>
               </div>
 
               <div className="footer">
