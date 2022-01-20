@@ -1,13 +1,14 @@
 import './CreateFund.scss';
 import {
+    Breadcrumbs,
     Button, FormControl,
     Grid,
     IconButton,
-    InputAdornment, InputLabel,
+    InputAdornment, InputLabel, Link,
     makeStyles,
     MenuItem,
     Select,
-    TextField,
+    TextField, Typography,
 } from "@material-ui/core";
 import 'date-fns';
 import {useDispatch, useSelector} from "react-redux";
@@ -85,7 +86,8 @@ function CreateFund(): JSX.Element {
 
     return (<div className={"create-fund-wrapper"}>
         <div className={"create-fund-container"}>
-            
+
+
             <div className="form-wrapper">
                 <div className="form-container">
 
@@ -94,6 +96,13 @@ function CreateFund(): JSX.Element {
 
                         </Grid>
                         <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
+                            <Breadcrumbs className="crumb">
+                                <Link underline="hover" color="inherit" href="#/portal/dashboard/funds/home">
+                                    Home
+                                </Link>
+                                <Typography color="textPrimary">Create fund</Typography>
+                            </Breadcrumbs>
+
                             <div className={classes.primaryText + " section-title"}>
                                 <span>Company details</span>
                             </div>
@@ -405,71 +414,76 @@ function CreateFund(): JSX.Element {
                         <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
 
 
-                            <Button
-                                color={"primary"}
-                                variant={"contained"}
-                                size={"large"}
-                                className={"custom-button"}
-                                style={{marginTop: 20, float: 'right'}}
-                                onClick={async () => {
-                                    let currentRound: number;
 
-                                    try {
-                                        dispatch(showLoader("Checking network status ..."));
-                                        currentRound = await fundstackSdk.fundstack.algodesk.transactionClient.getCurrentRound();
-                                        dispatch(hideLoader());
-                                    }
-                                    catch (e: any) {
-                                        dispatch(handleException(e));
-                                        dispatch(hideLoader());
-                                        return;
-                                    }
-
-                                    const deployParams: F_DeployFund = {
-                                        assetId,
-                                        from: account.information.address,
-                                        maxAllocation,
-                                        minAllocation,
-                                        name,
-                                        price,
-                                        regStartsAt: getBlockByDate(regStartsAt, currentRound),
-                                        regEndsAt: getBlockByDate(regEndsAt, currentRound),
-                                        saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
-                                        saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
-                                        totalAllocation
-                                    };
-                                    const company: F_CompanyDetails = {
-                                        github,
-                                        tokenomics,
-                                        twitter,
-                                        website,
-                                        whitePaper
-                                    };
-
-                                    const response = await dispatch(deploy({
-                                        deployParams,
-                                        company
-                                    }));
-
-                                    console.log(response);
-
-                                    // @ts-ignore
-                                    if (response.payload) {
+                            <div style={{marginTop: 20, textAlign: "center"}}>
+                                <Button
+                                    variant={"outlined"}
+                                    size={"large"}
+                                    startIcon={<ArrowBack></ArrowBack>}
+                                    className={"custom-button"}
+                                    style={{marginRight: 15}}
+                                    onClick={() => {
                                         history.push('/portal/dashboard/funds/home');
-                                    }
-                                }}
-                            >Deploy</Button>
+                                    }}
+                                >Back</Button>
 
-                            <Button
-                                variant={"outlined"}
-                                size={"large"}
-                                startIcon={<ArrowBack></ArrowBack>}
-                                className={"custom-button"}
-                                style={{marginTop: 20, float: 'right', marginRight: 20}}
-                                onClick={() => {
-                                    history.push('/portal/dashboard/funds/home');
-                                }}
-                            >Back</Button>
+                                <Button
+                                    color={"primary"}
+                                    variant={"contained"}
+                                    size={"large"}
+                                    className={"custom-button"}
+                                    onClick={async () => {
+                                        let currentRound: number;
+
+                                        try {
+                                            dispatch(showLoader("Checking network status ..."));
+                                            currentRound = await fundstackSdk.fundstack.algodesk.transactionClient.getCurrentRound();
+                                            dispatch(hideLoader());
+                                        }
+                                        catch (e: any) {
+                                            dispatch(handleException(e));
+                                            dispatch(hideLoader());
+                                            return;
+                                        }
+
+                                        const deployParams: F_DeployFund = {
+                                            assetId,
+                                            from: account.information.address,
+                                            maxAllocation,
+                                            minAllocation,
+                                            name,
+                                            price,
+                                            regStartsAt: getBlockByDate(regStartsAt, currentRound),
+                                            regEndsAt: getBlockByDate(regEndsAt, currentRound),
+                                            saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
+                                            saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
+                                            totalAllocation
+                                        };
+                                        const company: F_CompanyDetails = {
+                                            github,
+                                            tokenomics,
+                                            twitter,
+                                            website,
+                                            whitePaper
+                                        };
+
+                                        const response = await dispatch(deploy({
+                                            deployParams,
+                                            company
+                                        }));
+
+                                        console.log(response);
+
+                                        // @ts-ignore
+                                        if (response.payload) {
+                                            history.push('/portal/dashboard/funds/home');
+                                        }
+                                    }}
+                                >Deploy fund</Button>
+
+
+                            </div>
+
                         </Grid>
                         <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
 

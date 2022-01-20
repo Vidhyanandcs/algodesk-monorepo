@@ -7,6 +7,8 @@ import noFundsImg from '../../assets/images/no-funds.png';
 import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import CreateFund from "../CreateFund/CreateFund";
 import {Fund, globalStateKeys} from "@fundstack/sdk";
+import FundPage from '../Fund/Fund';
+import fundstackSdk from "../../utils/fundstackSdk";
 
 function Funds(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -18,7 +20,7 @@ function Funds(): JSX.Element {
           <div className="funds-container">
 
               <header>
-                  My funds
+                  My Dashboard
               </header>
 
               <Switch>
@@ -34,9 +36,20 @@ function Funds(): JSX.Element {
                                       onClick={() => {
                                           history.push('/portal/dashboard/funds/create');
                                       }}
-                              >Deploy</Button>
+                              >Deploy fund</Button>
                           </div>
                       </div> : ''}
+
+                      <div>
+                          <Button variant={"contained"}
+                                  color={"primary"}
+                                  size={"large"}
+                                  onClick={() => {
+                                      history.push('/portal/dashboard/funds/create');
+                                  }}
+                          >Deploy fund</Button>
+                      </div>
+
                       <Grid container spacing={2}>
                           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                               <div className="funds">
@@ -48,7 +61,9 @@ function Funds(): JSX.Element {
                                                   <div className="fund-name">
                                                       {fundInstance.globalState[globalStateKeys.name]}
                                                   </div>
-                                                  <div className="fund-id">
+                                                  <div className="fund-id" onClick={() => {
+                                                      fundstackSdk.explorer.openApplication(fund.id);
+                                                  }}>
                                                       ID: {fund.id}
                                                   </div>
                                                   <div className="fund-status">
@@ -56,7 +71,8 @@ function Funds(): JSX.Element {
                                                               color={"primary"}
                                                               size={"small"}
                                                               onClick={() => {
-                                                                  // history.push('/portal/fund/' + fund.app_id);
+                                                                  console.log(fund);
+                                                                  history.push('/portal/dashboard/funds/' + fund.id);
                                                               }}
                                                       >View</Button>
                                                   </div>
@@ -72,9 +88,11 @@ function Funds(): JSX.Element {
                                                       </div>
                                                       <div className="detail">
                                                           <div>
-                                                              Asset ID
+                                                              Asset
                                                           </div>
-                                                          <div>
+                                                          <div className="clickable" onClick={() => {
+                                                              fundstackSdk.explorer.openAsset(fundInstance.getAssetId());
+                                                          }}>
                                                               {fundInstance.getAssetId()}
                                                           </div>
                                                       </div>
@@ -91,6 +109,9 @@ function Funds(): JSX.Element {
                   </Route>
                   <Route exact path="/portal/dashboard/funds/create">
                       <CreateFund></CreateFund>
+                  </Route>
+                  <Route path="/portal/dashboard/funds/:id">
+                      <FundPage></FundPage>
                   </Route>
                   <Route path="/portal/dashboard/funds" render={() => <Redirect to="/portal/dashboard/funds/home" />} />
               </Switch>
