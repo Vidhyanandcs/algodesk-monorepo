@@ -25,6 +25,7 @@ import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
 import {showSnack} from "../../redux/actions/snackbar";
 import QRCode from "qrcode.react";
+import LaunchIcon from '@material-ui/icons/Launch';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -102,9 +103,12 @@ function LeftBar(): JSX.Element {
               </div>
 
               <div className="menu-list">
-                  <Link href="#/portal/dashboard/funds">My Funds</Link>
-                  <Link href="#/portal/dashboard/settings" color={"textPrimary"}>Settings</Link>
-                  <Link href="https://docs.fundstack.io" color={"textPrimary"} target={"_blank"}>Documentation</Link>
+                  {/*<Link href="#/portal/dashboard/funds">My Funds</Link>*/}
+                  {/*<Link href="#/portal/dashboard/settings" color={"textPrimary"}>Settings</Link>*/}
+                  <Link href="https://docs.fundstack.io" color={"textPrimary"} target={"_blank"}>
+                      Documentation
+                    <LaunchIcon fontSize={"small"}></LaunchIcon>
+                  </Link>
               </div>
 
               <div className="footer">

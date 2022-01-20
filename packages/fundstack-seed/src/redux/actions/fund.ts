@@ -82,6 +82,36 @@ export const deploy = createAsyncThunk(
     }
 );
 
+export const publish = createAsyncThunk(
+    'fund/publish',
+    async (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            const {address} = account.information;
+
+
+            dispatch(showLoader("Publishing ..."));
+            const {txId} = await fundstackSdk.fundstack.publish(fundId);
+            dispatch(hideLoader());
+
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+
+            dispatch(showSuccessModal("Published successfully"));
+            dispatch(loadAccount(address));
+
+            return txId;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
 
 export const getAccountActivity = createAsyncThunk(
     'fund/getAccountActivity',
@@ -125,6 +155,9 @@ export const fundSlice = createSlice({
             state.fund = action.payload;
         });
         builder.addCase(deploy.fulfilled, (state, action: PayloadAction<any>) => {
+
+        });
+        builder.addCase(publish.fulfilled, (state, action: PayloadAction<any>) => {
 
         });
         builder.addCase(getAccountActivity.fulfilled, (state, action: PayloadAction<any>) => {

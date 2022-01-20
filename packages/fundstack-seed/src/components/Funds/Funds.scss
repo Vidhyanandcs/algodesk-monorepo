@@ -18,9 +18,10 @@
       padding: 15px;
       margin-top: 0px;
       padding-left: 0px;
+      margin-bottom: 20px;
     }
     .funds {
-      margin-top: 25px;
+      margin-top: 20px;
       .funds-header {
         display: flex;
         justify-content: space-between;
@@ -35,7 +36,7 @@
         border-radius: 10px;
         border: 1px solid $color-grey-light;
         padding: 20px;
-        background: rgba(255, 255, 255, 0.8);
+        background: #F6FBF8;
         position: relative;
         .fund-status {
           position: absolute;

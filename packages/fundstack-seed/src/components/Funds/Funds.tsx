@@ -19,7 +19,7 @@ function Funds(): JSX.Element {
           <div className="funds-container">
 
               <header>
-                  My funds
+                  My Dashboard
               </header>
 
               <Switch>
@@ -35,9 +35,20 @@ function Funds(): JSX.Element {
                                       onClick={() => {
                                           history.push('/portal/dashboard/funds/create');
                                       }}
-                              >Deploy</Button>
+                              >Deploy fund</Button>
                           </div>
                       </div> : ''}
+
+                      <div>
+                          <Button variant={"contained"}
+                                  color={"primary"}
+                                  size={"large"}
+                                  onClick={() => {
+                                      history.push('/portal/dashboard/funds/create');
+                                  }}
+                          >Deploy fund</Button>
+                      </div>
+
                       <Grid container spacing={2}>
                           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                               <div className="funds">

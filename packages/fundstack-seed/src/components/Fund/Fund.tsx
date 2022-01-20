@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {loadFund} from "../../redux/actions/fund";
+import {loadFund, publish} from "../../redux/actions/fund";
 import {Alert} from "@material-ui/lab";
 import {Button, Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
@@ -29,6 +29,7 @@ function Fund(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
     const classes = useStyles();
+
     console.log(fund);
     console.log(account);
 
@@ -69,15 +70,17 @@ function Fund(): JSX.Element {
                                       </div>
                                   </section>
                                   <section>
-                                      <Button
+                                      {!fund.globalState[globalStateKeys.published] ? <Button
                                           color={"primary"}
                                           variant={"contained"}
                                           size={"large"}
                                           className="custom-button"
                                           onClick={() => {
-
+                                                console.log(fund);
+                                                dispatch(publish(Number(fund.id)));
                                           }}
-                                      >Publish</Button>
+                                      >Publish</Button> : ''}
+
                                   </section>
 
                               </div>

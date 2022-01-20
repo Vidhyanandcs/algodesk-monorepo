@@ -29,13 +29,19 @@
       }
     }
     .menu-list {
-      margin-top: 40px;
-      text-align: center;
+      position: absolute;
+      bottom: 60px;
+      width: 100%;
       a {
         display: block;
-        margin: 20px;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
+        text-align: center;
+        svg {
+          margin-left: 5px;
+          vertical-align: bottom;
+          font-size: 15px;
+        }
       }
     }
     .account {
