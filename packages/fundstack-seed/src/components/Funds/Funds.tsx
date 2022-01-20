@@ -8,6 +8,7 @@ import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import CreateFund from "../CreateFund/CreateFund";
 import {Fund, globalStateKeys} from "@fundstack/sdk";
 import FundPage from '../Fund/Fund';
+import fundstackSdk from "../../utils/fundstackSdk";
 
 function Funds(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -60,7 +61,9 @@ function Funds(): JSX.Element {
                                                   <div className="fund-name">
                                                       {fundInstance.globalState[globalStateKeys.name]}
                                                   </div>
-                                                  <div className="fund-id">
+                                                  <div className="fund-id" onClick={() => {
+                                                      fundstackSdk.explorer.openApplication(fund.id);
+                                                  }}>
                                                       ID: {fund.id}
                                                   </div>
                                                   <div className="fund-status">
@@ -85,9 +88,11 @@ function Funds(): JSX.Element {
                                                       </div>
                                                       <div className="detail">
                                                           <div>
-                                                              Asset ID
+                                                              Asset
                                                           </div>
-                                                          <div>
+                                                          <div className="clickable" onClick={() => {
+                                                              fundstackSdk.explorer.openAsset(fundInstance.getAssetId());
+                                                          }}>
                                                               {fundInstance.getAssetId()}
                                                           </div>
                                                       </div>

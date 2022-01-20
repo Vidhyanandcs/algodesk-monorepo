@@ -4,11 +4,16 @@
   .create-fund-container {
     margin-top: -25px;
     margin-bottom: 50px;
+    nav.crumb {
+      margin-top: 12px;
+      border-bottom: 1px solid $color-grey-light;
+      padding-bottom: 10px;
+    }
     .form-container {
       margin-top: 25px;
       .section-title {
-        margin-bottom: 30px;
-        margin-top: 30px;
+        margin-bottom: 25px;
+        margin-top: 25px;
         font-size: 18px;
         position: relative;
         span {
