@@ -1,10 +1,11 @@
 import './Portal.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import Header from "../Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
 import TransactionDetails from "../TransactionDetails/TransactionDetails";
+import {Grid} from "@material-ui/core";
+import LeftBar from "../LeftBar/LeftBar";
 
 function Portal(): JSX.Element {
 
@@ -16,13 +17,29 @@ function Portal(): JSX.Element {
   return (
       <div className="portal-wrapper">
           <div className="portal-container">
-            <Header></Header>
-              <Switch>
-                  <Route path="/portal/dashboard">
-                      <Dashboard></Dashboard>
-                  </Route>
-                  <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />
-              </Switch>
+
+              <Grid container spacing={0}>
+                  <Grid item xs={12} sm={12} md={3} lg={2} xl={2}>
+                      <LeftBar></LeftBar>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={9} lg={10} xl={10}>
+                      <Switch>
+                          <Route path="/portal/dashboard">
+                              <Dashboard></Dashboard>
+                          </Route>
+                          <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />
+                      </Switch>
+                  </Grid>
+              </Grid>
+
+
+            {/*<Header></Header>*/}
+            {/*  <Switch>*/}
+            {/*      <Route path="/portal/dashboard">*/}
+            {/*          <Dashboard></Dashboard>*/}
+            {/*      </Route>*/}
+            {/*      <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />*/}
+            {/*  </Switch>*/}
           </div>
           <TransactionDetails></TransactionDetails>
       </div>

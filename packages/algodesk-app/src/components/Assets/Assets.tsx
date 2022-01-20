@@ -138,44 +138,45 @@ function Assets(): JSX.Element {
   return (
       <div className="assets-wrapper">
           <div className="assets-container">
-              <div>
-                  <Button
-                      color="primary"
-                      startIcon={<ControlPoint></ControlPoint>}
-                      variant={"contained"}
-                      className="add-asset"
-                      onClick={() => {
-                          dispatch(setAction('create'));
-                      }}
-                      size={"large"}>
-                      Create asset
-                  </Button>
+              <div className="assets-header">
+                  <div>
+                      <TextField
+                          placeholder="Name"
+                          style={{marginRight: 20}}
+                          InputProps={{
+                              startAdornment: (
+                                  <InputAdornment position="start" style={{color: '#828282'}}>
+                                      <Search />
+                                  </InputAdornment>
+                              ),
+                          }}
+                          onChange={(ev) => {
+                              debounce(() => {
+                                  setState(prevState => ({...prevState, searchText: ev.target.value}));
+                              }, 500)();
+                          }}
+                          label="Search asset" variant="outlined"/>
 
+                      <FormControlLabel style={{marginTop: 8}} control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
+                          setState((prevState) => ({ ...prevState, hideZeroBal: value }));
+                      }}/>} label="Hide 0 balances"/>
+                  </div>
+                  <div>
+                      <Button
+                          color="primary"
+                          startIcon={<ControlPoint></ControlPoint>}
+                          variant={"contained"}
+                          className="add-asset"
+                          onClick={() => {
+                              dispatch(setAction('create'));
+                          }}
+                          size={"large"}>
+                          Create asset
+                      </Button>
 
-
-
-                  <TextField
-                      placeholder="Name"
-                      style={{float: 'right', marginTop: -7, marginLeft: 20}}
-                      InputProps={{
-                          startAdornment: (
-                              <InputAdornment position="start" style={{color: '#828282'}}>
-                                  <Search />
-                              </InputAdornment>
-                          ),
-                      }}
-                      onChange={(ev) => {
-                          debounce(() => {
-                              setState(prevState => ({...prevState, searchText: ev.target.value}));
-                          }, 500)();
-                      }}
-                      label="Search asset" variant="outlined"/>
-
-                  <FormControlLabel control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
-                      setState((prevState) => ({ ...prevState, hideZeroBal: value }));
-                  }}/>} label="Hide 0 balances" style={{float: 'right'}}/>
-
+                  </div>
               </div>
+
 
 
               {createdAssets.length === 0 ?
