@@ -9,5 +9,7 @@
     "esModuleInterop": true,
     "sourceMap": true
   },
-  "include": ["index.ts", "src"]
+  "include": [
+    "app/*"
+  ]
 }

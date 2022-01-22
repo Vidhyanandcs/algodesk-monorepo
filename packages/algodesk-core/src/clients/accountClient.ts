@@ -92,4 +92,8 @@ export class AccountClient{
     getAssetBalWithTicker(asset: A_Asset, information: A_AccountInformation): string {
         return formatNumWithDecimals(this.getAssetBal(asset, information), asset.params.decimals) + ' ' + asset.params['unit-name'];
     }
+
+    getBalance(accountInfo: A_AccountInformation): number {
+        return accountInfo.amount;
+    }
 }

@@ -1,0 +1,44 @@
+@import '../../assets/colors';
+
+.burn-assets-wrapper {
+  .burn-assets-container {
+    margin-top: -16px;
+    .loading {
+      text-align: center;
+      margin-top: 100px;
+      margin-bottom: 100px;
+      .text {
+        font-size: 18px;
+        margin-top: 25px;
+        font-family: PoppinsLight !important;
+      }
+    }
+    .burner-vault-setup {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      .text {
+        line-height: 1.2;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+    }
+    .alert-message {
+      border-radius: 10px;
+    }
+    .asset-details {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+      .name {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .bal {
+        color: $color-grey-dark;
+        font-size: 16px;
+      }
+    }
+  }
+}

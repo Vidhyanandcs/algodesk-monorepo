@@ -1,0 +1,46 @@
+{
+  "name": "@algodesk/contracts",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "AD <65587162+algodesk-io@users.noreply.github.com>",
+  "homepage": "https://github.com/algodesk-io/algodesk-monorepo#readme",
+  "license": "ISC",
+  "main": "lib/algodesk-contracts.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
+  },
+  "scripts": {
+    "watch-contracts": "nodemon --watch src -e py --exec \"npm run transpile-contracts\"",
+    "build": "rimraf dist/ && tsc -p ./tsconfig-cjs.json",
+    "transpile-contracts": "python3 src/contracts/main.py"
+  },
+  "bugs": {
+    "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"
+  },
+  "dependencies": {
+    "@algodesk/core": "^1.1.8",
+    "@types/node": "^12.0.0",
+    "algosdk": "1.13.0",
+    "jest": "^27.0.6",
+    "node-window-polyfill": "^1.0.2",
+    "qrcode.react": "^1.0.1",
+    "read-file": "^0.2.0",
+    "write": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.24",
+    "cross-env": "^7.0.3",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "nodemon": "^2.0.13",
+    "rimraf": "^3.0.2",
+    "source-map-loader": "^3.0.0",
+    "ts-jest": "^27.0.4",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.3.5",
+    "webpack": "^5.48.0",
+    "webpack-cli": "^4.7.2"
+  }
+}
