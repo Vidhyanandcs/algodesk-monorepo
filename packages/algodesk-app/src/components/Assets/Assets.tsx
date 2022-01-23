@@ -20,7 +20,6 @@ import {
     NotInterested,
     SwapHorizontalCircleOutlined,
     MoreVert,
-    FireplaceOutlined,
     ControlPoint, Search
 } from '@material-ui/icons';
 import {A_Asset, debounce, ellipseAddress, NETWORKS} from "@algodesk/core";
@@ -358,13 +357,13 @@ function Assets(): JSX.Element {
                   <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
-                  dispatch(setAction('burn'));
-                  closeMenu();
-              }}>
-                  <FireplaceOutlined className={"asset-action-icon"} fontSize={"small"}></FireplaceOutlined>
-                  Burn supply
-              </MenuItem>
+              {/*<MenuItem className={classes.primaryColorOnHover} onClick={() => {*/}
+              {/*    dispatch(setAction('burn'));*/}
+              {/*    closeMenu();*/}
+              {/*}}>*/}
+              {/*    <FireplaceOutlined className={"asset-action-icon"} fontSize={"small"}></FireplaceOutlined>*/}
+              {/*    Burn supply*/}
+              {/*</MenuItem>*/}
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
