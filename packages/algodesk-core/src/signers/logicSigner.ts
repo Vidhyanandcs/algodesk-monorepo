@@ -1,6 +1,7 @@
 import {Signer} from "../types";
 import * as sdk from "algosdk";
 import {NETWORKS} from "../constants";
+import {LogicSigAccount} from "algosdk";
 
 export class LogicSigner implements Signer{
 
@@ -11,7 +12,7 @@ export class LogicSigner implements Signer{
     }
 
     async signTxnByLogic(unsignedTxn, logic: string): Promise<Uint8Array> {
-        const logicSig = sdk.makeLogicSig(new Uint8Array(Buffer.from(logic, "base64")));
+        const logicSig = new LogicSigAccount(new Uint8Array(Buffer.from(logic, "base64")));
         return sdk.signLogicSigTransactionObject(unsignedTxn, logicSig).blob;
     }
 

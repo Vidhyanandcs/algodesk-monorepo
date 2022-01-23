@@ -35,6 +35,7 @@ import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
+import BurnSupply from "../BurnSupply/BurnSupply";
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -356,6 +357,13 @@ function Assets(): JSX.Element {
                   <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
+              {/*<MenuItem className={classes.primaryColorOnHover} onClick={() => {*/}
+              {/*    dispatch(setAction('burn'));*/}
+              {/*    closeMenu();*/}
+              {/*}}>*/}
+              {/*    <FireplaceOutlined className={"asset-action-icon"} fontSize={"small"}></FireplaceOutlined>*/}
+              {/*    Burn supply*/}
+              {/*</MenuItem>*/}
           </Menu>
           <SendAssets></SendAssets>
           <CreateAsset></CreateAsset>
@@ -363,6 +371,7 @@ function Assets(): JSX.Element {
           <DeleteAsset></DeleteAsset>
           <FreezeAccount></FreezeAccount>
           <RevokeAssets></RevokeAssets>
+          <BurnSupply></BurnSupply>
       </div>
   );
 }

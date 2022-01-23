@@ -1,0 +1,27 @@
+#pragma version 5
+global GroupSize
+int 1
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+txn TypeEnum
+int axfer
+==
+assert
+txn Sender
+txn AssetReceiver
+==
+assert
+txn XferAsset
+int 1111111
+==
+assert
+txn AssetAmount
+int 0
+==
+assert
+int 1
+return

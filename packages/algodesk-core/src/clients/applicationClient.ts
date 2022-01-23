@@ -10,7 +10,7 @@ import {
     A_OptInApplicationParams,
     A_DeleteApplicationParams,
     A_SearchTransactions,
-    A_UpdateApplicationParams, A_AccountInformation, A_Application
+    A_UpdateApplicationParams, A_AccountInformation, A_Application, A_CompileProgram
 } from "../types";
 import {processApplicationArgs} from "../utils/application";
 import {AccountClient} from "./accountClient";
@@ -112,9 +112,10 @@ export class ApplicationClient{
         return await this.transactionClient.sendTxn(unsignedTxn);
     }
 
-    async compileProgram(programSource: string): Promise<any> {
+    async compileProgram(programSource: string): Promise<A_CompileProgram> {
         const programBytes = encodeText(programSource);
-        return await this.client.compile(programBytes).do();
+        const response = await this.client.compile(programBytes).do();
+        return response as A_CompileProgram;
     }
 
     async getAccountTransactions(appId: number, address: string): Promise<A_SearchTransactions> {

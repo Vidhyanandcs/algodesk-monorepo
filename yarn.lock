@@ -14457,6 +14457,11 @@ repeat-string@^1.6.1:
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
 
+replace-all@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/replace-all/-/replace-all-1.0.0.tgz#b091ff38c3472c270bf19d74eac2cdaa97d289b8"
+  integrity sha1-sJH/OMNHLCcL8Z106sLNqpfSibg=
+
 replaceall@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/replaceall/-/replaceall-0.1.6.tgz#81d81ac7aeb72d7f5c4942adf2697a3220688d8e"

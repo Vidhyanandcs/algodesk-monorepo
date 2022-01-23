@@ -1,5 +1,4 @@
 import {OnApplicationComplete, Transaction} from "algosdk";
-import exp from "constants";
 
 export interface SignerAccount {
     address: string,
@@ -273,3 +272,14 @@ export interface A_SearchTransaction{
 }
 
 export type A_SearchTransactionInner = Omit<A_SearchTransaction, "id,note,genesis-hash,genesis-id,inner-txns">
+
+export type A_CompileProgram = {
+    hash: string,
+    result: string
+}
+
+export type A_BurnerVault = {
+    accountInfo: A_AccountInformation,
+    active: boolean,
+    compiled: A_CompileProgram
+}

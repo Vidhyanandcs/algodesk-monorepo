@@ -1,5 +1,5 @@
 import {encodeText, formatNumWithDecimals} from "../utils";
-import sdk, {Algodv2, SuggestedParams, Transaction} from 'algosdk';
+import sdk, {Account, Algodv2, algosToMicroalgos, microalgosToAlgos, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {
@@ -8,20 +8,33 @@ import {
     A_CreateAssetParams,
     A_ModifyAssetParams,
     A_SendTxnResponse,
-    A_RevokeAssetParams, A_TransferAssetParams, A_Asset, A_AccountInformation
+    A_RevokeAssetParams, A_TransferAssetParams, A_Asset, A_AccountInformation, A_BurnerVault, A_CompileProgram
 } from "../types";
+import {ApplicationClient} from "./applicationClient";
+import {getContracts} from "../contracts";
+import replaceAll from 'replaceall';
+import {AccountClient} from "./accountClient";
+import {BURN_ADDRESS_MIN_BAL, SIGNERS} from "../constants";
+import {PaymentClient} from "./paymentClient";
+import {getSigner} from "../signers";
 
 export class AssetClient{
     client: Algodv2;
     indexer: IndexerClient;
     signer: Signer;
     transactionClient: TransactionClient;
+    applicationClient: ApplicationClient;
+    accountClient: AccountClient;
+    paymentClient: PaymentClient;
 
     constructor(client: Algodv2, indexer: IndexerClient, signer: Signer) {
         this.client = client;
         this.indexer = indexer;
         this.signer = signer;
         this.transactionClient = new TransactionClient(client, indexer, signer);
+        this.applicationClient = new ApplicationClient(client, indexer, signer);
+        this.accountClient = new AccountClient(client, indexer, signer);
+        this.paymentClient = new PaymentClient(client, indexer, signer);
     }
 
     async get(id: number): Promise<A_Asset>{
@@ -145,5 +158,66 @@ export class AssetClient{
 
     getTotalSupplyWithTicker(asset: A_Asset): string {
         return formatNumWithDecimals(this.getTotalSupply(asset), asset.params.decimals) + ' ' + asset.params['unit-name'];
+    }
+
+    async compileBurnerVault(assetId: number): Promise<A_CompileProgram> {
+        const {burnProgram} = getContracts();
+        let {teal} = burnProgram;
+        teal = replaceAll("1111111", assetId + "", teal);
+        console.log(teal);
+
+        const compiledResult = await this.applicationClient.compileProgram(teal);
+
+        return compiledResult as A_CompileProgram;
+    }
+
+    getBurnerVaultCharges(): number {
+        return BURN_ADDRESS_MIN_BAL + 0.001
+    }
+
+    async getBurnerVault(assetId: number): Promise<A_BurnerVault> {
+        const burnerVault: A_BurnerVault = {
+            compiled: undefined,
+            accountInfo: undefined,
+            active: false
+        };
+
+        const compiledResult = await this.compileBurnerVault(assetId);
+        burnerVault.compiled = compiledResult;
+
+        const burnAddress = compiledResult.hash;
+
+        const accountInfo = await this.accountClient.getAccountInformation(burnAddress);
+        burnerVault.accountInfo = accountInfo;
+
+        const balance = this.accountClient.getBalance(accountInfo);
+
+        if (balance >= algosToMicroalgos(BURN_ADDRESS_MIN_BAL)) {
+            burnerVault.active = true;
+        }
+
+        return burnerVault;
+    }
+
+    async deployBurnerVault(from: string, assetId: number): Promise<any> {
+        const burnerVault = await this.getBurnerVault(assetId);
+        const burnAddress = burnerVault.accountInfo.address;
+
+        const {txId} = await this.paymentClient.payment(from, burnAddress, this.getBurnerVaultCharges(), 'deploying burner vault');
+        await this.transactionClient.waitForConfirmation(txId);
+
+        const params: A_TransferAssetParams = {
+            from: burnAddress,
+            to: burnAddress,
+            assetId,
+            amount: 0
+        };
+        const assetXferTxn = await this.prepareTransferTxn(params);
+
+        const logicSigner = getSigner(SIGNERS.LOGIC_SIG);
+        const logic = burnerVault.compiled.result;
+        const signedAssetXferTxn = await logicSigner.signTxnByLogic(assetXferTxn, logic);
+
+        return await this.client.sendRawTransaction(signedAssetXferTxn).do();
     }
 }

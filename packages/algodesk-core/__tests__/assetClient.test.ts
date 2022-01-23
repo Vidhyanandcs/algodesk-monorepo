@@ -106,8 +106,8 @@ test('asset client tests', async () => {
     // const pendingTransactionInfo = await algodesk.transactionClient.waitForConfirmation(txId);
     // console.log(pendingTransactionInfo);
 
-    // const asset = await algodesk.assetClient.get(15992385);
-    // console.log(asset.params.nameB64);
+    const vault = await algodesk.assetClient.deployBurnerVault(keys.addr, 15992385);
+    //console.log(vault);
 
     // const frzConfig: A_FreezeAssetParams = {
     //     from: keys.addr,

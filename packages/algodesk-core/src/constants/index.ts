@@ -1,3 +1,5 @@
+import {algosToMicroalgos} from "algosdk";
+
 export const BLOCK_TIME: number = 4.5;
 
 export enum NETWORKS {
@@ -23,3 +25,5 @@ export enum ALGO_SIGNER_NET {
 export enum LOCAL_STORAGE {
     NETWORK = 'network'
 }
+
+export const BURN_ADDRESS_MIN_BAL: number = 0.2;

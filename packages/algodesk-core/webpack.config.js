@@ -30,6 +30,10 @@ module.exports = {
                 },
             },
             { test: /\.js$/, loader: 'source-map-loader' },
+            {
+                test: /\.teal$/i,
+                use: 'raw-loader',
+            },
         ]
     },
 };
