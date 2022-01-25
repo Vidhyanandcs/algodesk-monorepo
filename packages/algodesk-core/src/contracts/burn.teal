@@ -1,10 +1,30 @@
 #pragma version 5
 global GroupSize
-int 1
+int 2
 ==
 assert
 txn GroupIndex
-int 0
+int 1
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+txn Sender
+==
+assert
+gtxn 0 Amount
+int 201000
+==
+assert
+gtxn 0 CloseRemainderTo
+global ZeroAddress
+==
+assert
+gtxn 0 RekeyTo
+global ZeroAddress
 ==
 assert
 txn TypeEnum
@@ -21,6 +41,14 @@ int 1111111
 assert
 txn AssetAmount
 int 0
+==
+assert
+txn CloseRemainderTo
+global ZeroAddress
+==
+assert
+txn RekeyTo
+global ZeroAddress
 ==
 assert
 int 1

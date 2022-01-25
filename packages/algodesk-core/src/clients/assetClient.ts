@@ -202,9 +202,10 @@ export class AssetClient{
     async deployBurnerVault(from: string, assetId: number): Promise<any> {
         const burnerVault = await this.getBurnerVault(assetId);
         const burnAddress = burnerVault.accountInfo.address;
+        const unsignedTxns = [];
 
-        const {txId} = await this.paymentClient.payment(from, burnAddress, this.getBurnerVaultCharges(), 'deploying burner vault');
-        await this.transactionClient.waitForConfirmation(txId);
+        const paymentTxn = await this.paymentClient.preparePaymentTxn(from, burnAddress, this.getBurnerVaultCharges(), 'deploying burner vault');
+        unsignedTxns.push(paymentTxn);
 
         const params: A_TransferAssetParams = {
             from: burnAddress,
@@ -213,11 +214,16 @@ export class AssetClient{
             amount: 0
         };
         const assetXferTxn = await this.prepareTransferTxn(params);
+        unsignedTxns.push(assetXferTxn);
+
+        const groupedUnsignedTxns = this.transactionClient.assignGroupID(unsignedTxns);
+
+        const signedPaymentTxn = await this.signer.signTxn(groupedUnsignedTxns[0]);
 
         const logicSigner = getSigner(SIGNERS.LOGIC_SIG);
         const logic = burnerVault.compiled.result;
-        const signedAssetXferTxn = await logicSigner.signTxnByLogic(assetXferTxn, logic);
+        const signedAssetXferTxn = await logicSigner.signTxnByLogic(groupedUnsignedTxns[1], logic);
 
-        return await this.client.sendRawTransaction(signedAssetXferTxn).do();
+        return await this.client.sendRawTransaction([signedPaymentTxn, signedAssetXferTxn]).do();
     }
 }
