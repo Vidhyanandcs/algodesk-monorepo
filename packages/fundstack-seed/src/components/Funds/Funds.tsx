@@ -40,7 +40,7 @@ function Funds(): JSX.Element {
                           </div>
                       </div> : ''}
 
-                      <div>
+                      {funds.length > 0 ? <div>
                           <Button variant={"contained"}
                                   color={"primary"}
                                   size={"large"}
@@ -48,7 +48,8 @@ function Funds(): JSX.Element {
                                       history.push('/portal/dashboard/funds/create');
                                   }}
                           >Deploy fund</Button>
-                      </div>
+                      </div> : ''}
+
 
                       <Grid container spacing={2}>
                           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
