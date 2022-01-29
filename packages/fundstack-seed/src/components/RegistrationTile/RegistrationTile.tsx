@@ -2,11 +2,10 @@ import './RegistrationTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip, Grid, makeStyles} from "@material-ui/core";
+import {Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {getCommonStyles} from "../../utils/styles";
 
 
