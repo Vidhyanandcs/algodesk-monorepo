@@ -77,9 +77,6 @@ function LeftBar(): JSX.Element {
                       Balance: {microalgosToAlgos(account.information.amount)}
                       <img src={algoLogo} alt="Algo"/>
                   </div>
-                  <div className="bal">
-                      Created Assets: {account.information.assets.length}
-                  </div>
                   <div className="user-actions">
                       <Tooltip title="Copy address">
                               <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
