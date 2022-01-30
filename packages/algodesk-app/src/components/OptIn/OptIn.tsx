@@ -1,5 +1,6 @@
 import './OptIn.scss';
 import {
+    CircularProgress,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle, Grid,
@@ -51,7 +52,7 @@ function OptIn(): JSX.Element {
 
     const classes = useStyles();
     const [
-        {assets, searchText},
+        {assets, searchText, searching},
         setState
     ] = useState(initialState);
 
@@ -62,19 +63,21 @@ function OptIn(): JSX.Element {
     useEffect(() => {
         async function search() {
             try {
-                dispatch(showLoader('Searching ...'));
+                setState(prevState => ({...prevState, searching: true}));
                 const result = await algosdk.algodesk.indexer.searchForAssets().name(searchText).do();
-                setState(prevState => ({...prevState, assets: result.assets}));
-                dispatch(hideLoader());
+                setState(prevState => ({...prevState, assets: result.assets, searching: false}));
             }
             catch (e: any) {
                 dispatch(handleException(e));
-                dispatch(hideLoader());
+                setState(prevState => ({...prevState, searching: false}));
             }
         }
 
         if(searchText) {
             search();
+        }
+        else {
+            setState(prevState => ({...prevState, assets: []}));
         }
     }, [searchText, dispatch]);
 
@@ -144,15 +147,19 @@ function OptIn(): JSX.Element {
                                     label="Asset name" variant="outlined" fullWidth/>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <div className="searched-assets">
+                                {searching ? <div className="searching">
+                                    <CircularProgress style={{marginTop: 100}}/>
+                                    <div className="text">searching ...</div>
+                                </div> : <div className="searched-assets">
                                     {assets.map((asset) => {
                                         return (<div className="asset" key={asset.index} onClick={() => {
                                             optIn(asset.index);
                                         }}>
-                                            {asset.params.name}# {asset.index}
+                                            {asset.params.name} #{asset.index}
                                         </div>);
                                     })}
-                                </div>
+                                </div>}
+
                             </Grid>
                         </Grid>
 

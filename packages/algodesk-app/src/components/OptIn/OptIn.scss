@@ -2,6 +2,14 @@
 
 .opt-in-wrapper {
   .opt-in-container {
+    .searching {
+      height: 400px;
+      overflow: auto;
+      text-align: center;
+      .text {
+        margin-top: 20px;
+      }
+    }
     .searched-assets {
       height: 400px;
       overflow: auto;
