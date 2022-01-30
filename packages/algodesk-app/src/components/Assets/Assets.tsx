@@ -25,17 +25,10 @@ import {
 import {A_Asset, debounce, ellipseAddress, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
-import SendAssets from "../SendAssets/SendAssets";
-import CreateAsset from "../CreateAsset/CreateAsset";
-import ModifyAsset from "../ModifyAsset/ModifyAsset";
-import DeleteAsset from "../DeleteAsset/DeleteAsset";
-import FreezeAccount from "../FreezeAssets/FreezeAccount";
-import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
-import BurnSupply from "../BurnSupply/BurnSupply";
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -240,7 +233,7 @@ function Assets(): JSX.Element {
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
 
-                                                      Bal: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                                      Balance : {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                                   </div>
 
                                               </Grid>

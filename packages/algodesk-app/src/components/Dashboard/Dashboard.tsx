@@ -4,7 +4,7 @@ import Assets from "../Assets/Assets";
 import React, {useState} from "react";
 import {Button, ButtonGroup, Tab, Tabs} from "@material-ui/core";
 import algosdk from "../../utils/algosdk";
-import {A_Asset, getNetworks, setLocalNetwork} from "@algodesk/core";
+import {getNetworks, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
 import {showSnack} from "../../redux/actions/snackbar";

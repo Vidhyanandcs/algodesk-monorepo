@@ -17,27 +17,17 @@ import {
     SendOutlined,
     SettingsBackupRestoreSharp,
     CheckCircle,
-    NotInterested,
     SwapHorizontalCircleOutlined,
     MoreVert,
     ControlPoint, Search
 } from '@material-ui/icons';
-import {A_Asset, debounce, ellipseAddress, NETWORKS} from "@algodesk/core";
+import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
-import SendAssets from "../SendAssets/SendAssets";
-import CreateAsset from "../CreateAsset/CreateAsset";
-import ModifyAsset from "../ModifyAsset/ModifyAsset";
-import DeleteAsset from "../DeleteAsset/DeleteAsset";
-import FreezeAccount from "../FreezeAssets/FreezeAccount";
-import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
-import BurnSupply from "../BurnSupply/BurnSupply";
-
-
 
 interface AssetsState{
     menuAnchorEl?: any
@@ -200,10 +190,7 @@ function OptedAssets(): JSX.Element {
                                   <CardContent>
                                       <div className="params">
                                           <Grid container spacing={2}>
-
-
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-
                                                   <div className={"name"}>
                                                       ID: {asset.index}
                                                   </div>
@@ -211,11 +198,27 @@ function OptedAssets(): JSX.Element {
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
 
-                                                      Bal: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                                   </div>
-
                                               </Grid>
                                           </Grid>
+                                      </div>
+                                      <div className="roles">
+                                          {algosdk.algodesk.accountClient.canManage(account.information.address, asset) ? <div className="role">
+                                              Manager
+                                              <CheckCircle fontSize={"small"}></CheckCircle>
+                                          </div> : ''}
+
+                                          {algosdk.algodesk.accountClient.canFreeze(account.information.address, asset) ? <div className="role">
+                                              Freeze
+                                              <CheckCircle fontSize={"small"}></CheckCircle>
+                                          </div> : ''}
+
+                                          {algosdk.algodesk.accountClient.canClawback(account.information.address, asset) ? <div className="role">
+                                              Clawback
+                                              <CheckCircle fontSize={"small"}></CheckCircle>
+                                          </div> : ''}
+
                                       </div>
                                   </CardContent>
                               </Card>
@@ -236,14 +239,14 @@ function OptedAssets(): JSX.Element {
                   }
               }}
           >
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
                   <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
                   Send assets
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('modify'));
                   }
@@ -258,7 +261,7 @@ function OptedAssets(): JSX.Element {
                   <EditOutlined className="asset-action-icon" fontSize={"small"}></EditOutlined>
                   Modify asset
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
                       dispatch(setAction('freeze'));
                   }
@@ -273,7 +276,7 @@ function OptedAssets(): JSX.Element {
                   <LockOutlined className="asset-action-icon" fontSize={"small"}></LockOutlined>
                   Freeze / Unfreeze
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
                       dispatch(setAction('revoke'));
                   }
@@ -288,7 +291,7 @@ function OptedAssets(): JSX.Element {
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
                   }
@@ -303,7 +306,7 @@ function OptedAssets(): JSX.Element {
                   <DeleteOutlined className="asset-action-icon" fontSize={"small"}></DeleteOutlined>
                   Delete asset
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={(ev) => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={(ev) => {
                   let url = 'https://app.tinyman.org';
                   if (network.name === NETWORKS.TESTNET) {
                       url = 'https://testnet.tinyman.org';
@@ -315,7 +318,7 @@ function OptedAssets(): JSX.Element {
                   <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
-              {/*<MenuItem className={classes.primaryColorOnHover} onClick={() => {*/}
+              {/*<MenuItem className={classes.yellowColorOnHover} onClick={() => {*/}
               {/*    dispatch(setAction('burn'));*/}
               {/*    closeMenu();*/}
               {/*}}>*/}

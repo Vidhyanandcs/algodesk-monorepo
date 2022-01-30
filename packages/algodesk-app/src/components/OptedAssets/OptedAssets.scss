@@ -15,6 +15,20 @@
       margin-top: 30px;
       .asset {
         padding: 0px 10px;
+        .roles {
+          margin-top: 25px;
+          display: flex;
+          justify-content: space-between;
+          min-height: 15px;
+          .role {
+            font-family: PoppinsLight !important;
+            svg {
+              vertical-align: middle;
+              margin-left: 5px;
+              font-size: 15px;
+            }
+          }
+        }
         .card-action-custom {
           background: $color-grey-very-light;
         }
@@ -41,9 +55,6 @@
           }
           .param {
             padding-bottom: 10px;
-            &:hover {
-
-            }
             .key {
               font-style: normal;
               font-weight: normal;
