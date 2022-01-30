@@ -4,10 +4,10 @@
   margin-right: 10px;
 }
 
-.assets-wrapper {
-  .assets-container {
+.opted-assets-wrapper {
+  .opted-assets-container {
     margin-top: 50px;
-    .assets-header {
+    .opted-assets-header {
       display: flex;
       justify-content: space-between;
     }
@@ -27,28 +27,17 @@
             color: $color-grey-dark;
           }
         }
-        .asset-id {
-          font-size: 18px;
+        .asset-name {
           font-weight: bold;
           margin-bottom: 10px;
         }
         .params {
           margin-top: -25px;
           .balance {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 42px;
-            svg {
-              vertical-align: middle;
-              margin-right: 10px;
-            }
+
           }
           .name {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 22px;
-            line-height: 36px;
+
           }
           .param {
             padding-bottom: 10px;

@@ -1,4 +1,4 @@
-import './Assets.scss';
+import './OptedAssets.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
@@ -37,39 +37,7 @@ import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
 import BurnSupply from "../BurnSupply/BurnSupply";
 
-function processAssetParam(value: string = ""): string {
-    return value ? ellipseAddress(value, 12) : "(None)";
-}
 
-function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
-    const cls: string[] = ['value back-highlight'];
-    const indicatorCls: string [] = ['indicator'];
-    let icon = <NotInterested fontSize={"large"} color={"secondary"}></NotInterested>;
-
-    if (value) {
-        cls.push('clickable');
-        if (value === addr) {
-            icon = <CheckCircle fontSize={"large"} color={"primary"}></CheckCircle>;
-        }
-    }
-    else {
-        cls.push('empty');
-    }
-
-    return (<div className="param">
-        <div className="key">
-            {label}
-        </div>
-        <div className={cls.join(" ")} onClick={() => {
-            algosdk.explorer.openAccount(value);
-        }}>
-            {processAssetParam(value)}
-            <span className={indicatorCls.join(" ")}>
-                {icon}
-            </span>
-        </div>
-    </div>);
-}
 
 interface AssetsState{
     menuAnchorEl?: any
@@ -90,10 +58,10 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-function Assets(): JSX.Element {
+function OptedAssets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
-    const {information, createdAssets} = account;
+    const {information, optedAssets} = account;
     const assetActions = useSelector((state: RootState) => state.assetActions);
     const {selectedAsset} = assetActions;
     const network = useSelector((state: RootState) => state.network);
@@ -111,13 +79,13 @@ function Assets(): JSX.Element {
         const filterAssets = () => {
             let filteredAssets: A_Asset[] = [];
             if (hideZeroBal) {
-                filteredAssets = createdAssets.filter((asset) => {
+                filteredAssets = optedAssets.filter((asset) => {
                     const assetBal = algosdk.algodesk.accountClient.getAssetBal(asset, information);
                     return assetBal !== 0;
                 });
             }
             else {
-                filteredAssets = createdAssets;
+                filteredAssets = optedAssets;
             }
 
             if (searchText) {
@@ -130,16 +98,16 @@ function Assets(): JSX.Element {
         }
 
         filterAssets();
-    }, [hideZeroBal, createdAssets, information, searchText]);
+    }, [hideZeroBal, optedAssets, information, searchText]);
 
     const closeMenu = () => {
         setState(prevState => ({ ...prevState, menuAnchorEl: undefined }));
     }
 
   return (
-      <div className="assets-wrapper">
-          <div className="assets-container">
-              <div className="assets-header">
+      <div className="opted-assets-wrapper">
+          <div className="opted-assets-container">
+              <div className="opted-assets-header">
                   <div>
                       <TextField
                           placeholder="Name"
@@ -172,7 +140,7 @@ function Assets(): JSX.Element {
                               dispatch(setAction('create'));
                           }}
                           size={"large"}>
-                          Create asset
+                          Opt-In asset
                       </Button>
 
                   </div>
@@ -180,14 +148,14 @@ function Assets(): JSX.Element {
 
 
 
-              {createdAssets.length === 0 ?
+              {optedAssets.length === 0 ?
                   <div className="empty-message">
                       <img src={emptyVector} alt="No assets"/>
                       <div className="text">
-                          This account doesn't have any created assets
+                          This account doesn't have any opted assets
                       </div>
                   </div> : ''}
-              {createdAssets.length > 0 && filteredAssets.length === 0?
+              {optedAssets.length > 0 && filteredAssets.length === 0?
                   <div className="empty-message">
                       <img src={emptyVector} alt="No results found"/>
                       <div className="text">
@@ -197,21 +165,21 @@ function Assets(): JSX.Element {
               <div className="assets">
                   <Grid container spacing={4}>
                       {filteredAssets.map((asset) => {
-                          return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
+                          return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={asset.index}>
 
-                              <Card className={'asset'}>
+                              <Card className={'asset opted-asset'}>
                                   <CardHeader
                                       action={
                                           <div>
                                               <Tooltip title="View in explorer">
-                                                  <IconButton color={"primary"} onClick={(ev) => {
+                                                  <IconButton style={{color: "#e2d225"}} onClick={(ev) => {
                                                       algosdk.explorer.openAsset(asset.index);
                                                   }}>
-                                                      <Launch/>
+                                                      <Launch />
                                                   </IconButton>
                                               </Tooltip>
                                               <Tooltip title="Asset actions">
-                                                  <IconButton color={"primary"} onClick={(ev) => {
+                                                  <IconButton style={{color: "#e2d225"}} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
@@ -221,10 +189,13 @@ function Assets(): JSX.Element {
                                           </div>
                                       }
                                       avatar={<div>
-                                          <div className={'asset-id'}>ID: {asset.index}</div>
+                                          <div className={'asset-name'}>{asset.params.name}</div>
                                       </div>}
                                       subheader=""
                                       variant="outlined"
+                                      style={{borderBottom: "1px solid rgba(247,244,201,255)",
+                                          marginBottom: 25,
+                                          paddingBottom: 0}}
                                   />
                                   <CardContent>
                                       <div className="params">
@@ -233,8 +204,8 @@ function Assets(): JSX.Element {
 
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
 
-                                                  <div className={"name " + classes.primaryText}>
-                                                      {asset.params.name}
+                                                  <div className={"name"}>
+                                                      ID: {asset.index}
                                                   </div>
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
@@ -243,19 +214,6 @@ function Assets(): JSX.Element {
                                                       Bal: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                                   </div>
 
-                                              </Grid>
-
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  {renderAssetParam("Manager", asset.params.manager, information.address)}
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  {renderAssetParam("Reserve", asset.params.reserve, information.address)}
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  {renderAssetParam("Freeze", asset.params.freeze, information.address)}
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  {renderAssetParam("Clawback", asset.params.clawback, information.address)}
                                               </Grid>
                                           </Grid>
                                       </div>
@@ -369,4 +327,4 @@ function Assets(): JSX.Element {
   );
 }
 
-export default Assets;
+export default OptedAssets;

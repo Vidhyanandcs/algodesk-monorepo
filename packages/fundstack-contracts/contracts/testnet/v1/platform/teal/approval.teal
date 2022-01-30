@@ -31,7 +31,7 @@ assert
 itxn_begin
 int axfer
 itxn_field TypeEnum
-txna Assets 0
+txna OptedAssets 0
 itxn_field XferAsset
 byte "c"
 app_global_get

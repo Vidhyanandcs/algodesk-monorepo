@@ -37,7 +37,7 @@ global GroupSize
 int 1
 ==
 assert
-txna Assets 0
+txna OptedAssets 0
 byte "aid"
 app_global_get
 ==
@@ -96,7 +96,7 @@ byte "donate"
 ==
 ||
 assert
-txna Assets 0
+txna OptedAssets 0
 byte "aid"
 app_global_get
 ==
@@ -321,7 +321,7 @@ txn GroupIndex
 int 1
 ==
 assert
-txna Assets 0
+txna OptedAssets 0
 byte "aid"
 app_global_get
 ==
@@ -414,7 +414,7 @@ txn GroupIndex
 int 1
 ==
 assert
-txna Assets 0
+txna OptedAssets 0
 byte "aid"
 app_global_get
 ==
@@ -567,7 +567,7 @@ txn GroupIndex
 int 3
 ==
 assert
-txna Assets 0
+txna OptedAssets 0
 byte "aid"
 app_global_get
 ==
