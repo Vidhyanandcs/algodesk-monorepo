@@ -127,7 +127,7 @@ function OptedAssets(): JSX.Element {
                           variant={"contained"}
                           className="add-asset"
                           onClick={() => {
-                              dispatch(setAction('create'));
+                              dispatch(setAction('opt_in'));
                           }}
                           size={"large"}>
                           Opt-In asset

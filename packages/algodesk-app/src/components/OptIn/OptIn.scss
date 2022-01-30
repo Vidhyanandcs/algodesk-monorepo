@@ -1,0 +1,19 @@
+@import '../../assets/colors';
+
+.opt-in-wrapper {
+  .opt-in-container {
+    .searched-assets {
+      height: 400px;
+      overflow: auto;
+      .asset {
+        padding: 25px;
+        border-radius: 10px;
+        background: #DAF0E3;
+        margin: 15px 0px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

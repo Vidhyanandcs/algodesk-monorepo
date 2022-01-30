@@ -19,6 +19,7 @@ import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import BurnSupply from "../BurnSupply/BurnSupply";
 import OptOut from "../OptOut/OptOut";
+import OptIn from "../OptIn/OptIn";
 
 
 interface DashboardState{
@@ -117,6 +118,7 @@ function Dashboard(): JSX.Element {
               <RevokeAssets></RevokeAssets>
               <BurnSupply></BurnSupply>
               <OptOut></OptOut>
+              <OptIn></OptIn>
           </div>
       </div>
   );
