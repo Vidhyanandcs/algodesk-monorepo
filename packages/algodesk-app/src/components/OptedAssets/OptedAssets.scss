@@ -16,11 +16,10 @@
       .asset {
         padding: 0px 10px;
         .roles {
-          margin-top: -20px;
           display: flex;
           min-height: 15px;
           .role {
-            font-weight: bold;
+            font-family: PoppinsLight !important;
             &:not(:first-child) {
               margin-left: 15px;
             }
@@ -28,6 +27,7 @@
               vertical-align: middle;
               margin-left: 5px;
               font-size: 15px;
+              //color: #e2d225;
             }
           }
         }
@@ -49,12 +49,13 @@
           font-size: 22px;
         }
         .params {
-          margin-top: 40px;
+          margin-top: -25px;
+          margin-bottom: 25px;
           .balance {
-            font-family: PoppinsLight !important;
+            font-weight: bold;
           }
           .name {
-            font-family: PoppinsLight !important;
+            font-weight: bold;
           }
           .param {
             padding-bottom: 10px;

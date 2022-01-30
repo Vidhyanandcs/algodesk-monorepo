@@ -1,4 +1,4 @@
-import './Assets.scss';
+import './CreatedAssets.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-function Assets(): JSX.Element {
+function CreatedAssets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
     const {information, createdAssets} = account;
@@ -130,9 +130,9 @@ function Assets(): JSX.Element {
     }
 
   return (
-      <div className="assets-wrapper">
-          <div className="assets-container">
-              <div className="assets-header">
+      <div className="created-assets-wrapper">
+          <div className="created-assets-container">
+              <div className="created-assets-header">
                   <div>
                       <TextField
                           placeholder="Name"
@@ -362,4 +362,4 @@ function Assets(): JSX.Element {
   );
 }
 
-export default Assets;
+export default CreatedAssets;

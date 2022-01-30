@@ -189,6 +189,22 @@ function OptedAssets(): JSX.Element {
                                   />
                                   <CardContent>
 
+                                      <div className="params">
+                                          <Grid container spacing={2}>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                                  <div className={"name"}>
+                                                      ID: {asset.index}
+                                                  </div>
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                                  <div className={"balance "}>
+
+                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                                  </div>
+                                              </Grid>
+                                          </Grid>
+                                      </div>
+
                                       <div className="roles">
                                           {algosdk.algodesk.accountClient.canManage(account.information.address, asset) ? <div className="role">
                                               Manager
@@ -207,21 +223,7 @@ function OptedAssets(): JSX.Element {
 
                                       </div>
 
-                                      <div className="params">
-                                          <Grid container spacing={2}>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"name"}>
-                                                      ID: {asset.index}
-                                                  </div>
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"balance "}>
 
-                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
-                                                  </div>
-                                              </Grid>
-                                          </Grid>
-                                      </div>
 
 
                                   </CardContent>
@@ -259,7 +261,7 @@ function OptedAssets(): JSX.Element {
                   Opt-Out
               </MenuItem>
 
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              {selectedAsset && algosdk.algodesk.accountClient.canManage(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('modify'));
                   }
@@ -273,8 +275,9 @@ function OptedAssets(): JSX.Element {
               }}>
                   <EditOutlined className="asset-action-icon" fontSize={"small"}></EditOutlined>
                   Modify asset
-              </MenuItem>
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              </MenuItem> : ''}
+
+              {selectedAsset && algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
                       dispatch(setAction('freeze'));
                   }
@@ -288,8 +291,10 @@ function OptedAssets(): JSX.Element {
               }}>
                   <LockOutlined className="asset-action-icon" fontSize={"small"}></LockOutlined>
                   Freeze / Unfreeze
-              </MenuItem>
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              </MenuItem> : ''}
+
+
+              {selectedAsset && algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
                       dispatch(setAction('revoke'));
                   }
@@ -303,8 +308,10 @@ function OptedAssets(): JSX.Element {
               }}>
                   <SettingsBackupRestoreSharp className="asset-action-icon" fontSize={"small"}></SettingsBackupRestoreSharp>
                   Revoke assets
-              </MenuItem>
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              </MenuItem> : ''}
+
+
+              {selectedAsset && algosdk.algodesk.accountClient.canManage(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('delete'));
                   }
@@ -318,7 +325,8 @@ function OptedAssets(): JSX.Element {
               }}>
                   <DeleteOutlined className="asset-action-icon" fontSize={"small"}></DeleteOutlined>
                   Delete asset
-              </MenuItem>
+              </MenuItem> : ''}
+
               <MenuItem className={classes.yellowColorOnHover} onClick={(ev) => {
                   let url = 'https://app.tinyman.org';
                   if (network.name === NETWORKS.TESTNET) {

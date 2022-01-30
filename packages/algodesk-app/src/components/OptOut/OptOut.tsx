@@ -57,22 +57,31 @@ function OptOut(): JSX.Element {
     ] = useState(initialState);
 
     const clearState = () => {
-        setState({ ...initialState });
+        setState({ ...initialState});
     };
 
     async function optOut() {
-        if (!closeRemainderTo || !sdk.isValidAddress(closeRemainderTo)) {
-            dispatch(showSnack({
-                severity: 'error',
-                message: 'Invalid close remainder address'
-            }));
-            return;
+        const bal = algosdk.algodesk.accountClient.getAssetBal(selectedAsset, account.information);
+        let closeTo = closeRemainderTo;
+
+        if (bal > 0) {
+            if (!closeRemainderTo || !sdk.isValidAddress(closeRemainderTo)) {
+                dispatch(showSnack({
+                    severity: 'error',
+                    message: 'Invalid close remainder address'
+                }));
+                return;
+            }
+        }
+
+        if (bal === 0) {
+            closeTo = account.information.address;
         }
 
         try {
             dispatch(showLoader('Opting Out ...'));
 
-            const {txId} = await algosdk.algodesk.assetClient.optOut(selectedAsset, account.information, closeRemainderTo, note);
+            const {txId} = await algosdk.algodesk.assetClient.optOut(selectedAsset, account.information, closeTo, note);
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
@@ -125,7 +134,7 @@ function OptOut(): JSX.Element {
                                     </div>
                                 </div>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            {algosdk.algodesk.accountClient.getAssetBal(selectedAsset, account.information) > 0 ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField
                                     required
                                     value={closeRemainderTo}
@@ -134,7 +143,8 @@ function OptOut(): JSX.Element {
                                     }}
                                     className="address-field"
                                     label="Close remainder address" variant="outlined" rows={2} fullWidth multiline/>
-                            </Grid>
+                            </Grid> : ''}
+
 
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <TextField

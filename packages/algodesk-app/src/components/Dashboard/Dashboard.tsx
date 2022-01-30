@@ -1,6 +1,6 @@
 import './Dashboard.scss';
 import {Redirect, Route, Switch, useHistory} from "react-router-dom";
-import Assets from "../Assets/Assets";
+import CreatedAssets from "../CreatedAssets/CreatedAssets";
 import React, {useState} from "react";
 import {Button, ButtonGroup, Tab, Tabs} from "@material-ui/core";
 import algosdk from "../../utils/algosdk";
@@ -26,7 +26,7 @@ interface DashboardState{
 }
 
 const initialState: DashboardState = {
-    tab: 'created_assets'
+    tab: 'created-assets'
 };
 
 function Dashboard(): JSX.Element {
@@ -81,30 +81,30 @@ function Dashboard(): JSX.Element {
                           value={tab}
                           onChange={(event, newValue) => {
                               setState(prevState => ({ ...prevState, tab: newValue}));
-                              if (newValue === 'created_assets') {
-                                  history.push('/portal/dashboard/assets');
+                              if (newValue === 'created-assets') {
+                                  history.push('/portal/dashboard/created-assets');
                               }
-                              else if (newValue === 'opted_assets') {
+                              else if (newValue === 'opted-assets') {
                                   history.push('/portal/dashboard/opted-assets');
                               }
 
                           }}
                           textColor="primary"
                           indicatorColor="primary">
-                          <Tab value="created_assets" label="Created Assets" />
-                          <Tab value="opted_assets" label="Opted Assets" />
+                          <Tab value="created-assets" label="Created assets" />
+                          <Tab value="opted-assets" label="Opted assets" />
                       </Tabs>
 
                   </div>
 
                   <Switch>
-                      <Route path="/portal/dashboard/assets">
-                          <Assets></Assets>
+                      <Route path="/portal/dashboard/created-assets">
+                          <CreatedAssets></CreatedAssets>
                       </Route>
                       <Route path="/portal/dashboard/opted-assets">
                           <OptedAssets></OptedAssets>
                       </Route>
-                      <Route exact path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/opted-assets" />} />
+                      <Route exact path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/created-assets" />} />
                   </Switch>
 
               </div>
