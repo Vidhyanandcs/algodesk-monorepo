@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment
+    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment, CardActions
 } from "@material-ui/core";
 import {
     Launch,
@@ -16,9 +16,10 @@ import {
     DeleteOutlined,
     SendOutlined,
     SettingsBackupRestoreSharp,
-    CheckCircle,
+    CheckCircleOutlined,
     SwapHorizontalCircleOutlined,
     MoreVert,
+    HighlightOffOutlined,
     ControlPoint, Search, RemoveCircleOutlineOutlined
 } from '@material-ui/icons';
 import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
@@ -205,28 +206,31 @@ function OptedAssets(): JSX.Element {
                                           </Grid>
                                       </div>
 
-                                      <div className="roles">
-                                          {algosdk.algodesk.accountClient.canManage(account.information.address, asset) ? <div className="role">
-                                              Manager
-                                              <CheckCircle fontSize={"small"}></CheckCircle>
-                                          </div> : ''}
 
-                                          {algosdk.algodesk.accountClient.canFreeze(account.information.address, asset) ? <div className="role">
-                                              Freeze
-                                              <CheckCircle fontSize={"small"}></CheckCircle>
-                                          </div> : ''}
-
-                                          {algosdk.algodesk.accountClient.canClawback(account.information.address, asset) ? <div className="role">
-                                              Clawback
-                                              <CheckCircle fontSize={"small"}></CheckCircle>
-                                          </div> : ''}
-
-                                      </div>
 
 
 
 
                                   </CardContent>
+                                  <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.6)'}}>
+                                      <div className="roles">
+                                          <div className="role">
+                                              Manager
+                                              {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
+                                          </div>
+
+                                          <div className="role">
+                                              Freeze
+                                              {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
+                                          </div>
+
+                                          <div className="role">
+                                              Clawback
+                                              {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
+                                          </div>
+
+                                      </div>
+                                  </CardActions>
                               </Card>
                           </Grid>);
                       })}

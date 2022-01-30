@@ -240,4 +240,16 @@ export class AssetClient{
 
         return await this.client.sendRawTransaction([signedPaymentTxn, signedAssetXferTxn]).do();
     }
+
+    hasManager(asset: A_Asset): boolean {
+        return Boolean(asset.params.manager);
+    }
+
+    hasFreeze(asset: A_Asset): boolean {
+        return Boolean(asset.params.freeze);
+    }
+
+    hasClawback(asset: A_Asset): boolean {
+        return Boolean(asset.params.clawback);
+    }
 }
