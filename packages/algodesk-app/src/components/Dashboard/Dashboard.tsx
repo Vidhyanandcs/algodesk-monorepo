@@ -18,6 +18,7 @@ import DeleteAsset from "../DeleteAsset/DeleteAsset";
 import FreezeAccount from "../FreezeAssets/FreezeAccount";
 import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import BurnSupply from "../BurnSupply/BurnSupply";
+import OptOut from "../OptOut/OptOut";
 
 
 interface DashboardState{
@@ -74,6 +75,8 @@ function Dashboard(): JSX.Element {
 
               <div className="dashboard-body">
                   <div className="dashboard-tabs">
+
+
                       <Tabs
                           value={tab}
                           onChange={(event, newValue) => {
@@ -87,12 +90,11 @@ function Dashboard(): JSX.Element {
 
                           }}
                           textColor="primary"
-                          indicatorColor="primary"
-                          variant={"standard"}
-                      >
+                          indicatorColor="primary">
                           <Tab value="created_assets" label="Created Assets" />
                           <Tab value="opted_assets" label="Opted Assets" />
                       </Tabs>
+
                   </div>
 
                   <Switch>
@@ -114,6 +116,7 @@ function Dashboard(): JSX.Element {
               <FreezeAccount></FreezeAccount>
               <RevokeAssets></RevokeAssets>
               <BurnSupply></BurnSupply>
+              <OptOut></OptOut>
           </div>
       </div>
   );

@@ -19,7 +19,7 @@ import {
     CheckCircle,
     SwapHorizontalCircleOutlined,
     MoreVert,
-    ControlPoint, Search
+    ControlPoint, Search, RemoveCircleOutlineOutlined
 } from '@material-ui/icons';
 import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
@@ -188,21 +188,7 @@ function OptedAssets(): JSX.Element {
                                           paddingBottom: 0}}
                                   />
                                   <CardContent>
-                                      <div className="params">
-                                          <Grid container spacing={2}>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"name"}>
-                                                      ID: {asset.index}
-                                                  </div>
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"balance "}>
 
-                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
-                                                  </div>
-                                              </Grid>
-                                          </Grid>
-                                      </div>
                                       <div className="roles">
                                           {algosdk.algodesk.accountClient.canManage(account.information.address, asset) ? <div className="role">
                                               Manager
@@ -220,6 +206,24 @@ function OptedAssets(): JSX.Element {
                                           </div> : ''}
 
                                       </div>
+
+                                      <div className="params">
+                                          <Grid container spacing={2}>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                                  <div className={"name"}>
+                                                      ID: {asset.index}
+                                                  </div>
+                                              </Grid>
+                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                                  <div className={"balance "}>
+
+                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                                  </div>
+                                              </Grid>
+                                          </Grid>
+                                      </div>
+
+
                                   </CardContent>
                               </Card>
                           </Grid>);
@@ -246,6 +250,15 @@ function OptedAssets(): JSX.Element {
                   <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
                   Send assets
               </MenuItem>
+
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+                  dispatch(setAction('opt_out'));
+                  closeMenu();
+              }}>
+                  <RemoveCircleOutlineOutlined className="asset-action-icon" fontSize={"small"}></RemoveCircleOutlineOutlined>
+                  Opt-Out
+              </MenuItem>
+
               <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
                       dispatch(setAction('modify'));

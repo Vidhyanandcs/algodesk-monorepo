@@ -68,7 +68,7 @@ function LeftBar(): JSX.Element {
               <div className="account">
                   <div className="avatar"></div>
 
-                  <div className={classes.primaryText + ' addr'}>
+                  <div className={'addr'}>
                         <span onClick={() => {
                             algosdk.explorer.openAccount(account.information.address);
                         }}>{ellipseAddress(account.information.address, 10)}</span>

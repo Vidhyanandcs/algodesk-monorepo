@@ -1,0 +1,21 @@
+@import '../../assets/colors';
+
+.opt-out-wrapper {
+  .opt-out-container {
+    margin-top: -16px;
+    .asset-details {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+      text-align: center;
+      .name {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .bal {
+        color: $color-grey-dark;
+        font-size: 16px;
+      }
+    }
+  }
+}

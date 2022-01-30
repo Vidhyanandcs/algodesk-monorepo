@@ -152,6 +152,20 @@ export class AssetClient{
         return this.transfer(transferParams, note);
     }
 
+    async optOut(asset: A_Asset, information: A_AccountInformation, closeRemainderTo: string, note?: string): Promise<A_SendTxnResponse> {
+        const amount = this.accountClient.getAssetBal(asset, information);
+
+        const transferParams: A_TransferAssetParams = {
+            from: information.address,
+            to: closeRemainderTo,
+            assetId: asset.index,
+            closeRemainderTo,
+            amount,
+        };
+
+        return this.transfer(transferParams, note);
+    }
+
     getTotalSupply(asset: A_Asset): number {
         return (asset.params.total / Math.pow(10, asset.params.decimals));
     }
