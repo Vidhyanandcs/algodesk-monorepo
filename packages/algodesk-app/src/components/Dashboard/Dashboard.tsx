@@ -2,7 +2,7 @@ import './Dashboard.scss';
 import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import CreatedAssets from "../CreatedAssets/CreatedAssets";
 import React, {useState} from "react";
-import {Button, ButtonGroup, Tab, Tabs} from "@material-ui/core";
+import {Button, ButtonGroup, makeStyles, Tab, Tabs} from "@material-ui/core";
 import algosdk from "../../utils/algosdk";
 import {getNetworks, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
@@ -20,6 +20,16 @@ import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import BurnSupply from "../BurnSupply/BurnSupply";
 import OptOut from "../OptOut/OptOut";
 import OptIn from "../OptIn/OptIn";
+import {getCommonStyles} from "../../utils/styles";
+
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme),
+        tabLabel: {
+            fontSize: 16
+        }
+    };
+});
 
 
 interface DashboardState{
@@ -38,6 +48,7 @@ function Dashboard(): JSX.Element {
     const currentNetwork = useSelector((state: RootState) => state.network);
     const dispatch = useDispatch();
     const history = useHistory();
+    const classes = useStyles();
 
     const [
         { tab },
@@ -92,8 +103,8 @@ function Dashboard(): JSX.Element {
                           }}
                           textColor="primary"
                           indicatorColor="primary">
-                          <Tab value="created-assets" label="Created assets" />
-                          <Tab value="opted-assets" label="Opted assets" />
+                          <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
+                          <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>
                       </Tabs>
 
                   </div>

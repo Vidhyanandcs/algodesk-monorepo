@@ -26,7 +26,6 @@
             svg {
               vertical-align: middle;
               margin-left: 5px;
-              font-size: 16px;
               //color: #e2d225;
             }
           }
@@ -53,9 +52,15 @@
           margin-bottom: 25px;
           .balance {
             font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .name {
             font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .param {
             padding-bottom: 10px;

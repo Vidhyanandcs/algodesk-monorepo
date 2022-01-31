@@ -13,13 +13,27 @@
     .searched-assets {
       height: 400px;
       overflow: auto;
+      .no-results {
+        text-align: center;
+        margin-top: 150px;
+      }
       .asset {
-        padding: 25px;
+        padding: 20px;
         border-radius: 10px;
         background: #DAF0E3;
-        margin: 15px 0px;
+        margin: 10px 0px;
+        font-size: 15px;
+        font-weight: bold;
+        svg {
+          margin-top: -4px;
+          float: right;
+          display: none;
+        }
         &:hover {
           cursor: pointer;
+          svg {
+            display: block;
+          }
         }
       }
     }
