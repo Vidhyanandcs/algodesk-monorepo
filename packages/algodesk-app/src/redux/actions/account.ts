@@ -10,7 +10,8 @@ import algosdk from "../../utils/algosdk";
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
-    createdAssets: A_Asset[]
+    createdAssets: A_Asset[],
+    optedAssets: A_Asset[]
 }
 
 const information: A_AccountInformation = {
@@ -35,7 +36,8 @@ const information: A_AccountInformation = {
 const initialState: Account = {
     loggedIn: false,
     information,
-    createdAssets: []
+    createdAssets: [],
+    optedAssets: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -45,12 +47,65 @@ export const loadAccount = createAsyncThunk(
         try {
             dispatch(showLoader("Loading account information ..."));
             const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
+            dispatch(loadCreatedAssets(accountInfo));
+            dispatch(loadOptedAssets(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
             dispatch(hideLoader());
+        }
+    }
+);
+
+export const loadCreatedAssets = createAsyncThunk(
+    'account/loadCreatedAssets',
+    async (information: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            let createdAssets = algosdk.algodesk.accountClient.getCreatedAssets(information);
+            createdAssets = createdAssets.sort((a, b) => {
+                return b.index - a.index;
+            });
+            return createdAssets;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadOptedAssets = createAsyncThunk(
+    'account/loadOptedAssets',
+    async (accountInformation: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            dispatch(resetOptedAssets());
+            const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
+            optedAssets.forEach((asset) => {
+                const isCreatedAsset = algosdk.algodesk.accountClient.isCreatedAsset(asset['asset-id'], accountInformation);
+                if (!isCreatedAsset) {
+                    dispatch(loadOptedAsset(asset['asset-id']));
+                }
+            });
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadOptedAsset = createAsyncThunk(
+    'account/loadOptedAsset',
+    async (id: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const assetDetails = await algosdk.algodesk.assetClient.get(id);
+            return assetDetails;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
         }
     }
 );
@@ -63,20 +118,24 @@ export const accountSlice = createSlice({
             state.loggedIn = false;
             state.information = information;
             algosdk.signer.logout();
+        },
+        resetOptedAssets: (state) => {
+            state.optedAssets = [];
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
             state.loggedIn = true;
             state.information = action.payload;
-            let createdAssets = algosdk.algodesk.accountClient.getCreatedAssets(state.information);
-            createdAssets = createdAssets.sort((a, b) => {
-                return b.index - a.index;
-            });
-            state.createdAssets = createdAssets;
-        })
+        });
+        builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<any>) => {
+            state.createdAssets = action.payload;
+        });
+        builder.addCase(loadOptedAsset.fulfilled, (state, action: PayloadAction<any>) => {
+            state.optedAssets.push(action.payload);
+        });
     },
 });
 
-export const { logout } = accountSlice.actions
+export const { logout, resetOptedAssets } = accountSlice.actions
 export default accountSlice.reducer

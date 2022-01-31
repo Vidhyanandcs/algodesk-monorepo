@@ -1,4 +1,4 @@
-import './Assets.scss';
+import './CreatedAssets.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
@@ -25,17 +25,10 @@ import {
 import {A_Asset, debounce, ellipseAddress, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
-import SendAssets from "../SendAssets/SendAssets";
-import CreateAsset from "../CreateAsset/CreateAsset";
-import ModifyAsset from "../ModifyAsset/ModifyAsset";
-import DeleteAsset from "../DeleteAsset/DeleteAsset";
-import FreezeAccount from "../FreezeAssets/FreezeAccount";
-import RevokeAssets from "../RevokeAssets/RevokeAssets";
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
-import BurnSupply from "../BurnSupply/BurnSupply";
 
 function processAssetParam(value: string = ""): string {
     return value ? ellipseAddress(value, 12) : "(None)";
@@ -90,7 +83,7 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-function Assets(): JSX.Element {
+function CreatedAssets(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
     const {information, createdAssets} = account;
@@ -137,9 +130,9 @@ function Assets(): JSX.Element {
     }
 
   return (
-      <div className="assets-wrapper">
-          <div className="assets-container">
-              <div className="assets-header">
+      <div className="created-assets-wrapper">
+          <div className="created-assets-container">
+              <div className="created-assets-header">
                   <div>
                       <TextField
                           placeholder="Name"
@@ -240,7 +233,7 @@ function Assets(): JSX.Element {
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                                   <div className={"balance "}>
 
-                                                      Bal: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                                      Balance : {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                                   </div>
 
                                               </Grid>
@@ -365,15 +358,8 @@ function Assets(): JSX.Element {
               {/*    Burn supply*/}
               {/*</MenuItem>*/}
           </Menu>
-          <SendAssets></SendAssets>
-          <CreateAsset></CreateAsset>
-          <ModifyAsset></ModifyAsset>
-          <DeleteAsset></DeleteAsset>
-          <FreezeAccount></FreezeAccount>
-          <RevokeAssets></RevokeAssets>
-          <BurnSupply></BurnSupply>
       </div>
   );
 }
 
-export default Assets;
+export default CreatedAssets;

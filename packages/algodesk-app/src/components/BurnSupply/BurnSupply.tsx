@@ -56,8 +56,6 @@ function BurnSupply(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {information} = account;
 
-    console.log(burnDetails);
-
     const classes = useStyles();
     const [
         {amount, note, confirmed},

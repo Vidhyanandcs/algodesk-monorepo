@@ -56,10 +56,11 @@
         display: inline-block;
       }
       .addr {
-        margin-top: 20px;
         font-size: 16px;
         font-weight: 600;
-        margin-bottom: 25px;
+        line-height: 1.2;
+        padding: 20px;
+        overflow-wrap: break-word;
         &:hover {
           cursor: pointer;
           text-decoration: underline;
@@ -74,7 +75,7 @@
         }
       }
       .user-actions {
-        margin-top: 25px;
+        margin-bottom: 25px;
         svg {
           cursor: pointer;
           margin-left: 10px;
