@@ -212,7 +212,7 @@ function OptedAssets(): JSX.Element {
 
 
                                   </CardContent>
-                                  <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.6)'}}>
+                                  <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.2)'}}>
                                       <div className="roles">
                                           <div className="role">
                                               Manager
