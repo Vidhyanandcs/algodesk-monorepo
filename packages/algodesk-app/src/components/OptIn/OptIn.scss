@@ -1,0 +1,41 @@
+@import '../../assets/colors';
+
+.opt-in-wrapper {
+  .opt-in-container {
+    .searching {
+      height: 400px;
+      overflow: auto;
+      text-align: center;
+      .text {
+        margin-top: 20px;
+      }
+    }
+    .searched-assets {
+      height: 400px;
+      overflow: auto;
+      .no-results {
+        text-align: center;
+        margin-top: 150px;
+      }
+      .asset {
+        padding: 20px;
+        border-radius: 10px;
+        background: #DAF0E3;
+        margin: 10px 0px;
+        font-size: 15px;
+        font-weight: bold;
+        svg {
+          margin-top: -4px;
+          float: right;
+          display: none;
+        }
+        &:hover {
+          cursor: pointer;
+          svg {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

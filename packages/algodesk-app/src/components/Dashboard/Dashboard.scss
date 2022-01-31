@@ -10,11 +10,14 @@
     .dashboard-header {
       font-size: 24px;
       font-weight: bold;
-      margin-bottom: 25px;
-      border-bottom: 1px solid $color-grey-light;
-      padding-bottom: 20px;
+      padding-bottom: 15px;
       display: flex;
       justify-content: space-between;
+    }
+    .dashboard-body {
+      .dashboard-tabs {
+        border-bottom: 1px solid $color-grey-light;
+      }
     }
   }
 }

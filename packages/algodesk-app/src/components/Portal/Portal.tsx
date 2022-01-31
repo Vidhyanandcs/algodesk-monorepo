@@ -31,15 +31,6 @@ function Portal(): JSX.Element {
                       </Switch>
                   </Grid>
               </Grid>
-
-
-            {/*<Header></Header>*/}
-            {/*  <Switch>*/}
-            {/*      <Route path="/portal/dashboard">*/}
-            {/*          <Dashboard></Dashboard>*/}
-            {/*      </Route>*/}
-            {/*      <Route exact path="/portal" render={() => <Redirect to="/portal/dashboard" />} />*/}
-            {/*  </Switch>*/}
           </div>
           <TransactionDetails></TransactionDetails>
       </div>

@@ -1,4 +1,4 @@
-#pragma version 5
+export default `#pragma version 5
 global GroupSize
 int 2
 ==
@@ -52,4 +52,4 @@ global ZeroAddress
 ==
 assert
 int 1
-return
+return`

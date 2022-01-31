@@ -4,10 +4,10 @@
   margin-right: 10px;
 }
 
-.assets-wrapper {
-  .assets-container {
+.created-assets-wrapper {
+  .created-assets-container {
     margin-top: 50px;
-    .assets-header {
+    .created-assets-header {
       display: flex;
       justify-content: space-between;
     }
@@ -47,7 +47,7 @@
           .name {
             font-style: normal;
             font-weight: 600;
-            font-size: 24px;
+            font-size: 22px;
             line-height: 36px;
           }
           .param {

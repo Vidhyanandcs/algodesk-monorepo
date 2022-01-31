@@ -60,6 +60,17 @@ export class AccountClient{
         }
     }
 
+    isCreatedAsset(assetId: number, accountInfo: A_AccountInformation): boolean {
+        const createdAssets = this.getCreatedAssets(accountInfo);
+        for (const asset of createdAssets) {
+            if (asset.index === assetId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     balanceOf(assetId: number, accountInfo: A_AccountInformation): number {
         const asset = this.getHoldingAsset(assetId, accountInfo);
 

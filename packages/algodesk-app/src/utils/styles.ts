@@ -34,5 +34,10 @@ export function getCommonStyles(theme: Theme) {
         secondaryBorder: {
             borderColor: theme.palette.secondary.main + ' !important'
         },
+        yellowColorOnHover: {
+            '&:hover': {
+                color: '#e2d225'
+            }
+        }
     };
 }
