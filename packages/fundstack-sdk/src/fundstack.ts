@@ -562,7 +562,7 @@ export class Fundstack {
             }
             if (operation === FUND_OPERATIONS.OWNER_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'OptedAssets withdraw';
+                activity.label = 'Assets withdraw';
             }
             if (operation === FUND_OPERATIONS.OWNER_CLAIM) {
                 isValidOperation = true;

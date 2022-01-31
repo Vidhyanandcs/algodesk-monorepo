@@ -25,7 +25,9 @@
     "build:esm": "tsc -p ./tsconfig-esm.json",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
     "build:browser": "webpack",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "copy-files-esm": "copyfiles -u 1 \"src/**/*.teal\" dist/esm/src",
+    "copy-files-cjs": "copyfiles -u 1 \"src/**/*.teal\" dist/cjs/src"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"

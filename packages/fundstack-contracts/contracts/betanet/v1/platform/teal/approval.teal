@@ -1,9 +1,9 @@
 #pragma version 5
-callsub sub2
+callsub isCreate_2
 bnz main_l15
-callsub sub3
+callsub isUpdate_3
 bnz main_l14
-callsub sub4
+callsub isDelete_4
 bnz main_l13
 txna ApplicationArgs 0
 byte "validate_fund"
@@ -31,7 +31,7 @@ assert
 itxn_begin
 int axfer
 itxn_field TypeEnum
-txna OptedAssets 0
+txna Assets 0
 itxn_field XferAsset
 byte "c"
 app_global_get
@@ -39,7 +39,7 @@ itxn_field AssetReceiver
 txna ApplicationArgs 1
 btoi
 int 0
-callsub sub5
+callsub getAssetMicros_5
 *
 itxn_field AssetAmount
 itxn_submit
@@ -63,7 +63,7 @@ app_global_get
 itxn_field Receiver
 txna ApplicationArgs 1
 btoi
-callsub sub7
+callsub AlgoToMicroAlgo_7
 itxn_field Amount
 itxn_submit
 int 1
@@ -134,10 +134,10 @@ main_l12:
 load 1
 b main_l11
 main_l13:
-callsub sub6
+callsub allowOperation_6
 return
 main_l14:
-callsub sub6
+callsub allowOperation_6
 return
 main_l15:
 global GroupSize
@@ -173,28 +173,40 @@ int 50
 app_global_put
 int 1
 return
-sub0: // getAppId
+
+// getAppId
+getAppId_0:
 txn ApplicationID
 retsub
-sub1: // getTxnAction
+
+// getTxnAction
+getTxnAction_1:
 txn OnCompletion
 retsub
-sub2: // isCreate
-callsub sub0
+
+// isCreate
+isCreate_2:
+callsub getAppId_0
 int 0
 ==
 retsub
-sub3: // isUpdate
-callsub sub1
+
+// isUpdate
+isUpdate_3:
+callsub getTxnAction_1
 int UpdateApplication
 ==
 retsub
-sub4: // isDelete
-callsub sub1
+
+// isDelete
+isDelete_4:
+callsub getTxnAction_1
 int DeleteApplication
 ==
 retsub
-sub5: // getAssetMicros
+
+// getAssetMicros
+getAssetMicros_5:
 store 2
 load 2
 asset_params_get AssetDecimals
@@ -204,12 +216,16 @@ int 10
 load 4
 exp
 retsub
-sub6: // allowOperation
+
+// allowOperation
+allowOperation_6:
 int 1
 int 1
 ==
 retsub
-sub7: // AlgoToMicroAlgo
+
+// AlgoToMicroAlgo
+AlgoToMicroAlgo_7:
 store 5
 load 5
 int 1000000
