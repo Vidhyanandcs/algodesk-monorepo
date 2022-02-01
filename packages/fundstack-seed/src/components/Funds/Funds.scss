@@ -11,7 +11,7 @@
       }
     }
     header {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       border-bottom: 1px solid $color-grey-light;
       margin: 10px;
@@ -19,6 +19,10 @@
       margin-top: 0px;
       padding-left: 0px;
       margin-bottom: 20px;
+      margin-bottom: 20px;
+      padding-top: 8px;
+      padding-bottom: 25px;
+      font-family: MontserratBold !important;
     }
     .funds {
       margin-top: 20px;
@@ -34,7 +38,6 @@
       }
       .fund {
         border-radius: 10px;
-        border: 1px solid $color-grey-light;
         padding: 20px;
         background: #F6FBF8;
         position: relative;

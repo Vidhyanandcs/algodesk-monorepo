@@ -605,7 +605,7 @@ export class Fundstack {
     }
 
     getAccountFunds(accountInfo: A_AccountInformation): A_Application[] {
-        const funds:A_Application[] = [];
+        let funds:A_Application[] = [];
 
         const contracts = getContracts(this.network);
         const {compiledApprovalProgram, compiledClearProgram} = contracts;
@@ -618,6 +618,10 @@ export class Fundstack {
             if (appApprovalProgram === compiledApprovalProgram.result && appClearProgram === compiledClearProgram.result) {
                 funds.push(app);
             }
+        });
+
+        funds = funds.sort((a, b) => {
+            return b.id - a.id;
         });
 
         return funds;

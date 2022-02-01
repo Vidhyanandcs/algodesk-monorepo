@@ -10,7 +10,7 @@ import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationCo
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
-import {CheckCircle, Warning} from "@material-ui/icons";
+import {CheckCircle, Cancel} from "@material-ui/icons";
 import InfoIcon from '@material-ui/icons/Info';
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -49,7 +49,7 @@ function FundStatus(): JSX.Element {
                 <div className="tile-name">
                     Fund status
                     {status.sale.completed ? <span style={{marginTop: -5}}>
-                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} className="no-border-chip" variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} className="no-border-chip" variant={"outlined"} icon={<Warning></Warning>} color={"secondary"} size={"small"}/> }
+                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} className="no-border-chip" variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} className="no-border-chip" variant={"outlined"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
                     </span> : ''}
 
                 </div>

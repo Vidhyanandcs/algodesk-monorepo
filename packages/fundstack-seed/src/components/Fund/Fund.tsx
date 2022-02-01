@@ -5,11 +5,15 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {loadFund, publish} from "../../redux/actions/fund";
 import {Alert} from "@material-ui/lab";
-import {Button, Grid, makeStyles} from "@material-ui/core";
+import {Breadcrumbs, Button, Grid, Link, makeStyles, Typography} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import loadingLogo from '../../assets/images/logo-loading.gif';
 import {getCommonStyles} from "../../utils/styles";
 import fundstackSdk from "../../utils/fundstackSdk";
+import RegistrationTile from "../RegistrationTile/RegistrationTile";
+import WithdrawTile from "../WithdrawTile/WithdrawTile";
+import ClaimsTile from "../ClaimsTile/ClaimsTile";
+import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 
 
 const useStyles = makeStyles((theme) => {
@@ -44,11 +48,20 @@ function Fund(): JSX.Element {
       <div className="fund-wrapper">
           <div className="fund-container">
 
+              <Breadcrumbs className="crumb">
+                  <Link underline="hover" color="inherit" href="#/portal/dashboard/funds/home">
+                      Home
+                  </Link>
+                  <Typography color="textPrimary">{fund && fund.id ? fund.id : 'fund'}</Typography>
+              </Breadcrumbs>
 
               {fundDetails.loading ? <div className="loading-fund">
                   <img src={loadingLogo} alt="loading ..."></img>
                   <div className="text">loading ...</div>
               </div> : <div>
+
+
+
                   {fund ? <div>
                       {!fund.valid ? <div>
                           <Alert color={"success"} icon={false} style={{borderRadius: 10}}>
@@ -83,6 +96,22 @@ function Fund(): JSX.Element {
 
                                   </section>
 
+                              </div>
+
+                              <div className="fund-body">
+                                  <div className="fund-strip">
+                                      <Grid container spacing={2}>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                            <RegistrationTile></RegistrationTile>
+                                          </Grid>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                            <InvestmentsTile></InvestmentsTile>
+                                          </Grid>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                            {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
+                                          </Grid>
+                                      </Grid>
+                                  </div>
                               </div>
 
                           </Grid>

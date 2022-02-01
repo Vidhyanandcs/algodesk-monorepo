@@ -1,4 +1,7 @@
 .dashboard-wrapper {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
   .dashboard-container {
     h1 {
       font-size: 24px;
