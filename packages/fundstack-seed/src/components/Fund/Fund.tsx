@@ -18,6 +18,7 @@ import FundStatus from "../FundStatus/FundStatus";
 import FundEscrow from "../FundEscrow/FundEscrow";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import MyFundActivity from "../MyFundActivity/MyFundActivity";
+import FundTimeline from "../FundTimeline/FundTimeline";
 
 
 const useStyles = makeStyles((theme) => {
@@ -134,8 +135,8 @@ function Fund(): JSX.Element {
                                                   </Grid>
                                               </Grid>
                                           </Grid>
-                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-
+                                          <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                            <FundTimeline></FundTimeline>
                                           </Grid>
                                       </Grid>
                                   </div>
