@@ -1,0 +1,50 @@
+@import '../../assets/colors';
+
+.asset-details-tile-wrapper {
+  .asset-details-tile-container {
+    border-radius: 10px;
+    background: #FDFDF3;
+    padding: 30px;
+    height: 360px;
+    .tile-name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .data {
+      .tabs {
+        border-bottom: 1px solid #ffffff;
+      }
+      .tab-content {
+        margin-top: 30px;
+        .pair {
+          display: flex;
+          margin: 40px 0px;
+          justify-content: space-between;
+          .key {
+            font-size: 18px;
+            svg {
+              margin-left: 10px;
+              vertical-align: middle;
+              color: #666666;
+            }
+          }
+          .value {
+            font-size: 18px;
+            font-weight: bold;
+            .algo-logo {
+              display: inline-block;
+              margin-left: 5px;
+              width: 16px;
+            }
+            &.clickable {
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
