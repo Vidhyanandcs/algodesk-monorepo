@@ -101,13 +101,13 @@ function Fund(): JSX.Element {
                               <div className="fund-body">
                                   <div className="fund-strip">
                                       <Grid container spacing={2}>
-                                          <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                             <RegistrationTile></RegistrationTile>
                                           </Grid>
-                                          <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                             <InvestmentsTile></InvestmentsTile>
                                           </Grid>
-                                          <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                                          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                             {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
                                           </Grid>
                                       </Grid>

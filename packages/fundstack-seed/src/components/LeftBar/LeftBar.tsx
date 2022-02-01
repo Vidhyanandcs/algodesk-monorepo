@@ -70,11 +70,7 @@ function LeftBar(): JSX.Element {
                   <div className="addr">
                         <span onClick={() => {
                             fundstackSdk.explorer.openAccount(account.information.address);
-                        }}>{ellipseAddress(account.information.address, 8)}</span>
-                  </div>
-                  <div className="bal">
-                      Balance: {microalgosToAlgos(account.information.amount)}
-                      <img src={algoLogo} alt="Algo"/>
+                        }}>{ellipseAddress(account.information.address, 10)}</span>
                   </div>
                   <div className="user-actions">
                       <Tooltip title="Copy address">
@@ -99,6 +95,10 @@ function LeftBar(): JSX.Element {
                                       <CropFree fontSize={"small"}></CropFree>
                               </span>
                       </Tooltip>
+                  </div>
+                  <div className="bal">
+                      Balance: {microalgosToAlgos(account.information.amount)}
+                      <img src={algoLogo} alt="Algo"/>
                   </div>
               </div>
 

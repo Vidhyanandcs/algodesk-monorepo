@@ -44,6 +44,7 @@ function Funds(): JSX.Element {
                           <Button variant={"contained"}
                                   color={"primary"}
                                   size={"large"}
+                                  className="custom-button"
                                   onClick={() => {
                                       history.push('/portal/dashboard/funds/create');
                                   }}
@@ -68,14 +69,14 @@ function Funds(): JSX.Element {
                                                       ID: {fund.id}
                                                   </div>
                                                   <div className="fund-status">
-                                                      <Button variant={"contained"}
+                                                      <Button variant={"outlined"}
                                                               color={"primary"}
                                                               size={"small"}
                                                               onClick={() => {
                                                                   console.log(fund);
                                                                   history.push('/portal/dashboard/funds/' + fund.id);
                                                               }}
-                                                      >View</Button>
+                                                      >Open</Button>
                                                   </div>
 
                                                   <div className="footer">
