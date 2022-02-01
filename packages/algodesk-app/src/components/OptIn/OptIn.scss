@@ -2,6 +2,7 @@
 
 .opt-in-wrapper {
   .opt-in-container {
+    height: 500px;
     .searching {
       height: 400px;
       overflow: auto;
@@ -10,29 +11,32 @@
         margin-top: 20px;
       }
     }
+    .no-results {
+      height: 250px;
+      text-align: center;
+      padding-top: 150px;
+    }
     .searched-assets {
-      height: 400px;
+      max-height: 400px;
       overflow: auto;
-      .no-results {
-        text-align: center;
-        margin-top: 150px;
-      }
+      background: #F6FBF8;
+      margin-top: -15px;
+      border-radius: 10px;
       .asset {
         padding: 20px;
-        border-radius: 10px;
-        background: #DAF0E3;
-        margin: 10px 0px;
+        border-top: 1px solid $color-grey-light;
         font-size: 15px;
         font-weight: bold;
-        svg {
-          margin-top: -4px;
-          float: right;
-          display: none;
-        }
+        position: relative;
         &:hover {
-          cursor: pointer;
-          svg {
-            display: block;
+          background: #E3F4EA;
+        }
+        svg {
+          position: absolute;
+          right: 15px;
+          top: 30px;
+          &:hover {
+            cursor: pointer;
           }
         }
       }
