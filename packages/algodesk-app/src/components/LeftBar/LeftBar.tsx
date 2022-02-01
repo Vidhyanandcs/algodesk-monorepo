@@ -24,6 +24,7 @@ import {RootState} from "../../redux/store";
 import {showSnack} from "../../redux/actions/snackbar";
 import QRCode from "qrcode.react";
 import algosdk from "../../utils/algosdk";
+import newLogo from '../../assets/images/logo-white.png';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -61,7 +62,7 @@ function LeftBar(): JSX.Element {
           <div className="left-bar-container">
               <div className="logo">
                   <div className="text">
-                      Algodesk
+                      <img src={newLogo} alt="logo"/>
                   </div>
 
               </div>

@@ -31,13 +31,13 @@ import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
 
 function processAssetParam(value: string = ""): string {
-    return value ? ellipseAddress(value, 12) : "(None)";
+    return value ? ellipseAddress(value, 12) : "[None]";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
     const cls: string[] = ['value back-highlight'];
     const indicatorCls: string [] = ['indicator'];
-    let icon = <NotInterested fontSize={"large"} color={"secondary"}></NotInterested>;
+    let icon = <NotInterested fontSize={"large"}></NotInterested>;
 
     if (value) {
         cls.push('clickable');
@@ -214,7 +214,7 @@ function CreatedAssets(): JSX.Element {
                                           </div>
                                       }
                                       avatar={<div>
-                                          <div className={'asset-id'}>ID: {asset.index}</div>
+                                          <div className={classes.primaryText +' asset-id'}>{asset.params.name}</div>
                                       </div>}
                                       subheader=""
                                       variant="outlined"
@@ -226,8 +226,8 @@ function CreatedAssets(): JSX.Element {
 
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
 
-                                                  <div className={"name " + classes.primaryText}>
-                                                      {asset.params.name}
+                                                  <div className={"name"}>
+                                                      ID: {asset.index}
                                                   </div>
                                               </Grid>
                                               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>

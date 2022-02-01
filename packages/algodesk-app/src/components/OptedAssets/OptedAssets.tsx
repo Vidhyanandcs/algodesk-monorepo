@@ -163,14 +163,14 @@ function OptedAssets(): JSX.Element {
                                       action={
                                           <div>
                                               <Tooltip title="View in explorer">
-                                                  <IconButton style={{color: "#e2d225"}} onClick={(ev) => {
+                                                  <IconButton onClick={(ev) => {
                                                       algosdk.explorer.openAsset(asset.index);
                                                   }}>
-                                                      <Launch />
+                                                      <Launch fontSize={"small"}/>
                                                   </IconButton>
                                               </Tooltip>
                                               <Tooltip title="Asset actions">
-                                                  <IconButton style={{color: "#e2d225"}} onClick={(ev) => {
+                                                  <IconButton onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
@@ -214,17 +214,17 @@ function OptedAssets(): JSX.Element {
                                   </CardContent>
                                   <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.2)'}}>
                                       <div className="roles">
-                                          <div className="role">
+                                          <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>
                                               Manager
                                               {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
                                           </div>
 
-                                          <div className="role">
+                                          <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>
                                               Freeze
                                               {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
                                           </div>
 
-                                          <div className="role">
+                                          <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>
                                               Clawback
                                               {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
                                           </div>
