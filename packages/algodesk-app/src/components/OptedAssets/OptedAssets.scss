@@ -17,11 +17,13 @@
         padding: 0px 10px;
         .roles {
           display: flex;
-          min-height: 15px;
+          justify-content: space-between;
+          width: 100%;
           .role {
             font-family: PoppinsLight !important;
-            &:not(:first-child) {
-              margin-left: 15px;
+            color: $color-grey-dark;
+            &.no {
+              color: $color-grey;
             }
             svg {
               vertical-align: middle;
@@ -48,16 +50,13 @@
           font-size: 18px;
         }
         .params {
-          margin-top: -25px;
-          margin-bottom: 25px;
+          margin-bottom: 15px;
           .balance {
-            font-weight: bold;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
           }
           .name {
-            font-weight: bold;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;

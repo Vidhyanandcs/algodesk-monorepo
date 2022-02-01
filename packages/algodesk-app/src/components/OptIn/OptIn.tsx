@@ -1,16 +1,17 @@
 import './OptIn.scss';
 import {
+    Button, ButtonGroup,
     CircularProgress,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle, FormControl, FormControlLabel, Grid,
-    IconButton, InputAdornment, makeStyles, Radio, RadioGroup, TextField
+    DialogTitle, Grid,
+    IconButton, InputBase, makeStyles
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {setAction} from "../../redux/actions/assetActions";
 import {showLoader, hideLoader} from "../../redux/actions/loader";
-import {CancelOutlined, ControlPoint, Search} from "@material-ui/icons";
+import {CancelOutlined, AddCircle, Search} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import React, {useEffect, useState} from "react";
 import algosdk from "../../utils/algosdk";
@@ -147,49 +148,48 @@ function OptIn(): JSX.Element {
                 <div className="opt-in-wrapper">
                     <div className="opt-in-container">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: "center", marginTop: -18}}>
-                                <FormControl component="fieldset">
-                                    <RadioGroup row={true} value={searchBy} onChange={(e) => {
-                                        setState(prevState => ({...prevState, searchBy: e.currentTarget.value}));
-                                    }}>
-                                        <FormControlLabel value="name" control={<Radio color={"primary"}/>} label="By name"/>
-                                        <FormControlLabel value="id" control={<Radio color={"primary"}/>} label="By ID"/>
-                                    </RadioGroup>
-                                </FormControl>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: "center", height: 60}}>
+
+                                <ButtonGroup variant="outlined" color="primary" fullWidth>
+                                    <Button variant={searchBy === 'name' ? 'contained' : 'outlined'} onClick={() => {
+                                        setState(prevState => ({...prevState, searchBy: 'name'}));
+                                    }}>Asset Name</Button>
+                                    <Button variant={searchBy === 'id' ? 'contained' : 'outlined'} onClick={() => {
+                                        setState(prevState => ({...prevState, searchBy: 'id'}));
+                                    }}>Asset Id</Button>
+                                </ButtonGroup>
+
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
-                                <TextField
+                                <InputBase
                                     placeholder={searchBy === 'name' ? 'Planet watch' : '87234773'}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start" style={{color: '#828282'}}>
-                                                <Search />
-                                            </InputAdornment>
-                                        ),
-                                    }}
+
                                     onChange={(ev) => {
                                         debounce(() => {
                                             setState(prevState => ({...prevState, searchText: ev.target.value}));
                                         }, 1000)();
                                     }}
-                                    label="" variant="outlined" fullWidth/>
+                                    endAdornment={<Search color={"primary"}></Search>}
+                                    fullWidth style={{background: '#F6FBF8', padding: 15, borderRadius: 10}}/>
 
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 {searching ? <div className="searching">
                                     <CircularProgress style={{marginTop: 100}}/>
                                     <div className="text">searching ...</div>
-                                </div> : <div className="searched-assets">
+                                </div> : <div>
+
                                     {assets.length === 0 ? <div className="no-results">
                                         No results found
-                                    </div> : <div>
+                                    </div> : <div className="searched-assets">
                                         {assets.map((asset) => {
                                             return (<div className="asset" key={asset.index}>
-                                                {asset.params.name} #{asset.index}
-                                                <ControlPoint onClick={() => {
+                                                <span className={classes.primaryText}>{asset.params.name}</span>
+                                                <div style={{marginTop: 10}}>ID: {asset.index}</div>
+                                                <AddCircle color={"primary"} onClick={() => {
                                                     optIn(asset.index);
-                                                }}></ControlPoint>
+                                                }}></AddCircle>
                                             </div>);
                                         })}
                                     </div>}
