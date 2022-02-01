@@ -2,6 +2,7 @@
 
 .opt-in-wrapper {
   .opt-in-container {
+    height: 500px;
     .searching {
       height: 400px;
       overflow: auto;
@@ -16,7 +17,7 @@
       padding-top: 150px;
     }
     .searched-assets {
-      height: 400px;
+      max-height: 400px;
       overflow: auto;
       background: #F6FBF8;
       margin-top: -15px;
