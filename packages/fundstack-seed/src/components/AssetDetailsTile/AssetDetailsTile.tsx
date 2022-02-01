@@ -1,7 +1,7 @@
 import './AssetDetailsTile.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {makeStyles, Tab, Tabs, Tooltip} from "@material-ui/core";
+import {Link, makeStyles, Tab, Tabs, Tooltip} from "@material-ui/core";
 import React, {useState} from "react";
 import {ellipseAddress, formatNumWithDecimals} from "@algodesk/core";
 import fundstackSdk from "../../utils/fundstackSdk";
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         tabLabel: {
-            fontSize: 16,
+            fontSize: 18,
             lineHeight: 1,
             fontWeight: 600
         }
@@ -28,10 +28,18 @@ const initialState: AssetDetailsTileState = {
     tab: "pool_information"
 };
 
+function getLink(url): JSX.Element {
+    if (url) {
+        return (<Link href={url} target="_blank" style={{color: '#000'}}>{url}</Link>);
+    }
+
+    return (<span>(Empty)</span>);
+}
+
 function AssetDetailsTile(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
-    const {asset} = fund;
+    const {asset, company} = fund;
     const {params} = asset;
     const {decimals} = params;
     const classes = useStyles();
@@ -45,11 +53,17 @@ function AssetDetailsTile(): JSX.Element {
       <div className="asset-details-tile-wrapper">
           <div className="asset-details-tile-container">
               <div className="data">
-                  <Tabs value={tab} className="tabs" onChange={(event, newValue) => {
-                      setState(prevState => ({ ...prevState, tab: newValue }));
-                  }} indicatorColor="primary">
+                  <Tabs
+                      value={tab}
+                      TabIndicatorProps={{style: {background: '#666'}}}
+                      className="tabs"
+                        onChange={(event, newValue) => {
+                            setState(prevState => ({ ...prevState, tab: newValue }));
+                        }}
+                      >
                       <Tab label="Pool information" value="pool_information" className={classes.tabLabel}/>
                       <Tab label="Asset information" value="asset_information" className={classes.tabLabel}/>
+                      <Tab label="Company information" value="company_information" className={classes.tabLabel}/>
                   </Tabs>
                   {tab === 'pool_information' ? <div className="tab-content">
                       <div className="pair">
@@ -121,6 +135,28 @@ function AssetDetailsTile(): JSX.Element {
                       <div className="pair">
                           <div className="key">Decimals</div>
                           <div className="value">{fund.asset.params.decimals}</div>
+                      </div>
+                  </div> : ''}
+                  {tab === 'company_information' ? <div className="tab-content">
+                      <div className="pair">
+                          <div className="key">Website</div>
+                          <div className="value">{getLink(company.website)}</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">Whitepaper</div>
+                          <div className="value">{getLink(company.whitePaper)}</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">Tokenomics</div>
+                          <div className="value">{getLink(company.tokenomics)}</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">Github</div>
+                          <div className="value">{getLink(company.github)}</div>
+                      </div>
+                      <div className="pair">
+                          <div className="key">Twitter</div>
+                          <div className="value">{getLink(company.twitter)}</div>
                       </div>
                   </div> : ''}
               </div>

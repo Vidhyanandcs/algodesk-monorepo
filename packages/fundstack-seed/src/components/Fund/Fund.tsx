@@ -17,6 +17,7 @@ import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import FundStatus from "../FundStatus/FundStatus";
 import FundEscrow from "../FundEscrow/FundEscrow";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
+import MyFundActivity from "../MyFundActivity/MyFundActivity";
 
 
 const useStyles = makeStyles((theme) => {
@@ -113,15 +114,6 @@ function Fund(): JSX.Element {
                                           <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
                                             {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
                                           </Grid>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                              <RegistrationTile></RegistrationTile>
-                                          </Grid>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                              <RegistrationTile></RegistrationTile>
-                                          </Grid>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                              <RegistrationTile></RegistrationTile>
-                                          </Grid>
                                       </Grid>
                                   </div>
                                   <div style={{marginTop: 20}}>
@@ -129,13 +121,16 @@ function Fund(): JSX.Element {
                                           <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
                                               <Grid container spacing={2}>
                                                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                      <FundEscrow></FundEscrow>
+                                                      <FundStatus></FundStatus>
                                                   </Grid>
                                                   <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                      <FundStatus></FundStatus>
+                                                      <FundEscrow></FundEscrow>
                                                   </Grid>
                                                   <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
                                                       <AssetDetailsTile></AssetDetailsTile>
+                                                  </Grid>
+                                                  <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                                      <MyFundActivity></MyFundActivity>
                                                   </Grid>
                                               </Grid>
                                           </Grid>
