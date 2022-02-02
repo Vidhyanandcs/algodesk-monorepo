@@ -705,9 +705,23 @@ export class Fundstack {
         return totalAllocation / Math.pow(10, decimals);
     }
 
+    getRemainingAllocationInDecimals(fund: Fund): number {
+        const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation];
+        const decimals = fund.asset.params.decimals
+        return remainingAllocation / Math.pow(10, decimals);
+    }
+
+    getSoldAllocationInDecimals(fund: Fund): number {
+        return this.getTotalAllocationInDecimals(fund) - this.getRemainingAllocationInDecimals(fund);
+    }
+
     getPrice(fund: Fund): number {
         const price = fund.globalState[globalStateKeys.price];
         return microalgosToAlgos(price);
+    }
+
+    getTotalFundsRaised(fund: Fund): number {
+        return this.getSoldAllocationInDecimals(fund) * this.getPrice(fund);
     }
 
     getSuccessCriteriaPercentage(fund: Fund): number {

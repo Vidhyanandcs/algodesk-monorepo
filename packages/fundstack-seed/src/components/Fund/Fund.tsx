@@ -5,20 +5,18 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {loadFund, publish} from "../../redux/actions/fund";
 import {Alert} from "@material-ui/lab";
-import {Breadcrumbs, Button, Grid, Link, makeStyles, Typography} from "@material-ui/core";
+import {Button, Grid, Link, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import loadingLogo from '../../assets/images/logo-loading.gif';
 import {getCommonStyles} from "../../utils/styles";
 import fundstackSdk from "../../utils/fundstackSdk";
-import RegistrationTile from "../RegistrationTile/RegistrationTile";
-import WithdrawTile from "../WithdrawTile/WithdrawTile";
-import ClaimsTile from "../ClaimsTile/ClaimsTile";
-import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import FundStatus from "../FundStatus/FundStatus";
 import FundEscrow from "../FundEscrow/FundEscrow";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import MyFundActivity from "../MyFundActivity/MyFundActivity";
 import FundTimeline from "../FundTimeline/FundTimeline";
+import {ArrowBack} from "@material-ui/icons";
+import FundStrip from "../FundStrip/FundStrip";
 
 
 const useStyles = makeStyles((theme) => {
@@ -32,15 +30,11 @@ const useStyles = makeStyles((theme) => {
 });
 
 function Fund(): JSX.Element {
-    const account = useSelector((state: RootState) => state.account);
     const params = useParams();
     const dispatch = useDispatch();
     const fundDetails = useSelector((state: RootState) => state.fund);
     const {fund} = fundDetails;
     const classes = useStyles();
-
-    console.log(fund);
-    console.log(account);
 
     // @ts-ignore
     const id: number = params.id;
@@ -52,13 +46,6 @@ function Fund(): JSX.Element {
   return (
       <div className="fund-wrapper">
           <div className="fund-container">
-
-              <Breadcrumbs className="crumb">
-                  <Link underline="hover" color="inherit" href="#/portal/dashboard/funds/home">
-                      Home
-                  </Link>
-                  <Typography color="textPrimary">{fund && fund.id ? fund.id : 'fund'}</Typography>
-              </Breadcrumbs>
 
               {fundDetails.loading ? <div className="loading-fund">
                   <img src={loadingLogo} alt="loading ..."></img>
@@ -78,11 +65,15 @@ function Fund(): JSX.Element {
                               <div className="fund-header">
                                   <section>
                                       <div className={classes.primaryText + " fund-name"}>
+                                          <Link underline="hover" color="inherit" href="#/portal/dashboard/funds/home">
+                                              <ArrowBack fontSize={"medium"}></ArrowBack>
+                                          </Link>
+
                                           {fund.globalState[globalStateKeys.name]}
                                       </div>
                                       <div className={"fund-id"} onClick={() => {
                                           fundstackSdk.explorer.openApplication(fund.id);
-                                      }
+                                        }
                                       }>
                                           ID: {fund.id}
                                       </div>
@@ -104,19 +95,7 @@ function Fund(): JSX.Element {
                               </div>
 
                               <div className="fund-body">
-                                  <div className="fund-strip">
-                                      <Grid container spacing={2}>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                            <RegistrationTile></RegistrationTile>
-                                          </Grid>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                            <InvestmentsTile></InvestmentsTile>
-                                          </Grid>
-                                          <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                                            {fund.status.sale.completed && !fund.status.targetReached ?  <WithdrawTile></WithdrawTile> : <ClaimsTile></ClaimsTile>}
-                                          </Grid>
-                                      </Grid>
-                                  </div>
+                                  <FundStrip></FundStrip>
                                   <div style={{marginTop: 20}}>
                                       <Grid container spacing={2}>
                                           <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
