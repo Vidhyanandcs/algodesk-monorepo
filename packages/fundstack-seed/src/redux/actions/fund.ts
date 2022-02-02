@@ -102,6 +102,8 @@ export const publish = createAsyncThunk(
 
             dispatch(showSuccessModal("Published successfully"));
             dispatch(loadAccount(address));
+            dispatch(loadFund(fundId));
+            dispatch(setAction(''));
 
             return txId;
         }

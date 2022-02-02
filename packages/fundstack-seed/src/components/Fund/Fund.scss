@@ -18,15 +18,21 @@
     .fund-header {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
       section {
         .fund-name {
           font-size: 24px;
           font-weight: 700;
+          display: inline-block;
+          svg {
+            margin-right: 20px;
+            color: $color-dark;
+            vertical-align: bottom;
+          }
         }
         .fund-id {
-          margin-top: 10px;
+          margin-left: 45px;
           font-size: 15px;
+          margin-top: 5px;
           &:hover {
             cursor: pointer;
             text-decoration: underline;
@@ -35,72 +41,8 @@
       }
     }
     .fund-body {
-      .fund-strip {
+      .fund-alert {
         margin-top: 25px;
-        background: #F6FBF8;
-        border-radius: 10px;
-        .tile {
-          padding: 15px;
-          .tile-header {
-            .tile-name {
-              font-size: 18px;
-              font-weight: 600;
-            }
-            .tile-status {
-              float: right;
-              margin-top: -28px;
-            }
-          }
-          .tile-body {
-            margin-top: 10px;
-            margin-bottom: 5px;
-            .count {
-              text-align: center;
-              .count-number {
-                font-size: 30px;
-                font-weight: bold;
-                margin-top: 10px;
-                &.date {
-                  font-size: 20px;
-                }
-              }
-              .count-label {
-                font-size: 16px;
-                font-family: MontserratLight !important;
-              }
-            }
-
-
-
-            .lock {
-              text-align: center;
-              margin-top: -10px;
-              .locker {
-                .lock-icon {
-                  color: $color-light;
-                  background: #808285;
-                  border-radius: 50%;
-                  padding: 5px;
-                }
-              }
-              .lock-label {
-                font-size: 16px;
-                margin-top: 5px;
-              }
-            }
-
-
-
-            .tile-row {
-              font-size: 16px;
-              margin-top: 15px;
-              svg {
-                margin-right: 10px;
-                vertical-align: middle;
-              }
-            }
-          }
-        }
       }
     }
   }
