@@ -56,16 +56,6 @@ function FundStrip(): JSX.Element {
                   <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
                       <div className="tile">
                           <div className="tile-name">
-                              Asset ID
-                          </div>
-                          <div className="tile-value small">
-                              {fund.asset.index}
-                          </div>
-                      </div>
-                  </Grid>
-                  <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
-                      <div className="tile">
-                          <div className="tile-name">
                               Price
                           </div>
                           <div className="tile-value small">
@@ -82,6 +72,16 @@ function FundStrip(): JSX.Element {
                           <div className="tile-value small">
                               {fundstackSdk.fundstack.getTotalFundsRaised(fund)}
                               <img src={algoLogo} alt="Algo" className="algo-logo"/>
+                          </div>
+                      </div>
+                  </Grid>
+                  <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
+                      <div className="tile">
+                          <div className="tile-name">
+                              Asset ID
+                          </div>
+                          <div className="tile-value small">
+                              {fund.asset.index}
                           </div>
                       </div>
                   </Grid>

@@ -37,7 +37,7 @@ function FundTimeline(): JSX.Element {
                       <TimelineItem>
                           <TimelineSeparator>
                               <TimelineDot variant={"outlined"}>
-                                  {/*{status.published ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}*/}
+                                  {status.published ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
                               </TimelineDot>
                               <TimelineConnector/>
                           </TimelineSeparator>

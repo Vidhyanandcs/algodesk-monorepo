@@ -4,8 +4,6 @@ import {RootState} from "../../redux/store";
 import React from "react";
 import fundstackSdk from "../../utils/fundstackSdk";
 import algoLogo from "../../assets/images/algo-logo.png";
-import {microalgosToAlgos} from "algosdk";
-
 
 function FundEscrow(): JSX.Element {
     const fundDetails = useSelector((state: RootState) => state.fund);
@@ -26,9 +24,10 @@ function FundEscrow(): JSX.Element {
                 </div>
               <div className="data">
                   <div className="items">
-                      <div className="item key">Algos</div>
+                      <div className="item key">Funds raised</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{microalgosToAlgos(fundstackSdk.fundstack.algodesk.accountClient.getBalance(fund.escrow))}
+                      <div className="item value">
+                          {fundstackSdk.fundstack.getTotalFundsRaised(fund)}
                           <img src={algoLogo} alt="Algo"/>
                       </div>
                   </div>

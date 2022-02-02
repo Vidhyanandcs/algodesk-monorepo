@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {loadFund, publish} from "../../redux/actions/fund";
+import {loadFund, setAction} from "../../redux/actions/fund";
 import {Alert} from "@material-ui/lab";
 import {Button, Grid, Link, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
@@ -17,7 +17,7 @@ import MyFundActivity from "../MyFundActivity/MyFundActivity";
 import FundTimeline from "../FundTimeline/FundTimeline";
 import {ArrowBack} from "@material-ui/icons";
 import FundStrip from "../FundStrip/FundStrip";
-
+import PublishFund from "../PublishFund/PublishFund";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -78,15 +78,14 @@ function Fund(): JSX.Element {
                                           ID: {fund.id}
                                       </div>
                                   </section>
-                                  <section>
+                                  <section style={{marginRight: 50}}>
                                       {!fund.globalState[globalStateKeys.published] ? <Button
                                           color={"primary"}
                                           variant={"contained"}
                                           size={"large"}
                                           className="custom-button"
                                           onClick={() => {
-                                                console.log(fund);
-                                                dispatch(publish(Number(fund.id)));
+                                                dispatch(setAction('publish'));
                                           }}
                                       >Publish</Button> : ''}
 
@@ -95,6 +94,14 @@ function Fund(): JSX.Element {
                               </div>
 
                               <div className="fund-body">
+                                  <div className="fund-alert">
+                                      {!fund.status.published && fund.status.registration.pending ? <div>
+                                          <Alert severity={"warning"} style={{borderRadius: 10}}>Please publish before registration is started.</Alert>
+                                      </div> : ''}
+                                      {!fund.status.published && !fund.status.registration.pending ? <div>
+                                          <Alert severity={"error"} style={{borderRadius: 10}}>Fund not published before registration started. We cannot proceed further.</Alert>
+                                      </div> : ''}
+                                  </div>
                                   <FundStrip></FundStrip>
                                   <div style={{marginTop: 20}}>
                                       <Grid container spacing={2}>
@@ -127,7 +134,7 @@ function Fund(): JSX.Element {
 
               </div>}
 
-
+            <PublishFund></PublishFund>
           </div>
       </div>
   );
