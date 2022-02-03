@@ -8,12 +8,10 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {CancelOutlined, CheckCircle} from "@material-ui/icons";
+import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {getCommonStyles} from "../../utils/styles";
-import {publish, setAction, withdraw} from "../../redux/actions/fund";
-import {globalStateKeys} from "@fundstack/sdk";
-import {microalgosToAlgos} from "algosdk";
+import {setAction, withdraw} from "../../redux/actions/fund";
 
 const useStyles = makeStyles((theme) => {
     return {

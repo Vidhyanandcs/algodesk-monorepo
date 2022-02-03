@@ -5,7 +5,7 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {loadFund, setAction} from "../../redux/actions/fund";
 import {Alert} from "@material-ui/lab";
-import {Button, Grid, Link, makeStyles} from "@material-ui/core";
+import {Button, Grid, Link, makeStyles, Tooltip} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import loadingLogo from '../../assets/images/logo-loading.gif';
 import {getCommonStyles} from "../../utils/styles";
@@ -15,11 +15,12 @@ import FundEscrow from "../FundEscrow/FundEscrow";
 import AssetDetailsTile from "../AssetDetailsTile/AssetDetailsTile";
 import MyFundActivity from "../MyFundActivity/MyFundActivity";
 import FundTimeline from "../FundTimeline/FundTimeline";
-import {ArrowBack} from "@material-ui/icons";
+import {ArrowBack, CachedRounded, Launch} from "@material-ui/icons";
 import FundStrip from "../FundStrip/FundStrip";
 import PublishFund from "../PublishFund/PublishFund";
 import WithdrawAssets from "../WithdrawAssets/WithdrawAssets";
 import ClaimFunds from "../ClaimFunds/ClaimFunds";
+import {REACT_APP_INVESTOR_PORTAL} from "../../env";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -73,12 +74,30 @@ function Fund(): JSX.Element {
 
                                           {fund.globalState[globalStateKeys.name]}
                                       </div>
-                                      <div className={"fund-id"} onClick={() => {
-                                          fundstackSdk.explorer.openApplication(fund.id);
-                                        }
-                                      }>
-                                          ID: {fund.id}
+                                      <div>
+                                          <div className={"fund-id"} onClick={() => {
+                                              fundstackSdk.explorer.openApplication(fund.id);
+                                          }
+                                          }>
+                                              ID: {fund.id}
+                                          </div>
+                                          <Tooltip title="Refresh">
+                                              <div className="reload" onClick={() => {
+                                                  dispatch(loadFund(id));
+                                              }}>
+                                                  <CachedRounded></CachedRounded>
+                                              </div>
+                                          </Tooltip>
+                                          {fund.status.published ? <Tooltip title="Open in investor portal">
+                                              <div className="open" onClick={() => {
+                                                  window.open(REACT_APP_INVESTOR_PORTAL + '/#/portal/fund/' + fund.id, '_blank');
+                                              }}>
+                                                  <Launch></Launch>
+                                              </div>
+                                          </Tooltip> : ''}
+
                                       </div>
+
                                   </section>
                                   <section style={{marginRight: 50}}>
                                       {!fund.globalState[globalStateKeys.published] ? <Button
