@@ -114,6 +114,70 @@ export const publish = createAsyncThunk(
     }
 );
 
+export const withdraw = createAsyncThunk(
+    'fund/withdraw',
+    async (fundId: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            const {address} = account.information;
+
+
+            dispatch(showLoader("Withdrawing ..."));
+            const {txId} = await fundstackSdk.fundstack.ownerWithdraw(fundId);
+            dispatch(hideLoader());
+
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+
+            dispatch(showSuccessModal("Withdrawn successfully"));
+            dispatch(loadAccount(address));
+            dispatch(loadFund(fundId));
+            dispatch(setAction(''));
+
+            return txId;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
+export const claim = createAsyncThunk(
+    'fund/claim',
+    async (data: any, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const appState: any = getState();
+            const {account} = appState;
+            const {address} = account.information;
+
+
+            dispatch(showLoader("Claiming funds ..."));
+            const {txId} = await fundstackSdk.fundstack.ownerClaim(data.fundId, data.unsoldAssetAction);
+            dispatch(hideLoader());
+
+            dispatch(showLoader("Waiting for confirmation ..."));
+            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+
+            dispatch(showSuccessModal("Claimed successfully"));
+            dispatch(loadAccount(address));
+            dispatch(loadFund(data.fundId));
+            dispatch(setAction(''));
+
+            return txId;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
 
 export const getAccountActivity = createAsyncThunk(
     'fund/getAccountActivity',

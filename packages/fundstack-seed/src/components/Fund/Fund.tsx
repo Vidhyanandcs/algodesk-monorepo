@@ -18,6 +18,8 @@ import FundTimeline from "../FundTimeline/FundTimeline";
 import {ArrowBack} from "@material-ui/icons";
 import FundStrip from "../FundStrip/FundStrip";
 import PublishFund from "../PublishFund/PublishFund";
+import WithdrawAssets from "../WithdrawAssets/WithdrawAssets";
+import ClaimFunds from "../ClaimFunds/ClaimFunds";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -89,6 +91,26 @@ function Fund(): JSX.Element {
                                           }}
                                       >Publish</Button> : ''}
 
+                                      {fund.status.sale.completed && !fund.globalState[globalStateKeys.target_reached] && !fund.globalState[globalStateKeys.funds_withdrawn]? <Button
+                                          color={"primary"}
+                                          variant={"contained"}
+                                          size={"large"}
+                                          className="custom-button"
+                                          onClick={() => {
+                                              dispatch(setAction('withdraw'));
+                                          }}
+                                      >Withdraw</Button> : ''}
+
+                                      {fund.status.sale.completed && fund.globalState[globalStateKeys.target_reached] && !fund.globalState[globalStateKeys.funds_claimed]? <Button
+                                          color={"primary"}
+                                          variant={"contained"}
+                                          size={"large"}
+                                          className="custom-button"
+                                          onClick={() => {
+                                              dispatch(setAction('claim'));
+                                          }}
+                                      >Claim funds</Button> : ''}
+
                                   </section>
 
                               </div>
@@ -135,6 +157,8 @@ function Fund(): JSX.Element {
               </div>}
 
             <PublishFund></PublishFund>
+            <WithdrawAssets></WithdrawAssets>
+              <ClaimFunds></ClaimFunds>
           </div>
       </div>
   );
