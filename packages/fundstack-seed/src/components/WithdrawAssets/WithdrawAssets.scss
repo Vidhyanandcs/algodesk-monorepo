@@ -1,0 +1,17 @@
+@import '../../assets/colors';
+
+.withdraw-assets-wrapper {
+  .withdraw-assets-container {
+    .withdraw {
+      header {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      .item {
+        padding: 20px;
+      }
+    }
+  }
+}

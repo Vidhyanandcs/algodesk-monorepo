@@ -18,6 +18,16 @@
     .fund-header {
       display: flex;
       justify-content: space-between;
+      .reload, .open {
+        display: inline-block;
+        margin-left: 15px;
+        svg {
+          vertical-align: bottom;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
       section {
         .fund-name {
           font-size: 24px;
@@ -33,6 +43,7 @@
           margin-left: 45px;
           font-size: 15px;
           margin-top: 5px;
+          display: inline-block;
           &:hover {
             cursor: pointer;
             text-decoration: underline;
