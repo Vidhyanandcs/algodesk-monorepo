@@ -20,7 +20,7 @@ import {
     SwapHorizontalCircleOutlined,
     MoreVert,
     HighlightOffOutlined,
-    ControlPoint, Search, RemoveCircleOutlineOutlined
+    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined
 } from '@material-ui/icons';
 import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
@@ -343,13 +343,21 @@ function OptedAssets(): JSX.Element {
                   <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
-              {/*<MenuItem className={classes.yellowColorOnHover} onClick={() => {*/}
-              {/*    dispatch(setAction('burn'));*/}
-              {/*    closeMenu();*/}
-              {/*}}>*/}
-              {/*    <FireplaceOutlined className={"asset-action-icon"} fontSize={"small"}></FireplaceOutlined>*/}
-              {/*    Burn supply*/}
-              {/*</MenuItem>*/}
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+                  if (network.name === NETWORKS.MAINNET) {
+                      dispatch(showSnack({
+                          severity: 'error',
+                          message: "This feature is not enabled on MainNet"
+                      }));
+                      closeMenu();
+                      return;
+                  }
+                  dispatch(setAction('burn'));
+                  closeMenu();
+              }}>
+                  <FireplaceOutlined className={"asset-action-icon"} fontSize={"small"}></FireplaceOutlined>
+                  Burn supply
+              </MenuItem>
           </Menu>
       </div>
   );
