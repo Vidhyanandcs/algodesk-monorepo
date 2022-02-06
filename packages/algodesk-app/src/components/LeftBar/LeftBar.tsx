@@ -99,7 +99,7 @@ function LeftBar(): JSX.Element {
                       </Tooltip>
                   </div>
                   <div className="bal">
-                      Balance: {microalgosToAlgos(account.information.amount)}
+                      Balance: {microalgosToAlgos(algosdk.algodesk.accountClient.getBalance(account.information))}
                       <img src={algoLogo} alt="Algo"/>
                   </div>
               </div>

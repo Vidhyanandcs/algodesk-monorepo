@@ -85,7 +85,7 @@ export const loadOptedAssets = createAsyncThunk(
             const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
             optedAssets.forEach((asset) => {
                 const isCreatedAsset = algosdk.algodesk.accountClient.isCreatedAsset(asset['asset-id'], accountInformation);
-                if (!isCreatedAsset) {
+                if (!isCreatedAsset && asset.creator) {
                     dispatch(loadOptedAsset(asset['asset-id']));
                 }
             });

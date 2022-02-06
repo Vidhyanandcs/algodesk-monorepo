@@ -271,7 +271,7 @@ function BurnSupply(): JSX.Element {
 
                                 <Alert severity={"warning"} icon={false} className="alert-message">
                                     Please note that {BURN_ADDRESS_MIN_BAL} Algo is a minimun balance requirement for any address(Vault) to hold an asset.
-                                    Algodesk doesn't charge anything for this.
+                                    Algodesk doesn't charge anything for this. This feature is currently enabled only on the TestNet and BetaNet. This feature is highly experimental and please use at your own risk.
                                 </Alert>
 
                                 <div>
