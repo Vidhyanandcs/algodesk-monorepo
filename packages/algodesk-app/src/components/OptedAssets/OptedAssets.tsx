@@ -343,7 +343,7 @@ function OptedAssets(): JSX.Element {
                   <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
                   Swap (Tinyman)
               </MenuItem>
-              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (network.name === NETWORKS.MAINNET) {
                       dispatch(showSnack({
                           severity: 'error',
