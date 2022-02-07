@@ -31,7 +31,7 @@ import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
 
 function processAssetParam(value: string = ""): string {
-    return value ? ellipseAddress(value, 12) : "[None]";
+    return value ? ellipseAddress(value, 12) : "-None-";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {

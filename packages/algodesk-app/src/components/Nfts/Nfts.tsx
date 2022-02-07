@@ -145,40 +145,49 @@ function Nfts(): JSX.Element {
                           return (<Grid item xs={12} sm={4} md={4} lg={3} xl={3} key={nft.asset.index}>
 
                               <Card className={'nft'}>
-                                  <CardHeader
-                                      action={
-                                          <div>
-                                              <Tooltip title="View in explorer">
-                                                  <IconButton color={"primary"} onClick={(ev) => {
-                                                      algosdk.explorer.openAsset(asset.index);
-                                                  }}>
-                                                      <Launch fontSize={"small"}/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                              <Tooltip title="Nft actions">
-                                                  <IconButton color={"primary"} onClick={(ev) => {
-                                                      setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
-                                                      dispatch(setSelectedAsset(asset));
-                                                  }}>
-                                                      <MoreVert/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                          </div>
-                                      }
-                                      avatar={<div>
-                                          <div className={'asset-name'}>ID: {asset.index}</div>
-                                      </div>}
-                                      subheader=""
-                                      variant="outlined"
-                                  />
-                                  <CardContent>
+                                  {/*<CardHeader*/}
+                                  {/*    action={*/}
+                                  {/*        <div>*/}
+                                  {/*            <Tooltip title="View in explorer">*/}
+                                  {/*                <IconButton color={"primary"} onClick={(ev) => {*/}
+                                  {/*                    algosdk.explorer.openAsset(asset.index);*/}
+                                  {/*                }}>*/}
+                                  {/*                    <Launch fontSize={"small"}/>*/}
+                                  {/*                </IconButton>*/}
+                                  {/*            </Tooltip>*/}
+                                  {/*            <Tooltip title="Nft actions">*/}
+                                  {/*                <IconButton color={"primary"} onClick={(ev) => {*/}
+                                  {/*                    setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));*/}
+                                  {/*                    dispatch(setSelectedAsset(asset));*/}
+                                  {/*                }}>*/}
+                                  {/*                    <MoreVert/>*/}
+                                  {/*                </IconButton>*/}
+                                  {/*            </Tooltip>*/}
+                                  {/*        </div>*/}
+                                  {/*    }*/}
+                                  {/*    avatar={<div>*/}
+                                  {/*        <div className={'asset-name'}>ID: {asset.index}</div>*/}
+                                  {/*    </div>}*/}
+                                  {/*    subheader=""*/}
+                                  {/*    variant="outlined"*/}
+                                  {/*/>*/}
+                                  <CardContent style={{padding: 0}}>
 
 
                                     <div className="nft-media">
                                         <img src={nft.metadata.file_url} alt={nft.metadata.description}/>
                                     </div>
 
+
                                     <div className="nft-params">
+                                        <div className="row">
+                                            <div className="item">
+                                                ID
+                                            </div>
+                                            <div className="item">
+                                                {asset.index}
+                                            </div>
+                                        </div>
                                         <div className="row">
                                             <div className="item">
                                                 Name
@@ -195,8 +204,31 @@ function Nfts(): JSX.Element {
                                                 {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                             </div>
                                         </div>
+
                                     </div>
 
+                                      <div className="actions">
+                                          <div className="action">
+                                              <Tooltip title="Send">
+                                                  <IconButton onClick={(ev) => {
+                                                      dispatch(setSelectedAsset(asset));
+                                                      dispatch(setAction('send'));
+                                                  }}>
+                                                      <SendOutlined/>
+                                                  </IconButton>
+                                              </Tooltip>
+                                          </div>
+                                          <div className="item">
+                                              <Tooltip title="Opt-Out">
+                                                  <IconButton onClick={(ev) => {
+                                                      dispatch(setSelectedAsset(asset));
+                                                      dispatch(setAction('opt_out'));
+                                                  }}>
+                                                      <RemoveCircleOutlineOutlined/>
+                                                  </IconButton>
+                                              </Tooltip>
+                                          </div>
+                                      </div>
 
                                   </CardContent>
 
