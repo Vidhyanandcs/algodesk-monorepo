@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {
-    A_AccountInformation, A_Asset
+    A_AccountInformation, A_Asset, A_Nft
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
@@ -11,7 +11,8 @@ export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    optedAssets: A_Asset[]
+    optedAssets: A_Asset[],
+    nfts: A_Nft[]
 }
 
 const information: A_AccountInformation = {
@@ -37,7 +38,8 @@ const initialState: Account = {
     loggedIn: false,
     information,
     createdAssets: [],
-    optedAssets: []
+    optedAssets: [],
+    nfts: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -49,6 +51,8 @@ export const loadAccount = createAsyncThunk(
             const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
+            dispatch(loadNfts(accountInfo));
+
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -110,6 +114,40 @@ export const loadOptedAsset = createAsyncThunk(
     }
 );
 
+export const loadNfts = createAsyncThunk(
+    'account/loadNfts',
+    async (accountInformation: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            dispatch(resetNfts());
+            const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
+            optedAssets.forEach((asset) => {
+                if (asset.creator && asset.amount > 0) {
+                    dispatch(loadNft(asset['asset-id']));
+                }
+            });
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadNft = createAsyncThunk(
+    'account/loadNft',
+    async (id: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const nftDetails = await algosdk.algodesk.nftClient.get(id);
+            console.log(nftDetails);
+            return nftDetails;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const accountSlice = createSlice({
     name: 'account',
     initialState,
@@ -121,6 +159,9 @@ export const accountSlice = createSlice({
         },
         resetOptedAssets: (state) => {
             state.optedAssets = [];
+        },
+        resetNfts: (state) => {
+            state.nfts = [];
         }
     },
     extraReducers: (builder) => {
@@ -134,8 +175,13 @@ export const accountSlice = createSlice({
         builder.addCase(loadOptedAsset.fulfilled, (state, action: PayloadAction<any>) => {
             state.optedAssets.push(action.payload);
         });
+        builder.addCase(loadNft.fulfilled, (state, action: PayloadAction<any>) => {
+            if (action.payload) {
+                state.nfts.push(action.payload);
+            }
+        });
     },
 });
 
-export const { logout, resetOptedAssets } = accountSlice.actions
+export const { logout, resetOptedAssets, resetNfts } = accountSlice.actions
 export default accountSlice.reducer

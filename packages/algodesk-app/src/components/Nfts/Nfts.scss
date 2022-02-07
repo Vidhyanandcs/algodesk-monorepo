@@ -1,0 +1,58 @@
+@import '../../assets/colors';
+
+.nfts-wrapper {
+  .nfts-container {
+    margin-top: 50px;
+    .nfts-header {
+      display: flex;
+      justify-content: space-between;
+    }
+    .nfts {
+      margin-top: 30px;
+      .nft {
+        padding: 0px 10px;
+        border: 1px solid $color-grey-light;
+        border-radius: 10px;
+        .nft-media {
+          margin-top: -15px;
+          img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+          }
+        }
+        .card-action-custom {
+          background: $color-grey-very-light;
+        }
+        .url {
+          padding: 20px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: $color-grey-dark;
+          a {
+            color: $color-grey-dark;
+          }
+        }
+        .asset-name {
+          font-weight: bold;
+          margin-bottom: 10px;
+          font-size: 18px;
+        }
+
+      }
+    }
+    .empty-message {
+      margin-top: 150px;
+      text-align: center;
+      img {
+        width: 200px;
+      }
+      .text {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #A9A9A9;
+        font-size: 18px;
+      }
+    }
+  }
+}

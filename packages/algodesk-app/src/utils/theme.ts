@@ -79,7 +79,9 @@ export const theme = createTheme({
             root: {
                 boxShadow: "none",
                 borderRadius: '10px',
-                background: '#F6FBF8',
+                '&.created-asset': {
+                    background: '#F6FBF8',
+                },
                 '&.opted-asset': {
                     background: '#fdfdf3',
                 }

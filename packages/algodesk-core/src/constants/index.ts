@@ -27,3 +27,5 @@ export enum LOCAL_STORAGE {
 }
 
 export const BURN_ADDRESS_MIN_BAL: number = 0.2;
+
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs';

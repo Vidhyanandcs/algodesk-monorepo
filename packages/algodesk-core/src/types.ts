@@ -283,3 +283,22 @@ export type A_BurnerVault = {
     active: boolean,
     compiled: A_CompileProgram
 }
+
+export interface A_Nft_Attribute {
+    trait_type: string;
+    value: string;
+}
+
+export interface A_Nft_MetaData {
+    description: string;
+    external_url: string;
+    media_url: string;
+    attributes?: A_Nft_Attribute[];
+    standard: string,
+    file_url: string
+}
+
+export interface A_Nft {
+    asset: A_Asset,
+    metadata: A_Nft_MetaData
+}

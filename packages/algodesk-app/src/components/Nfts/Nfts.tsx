@@ -1,4 +1,4 @@
-import './OptedAssets.scss';
+import './Nfts.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment, CardActions
+    Menu, makeStyles, Button, Tooltip, Card, TextField, InputAdornment
 } from "@material-ui/core";
 import {
     Launch,
@@ -16,13 +16,10 @@ import {
     DeleteOutlined,
     SendOutlined,
     SettingsBackupRestoreSharp,
-    CheckCircleOutlined,
-    SwapHorizontalCircleOutlined,
     MoreVert,
-    HighlightOffOutlined,
     ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined
 } from '@material-ui/icons';
-import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
+import {A_Nft, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
 import algosdk from "../../utils/algosdk";
@@ -30,16 +27,16 @@ import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
 
-interface OptedAssetsState{
+interface NftsState{
     menuAnchorEl?: any
     hideZeroBal: boolean
-    filteredAssets: A_Asset[]
+    filteredNfts: A_Nft[]
     searchText: string
 }
 
-const initialState: OptedAssetsState = {
+const initialState: NftsState = {
     hideZeroBal: false,
-    filteredAssets: [],
+    filteredNfts: [],
     searchText: ''
 };
 
@@ -49,18 +46,19 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-function OptedAssets(): JSX.Element {
+function Nfts(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
-    const {information, optedAssets} = account;
-    const assetActions = useSelector((state: RootState) => state.assetActions);
-    const {selectedAsset} = assetActions;
+    const {information, nfts} = account;
+    const nftActions = useSelector((state: RootState) => state.nftActions);
+    const {selectedNft} = nftActions;
+
     const network = useSelector((state: RootState) => state.network);
     const dispatch = useDispatch();
     const classes = useStyles();
 
     const [
-        { menuAnchorEl, hideZeroBal, filteredAssets, searchText },
+        { menuAnchorEl, hideZeroBal, filteredNfts, searchText },
         setState
     ] = useState(initialState);
 
@@ -68,37 +66,28 @@ function OptedAssets(): JSX.Element {
 
     useEffect(() => {
         const filterAssets = () => {
-            let filteredAssets: A_Asset[] = [];
-            if (hideZeroBal) {
-                filteredAssets = optedAssets.filter((asset) => {
-                    const assetBal = algosdk.algodesk.accountClient.getAssetBal(asset, information);
-                    return assetBal !== 0;
-                });
-            }
-            else {
-                filteredAssets = optedAssets;
-            }
+            let filteredNfts: A_Nft[] = nfts;
 
             if (searchText) {
-                filteredAssets = filteredAssets.filter((asset) => {
+                filteredNfts = nfts.filter(({asset}) => {
                     return asset.params.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
                 });
             }
 
-            setState(prevState => ({ ...prevState, filteredAssets}));
+            setState(prevState => ({ ...prevState, filteredNfts}));
         }
 
         filterAssets();
-    }, [hideZeroBal, optedAssets, information, searchText]);
+    }, [hideZeroBal, nfts, information, searchText]);
 
     const closeMenu = () => {
         setState(prevState => ({ ...prevState, menuAnchorEl: undefined }));
     }
 
   return (
-      <div className="opted-assets-wrapper">
-          <div className="opted-assets-container">
-              <div className="opted-assets-header">
+      <div className="nfts-wrapper">
+          <div className="nfts-container">
+              <div className="nfts-header">
                   <div>
                       <TextField
                           placeholder="Name"
@@ -115,11 +104,7 @@ function OptedAssets(): JSX.Element {
                                   setState(prevState => ({...prevState, searchText: ev.target.value}));
                               }, 500)();
                           }}
-                          label="Search asset" variant="outlined"/>
-
-                      <FormControlLabel style={{marginTop: 8}} control={<Checkbox color={"primary"} checked={hideZeroBal} onChange={(ev, value) => {
-                          setState((prevState) => ({ ...prevState, hideZeroBal: value }));
-                      }}/>} label="Hide 0 balances"/>
+                          label="Search nft" variant="outlined"/>
                   </div>
                   <div>
                       <Button
@@ -128,10 +113,10 @@ function OptedAssets(): JSX.Element {
                           variant={"contained"}
                           className="add-asset"
                           onClick={() => {
-                              dispatch(setAction('opt_in'));
+                              dispatch(setAction('mint_nft'));
                           }}
                           size={"large"}>
-                          Opt-In asset
+                          Mint NFT
                       </Button>
 
                   </div>
@@ -139,26 +124,27 @@ function OptedAssets(): JSX.Element {
 
 
 
-              {optedAssets.length === 0 ?
+              {nfts.length === 0 ?
                   <div className="empty-message">
                       <img src={emptyVector} alt="No assets"/>
                       <div className="text">
-                          This account doesn't have any opted assets
+                          This account doesn't have any NFT's
                       </div>
                   </div> : ''}
-              {optedAssets.length > 0 && filteredAssets.length === 0?
+              {nfts.length > 0 && filteredNfts.length === 0?
                   <div className="empty-message">
                       <img src={emptyVector} alt="No results found"/>
                       <div className="text">
                           No results found
                       </div>
                   </div> : ''}
-              <div className="assets">
+              <div className="nfts">
                   <Grid container spacing={4}>
-                      {filteredAssets.map((asset) => {
-                          return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={asset.index}>
+                      {filteredNfts.map((nft) => {
+                          const {asset} = nft;
+                          return (<Grid item xs={12} sm={4} md={4} lg={3} xl={3} key={nft.asset.index}>
 
-                              <Card className={'asset opted-asset'}>
+                              <Card className={'nft'}>
                                   <CardHeader
                                       action={
                                           <div>
@@ -169,7 +155,7 @@ function OptedAssets(): JSX.Element {
                                                       <Launch fontSize={"small"}/>
                                                   </IconButton>
                                               </Tooltip>
-                                              <Tooltip title="Asset actions">
+                                              <Tooltip title="Nft actions">
                                                   <IconButton onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
@@ -184,53 +170,17 @@ function OptedAssets(): JSX.Element {
                                       </div>}
                                       subheader=""
                                       variant="outlined"
-                                      style={{borderBottom: "1px solid rgba(247,244,201,255)",
-                                          marginBottom: 25,
-                                          paddingBottom: 0}}
                                   />
                                   <CardContent>
 
-                                      <div className="params">
-                                          <Grid container spacing={2}>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"name"}>
-                                                      ID: {asset.index}
-                                                  </div>
-                                              </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"balance "}>
 
-                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
-                                                  </div>
-                                              </Grid>
-                                          </Grid>
-                                      </div>
-
-
-
-
+                                    <div className="nft-media">
+                                        <img src={nft.metadata.file_url} alt={nft.metadata.description}/>
+                                    </div>
 
 
                                   </CardContent>
-                                  <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.2)'}}>
-                                      <div className="roles">
-                                          <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>
-                                              Manager
-                                              {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
 
-                                          <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>
-                                              Freeze
-                                              {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
-
-                                          <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>
-                                              Clawback
-                                              {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
-
-                                      </div>
-                                  </CardActions>
                               </Card>
                           </Grid>);
                       })}
@@ -265,8 +215,8 @@ function OptedAssets(): JSX.Element {
                   Opt-Out
               </MenuItem>
 
-              {selectedAsset && algosdk.algodesk.accountClient.canManage(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
-                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
+              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset)) {
                       dispatch(setAction('modify'));
                   }
                   else {
@@ -281,8 +231,8 @@ function OptedAssets(): JSX.Element {
                   Modify asset
               </MenuItem> : ''}
 
-              {selectedAsset && algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
-                  if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedAsset)) {
+              {selectedNft && algosdk.algodesk.accountClient.canFreeze(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+                  if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedNft.asset)) {
                       dispatch(setAction('freeze'));
                   }
                   else {
@@ -298,8 +248,8 @@ function OptedAssets(): JSX.Element {
               </MenuItem> : ''}
 
 
-              {selectedAsset && algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
-                  if (algosdk.algodesk.accountClient.canClawback(information.address, selectedAsset)) {
+              {selectedNft && algosdk.algodesk.accountClient.canClawback(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+                  if (algosdk.algodesk.accountClient.canClawback(information.address, selectedNft.asset)) {
                       dispatch(setAction('revoke'));
                   }
                   else {
@@ -315,8 +265,8 @@ function OptedAssets(): JSX.Element {
               </MenuItem> : ''}
 
 
-              {selectedAsset && algosdk.algodesk.accountClient.canManage(information.address, selectedAsset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
-                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedAsset)) {
+              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+                  if (algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset)) {
                       dispatch(setAction('delete'));
                   }
                   else {
@@ -331,18 +281,6 @@ function OptedAssets(): JSX.Element {
                   Delete asset
               </MenuItem> : ''}
 
-              <MenuItem className={classes.yellowColorOnHover} onClick={(ev) => {
-                  let url = 'https://app.tinyman.org';
-                  if (network.name === NETWORKS.TESTNET) {
-                      url = 'https://testnet.tinyman.org';
-                  }
-                  url += '/#/swap?asset_in=0&asset_out=' + selectedAsset.index;
-                  window.open(url, "_blank");
-                  closeMenu();
-              }}>
-                  <SwapHorizontalCircleOutlined className={"asset-action-icon"} fontSize={"small"}></SwapHorizontalCircleOutlined>
-                  Swap (Tinyman)
-              </MenuItem>
               <MenuItem className={classes.yellowColorOnHover} onClick={() => {
                   if (network.name === NETWORKS.MAINNET) {
                       dispatch(showSnack({
@@ -363,4 +301,4 @@ function OptedAssets(): JSX.Element {
   );
 }
 
-export default OptedAssets;
+export default Nfts;

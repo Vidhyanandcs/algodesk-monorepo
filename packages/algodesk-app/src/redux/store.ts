@@ -8,6 +8,7 @@ import signerReducer from "./actions/signer";
 import accountReducer from "./actions/account";
 import assetActionsReducer from "./actions/assetActions";
 import transactionReducer from "./actions/transaction";
+import nftActionsReducer from "./actions/nftActions";
 
 export const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
         signer: signerReducer,
         account: accountReducer,
         assetActions: assetActionsReducer,
-        transaction: transactionReducer
+        transaction: transactionReducer,
+        nftActions: nftActionsReducer,
     },
 });
 

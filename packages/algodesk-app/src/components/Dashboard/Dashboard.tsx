@@ -21,6 +21,7 @@ import BurnSupply from "../BurnSupply/BurnSupply";
 import OptOut from "../OptOut/OptOut";
 import OptIn from "../OptIn/OptIn";
 import {getCommonStyles} from "../../utils/styles";
+import Nfts from "../Nfts/Nfts";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -91,6 +92,7 @@ function Dashboard(): JSX.Element {
 
                       <Tabs
                           value={tab}
+                          centered
                           onChange={(event, newValue) => {
                               setState(prevState => ({ ...prevState, tab: newValue}));
                               if (newValue === 'created-assets') {
@@ -99,12 +101,16 @@ function Dashboard(): JSX.Element {
                               else if (newValue === 'opted-assets') {
                                   history.push('/portal/dashboard/opted-assets');
                               }
+                              else if (newValue === 'nfts') {
+                                  history.push('/portal/dashboard/nfts');
+                              }
 
                           }}
                           textColor="primary"
                           indicatorColor="primary">
                           <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
                           <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>
+                          <Tab value="nfts" label="My Nft's" className={classes.tabLabel}/>
                       </Tabs>
 
                   </div>
@@ -115,6 +121,9 @@ function Dashboard(): JSX.Element {
                       </Route>
                       <Route path="/portal/dashboard/opted-assets">
                           <OptedAssets></OptedAssets>
+                      </Route>
+                      <Route path="/portal/dashboard/nfts">
+                          <Nfts></Nfts>
                       </Route>
                       <Route exact path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/created-assets" />} />
                   </Switch>
