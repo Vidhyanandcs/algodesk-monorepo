@@ -149,14 +149,14 @@ function Nfts(): JSX.Element {
                                       action={
                                           <div>
                                               <Tooltip title="View in explorer">
-                                                  <IconButton onClick={(ev) => {
+                                                  <IconButton color={"primary"} onClick={(ev) => {
                                                       algosdk.explorer.openAsset(asset.index);
                                                   }}>
                                                       <Launch fontSize={"small"}/>
                                                   </IconButton>
                                               </Tooltip>
                                               <Tooltip title="Nft actions">
-                                                  <IconButton onClick={(ev) => {
+                                                  <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
@@ -166,7 +166,7 @@ function Nfts(): JSX.Element {
                                           </div>
                                       }
                                       avatar={<div>
-                                          <div className={'asset-name'}>{asset.params.name}</div>
+                                          <div className={'asset-name'}>ID: {asset.index}</div>
                                       </div>}
                                       subheader=""
                                       variant="outlined"
@@ -176,6 +176,25 @@ function Nfts(): JSX.Element {
 
                                     <div className="nft-media">
                                         <img src={nft.metadata.file_url} alt={nft.metadata.description}/>
+                                    </div>
+
+                                    <div className="nft-params">
+                                        <div className="row">
+                                            <div className="item">
+                                                Name
+                                            </div>
+                                            <div className="item">
+                                                {asset.params.name}
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="item">
+                                                Balance
+                                            </div>
+                                            <div className="item">
+                                                {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -199,7 +218,7 @@ function Nfts(): JSX.Element {
                   }
               }}
           >
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   dispatch(setAction('send'));
                   closeMenu();
               }}>
@@ -207,7 +226,7 @@ function Nfts(): JSX.Element {
                   Send assets
               </MenuItem>
 
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   dispatch(setAction('opt_out'));
                   closeMenu();
               }}>
@@ -215,7 +234,7 @@ function Nfts(): JSX.Element {
                   Opt-Out
               </MenuItem>
 
-              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset)) {
                       dispatch(setAction('modify'));
                   }
@@ -231,7 +250,7 @@ function Nfts(): JSX.Element {
                   Modify asset
               </MenuItem> : ''}
 
-              {selectedNft && algosdk.algodesk.accountClient.canFreeze(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              {selectedNft && algosdk.algodesk.accountClient.canFreeze(information.address, selectedNft.asset) ? <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canFreeze(information.address, selectedNft.asset)) {
                       dispatch(setAction('freeze'));
                   }
@@ -248,7 +267,7 @@ function Nfts(): JSX.Element {
               </MenuItem> : ''}
 
 
-              {selectedNft && algosdk.algodesk.accountClient.canClawback(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              {selectedNft && algosdk.algodesk.accountClient.canClawback(information.address, selectedNft.asset) ? <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canClawback(information.address, selectedNft.asset)) {
                       dispatch(setAction('revoke'));
                   }
@@ -265,7 +284,7 @@ function Nfts(): JSX.Element {
               </MenuItem> : ''}
 
 
-              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset)) {
                       dispatch(setAction('delete'));
                   }
@@ -281,7 +300,7 @@ function Nfts(): JSX.Element {
                   Delete asset
               </MenuItem> : ''}
 
-              <MenuItem className={classes.yellowColorOnHover} onClick={() => {
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
                   if (network.name === NETWORKS.MAINNET) {
                       dispatch(showSnack({
                           severity: 'error',

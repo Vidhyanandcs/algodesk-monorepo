@@ -216,7 +216,7 @@ function OptedAssets(): JSX.Element {
                                               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                   <div className="row">
                                                       <div className="item key">My roles</div>
-                                                      <div className="item value">{roles.length === 0 ? "[Empty]" : "[" + roles.join(', ') + "]"}</div>
+                                                      <div className="item value">{roles.length === 0 ? "- None -" : roles.join(', ')}</div>
                                                   </div>
                                               </Grid>
                                               {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}

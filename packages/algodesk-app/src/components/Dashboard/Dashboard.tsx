@@ -92,7 +92,6 @@ function Dashboard(): JSX.Element {
 
                       <Tabs
                           value={tab}
-                          centered
                           onChange={(event, newValue) => {
                               setState(prevState => ({ ...prevState, tab: newValue}));
                               if (newValue === 'created-assets') {

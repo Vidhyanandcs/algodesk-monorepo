@@ -21,16 +21,12 @@
             border-radius: 10px;
           }
         }
-        .card-action-custom {
-          background: $color-grey-very-light;
-        }
-        .url {
-          padding: 20px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          color: $color-grey-dark;
-          a {
-            color: $color-grey-dark;
+        .nft-params {
+          margin-top: 30px;
+          .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0px;
           }
         }
         .asset-name {
