@@ -83,7 +83,7 @@ export const theme = createTheme({
                     background: '#F6FBF8',
                 },
                 '&.opted-asset': {
-                    background: '#fdfdf3',
+                    background: 'rgba(247,244,201,0.2)',
                 }
             }
         },

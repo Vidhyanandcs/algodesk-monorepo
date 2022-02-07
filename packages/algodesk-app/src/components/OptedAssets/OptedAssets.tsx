@@ -7,7 +7,7 @@ import {
     IconButton,
     CardContent,
     MenuItem,
-    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment, CardActions
+    Menu, makeStyles, Button, Tooltip, Card, FormControlLabel, Checkbox, TextField, InputAdornment
 } from "@material-ui/core";
 import {
     Launch,
@@ -16,10 +16,8 @@ import {
     DeleteOutlined,
     SendOutlined,
     SettingsBackupRestoreSharp,
-    CheckCircleOutlined,
     SwapHorizontalCircleOutlined,
     MoreVert,
-    HighlightOffOutlined,
     ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined
 } from '@material-ui/icons';
 import {A_Asset, debounce, NETWORKS} from "@algodesk/core";
@@ -156,6 +154,17 @@ function OptedAssets(): JSX.Element {
               <div className="assets">
                   <Grid container spacing={4}>
                       {filteredAssets.map((asset) => {
+                          const roles: string[] = [];
+                          if (algosdk.algodesk.accountClient.canManage(information.address, asset)) {
+                              roles.push('Manager');
+                          }
+                          if (algosdk.algodesk.accountClient.canFreeze(information.address, asset)) {
+                              roles.push('Freeze');
+                          }
+                          if (algosdk.algodesk.accountClient.canClawback(information.address, asset)) {
+                              roles.push('Clawback');
+                          }
+
                           return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={asset.index}>
 
                               <Card className={'asset opted-asset'}>
@@ -185,24 +194,50 @@ function OptedAssets(): JSX.Element {
                                       subheader=""
                                       variant="outlined"
                                       style={{borderBottom: "1px solid rgba(247,244,201,255)",
-                                          marginBottom: 25,
+                                          marginBottom: 5,
                                           paddingBottom: 0}}
                                   />
                                   <CardContent>
 
                                       <div className="params">
                                           <Grid container spacing={2}>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"name"}>
-                                                      ID: {asset.index}
+                                              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                  <div className="row">
+                                                      <div className="item key">Asset ID</div>
+                                                      <div className="item value">{asset.index}</div>
                                                   </div>
                                               </Grid>
-                                              <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                                  <div className={"balance "}>
+                                              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                  <div className="row">
+                                                      <div className="item key">Balance</div>
+                                                      <div className="item value">{algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}</div>
+                                                  </div>
+                                              </Grid>
+                                              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                  <div className="row">
+                                                      <div className="item key">My roles</div>
+                                                      <div className="item value">{roles.length === 0 ? "[Empty]" : "[" + roles.join(', ') + "]"}</div>
+                                                  </div>
+                                              </Grid>
+                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
+                                              {/*    <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>*/}
+                                              {/*        Manager*/}
+                                              {/*        {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                              {/*    </div>*/}
+                                              {/*</Grid>*/}
+                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
+                                              {/*    <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>*/}
+                                              {/*        Freeze*/}
+                                              {/*        {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                              {/*    </div>*/}
+                                              {/*</Grid>*/}
+                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
+                                              {/*    <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>*/}
+                                              {/*        Clawback*/}
+                                              {/*        {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                              {/*    </div>*/}
+                                              {/*</Grid>*/}
 
-                                                      Balance: {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
-                                                  </div>
-                                              </Grid>
                                           </Grid>
                                       </div>
 
@@ -212,25 +247,25 @@ function OptedAssets(): JSX.Element {
 
 
                                   </CardContent>
-                                  <CardActions style={{padding: 15, background: 'rgba(247,244,201,0.2)'}}>
-                                      <div className="roles">
-                                          <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>
-                                              Manager
-                                              {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
+                                  {/*<CardActions style={{padding: 15}}>*/}
+                                  {/*    <div className="roles">*/}
+                                  {/*        <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>*/}
+                                  {/*            Manager*/}
+                                  {/*            {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                  {/*        </div>*/}
 
-                                          <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>
-                                              Freeze
-                                              {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
+                                  {/*        <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>*/}
+                                  {/*            Freeze*/}
+                                  {/*            {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                  {/*        </div>*/}
 
-                                          <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>
-                                              Clawback
-                                              {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}
-                                          </div>
+                                  {/*        <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>*/}
+                                  {/*            Clawback*/}
+                                  {/*            {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
+                                  {/*        </div>*/}
 
-                                      </div>
-                                  </CardActions>
+                                  {/*    </div>*/}
+                                  {/*</CardActions>*/}
                               </Card>
                           </Grid>);
                       })}
