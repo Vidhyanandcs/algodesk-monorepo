@@ -6,18 +6,25 @@
     .file-upload-wrapper {
       .file-upload-container {
         border: 1px solid $color-grey-light;
-        min-height: 250px;
+        min-height: 310px;
         border-radius: 10px;
         text-align: center;
         .upload-button {
-          margin-top: 100px;
+          margin-top: 130px;
         }
         .file-content {
           padding: 10px;
+          position: relative;
           img {
             width: 100%;
             height: auto;
             border-radius: 10px;
+            margin-top: 10px;
+          }
+          .remove {
+            position: absolute;
+            right: -20px;
+            top: -20px;
           }
         }
       }

@@ -284,21 +284,35 @@ export type A_BurnerVault = {
     compiled: A_CompileProgram
 }
 
-export interface A_Nft_Attribute {
-    trait_type: string;
-    value: string;
+export interface A_Nft_MetaData_Arc69 {
+    standard: string,
+    description: string,
+    external_url: string,
+    mime_type: string,
+    properties: any
 }
 
-export interface A_Nft_MetaData {
-    description: string;
-    external_url: string;
-    media_url: string;
-    attributes?: A_Nft_Attribute[];
-    standard: string,
-    file_url: string
+export interface A_Nft_MetaData_Arc3 {
+    name: string,
+    image: string,
+    decimals: number,
+    unitName: string,
+    image_integrity: string,
+    image_mimetype: string,
+    properties: any
+}
+
+export type A_Nft_MetaData = A_Nft_MetaData_Arc69 | A_Nft_MetaData_Arc3;
+
+export interface A_Nft_Media {
+    file_url: string,
+    web_url: string
 }
 
 export interface A_Nft {
     asset: A_Asset,
-    metadata: A_Nft_MetaData
+    standard: string,
+    metadata: A_Nft_MetaData,
+    media: A_Nft_Media
 }
+

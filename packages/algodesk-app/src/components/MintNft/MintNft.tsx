@@ -1,6 +1,6 @@
 import './MintNft.scss';
 import {
-    Button,
+    Button, ButtonGroup,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
@@ -10,11 +10,18 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {A_CreateAssetParams} from "@algodesk/core";
+import {A_CreateAssetParams, A_Nft_MetaData_Arc69, cidToIpfsFile, NFT_STANDARDS, uploadToIpfs} from "@algodesk/core";
 import {setAction} from "../../redux/actions/assetActions";
 import {CancelOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
+import {showSnack} from "../../redux/actions/snackbar";
+import {hideLoader, showLoader} from "../../redux/actions/loader";
+import algosdk from "../../utils/algosdk";
+import {loadAccount} from "../../redux/actions/account";
+import {showTransactionDetails} from "../../redux/actions/transaction";
+import {handleException} from "../../redux/actions/exception";
+import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
 
 
 const useStyles = makeStyles((theme) => {
@@ -22,8 +29,7 @@ const useStyles = makeStyles((theme) => {
         ...getCommonStyles(theme),
         customDialog: {
             position: "absolute",
-            top: 100,
-            maxWidth: 700
+            top: 100
         }
     };
 });
@@ -36,17 +42,18 @@ interface MintNftState extends A_CreateAssetParams {
     enableClawback: boolean,
     description: string,
     file?: File,
-    fileData?: string
+    fileData?: string,
+    standard: string
 }
 const initialState: MintNftState = {
-    clawback: "",
+    clawback: undefined,
     creator: "",
     decimals: 0,
     defaultFrozen: false,
-    freeze: "",
-    manager: "",
-    reserve: "",
-    total: 1000,
+    freeze: undefined,
+    manager: undefined,
+    reserve: undefined,
+    total: 1,
     unitName: "",
     url: "",
     name: '',
@@ -55,19 +62,22 @@ const initialState: MintNftState = {
     enableReserve: true,
     enableFreeze: true,
     enableClawback: true,
-    description: ''
+    description: '',
+    standard: NFT_STANDARDS.ARC69
 };
 
 function MintNft(): JSX.Element {
     
     const dispatch = useDispatch();
     const assetActions = useSelector((state: RootState) => state.assetActions);
+    const account = useSelector((state: RootState) => state.account);
+    const {information} = account;
     const show = assetActions.action === 'mint_nft';
     const classes = useStyles();
 
 
     const [
-        {name, unitName, description, file, fileData
+        {name, unitName, description, file, fileData, decimals, manager, freeze, reserve, clawback, total, standard
         },
         setState
     ] = useState({
@@ -79,11 +89,88 @@ function MintNft(): JSX.Element {
             ...initialState
         });
     };
-    
+
+    async function mint() {
+        let message = '';
+
+        console.log(file);
+        if (!file || !fileData) {
+            message = 'Invalid file';
+        }
+        if (!name) {
+            message = 'Invalid name';
+        }
+        else if (name.length > 32) {
+            message = 'Name cannot exceed 32 characters'
+        }
+        else if (!unitName) {
+            message = 'Invalid unit name';
+        }
+        else if (unitName.length > 8) {
+            message = 'Unit name cannot exceed 8 characters';
+        }
+        if (!description) {
+            message = 'Invalid description';
+        }
+
+        if (message) {
+            dispatch(showSnack({
+                severity: 'error',
+                message
+            }));
+            return;
+        }
+
+        try {
+
+            dispatch(showLoader('Uploading file to ipfs ...'));
+            const cid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
+            dispatch(hideLoader());
+
+            const assetParams: A_CreateAssetParams = {
+                creator: information.address,
+                decimals,
+                defaultFrozen: false,
+                manager,
+                reserve,
+                freeze,
+                clawback,
+                total,
+                url: cidToIpfsFile(cid),
+                name,
+                unitName
+            };
+
+            const note: A_Nft_MetaData_Arc69 = {
+                standard: NFT_STANDARDS.ARC69,
+                description,
+                mime_type: file.type,
+                external_url: '',
+                properties: {}
+            };
+
+            dispatch(showLoader('Minting your NFT ...'));
+            const {txId} = await algosdk.algodesk.assetClient.create(assetParams, JSON.stringify(note));
+            dispatch(hideLoader());
+            dispatch(showLoader('Waiting for confirmation ...'));
+            await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
+            dispatch(hideLoader());
+            clearState();
+            dispatch(setAction(''));
+            dispatch(loadAccount(information.address));
+            dispatch(showTransactionDetails(txId));
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+
+    }
+
     return (<div>
         {show ? <Dialog
             fullWidth={true}
-            maxWidth={"sm"}
+            maxWidth={"md"}
             open={show}
             classes={{
                 paper: classes.customDialog
@@ -111,10 +198,15 @@ function MintNft(): JSX.Element {
                                     <div className="file-upload-container">
                                         {file ? <div className="file-content">
                                             <img src={fileData} alt="File content"/>
+                                            <IconButton className="remove" color="primary" onClick={() => {
+                                                setState(prevState => ({...prevState, fileData: '', file: undefined}));
+                                            }}>
+                                                <CancelOutlined />
+                                            </IconButton>
                                         </div> : <Button
                                             className="upload-button"
                                             color={"primary"}
-                                            variant="contained"
+                                            variant="outlined"
                                             component="label">
                                             Choose File
                                             <input
@@ -127,7 +219,6 @@ function MintNft(): JSX.Element {
 
                                                     const reader = new FileReader();
                                                     reader.addEventListener("load", function () {
-                                                        console.log(reader.result);
                                                         setState(prevState => ({...prevState, fileData: reader.result.toString()}));
                                                     }, false);
 
@@ -143,6 +234,17 @@ function MintNft(): JSX.Element {
                             </Grid>
                             <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
                                 <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <ButtonGroup variant="outlined" color="primary" fullWidth>
+                                            <Button variant={standard === NFT_STANDARDS.ARC69 ? 'contained' : 'outlined'} onClick={() => {
+                                                setState(prevState => ({...prevState, standard: NFT_STANDARDS.ARC69}));
+                                            }}>ARC69</Button>
+                                            <Button variant={standard === NFT_STANDARDS.ARC3 ? 'contained' : 'outlined'} onClick={() => {
+                                                setState(prevState => ({...prevState, standard: NFT_STANDARDS.ARC3}));
+                                            }}>ARC3</Button>
+                                        </ButtonGroup>
+                                    </Grid>
+
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                         <TextField
                                             required
@@ -180,8 +282,8 @@ function MintNft(): JSX.Element {
                                         <Button color={"primary"}
                                                 style={{marginTop: 15, marginBottom: 10}}
                                                 variant={"contained"} size={"large"} onClick={() => {
-
-                                        }}>Mint</Button>
+                                                    mint();
+                                                }}>Mint</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

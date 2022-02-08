@@ -35,7 +35,6 @@ function Header(): JSX.Element {
                                 {networks.map((network) => {
                                     return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                         const {name} = network;
-                                        console.log(name);
                                         if (algosdk.signer.isNetworkSupported(name)) {
                                             setLocalNetwork(name);
                                             dispatch(selectNetwork(name));

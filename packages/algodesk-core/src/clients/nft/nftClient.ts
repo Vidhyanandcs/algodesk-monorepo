@@ -3,17 +3,17 @@ import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "../transactionClient";
 import {
     Signer,
-    A_Nft, A_Nft_MetaData
+    A_Nft
 } from "../../types";
 import {ApplicationClient} from "../applicationClient";
 import {AccountClient} from "../accountClient";
 import {PaymentClient} from "../paymentClient";
 import {Arc69} from "./arc69";
 import {AssetClient} from "../assetClient";
-import {IPFS_GATEWAY} from "../../constants";
+import {IPFS_GATEWAY, NFT_STANDARDS} from "../../constants";
 import {Arc3} from "./arc3";
 
-export function getFileUrl(url: string): string {
+export function getWebUrl(url: string): string {
     const chunks = url.split("://")
 
     if(chunks.length < 2 ) return url
@@ -60,7 +60,9 @@ export class NFTClient{
         if (arc3MetaData) {
             return {
                 asset,
-                metadata: arc3MetaData
+                standard: NFT_STANDARDS.ARC3,
+                metadata: arc3MetaData,
+                media: this.arc3.getMedia(arc3MetaData, asset)
             }
         }
 
@@ -68,7 +70,9 @@ export class NFTClient{
         if (arc69Metadata) {
             return {
                 asset,
-                metadata: arc69Metadata
+                standard: NFT_STANDARDS.ARC69,
+                metadata: arc69Metadata,
+                media: this.arc69.getMedia(arc69Metadata, asset)
             }
         }
     }

@@ -46,7 +46,8 @@
     "walletconnect": "^1.6.2",
     "moment": "^2.29.1",
     "replace-all": "^1.0.0",
-    "axios": "^0.25.0"
+    "axios": "^0.25.0",
+    "web3.storage": "^3.5.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

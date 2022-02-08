@@ -1,8 +1,7 @@
 import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {A_Asset, A_Nft_MetaData} from "../../types";
-import {NFT_STANDARDS} from "../../constants";
-import {getFileUrl} from "./nftClient";
+import {A_Asset, A_Nft_Media, A_Nft_MetaData_Arc3, A_Nft_MetaData_Arc69} from "../../types";
+import {getWebUrl} from "./nftClient";
 import axios from 'axios';
 
 export class Arc3 {
@@ -31,26 +30,24 @@ export class Arc3 {
         return false;
     }
 
-    async getMetaData(asset: A_Asset): Promise<A_Nft_MetaData> {
+    getMedia(metadata: A_Nft_MetaData_Arc3, asset: A_Asset): A_Nft_Media {
+        return {
+            file_url: metadata.image,
+            web_url: getWebUrl(metadata.image)
+        };
+    }
+
+    async getMetaData(asset: A_Asset): Promise<A_Nft_MetaData_Arc3> {
 
         if (this.isArc3Nft(asset)) {
-            const resp = await axios.get(getFileUrl(asset.params.url));
-            const arc3MetaData = resp.data;
+            const resp = await axios.get(getWebUrl(asset.params.url));
+            const arc3MetaData:A_Nft_MetaData_Arc3 = resp.data;
 
-            const nftMetaData: A_Nft_MetaData = {
-                description: arc3MetaData.description,
-                external_url: "",
-                file_url: "",
-                media_url: arc3MetaData.image,
-                standard: NFT_STANDARDS.ARC3,
-                attributes: arc3MetaData.properties
-            }
-            nftMetaData.file_url = getFileUrl(nftMetaData.media_url);
-            if (!nftMetaData.attributes) {
-                nftMetaData.attributes = []
+            if (!arc3MetaData.properties) {
+                arc3MetaData.properties = {}
             }
 
-            return nftMetaData;
+            return arc3MetaData;
         }
     }
 }

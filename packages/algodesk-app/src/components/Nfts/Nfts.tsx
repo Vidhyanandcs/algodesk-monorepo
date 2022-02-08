@@ -174,7 +174,7 @@ function Nfts(): JSX.Element {
 
 
                                     <div className="nft-media">
-                                        <img src={nft.metadata.file_url} alt={nft.metadata.description}/>
+                                        <img src={nft.media.web_url} alt={nft.media.web_url}/>
                                     </div>
 
 
