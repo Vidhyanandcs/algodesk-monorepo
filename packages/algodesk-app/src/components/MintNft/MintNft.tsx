@@ -10,7 +10,14 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {A_CreateAssetParams, A_Nft_MetaData_Arc69, cidToIpfsFile, NFT_STANDARDS, uploadToIpfs} from "@algodesk/core";
+import {
+    A_CreateAssetParams,
+    A_Nft_MetaData_Arc3,
+    A_Nft_MetaData_Arc69,
+    cidToIpfsFile,
+    NFT_STANDARDS,
+    uploadToIpfs
+} from "@algodesk/core";
 import {setAction} from "../../redux/actions/assetActions";
 import {CancelOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
@@ -22,6 +29,7 @@ import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
 import {handleException} from "../../redux/actions/exception";
 import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
+import { sha256 } from 'js-sha256';
 
 
 const useStyles = makeStyles((theme) => {
@@ -65,6 +73,13 @@ const initialState: MintNftState = {
     description: '',
     standard: NFT_STANDARDS.ARC69
 };
+
+export async function getFileIntegrity(file: File): Promise<string> {
+    const buff = await file.arrayBuffer()
+    const bytes = new Uint8Array(buff)
+    const hash = new Uint8Array(sha256.digest(bytes));
+    return "sha256-"+Buffer.from(hash).toString("base64")
+}
 
 function MintNft(): JSX.Element {
     
@@ -126,6 +141,33 @@ function MintNft(): JSX.Element {
             dispatch(showLoader('Uploading file to ipfs ...'));
             const cid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
             dispatch(hideLoader());
+            const fileUrl = cidToIpfsFile(cid);
+            let url = fileUrl;
+            let note = '';
+            
+            if (standard === NFT_STANDARDS.ARC3) {
+                dispatch(showLoader('Checking image integrity ...'));
+                const fileIntegrity = await getFileIntegrity(file);
+                dispatch(hideLoader());
+                
+                const arc3MetaData: A_Nft_MetaData_Arc3 = {
+                    decimals,
+                    image: fileUrl,
+                    image_integrity: fileIntegrity,
+                    image_mimetype: file.type,
+                    name: name,
+                    properties: {},
+                    unitName: unitName
+                };
+
+                const md_blob = new Blob([JSON.stringify(arc3MetaData)], { type: "application/json" })
+                const arc3MetaDataFile = new File([md_blob], "metadata.json")
+                dispatch(showLoader('Uploading arc3 metadata to ipfs ...'));
+                const arc3MetaDataCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, arc3MetaDataFile);
+                const arc3MetaDataUrl = cidToIpfsFile(arc3MetaDataCid) + '#arc3';
+                url = arc3MetaDataUrl;
+                dispatch(hideLoader());
+            }
 
             const assetParams: A_CreateAssetParams = {
                 creator: information.address,
@@ -136,21 +178,25 @@ function MintNft(): JSX.Element {
                 freeze,
                 clawback,
                 total,
-                url: cidToIpfsFile(cid),
+                url,
                 name,
                 unitName
             };
 
-            const note: A_Nft_MetaData_Arc69 = {
-                standard: NFT_STANDARDS.ARC69,
-                description,
-                mime_type: file.type,
-                external_url: '',
-                properties: {}
-            };
+            if (standard === NFT_STANDARDS.ARC69) {
+                const arc69MetaData: A_Nft_MetaData_Arc69 = {
+                    standard: NFT_STANDARDS.ARC69,
+                    description,
+                    mime_type: file.type,
+                    external_url: '',
+                    properties: {}
+                };
+                note = JSON.stringify(arc69MetaData);
+            }
+            
 
             dispatch(showLoader('Minting your NFT ...'));
-            const {txId} = await algosdk.algodesk.assetClient.create(assetParams, JSON.stringify(note));
+            const {txId} = await algosdk.algodesk.assetClient.create(assetParams, note);
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
