@@ -19,24 +19,12 @@
           img {
             width: 100%;
             height: auto;
+            border-radius: 10px;
           }
-        }
-        &:hover {
-          cursor: pointer;
-          .actions {
-            display: flex;
-          }
-        }
-        .actions {
-          justify-content: space-between;
-          position: absolute;
-          width: 100%;
-          bottom: 0px;
-          background: $color-grey-light;
-          display: none;
         }
         .nft-params {
           padding: 15px;
+          padding-bottom: 0px;
           .row {
             display: flex;
             justify-content: space-between;

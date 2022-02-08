@@ -178,7 +178,7 @@ function OptedAssets(): JSX.Element {
                                                       <Launch fontSize={"small"}/>
                                                   </IconButton>
                                               </Tooltip>
-                                              <Tooltip title="Asset actions">
+                                              <Tooltip title="Actions">
                                                   <IconButton onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
@@ -219,53 +219,9 @@ function OptedAssets(): JSX.Element {
                                                       <div className="item value">{roles.length === 0 ? "-None-" : roles.join(', ')}</div>
                                                   </div>
                                               </Grid>
-                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
-                                              {/*    <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>*/}
-                                              {/*        Manager*/}
-                                              {/*        {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                              {/*    </div>*/}
-                                              {/*</Grid>*/}
-                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
-                                              {/*    <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>*/}
-                                              {/*        Freeze*/}
-                                              {/*        {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                              {/*    </div>*/}
-                                              {/*</Grid>*/}
-                                              {/*<Grid item xs={12} sm={6} md={6} lg={6} xl={6}>*/}
-                                              {/*    <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>*/}
-                                              {/*        Clawback*/}
-                                              {/*        {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                              {/*    </div>*/}
-                                              {/*</Grid>*/}
-
                                           </Grid>
                                       </div>
-
-
-
-
-
-
                                   </CardContent>
-                                  {/*<CardActions style={{padding: 15}}>*/}
-                                  {/*    <div className="roles">*/}
-                                  {/*        <div className={algosdk.algodesk.assetClient.hasManager(asset) ? 'role yes' : 'role no'}>*/}
-                                  {/*            Manager*/}
-                                  {/*            {algosdk.algodesk.assetClient.hasManager(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                  {/*        </div>*/}
-
-                                  {/*        <div className={algosdk.algodesk.assetClient.hasFreeze(asset) ? 'role yes' : 'role no'}>*/}
-                                  {/*            Freeze*/}
-                                  {/*            {algosdk.algodesk.assetClient.hasFreeze(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                  {/*        </div>*/}
-
-                                  {/*        <div className={algosdk.algodesk.assetClient.hasClawback(asset) ? 'role yes' : 'role no'}>*/}
-                                  {/*            Clawback*/}
-                                  {/*            {algosdk.algodesk.assetClient.hasClawback(asset) ? <CheckCircleOutlined fontSize={"small"}></CheckCircleOutlined> : <HighlightOffOutlined fontSize={"small"}></HighlightOffOutlined>}*/}
-                                  {/*        </div>*/}
-
-                                  {/*    </div>*/}
-                                  {/*</CardActions>*/}
                               </Card>
                           </Grid>);
                       })}

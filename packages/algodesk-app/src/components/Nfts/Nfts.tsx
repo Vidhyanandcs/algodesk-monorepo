@@ -145,33 +145,32 @@ function Nfts(): JSX.Element {
                           return (<Grid item xs={12} sm={4} md={4} lg={3} xl={3} key={nft.asset.index}>
 
                               <Card className={'nft'}>
-                                  {/*<CardHeader*/}
-                                  {/*    action={*/}
-                                  {/*        <div>*/}
-                                  {/*            <Tooltip title="View in explorer">*/}
-                                  {/*                <IconButton color={"primary"} onClick={(ev) => {*/}
-                                  {/*                    algosdk.explorer.openAsset(asset.index);*/}
-                                  {/*                }}>*/}
-                                  {/*                    <Launch fontSize={"small"}/>*/}
-                                  {/*                </IconButton>*/}
-                                  {/*            </Tooltip>*/}
-                                  {/*            <Tooltip title="Nft actions">*/}
-                                  {/*                <IconButton color={"primary"} onClick={(ev) => {*/}
-                                  {/*                    setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));*/}
-                                  {/*                    dispatch(setSelectedAsset(asset));*/}
-                                  {/*                }}>*/}
-                                  {/*                    <MoreVert/>*/}
-                                  {/*                </IconButton>*/}
-                                  {/*            </Tooltip>*/}
-                                  {/*        </div>*/}
-                                  {/*    }*/}
-                                  {/*    avatar={<div>*/}
-                                  {/*        <div className={'asset-name'}>ID: {asset.index}</div>*/}
-                                  {/*    </div>}*/}
-                                  {/*    subheader=""*/}
-                                  {/*    variant="outlined"*/}
-                                  {/*/>*/}
-                                  <CardContent style={{padding: 0}}>
+                                  <CardHeader
+                                      action={
+                                          <div>
+                                              <Tooltip title="View in explorer">
+                                                  <IconButton onClick={(ev) => {
+                                                      algosdk.explorer.openAsset(asset.index);
+                                                  }}>
+                                                      <Launch fontSize={"small"}/>
+                                                  </IconButton>
+                                              </Tooltip>
+                                              <Tooltip title="Actions">
+                                                  <IconButton onClick={(ev) => {
+                                                      setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
+                                                      dispatch(setSelectedAsset(asset));
+                                                  }}>
+                                                      <MoreVert/>
+                                                  </IconButton>
+                                              </Tooltip>
+                                          </div>
+                                      }
+                                      subheader=""
+                                      variant="outlined"
+                                      style={{marginBottom: 5,paddingBottom: 0}}
+                                  />
+
+                                  <CardContent>
 
 
                                     <div className="nft-media">
@@ -207,29 +206,6 @@ function Nfts(): JSX.Element {
 
                                     </div>
 
-                                      <div className="actions">
-                                          <div className="action">
-                                              <Tooltip title="Send">
-                                                  <IconButton onClick={(ev) => {
-                                                      dispatch(setSelectedAsset(asset));
-                                                      dispatch(setAction('send'));
-                                                  }}>
-                                                      <SendOutlined/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                          </div>
-                                          <div className="item">
-                                              <Tooltip title="Opt-Out">
-                                                  <IconButton onClick={(ev) => {
-                                                      dispatch(setSelectedAsset(asset));
-                                                      dispatch(setAction('opt_out'));
-                                                  }}>
-                                                      <RemoveCircleOutlineOutlined/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                          </div>
-                                      </div>
-
                                   </CardContent>
 
                               </Card>
@@ -255,7 +231,7 @@ function Nfts(): JSX.Element {
                   closeMenu();
               }}>
                   <SendOutlined className="asset-action-icon" fontSize={"small"}></SendOutlined>
-                  Send assets
+                  Send NFT
               </MenuItem>
 
               <MenuItem className={classes.primaryColorOnHover} onClick={() => {

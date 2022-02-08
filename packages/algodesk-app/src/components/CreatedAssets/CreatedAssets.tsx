@@ -203,7 +203,7 @@ function CreatedAssets(): JSX.Element {
                                                       <Launch/>
                                                   </IconButton>
                                               </Tooltip>
-                                              <Tooltip title="Asset actions">
+                                              <Tooltip title="Actions">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));
