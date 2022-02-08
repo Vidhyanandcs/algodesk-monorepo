@@ -1,0 +1,26 @@
+@import "../../assets/colors";
+
+.mint-nft-wrapper {
+  .mint-nft-container {
+    padding: 0 20px;
+    .file-upload-wrapper {
+      .file-upload-container {
+        border: 1px solid $color-grey-light;
+        min-height: 250px;
+        border-radius: 10px;
+        text-align: center;
+        .upload-button {
+          margin-top: 100px;
+        }
+        .file-content {
+          padding: 10px;
+          img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -22,6 +22,7 @@ import OptOut from "../OptOut/OptOut";
 import OptIn from "../OptIn/OptIn";
 import {getCommonStyles} from "../../utils/styles";
 import Nfts from "../Nfts/Nfts";
+import MintNft from "../MintNft/MintNft";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -138,6 +139,7 @@ function Dashboard(): JSX.Element {
               <BurnSupply></BurnSupply>
               <OptOut></OptOut>
               <OptIn></OptIn>
+              <MintNft></MintNft>
           </div>
       </div>
   );
