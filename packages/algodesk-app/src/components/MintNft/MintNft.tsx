@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
+interface property {
+    key: string,
+    value: string
+}
+
 interface MintNftState extends A_CreateAssetParams {
     note: string,
     enableManager: boolean,
@@ -51,7 +56,10 @@ interface MintNftState extends A_CreateAssetParams {
     description: string,
     file?: File,
     fileData?: string,
-    standard: string
+    standard: string,
+    properties: property[],
+    key: string,
+    value: string
 }
 const initialState: MintNftState = {
     clawback: undefined,
@@ -71,7 +79,10 @@ const initialState: MintNftState = {
     enableFreeze: true,
     enableClawback: true,
     description: '',
-    standard: NFT_STANDARDS.ARC69
+    standard: NFT_STANDARDS.ARC69,
+    properties: [],
+    key: '',
+    value: ''
 };
 
 export async function getFileIntegrity(file: File): Promise<string> {
@@ -92,7 +103,7 @@ function MintNft(): JSX.Element {
 
 
     const [
-        {name, unitName, description, file, fileData, decimals, manager, freeze, reserve, clawback, total, standard
+        {name, unitName, description, file, fileData, decimals, manager, freeze, reserve, clawback, total, standard, properties, key, value
         },
         setState
     ] = useState({
@@ -136,6 +147,11 @@ function MintNft(): JSX.Element {
             return;
         }
 
+        const props: any = {};
+        properties.forEach((property) => {
+            props[property.key] = property.value;
+        });
+
         try {
 
             dispatch(showLoader('Uploading file to ipfs ...'));
@@ -156,7 +172,7 @@ function MintNft(): JSX.Element {
                     image_integrity: fileIntegrity,
                     image_mimetype: file.type,
                     name: name,
-                    properties: {},
+                    properties: props,
                     unitName: unitName
                 };
 
@@ -189,7 +205,7 @@ function MintNft(): JSX.Element {
                     description,
                     mime_type: file.type,
                     external_url: '',
-                    properties: {}
+                    properties: props
                 };
                 note = JSON.stringify(arc69MetaData);
             }
@@ -324,8 +340,75 @@ function MintNft(): JSX.Element {
                                     </Grid>
 
 
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <TextField
+                                            value={key}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, key: ev.target.value}));
+                                            }}
+                                            label="Key" variant="outlined" fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <TextField
+                                            value={value}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, value: ev.target.value}));
+                                            }}
+                                            label="Value" variant="outlined" fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={2} md={2} lg={2} xl={2} className="modal-footer-align">
+                                        <Button color={"primary"}
+                                                style={{marginTop: 15, marginBottom: 10}}
+                                                variant={"contained"} size={"large"} onClick={() => {
+
+                                                    if (!key) {
+                                                        dispatch(showSnack({
+                                                            severity: 'error',
+                                                            message: 'Invalid key'
+                                                        }));
+                                                        return;
+                                                    }
+                                            if (!value) {
+                                                dispatch(showSnack({
+                                                    severity: 'error',
+                                                    message: 'Invalid value'
+                                                }));
+                                                return;
+                                            }
+                                            setState(prevState => ({...prevState, key: '', value: '', properties: [...properties, {
+                                                key, value
+                                                }]}));
+                                        }}>+</Button>
+                                    </Grid>
+
+
+                                    {properties.map((property, index) => {
+                                        return ([
+                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
+                                                {property.key}
+                                            </Grid>,
+                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
+                                                {property.value}
+                                            </Grid>,
+                                            <Grid item xs={6} sm={2} md={2} lg={2} xl={2}>
+                                                <IconButton onClick={() => {
+                                                    let props = properties;
+                                                    props = props.filter((item, ind1) => {
+                                                        return index !== ind1;
+                                                    });
+                                                    setState(prevState => ({...prevState, key: '', value: '', properties: props}));
+                                                }}>
+                                                    <CancelOutlined />
+                                                </IconButton>
+                                            </Grid>
+                                        ]);
+                                    })}
+
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
                                         <Button color={"primary"}
+                                                fullWidth
                                                 style={{marginTop: 15, marginBottom: 10}}
                                                 variant={"contained"} size={"large"} onClick={() => {
                                                     mint();

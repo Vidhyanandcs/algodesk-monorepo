@@ -17,7 +17,7 @@ import {
     SendOutlined,
     SettingsBackupRestoreSharp,
     MoreVert,
-    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined
+    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined, Link
 } from '@material-ui/icons';
 import {A_Nft, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
@@ -148,6 +148,13 @@ function Nfts(): JSX.Element {
                                   <CardHeader
                                       action={
                                           <div>
+                                              <Tooltip title="View on IPFS">
+                                                  <IconButton onClick={(ev) => {
+                                                      window.open(nft.media.web_url, "_blank");
+                                                  }}>
+                                                      <Link fontSize={"medium"}/>
+                                                  </IconButton>
+                                              </Tooltip>
                                               <Tooltip title="View in explorer">
                                                   <IconButton onClick={(ev) => {
                                                       algosdk.explorer.openAsset(asset.index);
