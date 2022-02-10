@@ -59,10 +59,10 @@
         display: inline-block;
       }
       .addr {
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 600;
         line-height: 1.2;
-        padding: 20px;
+        padding: 20px 20px 20px 20px;
         overflow-wrap: break-word;
         &:hover {
           cursor: pointer;
@@ -70,7 +70,6 @@
         }
       }
       .bal {
-        margin-top: 10px;
         font-size: 15px;
         img {
           width: 12px;
@@ -78,16 +77,20 @@
         }
       }
       .user-actions {
-        margin-bottom: 25px;
-        svg {
-          cursor: pointer;
-          margin-left: 10px;
-          margin-right: 5px;
-          border-radius: 50%;
-          border: 1px solid $color-grey-dark;
-          padding: 5px;
-          color: $color-grey-dark;
+        margin-bottom: 10px;
+        .icons {
+          margin-bottom: 5px;
+          svg {
+            cursor: pointer;
+            margin-left: 10px;
+            margin-right: 5px;
+            border-radius: 50%;
+            border: 1px solid $color-grey-dark;
+            padding: 5px;
+            color: $color-grey-dark;
+          }
         }
+
       }
     }
   }

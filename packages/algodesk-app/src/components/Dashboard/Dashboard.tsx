@@ -110,7 +110,7 @@ function Dashboard(): JSX.Element {
                           indicatorColor="primary">
                           <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
                           <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>
-                          <Tab value="nfts" label="My Nft's" className={classes.tabLabel}/>
+                          <Tab value="nfts" label="NFT collection" className={classes.tabLabel}/>
                       </Tabs>
 
                   </div>
