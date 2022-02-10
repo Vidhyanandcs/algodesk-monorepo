@@ -3,6 +3,8 @@
 .mint-nft-wrapper {
   .mint-nft-container {
     padding: 0 20px;
+    height: 700px;
+    overflow: auto;
     .file-upload-wrapper {
       .file-upload-container {
         border: 1px solid $color-grey-light;
@@ -23,8 +25,8 @@
           }
           .remove {
             position: absolute;
-            right: -20px;
-            top: -20px;
+            right: -15px;
+            top: -15px;
           }
         }
       }

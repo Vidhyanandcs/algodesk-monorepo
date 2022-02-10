@@ -1,12 +1,12 @@
 import './MintNft.scss';
 import {
-    Button, ButtonGroup,
+    Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, FormControlLabel, FormLabel,
     Grid,
-    IconButton, makeStyles,
-    TextField
+    IconButton, InputBase, makeStyles, Radio, RadioGroup,
+    TextField, Typography
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -19,7 +19,7 @@ import {
     uploadToIpfs
 } from "@algodesk/core";
 import {setAction} from "../../redux/actions/assetActions";
-import {CancelOutlined} from "@material-ui/icons";
+import {Add, CancelOutlined, PhotoSizeSelectActual} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
 import {showSnack} from "../../redux/actions/snackbar";
@@ -31,13 +31,12 @@ import {handleException} from "../../redux/actions/exception";
 import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
 import { sha256 } from 'js-sha256';
 
-
 const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         customDialog: {
             position: "absolute",
-            top: 100
+            top: 30
         }
     };
 });
@@ -119,7 +118,6 @@ function MintNft(): JSX.Element {
     async function mint() {
         let message = '';
 
-        console.log(file);
         if (!file || !fileData) {
             message = 'Invalid file';
         }
@@ -255,12 +253,13 @@ function MintNft(): JSX.Element {
                 <div className="mint-nft-wrapper">
                     <div className="mint-nft-container">
                         <Grid container spacing={2}>
+
                             <Grid item xs={12} sm={6} md={5} lg={5} xl={5}>
                                 <div className="file-upload-wrapper">
                                     <div className="file-upload-container">
                                         {file ? <div className="file-content">
                                             <img src={fileData} alt="File content"/>
-                                            <IconButton className="remove" color="primary" onClick={() => {
+                                            <IconButton className="remove" style={{color: '#000'}} onClick={() => {
                                                 setState(prevState => ({...prevState, fileData: '', file: undefined}));
                                             }}>
                                                 <CancelOutlined />
@@ -269,6 +268,7 @@ function MintNft(): JSX.Element {
                                             className="upload-button"
                                             color={"primary"}
                                             variant="outlined"
+                                            startIcon={<PhotoSizeSelectActual></PhotoSizeSelectActual>}
                                             component="label">
                                             Choose File
                                             <input
@@ -297,14 +297,17 @@ function MintNft(): JSX.Element {
                             <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <ButtonGroup variant="outlined" color="primary" fullWidth>
-                                            <Button variant={standard === NFT_STANDARDS.ARC69 ? 'contained' : 'outlined'} onClick={() => {
-                                                setState(prevState => ({...prevState, standard: NFT_STANDARDS.ARC69}));
-                                            }}>ARC69</Button>
-                                            <Button variant={standard === NFT_STANDARDS.ARC3 ? 'contained' : 'outlined'} onClick={() => {
-                                                setState(prevState => ({...prevState, standard: NFT_STANDARDS.ARC3}));
-                                            }}>ARC3</Button>
-                                        </ButtonGroup>
+
+                                        <div>
+                                            <FormLabel>NFT Standard</FormLabel>
+                                            <RadioGroup row={true} value={standard} onChange={(e) => {
+                                                const val = e.currentTarget.value;
+                                                setState(prevState => ({...prevState, standard: val}));
+                                            }}>
+                                                <FormControlLabel value={NFT_STANDARDS.ARC69} control={<Radio color={"primary"}/>} label="ARC69"/>
+                                                <FormControlLabel value={NFT_STANDARDS.ARC3} control={<Radio color={"primary"}/>} label="ARC3"/>
+                                            </RadioGroup>
+                                        </div>
                                     </Grid>
 
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -314,6 +317,9 @@ function MintNft(): JSX.Element {
                                             placeholder="CryptoKittie #99"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, name: ev.target.value}));
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true,
                                             }}
                                             label="Name" variant="outlined" fullWidth/>
                                     </Grid>
@@ -325,6 +331,9 @@ function MintNft(): JSX.Element {
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, unitName: ev.target.value}));
                                             }}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
                                             label="Unit name" variant="outlined" fullWidth/>
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -335,33 +344,42 @@ function MintNft(): JSX.Element {
                                             }}
                                             multiline
                                             rows={4}
-                                            placeholder="Your NFT description"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            placeholder="Describe your NFT in few words"
                                             label="Description" variant="outlined" fullWidth/>
                                     </Grid>
 
-
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <Typography variant={"subtitle1"}>Properties</Typography>
+                                    </Grid>
                                     <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                        <TextField
+                                        <InputBase
                                             value={key}
+                                            style={{background: '#F6FBF8', padding: 10, borderRadius: 10}}
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, key: ev.target.value}));
                                             }}
-                                            label="Key" variant="outlined" fullWidth/>
+                                            placeholder="Key"
+                                            fullWidth/>
                                     </Grid>
 
                                     <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                        <TextField
+                                        <InputBase
                                             value={value}
+                                            style={{background: '#F6FBF8', padding: 10, borderRadius: 10}}
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, value: ev.target.value}));
                                             }}
-                                            label="Value" variant="outlined" fullWidth/>
+                                            placeholder="Value"
+                                            fullWidth/>
                                     </Grid>
 
                                     <Grid item xs={12} sm={2} md={2} lg={2} xl={2} className="modal-footer-align">
+
                                         <Button color={"primary"}
-                                                style={{marginTop: 15, marginBottom: 10}}
-                                                variant={"contained"} size={"large"} onClick={() => {
+                                                variant={"text"} size={"medium"} onClick={() => {
 
                                                     if (!key) {
                                                         dispatch(showSnack({
@@ -370,38 +388,41 @@ function MintNft(): JSX.Element {
                                                         }));
                                                         return;
                                                     }
-                                            if (!value) {
-                                                dispatch(showSnack({
-                                                    severity: 'error',
-                                                    message: 'Invalid value'
-                                                }));
-                                                return;
-                                            }
-                                            setState(prevState => ({...prevState, key: '', value: '', properties: [...properties, {
-                                                key, value
-                                                }]}));
-                                        }}>+</Button>
+                                                    if (!value) {
+                                                        dispatch(showSnack({
+                                                            severity: 'error',
+                                                            message: 'Invalid value'
+                                                        }));
+                                                        return;
+                                                    }
+                                                    setState(prevState => ({...prevState, key: '', value: '', properties: [...properties, {
+                                                        key, value
+                                                        }]}));
+                                        }}><Add></Add></Button>
                                     </Grid>
 
 
                                     {properties.map((property, index) => {
                                         return ([
                                             <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
-                                                {property.key}
+                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.key}</Typography>
                                             </Grid>,
                                             <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
-                                                {property.value}
+                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.value}</Typography>
                                             </Grid>,
                                             <Grid item xs={6} sm={2} md={2} lg={2} xl={2}>
-                                                <IconButton onClick={() => {
+
+
+                                                <Button color={"secondary"}
+                                                        variant={"text"} size={"small"} onClick={() => {
                                                     let props = properties;
                                                     props = props.filter((item, ind1) => {
                                                         return index !== ind1;
                                                     });
                                                     setState(prevState => ({...prevState, key: '', value: '', properties: props}));
-                                                }}>
-                                                    <CancelOutlined />
-                                                </IconButton>
+
+                                                }}><CancelOutlined fontSize={"small"}></CancelOutlined></Button>
+
                                             </Grid>
                                         ]);
                                     })}
@@ -416,6 +437,7 @@ function MintNft(): JSX.Element {
                                     </Grid>
                                 </Grid>
                             </Grid>
+
                         </Grid>
 
 
