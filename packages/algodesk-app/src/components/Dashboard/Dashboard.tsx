@@ -23,6 +23,7 @@ import OptIn from "../OptIn/OptIn";
 import {getCommonStyles} from "../../utils/styles";
 import Nfts from "../Nfts/Nfts";
 import MintNft from "../MintNft/MintNft";
+import NftMetaData from "../NftMetaData/NftMetaData";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -140,6 +141,7 @@ function Dashboard(): JSX.Element {
               <OptOut></OptOut>
               <OptIn></OptIn>
               <MintNft></MintNft>
+              <NftMetaData></NftMetaData>
           </div>
       </div>
   );

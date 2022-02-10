@@ -18,7 +18,7 @@ import {
     NFT_STANDARDS,
     uploadToIpfs
 } from "@algodesk/core";
-import {setAction} from "../../redux/actions/assetActions";
+import {setAction} from "../../redux/actions/nftActions";
 import {Add, CancelOutlined, PhotoSizeSelectActual} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
@@ -94,10 +94,10 @@ export async function getFileIntegrity(file: File): Promise<string> {
 function MintNft(): JSX.Element {
     
     const dispatch = useDispatch();
-    const assetActions = useSelector((state: RootState) => state.assetActions);
+    const nftActions = useSelector((state: RootState) => state.nftActions);
     const account = useSelector((state: RootState) => state.account);
     const {information} = account;
-    const show = assetActions.action === 'mint_nft';
+    const show = nftActions.action === 'mint_nft';
     const classes = useStyles();
 
 

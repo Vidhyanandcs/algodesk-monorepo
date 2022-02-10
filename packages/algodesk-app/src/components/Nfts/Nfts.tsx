@@ -17,11 +17,12 @@ import {
     SendOutlined,
     SettingsBackupRestoreSharp,
     MoreVert,
-    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined, Link
+    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined, Link, StorageOutlined
 } from '@material-ui/icons';
 import {A_Nft, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
 import {setSelectedAsset, setAction} from '../../redux/actions/assetActions';
+import {setAction as setNftAction, setSelectedNft} from '../../redux/actions/nftActions';
 import algosdk from "../../utils/algosdk";
 import {showSnack} from "../../redux/actions/snackbar";
 import {getCommonStyles} from "../../utils/styles";
@@ -113,7 +114,7 @@ function Nfts(): JSX.Element {
                           variant={"contained"}
                           className="add-asset"
                           onClick={() => {
-                              dispatch(setAction('mint_nft'));
+                              dispatch(setNftAction('mint_nft'));
                           }}
                           size={"large"}>
                           Mint NFT
@@ -165,6 +166,7 @@ function Nfts(): JSX.Element {
                                               <Tooltip title="Actions">
                                                   <IconButton onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
+                                                      dispatch(setSelectedNft(nft));
                                                       dispatch(setSelectedAsset(asset));
                                                   }}>
                                                       <MoreVert/>
@@ -247,6 +249,14 @@ function Nfts(): JSX.Element {
               }}>
                   <RemoveCircleOutlineOutlined className="asset-action-icon" fontSize={"small"}></RemoveCircleOutlineOutlined>
                   Opt-Out
+              </MenuItem>
+
+              <MenuItem className={classes.primaryColorOnHover} onClick={() => {
+                  dispatch(setNftAction('nft_meta_data'));
+                  closeMenu();
+              }}>
+                  <StorageOutlined className="asset-action-icon" fontSize={"small"}></StorageOutlined>
+                  View metadata
               </MenuItem>
 
               {selectedNft && algosdk.algodesk.accountClient.canManage(information.address, selectedNft.asset) ? <MenuItem className={classes.primaryColorOnHover} onClick={() => {
