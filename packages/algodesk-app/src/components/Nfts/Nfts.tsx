@@ -17,7 +17,7 @@ import {
     SendOutlined,
     SettingsBackupRestoreSharp,
     MoreVert,
-    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined, Link, StorageOutlined
+    ControlPoint, Search, RemoveCircleOutlineOutlined, FireplaceOutlined, Link, VisibilityRounded
 } from '@material-ui/icons';
 import {A_Nft, debounce, NETWORKS} from "@algodesk/core";
 import React, {useEffect, useState} from "react";
@@ -255,7 +255,7 @@ function Nfts(): JSX.Element {
                   dispatch(setNftAction('nft_meta_data'));
                   closeMenu();
               }}>
-                  <StorageOutlined className="asset-action-icon" fontSize={"small"}></StorageOutlined>
+                  <VisibilityRounded className="asset-action-icon" fontSize={"small"}></VisibilityRounded>
                   View metadata
               </MenuItem>
 
