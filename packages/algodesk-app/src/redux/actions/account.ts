@@ -6,7 +6,6 @@ import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import algosdk from "../../utils/algosdk";
 
-
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
@@ -103,10 +102,15 @@ export const loadOptedAssets = createAsyncThunk(
 export const loadOptedAsset = createAsyncThunk(
     'account/loadOptedAsset',
     async (id: number, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
-            const assetDetails = await algosdk.algodesk.assetClient.get(id);
-            return assetDetails;
+            const asset = await algosdk.algodesk.assetClient.get(id);
+            const appState: any = getState();
+            const {account} = appState;
+            return {
+                asset,
+                accountInformation: account.information
+            };
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -136,11 +140,15 @@ export const loadNfts = createAsyncThunk(
 export const loadNft = createAsyncThunk(
     'account/loadNft',
     async (id: number, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
-            const nftDetails = await algosdk.algodesk.nftClient.get(id);
-            console.log(nftDetails);
-            return nftDetails;
+            const nft = await algosdk.algodesk.nftClient.get(id);
+            const appState: any = getState();
+            const {account} = appState;
+            return {
+                nft,
+                accountInformation: account.information
+            };
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -169,15 +177,30 @@ export const accountSlice = createSlice({
             state.loggedIn = true;
             state.information = action.payload;
         });
-        builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<any>) => {
+        builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
             state.createdAssets = action.payload;
         });
         builder.addCase(loadOptedAsset.fulfilled, (state, action: PayloadAction<any>) => {
-            state.optedAssets.push(action.payload);
+            if (action.payload) {
+                const {asset, accountInformation} = action.payload;
+                if (asset) {
+                    const holdingAsset = algosdk.algodesk.accountClient.getHoldingAsset(asset.index, accountInformation);
+                    if (holdingAsset) {
+                        state.optedAssets.push(asset);
+                    }
+                }
+            }
         });
         builder.addCase(loadNft.fulfilled, (state, action: PayloadAction<any>) => {
             if (action.payload) {
-                state.nfts.push(action.payload);
+                const {nft, accountInformation} = action.payload;
+                if (nft) {
+                    const {asset} = nft;
+                    const holdingAsset = algosdk.algodesk.accountClient.getHoldingAsset(asset.index, accountInformation);
+                    if (holdingAsset) {
+                        state.nfts.push(nft);
+                    }
+                }
             }
         });
     },
