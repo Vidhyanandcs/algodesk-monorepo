@@ -3,8 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
     Grid,
-    CardHeader,
-    IconButton,
     CardContent,
     MenuItem,
     Menu, makeStyles, Button, Tooltip, Card, TextField, InputAdornment
@@ -146,40 +144,8 @@ function Nfts(): JSX.Element {
                           return (<Grid item xs={12} sm={4} md={4} lg={3} xl={3} key={nft.asset.index}>
 
                               <Card className={'nft'}>
-                                  <CardHeader
-                                      action={
-                                          <div>
-                                              <Tooltip title="View on IPFS">
-                                                  <IconButton onClick={(ev) => {
-                                                      window.open(nft.media.web_url, "_blank");
-                                                  }}>
-                                                      <Link fontSize={"medium"}/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                              <Tooltip title="View in explorer">
-                                                  <IconButton onClick={(ev) => {
-                                                      algosdk.explorer.openAsset(asset.index);
-                                                  }}>
-                                                      <Launch fontSize={"small"}/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                              <Tooltip title="Actions">
-                                                  <IconButton onClick={(ev) => {
-                                                      setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
-                                                      dispatch(setSelectedNft(nft));
-                                                      dispatch(setSelectedAsset(asset));
-                                                  }}>
-                                                      <MoreVert/>
-                                                  </IconButton>
-                                              </Tooltip>
-                                          </div>
-                                      }
-                                      subheader=""
-                                      variant="outlined"
-                                      style={{marginBottom: 5,paddingBottom: 0}}
-                                  />
 
-                                  <CardContent>
+                                  <CardContent style={{padding: 0}}>
 
 
                                     <div className="nft-media">
@@ -188,9 +154,9 @@ function Nfts(): JSX.Element {
 
 
                                     <div className="nft-params">
-                                        <div className="row">
+                                        <div className="row bold">
                                             <div className="item">
-                                                ID
+                                                ID:&nbsp;
                                             </div>
                                             <div className="item">
                                                 {asset.index}
@@ -198,7 +164,7 @@ function Nfts(): JSX.Element {
                                         </div>
                                         <div className="row">
                                             <div className="item">
-                                                Name
+                                                Name:&nbsp;
                                             </div>
                                             <div className="item">
                                                 {asset.params.name}
@@ -206,14 +172,42 @@ function Nfts(): JSX.Element {
                                         </div>
                                         <div className="row">
                                             <div className="item">
-                                                Balance
+                                                Balance:&nbsp;
                                             </div>
                                             <div className="item">
                                                 {algosdk.algodesk.accountClient.getAssetBalWithTicker(asset, information)}
                                             </div>
                                         </div>
-
                                     </div>
+
+                                      <div className="nft-actions">
+                                        <div className="actions">
+                                            <div className="action">
+                                                <Tooltip title="View on IPFS">
+
+                                                    <Link style={{color: '#fff'}} fontSize={"medium"} onClick={(ev) => {
+                                                        window.open(nft.media.web_url, "_blank");
+                                                    }}/>
+                                                </Tooltip>
+                                            </div>
+                                            <div className="action">
+                                                <Tooltip title="View in explorer">
+                                                    <Launch style={{color: '#fff'}} fontSize={"medium"} onClick={(ev) => {
+                                                        algosdk.explorer.openAsset(asset.index);
+                                                    }}/>
+                                                </Tooltip>
+                                            </div>
+                                            <div className="action">
+                                                <Tooltip title="Actions">
+                                                    <MoreVert style={{color: '#fff'}} fontSize={"medium"} onClick={(ev) => {
+                                                        setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
+                                                        dispatch(setSelectedNft(nft));
+                                                        dispatch(setSelectedAsset(asset));
+                                                    }}/>
+                                                </Tooltip>
+                                            </div>
+                                        </div>
+                                      </div>
 
                                   </CardContent>
 

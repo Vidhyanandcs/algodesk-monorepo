@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         tabLabel: {
-            fontSize: 16
+
         }
     };
 });
@@ -91,7 +91,6 @@ function Dashboard(): JSX.Element {
               <div className="dashboard-body">
                   <div className="dashboard-tabs">
 
-
                       <Tabs
                           value={tab}
                           onChange={(event, newValue) => {
@@ -107,12 +106,14 @@ function Dashboard(): JSX.Element {
                               }
 
                           }}
-                          textColor="primary"
-                          indicatorColor="primary">
+                          style={{alignItems: "flex-start"}}
+                          TabIndicatorProps={{style: {background:'#000'}}}
+                      >
                           <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
                           <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>
                           <Tab value="nfts" label="NFT collection" className={classes.tabLabel}/>
                       </Tabs>
+
 
                   </div>
 

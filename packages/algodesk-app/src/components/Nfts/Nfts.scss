@@ -11,24 +11,53 @@
       margin-top: 30px;
       .nft {
         padding: 0px;
-        box-shadow: 0px 0px 5px rgb(0 0 0 / 15%);
+        box-shadow: none;
         border-radius: 10px;
         position: relative;
+        background: rgba(247,244,201,0.2);
+        &:hover {
+          background: #DAF0E3;
+        }
         .nft-media {
-          margin-top: -15px;
           img {
             width: 100%;
             height: auto;
-            border-radius: 10px;
           }
         }
         .nft-params {
           padding: 15px;
-          padding-bottom: 0px;
           .row {
             display: flex;
-            justify-content: space-between;
-            margin: 10px 0px;
+            justify-content: flex-start;
+            margin: 12px 0px;
+            &.bold {
+              .item {
+                font-family: PoppinsBold !important;
+              }
+            }
+          }
+        }
+        &:hover {
+          cursor: pointer;
+          .nft-actions {
+            display: block;
+          }
+        }
+        .nft-actions {
+          position: absolute;
+          width: 100%;
+          height: 50px;
+          bottom: 125px;
+          background: #03B68C;
+          display: none;
+          .actions {
+            display: flex;
+            justify-content: space-around;
+            .action {
+              svg {
+                margin-top: 15px;
+              }
+            }
           }
         }
       }
