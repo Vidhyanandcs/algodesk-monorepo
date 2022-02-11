@@ -31,6 +31,10 @@ import {handleException} from "../../redux/actions/exception";
 import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
 import { sha256 } from 'js-sha256';
 
+function sleep(ms: number): Promise<any> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
@@ -214,6 +218,7 @@ function MintNft(): JSX.Element {
             dispatch(hideLoader());
             dispatch(showLoader('Waiting for confirmation ...'));
             await algosdk.algodesk.transactionClient.waitForConfirmation(txId);
+            await sleep(5000);
             dispatch(hideLoader());
             clearState();
             dispatch(setAction(''));

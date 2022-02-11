@@ -3,7 +3,7 @@ import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "../transactionClient";
 import {
     Signer,
-    A_Nft
+    A_Nft, A_Asset
 } from "../../types";
 import {ApplicationClient} from "../applicationClient";
 import {AccountClient} from "../accountClient";
@@ -53,9 +53,8 @@ export class NFTClient{
         this.assetClient = new AssetClient(client, indexer, signer);
     }
 
-    async get(id: number): Promise<A_Nft>{
-        const asset = await this.assetClient.get(id);
-
+    async get(asset: A_Asset): Promise<A_Nft>{
+        // const asset = await this.assetClient.get(id);
         const arc3MetaData = await this.arc3.getMetaData(asset);
         if (arc3MetaData) {
             return {

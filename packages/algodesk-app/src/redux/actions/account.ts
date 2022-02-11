@@ -48,10 +48,11 @@ export const loadAccount = createAsyncThunk(
         try {
             dispatch(showLoader("Loading account information ..."));
             const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
+            //dispatch(setAccountInformation(accountInfo));
+            dispatch(resetNfts());
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
-            dispatch(loadNfts(accountInfo));
-
+            //dispatch(loadNfts(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -71,6 +72,13 @@ export const loadCreatedAssets = createAsyncThunk(
             createdAssets = createdAssets.sort((a, b) => {
                 return b.index - a.index;
             });
+
+            createdAssets.forEach((asset) => {
+                if (algosdk.algodesk.accountClient.getAssetBal(asset, information) > 0) {
+                    dispatch(loadNft(asset));
+                }
+            });
+
             return createdAssets;
         }
         catch (e: any) {
@@ -107,6 +115,11 @@ export const loadOptedAsset = createAsyncThunk(
             const asset = await algosdk.algodesk.assetClient.get(id);
             const appState: any = getState();
             const {account} = appState;
+
+            if (algosdk.algodesk.accountClient.getAssetBal(asset, account.information) > 0) {
+                dispatch(loadNft(asset));
+            }
+
             return {
                 asset,
                 accountInformation: account.information
@@ -127,7 +140,7 @@ export const loadNfts = createAsyncThunk(
             const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
             optedAssets.forEach((asset) => {
                 if (asset.creator && asset.amount > 0) {
-                    dispatch(loadNft(asset['asset-id']));
+                    //dispatch(loadNft(asset['asset-id']));
                 }
             });
         }
@@ -139,10 +152,10 @@ export const loadNfts = createAsyncThunk(
 
 export const loadNft = createAsyncThunk(
     'account/loadNft',
-    async (id: number, thunkAPI) => {
+    async (asset: A_Asset, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
-            const nft = await algosdk.algodesk.nftClient.get(id);
+            const nft = await algosdk.algodesk.nftClient.get(asset);
             const appState: any = getState();
             const {account} = appState;
             return {
@@ -170,7 +183,11 @@ export const accountSlice = createSlice({
         },
         resetNfts: (state) => {
             state.nfts = [];
-        }
+        },
+        setAccountInformation: (state, action: PayloadAction<A_AccountInformation>) => {
+            state.loggedIn = true;
+            state.information = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
@@ -206,5 +223,5 @@ export const accountSlice = createSlice({
     },
 });
 
-export const { logout, resetOptedAssets, resetNfts } = accountSlice.actions
+export const { logout, resetOptedAssets, resetNfts, setAccountInformation } = accountSlice.actions
 export default accountSlice.reducer
