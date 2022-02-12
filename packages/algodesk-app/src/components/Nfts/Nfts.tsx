@@ -190,12 +190,18 @@ function Nfts(): JSX.Element {
                                                     }}/>
                                                 </Tooltip>
                                             </div>
+                                            <div className="action separator">
+
+                                            </div>
                                             <div className="action">
                                                 <Tooltip title="View in explorer">
                                                     <Launch style={{color: '#fff'}} fontSize={"medium"} onClick={(ev) => {
                                                         algosdk.explorer.openAsset(asset.index);
                                                     }}/>
                                                 </Tooltip>
+                                            </div>
+                                            <div className="action separator">
+
                                             </div>
                                             <div className="action">
                                                 <Tooltip title="Actions">

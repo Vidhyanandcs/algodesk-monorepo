@@ -52,11 +52,14 @@
           display: none;
           .actions {
             display: flex;
-            justify-content: space-around;
-            .action {
-              svg {
-                margin-top: 15px;
-              }
+            justify-content: space-evenly;
+            svg {
+              margin-top: 15px;
+            }
+            .action.separator {
+              width: 1px;
+              height: 50px;
+              background: $color-light;
             }
           }
         }
