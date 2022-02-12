@@ -6,7 +6,7 @@ import {
     DialogTitle, FormControlLabel, FormLabel,
     Grid,
     IconButton, InputBase, makeStyles, Radio, RadioGroup,
-    TextField, Typography
+    Typography
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => {
         customDialog: {
             position: "absolute",
             top: 30
+        },
+        customInputBase: {
+            background: '#F6FBF8',
+            padding: 10,
+            borderRadius: 10
         }
     };
 });
@@ -259,6 +264,170 @@ function MintNft(): JSX.Element {
                     <div className="mint-nft-container">
                         <Grid container spacing={2}>
 
+                            <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+                                        <div>
+                                            <FormLabel className={classes.primaryText}>NFT Standard</FormLabel>
+                                            <RadioGroup row={true} value={standard} onChange={(e) => {
+                                                const val = e.currentTarget.value;
+                                                setState(prevState => ({...prevState, standard: val}));
+                                            }}>
+                                                <FormControlLabel value={NFT_STANDARDS.ARC69} control={<Radio color={"primary"}/>} label="ARC69"/>
+                                                <FormControlLabel value={NFT_STANDARDS.ARC3} control={<Radio color={"primary"}/>} label="ARC3"/>
+                                            </RadioGroup>
+                                        </div>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <FormLabel className={classes.primaryText}>Name</FormLabel>
+                                        <InputBase
+                                            required
+                                            value={name}
+                                            className={classes.customInputBase}
+                                            style={{marginTop: 10}}
+                                            placeholder="CryptoKittie #99"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, name: ev.target.value}));
+                                            }}
+                                            fullWidth/>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <FormLabel className={classes.primaryText}>Unit name</FormLabel>
+                                        <InputBase
+                                            required
+                                            placeholder="Kittie"
+                                            value={unitName}
+                                            className={classes.customInputBase}
+                                            style={{marginTop: 10}}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, unitName: ev.target.value}));
+                                            }}
+                                            fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <FormLabel className={classes.primaryText}>Description</FormLabel>
+                                        <InputBase
+                                            value={description}
+                                            className={classes.customInputBase}
+                                            style={{marginTop: 10}}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, description: ev.target.value}));
+                                            }}
+                                            multiline
+                                            rows={6}
+                                            placeholder="Describe your NFT in few words"
+                                            fullWidth/>
+                                    </Grid>
+
+
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <Typography variant={"subtitle1"} className={classes.primaryText}>Properties</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <div>
+                                            <InputBase
+                                                value={key}
+                                                className={classes.customInputBase}
+                                                onChange={(ev) => {
+                                                    setState(prevState => ({...prevState, key: ev.target.value}));
+                                                }}
+                                                placeholder="Key"
+                                                fullWidth/>
+                                        </div>
+
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
+                                        <InputBase
+                                            value={value}
+                                            className={classes.customInputBase}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, value: ev.target.value}));
+                                            }}
+                                            placeholder="Value"
+                                            fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
+
+                                        <Button color={"primary"}
+                                                variant={"text"} size={"medium"} onClick={() => {
+
+                                            if (!key) {
+                                                dispatch(showSnack({
+                                                    severity: 'error',
+                                                    message: 'Invalid key'
+                                                }));
+                                                return;
+                                            }
+                                            if (!value) {
+                                                dispatch(showSnack({
+                                                    severity: 'error',
+                                                    message: 'Invalid value'
+                                                }));
+                                                return;
+                                            }
+                                            setState(prevState => ({...prevState, key: '', value: '', properties: [...properties, {
+                                                    key, value
+                                                }]}));
+                                        }}><Add></Add></Button>
+                                    </Grid>
+
+
+                                    {properties.map((property, index) => {
+                                        return ([
+                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
+                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.key}</Typography>
+                                            </Grid>,
+                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
+                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.value}</Typography>
+                                            </Grid>,
+                                            <Grid item xs={6} sm={2} md={2} lg={2} xl={2}>
+
+
+                                                <Button color={"secondary"}
+                                                        variant={"text"} size={"small"} onClick={() => {
+                                                    let props = properties;
+                                                    props = props.filter((item, ind1) => {
+                                                        return index !== ind1;
+                                                    });
+                                                    setState(prevState => ({...prevState, key: '', value: '', properties: props}));
+
+                                                }}><CancelOutlined fontSize={"small"}></CancelOutlined></Button>
+
+                                            </Grid>
+                                        ]);
+                                    })}
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+
+
+                                        <div style={{textAlign: "center"}}>
+                                            <Button color={"primary"}
+                                                    style={{marginTop: 25}}
+                                                    variant={"contained"} size={"large"} onClick={() => {
+                                                mint();
+                                            }}>Mint</Button>
+                                        </div>
+
+
+
+
+
+
+
+
+                                    </Grid>
+
+
+                                </Grid>
+                            </Grid>
                             <Grid item xs={12} sm={6} md={5} lg={5} xl={5}>
                                 <div className="file-upload-wrapper">
                                     <div className="file-upload-container">
@@ -299,149 +468,8 @@ function MintNft(): JSX.Element {
                                     </div>
                                 </div>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-
-                                        <div>
-                                            <FormLabel>NFT Standard</FormLabel>
-                                            <RadioGroup row={true} value={standard} onChange={(e) => {
-                                                const val = e.currentTarget.value;
-                                                setState(prevState => ({...prevState, standard: val}));
-                                            }}>
-                                                <FormControlLabel value={NFT_STANDARDS.ARC69} control={<Radio color={"primary"}/>} label="ARC69"/>
-                                                <FormControlLabel value={NFT_STANDARDS.ARC3} control={<Radio color={"primary"}/>} label="ARC3"/>
-                                            </RadioGroup>
-                                        </div>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <TextField
-                                            required
-                                            value={name}
-                                            placeholder="CryptoKittie #99"
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, name: ev.target.value}));
-                                            }}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            label="Name" variant="outlined" fullWidth/>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <TextField
-                                            required
-                                            placeholder="Kittie"
-                                            value={unitName}
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, unitName: ev.target.value}));
-                                            }}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            label="Unit name" variant="outlined" fullWidth/>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <TextField
-                                            value={description}
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, description: ev.target.value}));
-                                            }}
-                                            multiline
-                                            rows={4}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            placeholder="Describe your NFT in few words"
-                                            label="Description" variant="outlined" fullWidth/>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <Typography variant={"subtitle1"}>Properties</Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                        <InputBase
-                                            value={key}
-                                            style={{background: '#F6FBF8', padding: 10, borderRadius: 10}}
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, key: ev.target.value}));
-                                            }}
-                                            placeholder="Key"
-                                            fullWidth/>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={5} md={5} lg={5} xl={5}>
-                                        <InputBase
-                                            value={value}
-                                            style={{background: '#F6FBF8', padding: 10, borderRadius: 10}}
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, value: ev.target.value}));
-                                            }}
-                                            placeholder="Value"
-                                            fullWidth/>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={2} md={2} lg={2} xl={2} className="modal-footer-align">
-
-                                        <Button color={"primary"}
-                                                variant={"text"} size={"medium"} onClick={() => {
-
-                                                    if (!key) {
-                                                        dispatch(showSnack({
-                                                            severity: 'error',
-                                                            message: 'Invalid key'
-                                                        }));
-                                                        return;
-                                                    }
-                                                    if (!value) {
-                                                        dispatch(showSnack({
-                                                            severity: 'error',
-                                                            message: 'Invalid value'
-                                                        }));
-                                                        return;
-                                                    }
-                                                    setState(prevState => ({...prevState, key: '', value: '', properties: [...properties, {
-                                                        key, value
-                                                        }]}));
-                                        }}><Add></Add></Button>
-                                    </Grid>
 
 
-                                    {properties.map((property, index) => {
-                                        return ([
-                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
-                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.key}</Typography>
-                                            </Grid>,
-                                            <Grid item xs={6} sm={5} md={5} lg={5} xl={5}>
-                                                <Typography variant={"subtitle2"} style={{marginTop: 10}}>{property.value}</Typography>
-                                            </Grid>,
-                                            <Grid item xs={6} sm={2} md={2} lg={2} xl={2}>
-
-
-                                                <Button color={"secondary"}
-                                                        variant={"text"} size={"small"} onClick={() => {
-                                                    let props = properties;
-                                                    props = props.filter((item, ind1) => {
-                                                        return index !== ind1;
-                                                    });
-                                                    setState(prevState => ({...prevState, key: '', value: '', properties: props}));
-
-                                                }}><CancelOutlined fontSize={"small"}></CancelOutlined></Button>
-
-                                            </Grid>
-                                        ]);
-                                    })}
-
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className="modal-footer-align">
-                                        <Button color={"primary"}
-                                                fullWidth
-                                                style={{marginTop: 15, marginBottom: 10}}
-                                                variant={"contained"} size={"large"} onClick={() => {
-                                                    mint();
-                                                }}>Mint</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
 
                         </Grid>
 
