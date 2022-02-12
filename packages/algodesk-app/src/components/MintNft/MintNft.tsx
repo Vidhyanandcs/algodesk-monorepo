@@ -14,7 +14,7 @@ import {
     A_CreateAssetParams,
     A_Nft_MetaData_Arc3,
     A_Nft_MetaData_Arc69,
-    cidToIpfsFile,
+    cidToIpfsFile, getFileIntegrity,
     NFT_STANDARDS,
     uploadToIpfs
 } from "@algodesk/core";
@@ -29,7 +29,6 @@ import {loadAccount} from "../../redux/actions/account";
 import {showTransactionDetails} from "../../redux/actions/transaction";
 import {handleException} from "../../redux/actions/exception";
 import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
-import { sha256 } from 'js-sha256';
 
 function sleep(ms: number): Promise<any> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -92,13 +91,6 @@ const initialState: MintNftState = {
     key: '',
     value: ''
 };
-
-export async function getFileIntegrity(file: File): Promise<string> {
-    const buff = await file.arrayBuffer()
-    const bytes = new Uint8Array(buff)
-    const hash = new Uint8Array(sha256.digest(bytes));
-    return "sha256-"+Buffer.from(hash).toString("base64")
-}
 
 function MintNft(): JSX.Element {
     
