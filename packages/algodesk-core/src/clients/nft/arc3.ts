@@ -37,6 +37,7 @@ export class Arc3 {
         };
     }
 
+    
     async getMetaData(asset: A_Asset): Promise<A_Nft_MetaData_Arc3> {
 
         if (this.isArc3Nft(asset)) {
