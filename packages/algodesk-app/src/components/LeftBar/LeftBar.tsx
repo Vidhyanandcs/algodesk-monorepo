@@ -16,7 +16,7 @@ import React, {useState} from "react";
 import {microalgosToAlgos} from "algosdk";
 import algoLogo from "../../assets/images/algo-logo.png";
 import {logout} from "../../redux/actions/account";
-import {CancelOutlined, CropFree, FileCopyOutlined, Launch, PowerSettingsNew} from "@material-ui/icons";
+import {CancelOutlined, CompareArrows, CropFree, FileCopyOutlined, Launch, PowerSettingsNew} from "@material-ui/icons";
 import copy from "copy-to-clipboard";
 import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
@@ -24,6 +24,7 @@ import {showSnack} from "../../redux/actions/snackbar";
 import QRCode from "qrcode.react";
 import algosdk from "../../utils/algosdk";
 import newLogo from '../../assets/images/logo-white.png';
+import {showConnectWallet} from "../../redux/actions/connectWallet";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -119,6 +120,18 @@ function LeftBar(): JSX.Element {
               </div>
 
               <div className="footer">
+
+
+                  <Button variant={"text"}
+                          color={"primary"}
+                          size={"large"}
+                          fullWidth
+                          className="custom-button"
+                          startIcon={<CompareArrows></CompareArrows>}
+                          onClick={() => {
+                              dispatch(showConnectWallet());
+                          }}
+                  >Switch wallet</Button>
                   <Button variant={"text"}
                           color={"secondary"}
                           size={"large"}
@@ -129,6 +142,7 @@ function LeftBar(): JSX.Element {
                               dispatch(logout());
                           }}
                   >Logout</Button>
+
               </div>
 
               {showQr ? <Dialog
