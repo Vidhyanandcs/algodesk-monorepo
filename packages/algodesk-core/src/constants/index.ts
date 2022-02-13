@@ -27,3 +27,9 @@ export enum LOCAL_STORAGE {
 }
 
 export const BURN_ADDRESS_MIN_BAL: number = 0.2;
+
+export enum NFT_STANDARDS {
+    ARC3 = "arc3",
+    ARC69 = 'arc69',
+}
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs';

@@ -13,11 +13,10 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useState} from "react";
-import {ellipseAddress} from "@algodesk/core";
 import {microalgosToAlgos} from "algosdk";
 import algoLogo from "../../assets/images/algo-logo.png";
 import {logout} from "../../redux/actions/account";
-import {CancelOutlined, CropFree, FileCopyOutlined, PowerSettingsNew} from "@material-ui/icons";
+import {CancelOutlined, CropFree, FileCopyOutlined, Launch, PowerSettingsNew} from "@material-ui/icons";
 import copy from "copy-to-clipboard";
 import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
@@ -72,10 +71,11 @@ function LeftBar(): JSX.Element {
                   <div className={'addr'}>
                         <span onClick={() => {
                             algosdk.explorer.openAccount(account.information.address);
-                        }}>{ellipseAddress(account.information.address, 10)}</span>
+                        }}>{account.information.address}</span>
                   </div>
                   <div className="user-actions">
-                      <Tooltip title="Copy address">
+                      <div className="icons">
+                          <Tooltip title="Copy address">
                               <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
                                   copy(account.information.address, {
                                       message: 'Press #{key} to copy',
@@ -89,14 +89,24 @@ function LeftBar(): JSX.Element {
                               }}>
                                       <FileCopyOutlined fontSize={"small"}></FileCopyOutlined>
                               </span>
-                      </Tooltip>
-                      <Tooltip title="Show QR code">
+                          </Tooltip>
+                          <Tooltip title="Show QR code">
                               <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
                                   setState(prevState => ({ ...prevState, showQr: true }));
                               }}>
                                       <CropFree fontSize={"small"}></CropFree>
                               </span>
-                      </Tooltip>
+                          </Tooltip>
+                      </div>
+                      <Button variant={"text"}
+                              color={"primary"}
+                              size={"small"}
+                              startIcon={ <Launch/>}
+                              onClick={(ev) => {
+                                  algosdk.explorer.openAccount(account.information.address);
+                              }}
+                      >View in explorer</Button>
+
                   </div>
                   <div className="bal">
                       Balance: {microalgosToAlgos(algosdk.algodesk.accountClient.getBalance(account.information))}

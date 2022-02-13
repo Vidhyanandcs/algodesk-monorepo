@@ -31,7 +31,7 @@ import {getCommonStyles} from "../../utils/styles";
 import emptyVector from '../../assets/images/empty-assets.png';
 
 function processAssetParam(value: string = ""): string {
-    return value ? ellipseAddress(value, 12) : "[None]";
+    return value ? ellipseAddress(value, 12) : "-None-";
 }
 
 function renderAssetParam(label: string = "", value: string = "", addr: string): JSX.Element {
@@ -64,14 +64,14 @@ function renderAssetParam(label: string = "", value: string = "", addr: string):
     </div>);
 }
 
-interface AssetsState{
+interface CreatedAssetsState{
     menuAnchorEl?: any
     hideZeroBal: boolean
     filteredAssets: A_Asset[]
     searchText: string
 }
 
-const initialState: AssetsState = {
+const initialState: CreatedAssetsState = {
     hideZeroBal: false,
     filteredAssets: [],
     searchText: ''
@@ -192,7 +192,7 @@ function CreatedAssets(): JSX.Element {
                       {filteredAssets.map((asset) => {
                           return (<Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={asset.index}>
 
-                              <Card className={'asset'}>
+                              <Card className={'asset created-asset'}>
                                   <CardHeader
                                       action={
                                           <div>
@@ -203,7 +203,7 @@ function CreatedAssets(): JSX.Element {
                                                       <Launch/>
                                                   </IconButton>
                                               </Tooltip>
-                                              <Tooltip title="Asset actions">
+                                              <Tooltip title="Actions">
                                                   <IconButton color={"primary"} onClick={(ev) => {
                                                       setState(prevState => ({ ...prevState, menuAnchorEl: ev.target}));
                                                       dispatch(setSelectedAsset(asset));

@@ -1,0 +1,32 @@
+@import '../../assets/colors';
+
+.nft-meta-data-wrapper {
+  .nft-meta-data-container {
+    .asset-details {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+      text-align: center;
+      .name {
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+      .id {
+        color: $color-grey-dark;
+        font-size: 16px;
+      }
+    }
+    pre {
+      background: #DAF0E3;
+      padding: 15px;
+      border-radius: 10px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      font-size: 12px;
+      white-space: pre-wrap;       /* Since CSS 2.1 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -o-pre-wrap;    /* Opera 7 */
+      word-break: break-all;
+    }
+  }
+}

@@ -80,7 +80,6 @@ function FreezeAccount(): JSX.Element {
                 from: information.address,
             };
 
-            console.log(assetParams);
             let message = 'Freezing ...';
 
             if (!freezeState) {

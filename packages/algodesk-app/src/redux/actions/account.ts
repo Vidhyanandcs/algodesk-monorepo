@@ -1,17 +1,17 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {
-    A_AccountInformation, A_Asset
+    A_AccountInformation, A_Asset, A_Nft
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import algosdk from "../../utils/algosdk";
 
-
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    optedAssets: A_Asset[]
+    optedAssets: A_Asset[],
+    nfts: A_Nft[]
 }
 
 const information: A_AccountInformation = {
@@ -37,7 +37,8 @@ const initialState: Account = {
     loggedIn: false,
     information,
     createdAssets: [],
-    optedAssets: []
+    optedAssets: [],
+    nfts: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -47,8 +48,11 @@ export const loadAccount = createAsyncThunk(
         try {
             dispatch(showLoader("Loading account information ..."));
             const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
+            //dispatch(setAccountInformation(accountInfo));
+            dispatch(resetNfts());
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
+            //dispatch(loadNfts(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -68,6 +72,13 @@ export const loadCreatedAssets = createAsyncThunk(
             createdAssets = createdAssets.sort((a, b) => {
                 return b.index - a.index;
             });
+
+            createdAssets.forEach((asset) => {
+                if (algosdk.algodesk.accountClient.getAssetBal(asset, information) > 0) {
+                    dispatch(loadNft(asset));
+                }
+            });
+
             return createdAssets;
         }
         catch (e: any) {
@@ -99,10 +110,58 @@ export const loadOptedAssets = createAsyncThunk(
 export const loadOptedAsset = createAsyncThunk(
     'account/loadOptedAsset',
     async (id: number, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const asset = await algosdk.algodesk.assetClient.get(id);
+            const appState: any = getState();
+            const {account} = appState;
+
+            if (algosdk.algodesk.accountClient.getAssetBal(asset, account.information) > 0) {
+                dispatch(loadNft(asset));
+            }
+
+            return {
+                asset,
+                accountInformation: account.information
+            };
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadNfts = createAsyncThunk(
+    'account/loadNfts',
+    async (accountInformation: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const assetDetails = await algosdk.algodesk.assetClient.get(id);
-            return assetDetails;
+            dispatch(resetNfts());
+            const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
+            optedAssets.forEach((asset) => {
+                if (asset.creator && asset.amount > 0) {
+                    //dispatch(loadNft(asset['asset-id']));
+                }
+            });
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadNft = createAsyncThunk(
+    'account/loadNft',
+    async (asset: A_Asset, thunkAPI) => {
+        const {dispatch, getState} = thunkAPI;
+        try {
+            const nft = await algosdk.algodesk.nftClient.get(asset);
+            const appState: any = getState();
+            const {account} = appState;
+            return {
+                nft,
+                accountInformation: account.information
+            };
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -121,21 +180,48 @@ export const accountSlice = createSlice({
         },
         resetOptedAssets: (state) => {
             state.optedAssets = [];
-        }
+        },
+        resetNfts: (state) => {
+            state.nfts = [];
+        },
+        setAccountInformation: (state, action: PayloadAction<A_AccountInformation>) => {
+            state.loggedIn = true;
+            state.information = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
             state.loggedIn = true;
             state.information = action.payload;
         });
-        builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<any>) => {
+        builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
             state.createdAssets = action.payload;
         });
         builder.addCase(loadOptedAsset.fulfilled, (state, action: PayloadAction<any>) => {
-            state.optedAssets.push(action.payload);
+            if (action.payload) {
+                const {asset, accountInformation} = action.payload;
+                if (asset) {
+                    const holdingAsset = algosdk.algodesk.accountClient.getHoldingAsset(asset.index, accountInformation);
+                    if (holdingAsset) {
+                        state.optedAssets.push(asset);
+                    }
+                }
+            }
+        });
+        builder.addCase(loadNft.fulfilled, (state, action: PayloadAction<any>) => {
+            if (action.payload) {
+                const {nft, accountInformation} = action.payload;
+                if (nft) {
+                    const {asset} = nft;
+                    const holdingAsset = algosdk.algodesk.accountClient.getHoldingAsset(asset.index, accountInformation);
+                    if (holdingAsset) {
+                        state.nfts.push(nft);
+                    }
+                }
+            }
         });
     },
 });
 
-export const { logout, resetOptedAssets } = accountSlice.actions
+export const { logout, resetOptedAssets, resetNfts, setAccountInformation } = accountSlice.actions
 export default accountSlice.reducer

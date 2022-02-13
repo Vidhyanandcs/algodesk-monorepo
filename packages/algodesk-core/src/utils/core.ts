@@ -2,6 +2,7 @@ import Duration from 'duration';
 import {BLOCK_TIME} from "../constants";
 import {formatNumber} from "accounting";
 import moment from "moment";
+import { sha256 } from 'js-sha256';
 
 export function encodeText(text: string | undefined): Uint8Array | undefined {
     if (text) {
@@ -69,4 +70,11 @@ export function getBlockByDate(date: Date, currentRound: number): number {
     const roundsDiff = Math.abs(Math.round(secDiff / BLOCK_TIME));
 
     return currentRound + roundsDiff;
+}
+
+export async function getFileIntegrity(file: File): Promise<string> {
+    const buff = await file.arrayBuffer()
+    const bytes = new Uint8Array(buff)
+    const hash = new Uint8Array(sha256.digest(bytes));
+    return "sha256-"+Buffer.from(hash).toString("base64")
 }

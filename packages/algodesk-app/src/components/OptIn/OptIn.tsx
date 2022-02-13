@@ -91,7 +91,6 @@ function OptIn(): JSX.Element {
             }
         }
 
-        console.log(searchText);
         if(searchText) {
             search();
         }

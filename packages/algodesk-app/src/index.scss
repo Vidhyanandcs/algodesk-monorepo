@@ -19,6 +19,12 @@
   url('assets/fonts/Poppins/Poppins-Thin.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'PoppinsBold';
+  src: url('assets/fonts/Poppins/Poppins-Bold.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+}
+
 body {
   font-family: "Poppins";
 }

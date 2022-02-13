@@ -21,12 +21,15 @@ import BurnSupply from "../BurnSupply/BurnSupply";
 import OptOut from "../OptOut/OptOut";
 import OptIn from "../OptIn/OptIn";
 import {getCommonStyles} from "../../utils/styles";
+import Nfts from "../Nfts/Nfts";
+import MintNft from "../MintNft/MintNft";
+import NftMetaData from "../NftMetaData/NftMetaData";
 
 const useStyles = makeStyles((theme) => {
     return {
         ...getCommonStyles(theme),
         tabLabel: {
-            fontSize: 16
+
         }
     };
 });
@@ -88,7 +91,6 @@ function Dashboard(): JSX.Element {
               <div className="dashboard-body">
                   <div className="dashboard-tabs">
 
-
                       <Tabs
                           value={tab}
                           onChange={(event, newValue) => {
@@ -99,13 +101,19 @@ function Dashboard(): JSX.Element {
                               else if (newValue === 'opted-assets') {
                                   history.push('/portal/dashboard/opted-assets');
                               }
+                              else if (newValue === 'nfts') {
+                                  history.push('/portal/dashboard/nfts');
+                              }
 
                           }}
-                          textColor="primary"
-                          indicatorColor="primary">
+                          style={{alignItems: "flex-start"}}
+                          TabIndicatorProps={{style: {background:'#000'}}}
+                      >
                           <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
                           <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>
+                          <Tab value="nfts" label="NFT collection" className={classes.tabLabel}/>
                       </Tabs>
+
 
                   </div>
 
@@ -115,6 +123,9 @@ function Dashboard(): JSX.Element {
                       </Route>
                       <Route path="/portal/dashboard/opted-assets">
                           <OptedAssets></OptedAssets>
+                      </Route>
+                      <Route path="/portal/dashboard/nfts">
+                          <Nfts></Nfts>
                       </Route>
                       <Route exact path="/portal/dashboard" render={() => <Redirect to="/portal/dashboard/created-assets" />} />
                   </Switch>
@@ -130,6 +141,8 @@ function Dashboard(): JSX.Element {
               <BurnSupply></BurnSupply>
               <OptOut></OptOut>
               <OptIn></OptIn>
+              <MintNft></MintNft>
+              <NftMetaData></NftMetaData>
           </div>
       </div>
   );
