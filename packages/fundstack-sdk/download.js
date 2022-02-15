@@ -21,6 +21,5 @@ function downloadContracts(network, contractsUrl) {
     });
 }
 
-downloadContracts('betanet', 'https://betanet-contracts-p4nsc39q3-fundstack.vercel.app');
-downloadContracts('testnet', 'https://testnet-contracts-7nbce948x-fundstack.vercel.app');
-
+downloadContracts('betanet', 'https://contracts.fundstack.io/betanet');
+downloadContracts('testnet', 'https://contracts.fundstack.io/testnet');
