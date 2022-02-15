@@ -1,11 +1,11 @@
-import {globalStateKeys} from "./state/fund";
+import {globalStateKeys} from "./state/pool";
 import * as sdk from "algosdk";
 import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Application} from "@algodesk/core";
 import atob from 'atob';
-import {F_CompanyDetails, F_FundStatus} from "./types";
+import {F_CompanyDetails, F_PoolStatus} from "./types";
 import {getContracts} from "./contracts";
 
-export type F_FundLocalState = {
+export type F_PoolLocalState = {
     r: number
     i: number
     ia: number
@@ -13,7 +13,7 @@ export type F_FundLocalState = {
     w: number
 };
 
-export type F_FundGlobalState = {
+export type F_PoolGlobalState = {
     v: number
     p: number
     c: string
@@ -34,22 +34,22 @@ export type F_FundGlobalState = {
     noi: number
     noc: number
     e: string
-    fc: number
+    ac: number
     cd: string
     tr: number
-    fw: number
+    aw: number
     rac: number
     pai: number
     pe: string
     psf: number
     prf: number
     ppf: number
-    pfemtu: number
+    ppemtu: number
     pscp: number
 }
 
-export function getFundState(fund: A_Application): F_FundGlobalState {
-    const gState = fund.params['global-state'];
+export function getPoolState(pool: A_Application): F_PoolGlobalState {
+    const gState = pool.params['global-state'];
     const globalState = {};
 
     gState.forEach((gStateProp) => {
@@ -72,10 +72,10 @@ export function getFundState(fund: A_Application): F_FundGlobalState {
         }
     });
 
-    return globalState as F_FundGlobalState;
+    return globalState as F_PoolGlobalState;
 }
 
-export function getAccountState(localApp): F_FundLocalState {
+export function getAccountState(localApp): F_PoolLocalState {
     const lState = localApp['key-value'];
     const localState = {};
 
@@ -91,14 +91,14 @@ export function getAccountState(localApp): F_FundLocalState {
         }
     });
 
-    return localState as F_FundLocalState;
+    return localState as F_PoolLocalState;
 }
 
-export class Fund {
+export class Pool {
     id: number | bigint;
     params: A_ApplicationParams;
-    globalState: F_FundGlobalState;
-    status: F_FundStatus;
+    globalState: F_PoolGlobalState;
+    status: F_PoolStatus;
     asset: A_Asset;
     escrow: A_AccountInformation;
     company: F_CompanyDetails;
@@ -108,17 +108,17 @@ export class Fund {
     }
     network: string;
 
-    constructor(fund: A_Application, network: string) {
-        this.id = fund.id;
-        this.params = fund.params;
+    constructor(pool: A_Application, network: string) {
+        this.id = pool.id;
+        this.params = pool.params;
         this.network = network;
         this.valid = this.isValid();
 
         if (this.valid) {
-            this.globalState = getFundState(fund);
+            this.globalState = getPoolState(pool);
         }
         else {
-            this.setError('Invalid fund');
+            this.setError('Invalid pool');
         }
     }
 
@@ -181,8 +181,8 @@ export class Fund {
         return this.globalState[globalStateKeys.platform_registration_fee];
     }
 
-    getFundEscrowMinTopUp(): number {
-        return this.globalState[globalStateKeys.platform_fund_escrow_min_top_up];
+    getPoolEscrowMinTopUp(): number {
+        return this.globalState[globalStateKeys.platform_pool_escrow_min_top_up];
     }
 
     getMinAllocation(): number {
@@ -197,7 +197,7 @@ export class Fund {
         return this.globalState[globalStateKeys.price];
     }
 
-    updateStatusDetails(status: F_FundStatus) {
+    updateStatusDetails(status: F_PoolStatus) {
         this.status = status;
     }
 

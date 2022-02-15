@@ -12,10 +12,12 @@ export type F_PlatformGlobalState = {
     pf: number
     rf: number
     sf: number
+    scp: number
+    pemtu: number
 }
 
-export function getPlatformState(fund: A_Application): F_PlatformGlobalState {
-    const gState = fund.params['global-state'];
+export function getPlatformState(app: A_Application): F_PlatformGlobalState {
+    const gState = app.params['global-state'];
     const globalState = {};
 
     gState.forEach((gStateProp) => {
