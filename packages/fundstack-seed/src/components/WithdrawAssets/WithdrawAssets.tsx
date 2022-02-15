@@ -11,7 +11,7 @@ import {RootState} from "../../redux/store";
 import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {getCommonStyles} from "../../utils/styles";
-import {setAction, withdraw} from "../../redux/actions/fund";
+import {setAction, withdraw} from "../../redux/actions/pool";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -27,8 +27,8 @@ function WithdrawAssets(): JSX.Element {
 
     const dispatch = useDispatch();
 
-    const fund = useSelector((state: RootState) => state.fund);
-    const show = fund.action === 'withdraw';
+    const poolDetails = useSelector((state: RootState) => state.pool);
+    const show = poolDetails.action === 'withdraw';
     const classes = useStyles();
     
 
@@ -71,7 +71,7 @@ function WithdrawAssets(): JSX.Element {
                                     size={"large"}
                                     className="custom-button"
                                     onClick={async () => {
-                                        dispatch(withdraw(Number(fund.fund.id)));
+                                        dispatch(withdraw(Number(poolDetails.pool.id)));
                                     }}
                                 >Agree & withdraw</Button>
                             </div>

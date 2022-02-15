@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {SignerAccount, SupportedSigner} from "@algodesk/core";
 import {setSigner} from './signer';
 import {loadAccount} from "./account";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 
 export interface ConnectWallet {
     show: boolean,
@@ -28,7 +28,7 @@ export const connect = createAsyncThunk(
             dispatch(walletConnecting());
             dispatch(clearAccounts());
             dispatch(setSigner(signer.name));
-            fundstackSdk.changeSigner(signer.name);
+            fSdk.changeSigner(signer.name);
             // @ts-ignore
             const accounts = await signer.instance.connect(network.name, (err, payload)=> {
                 dispatch(walletConnected());

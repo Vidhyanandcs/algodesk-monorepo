@@ -4,13 +4,13 @@ import {
 } from "@algodesk/core";
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 
 
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation,
-    funds: A_Application[]
+    pools: A_Application[]
 }
 
 const information: A_AccountInformation = {
@@ -35,7 +35,7 @@ const information: A_AccountInformation = {
 const initialState: Account = {
     loggedIn: false,
     information,
-    funds: []
+    pools: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -44,7 +44,7 @@ export const loadAccount = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             dispatch(showLoader("Loading account information ..."));
-            const accountInfo = await fundstackSdk.fundstack.algodesk.accountClient.getAccountInformation(address);
+            const accountInfo = await fSdk.fs.algodesk.accountClient.getAccountInformation(address);
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -62,7 +62,7 @@ export const accountSlice = createSlice({
         logout: (state) => {
             state.loggedIn = false;
             state.information = information;
-            fundstackSdk.signer.logout();
+            fSdk.signer.logout();
             localStorage.removeItem("signer");
             localStorage.removeItem("address");
         }
@@ -72,7 +72,7 @@ export const accountSlice = createSlice({
             const accountInfo = action.payload;
             state.loggedIn = true;
             state.information = accountInfo;
-            state.funds = fundstackSdk.fundstack.getAccountFunds(accountInfo);
+            state.pools = fSdk.fs.getAccountPools(accountInfo);
         })
     },
 });
