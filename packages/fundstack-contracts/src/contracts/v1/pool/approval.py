@@ -1,13 +1,13 @@
 import os
 from pyteal import *
 from src.contracts.utils.utils import *
-import src.contracts.v1.fund.state.global_state as globalState
-import src.contracts.v1.fund.state.local_state as localState
+import src.contracts.v1.pool.state.global_state as globalState
+import src.contracts.v1.pool.state.local_state as localState
 import src.contracts.v1.platform.state.global_state as platformGlobalState
 
 
 
-def deployFund(platformAppId):
+def deployPool(platformAppId):
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -42,8 +42,8 @@ def deployFund(platformAppId):
     noOfClaims = Int(0)
     noOfWithdrawals = Int(0)
     escrow = Global.current_application_address()
-    fundsClaimed = Int(0)
-    fundsWithdrawn = Int(0)
+    amountClaimed = Int(0)
+    assetsWithdrawn = Int(0)
     targetReached = Int(0)
 
     platformEscrowExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.escrow)
@@ -74,11 +74,11 @@ def deployFund(platformAppId):
         If(platformRegistrationFeeExpr.hasValue(), platformRegistrationFeeExpr.value(), Int(1000000))
     ])
 
-    platformFundEscrowMinTopUpExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.fund_escrow_min_top_up)
-    platformFundEscrowMinTopUp = Seq([
+    platformPoolEscrowMinTopUpExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.pool_escrow_min_top_up)
+    platformPoolEscrowMinTopUp = Seq([
         Assert(Txn.applications[1] == platformAppId),
-        platformFundEscrowMinTopUpExpr,
-        If(platformFundEscrowMinTopUpExpr.hasValue(), platformFundEscrowMinTopUpExpr.value(), Int(2000000))
+        platformPoolEscrowMinTopUpExpr,
+        If(platformPoolEscrowMinTopUpExpr.hasValue(), platformPoolEscrowMinTopUpExpr.value(), Int(2000000))
     ])
 
     platformSuccessCriteriaExpr = App.globalGetEx(Txn.applications[1], platformGlobalState.success_criteria_percentage)
@@ -128,15 +128,15 @@ def deployFund(platformAppId):
         App.globalPut(globalState.no_of_claims, noOfClaims),
         App.globalPut(globalState.no_of_withdrawls, noOfWithdrawals),
         App.globalPut(globalState.escrow, escrow),
-        App.globalPut(globalState.funds_claimed, fundsClaimed),
-        App.globalPut(globalState.funds_withdrawn, fundsWithdrawn),
+        App.globalPut(globalState.amount_claimed, amountClaimed),
+        App.globalPut(globalState.assets_withdrawn, assetsWithdrawn),
         App.globalPut(globalState.target_reached, targetReached),
         App.globalPut(globalState.platform_app_id, platformAppId),
         App.globalPut(globalState.platform_escrow, platformEscrow),
         App.globalPut(globalState.platform_publish_fee, platformPublishFee),
         App.globalPut(globalState.platform_success_fee, platformSuccessFee),
         App.globalPut(globalState.platform_registration_fee, platformRegistrationFee),
-        App.globalPut(globalState.platform_fund_escrow_min_top_up, platformFundEscrowMinTopUp),
+        App.globalPut(globalState.platform_pool_escrow_min_top_up, platformPoolEscrowMinTopUp),
         App.globalPut(globalState.platform_success_criteria_percentage, platformSuccessCriteria)
     ]
 
@@ -160,14 +160,14 @@ def publish(platformAppId):
     ]
 
     paymentTxn = Gtxn[2]
-    platformFundEscrowMinTopUp = App.globalGet(globalState.platform_fund_escrow_min_top_up)
+    platformPoolEscrowMinTopUp = App.globalGet(globalState.platform_pool_escrow_min_top_up)
 
     paymentAssertions = [
         Assert(paymentTxn.sender() == App.globalGet(globalState.creator)),
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
         Assert(paymentTxn.receiver() == Global.current_application_address()),
-        Assert(paymentTxn.amount() == platformFundEscrowMinTopUp)
+        Assert(paymentTxn.amount() == platformPoolEscrowMinTopUp)
     ]
 
     assetXferTxn = Gtxn[4]
@@ -189,15 +189,15 @@ def publish(platformAppId):
         Assert(App.globalGet(globalState.published) == Int(0))
     ]
 
-    validateFundTxn = Gtxn[1]
-    validateFundTxnArgs = validateFundTxn.application_args
+    validatePoolTxn = Gtxn[1]
+    validatePoolTxnArgs = validatePoolTxn.application_args
     platformAppId = App.globalGet(globalState.platform_app_id)
 
-    validateFundAssertions = [
-        Assert(validateFundTxn.sender() == Txn.sender()),
-        Assert(validateFundTxn.type_enum() == TxnType.ApplicationCall),
-        Assert(validateFundTxn.application_id() == platformAppId),
-        Assert(validateFundTxnArgs[0] == Bytes("validate_fund"))
+    validatePoolAssertions = [
+        Assert(validatePoolTxn.sender() == Txn.sender()),
+        Assert(validatePoolTxn.type_enum() == TxnType.ApplicationCall),
+        Assert(validatePoolTxn.application_id() == platformAppId),
+        Assert(validatePoolTxnArgs[0] == Bytes("validate_pool"))
     ]
 
     setState = [
@@ -217,7 +217,7 @@ def publish(platformAppId):
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + validateFundAssertions + setState + [Approve()]
+    conditions = gtxnAssertions + assetAssertions + paymentAssertions + assetXferAssertions + applicationAssertions + innerTransactions + validatePoolAssertions + setState + [Approve()]
 
     block = Seq(conditions)
 
@@ -329,7 +329,7 @@ def invest():
     return block
 
 
-def deleteFund():
+def deletePool():
     applicationAssertions = [
         Assert(App.globalGet(globalState.published) == Int(0))
     ]
@@ -482,7 +482,7 @@ def ownerClaim():
         Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
-        Assert(App.globalGet(globalState.funds_claimed) == Int(0))
+        Assert(App.globalGet(globalState.amount_claimed) == Int(0))
     ]
 
     innerTransactionClaimAlgos = [
@@ -524,7 +524,7 @@ def ownerClaim():
     ]
 
     setState = [
-        App.globalPut(globalState.funds_claimed, Int(1))
+        App.globalPut(globalState.amount_claimed, Int(1))
     ]
 
     conditions = gtxnAssertions + argsAssertions + assetAssertions + applicationAssertions + innerTransactionClaimAlgos + innerTransactionPlatformFee + innerTransactionPlatformRegistrationFee + setState
@@ -591,11 +591,11 @@ def ownerWithdraw():
         Assert(currentRound > App.globalGet(globalState.claim_after)),
         Assert(App.globalGet(globalState.target_reached) == Int(0)),
         Assert(Txn.sender() == App.globalGet(globalState.creator)),
-        Assert(App.globalGet(globalState.funds_withdrawn) == Int(0)),
+        Assert(App.globalGet(globalState.assets_withdrawn) == Int(0)),
     ]
 
     setState = [
-        App.globalPut(globalState.funds_withdrawn, Int(1))
+        App.globalPut(globalState.assets_withdrawn, Int(1))
     ]
 
     innerTransactions = [
@@ -620,9 +620,9 @@ def ownerWithdraw():
 
 def approvalProgram(platformAppId):
     program = Cond(
-        [isCreate(), deployFund(platformAppId)],
+        [isCreate(), deployPool(platformAppId)],
         [isUpdate(), Return(allowOperation())],
-        [isDelete(), deleteFund()],
+        [isDelete(), deletePool()],
         [isOptIn(), register()],
         [Txn.application_args[0] == Bytes("publish"), publish(platformAppId)],
         [Txn.application_args[0] == Bytes("invest"), invest()],

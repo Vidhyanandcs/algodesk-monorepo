@@ -6,7 +6,7 @@ bnz main_l14
 callsub isDelete_4
 bnz main_l13
 txna ApplicationArgs 0
-byte "validate_fund"
+byte "validate_pool"
 ==
 bnz main_l9
 txna ApplicationArgs 0
@@ -165,7 +165,7 @@ app_global_put
 byte "rf"
 int 1000000
 app_global_put
-byte "femtu"
+byte "pemtu"
 int 2000000
 app_global_put
 byte "scp"
