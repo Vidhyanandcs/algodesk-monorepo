@@ -14,7 +14,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import logo from "../../assets/images/logo-white.png";
 import React, {useState} from "react";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 import {ellipseAddress} from "@algodesk/core";
 import {microalgosToAlgos} from "algosdk";
 import algoLogo from "../../assets/images/algo-logo.png";
@@ -69,7 +69,7 @@ function LeftBar(): JSX.Element {
 
                   <div className="addr">
                         <span onClick={() => {
-                            fundstackSdk.explorer.openAccount(account.information.address);
+                            fSdk.explorer.openAccount(account.information.address);
                         }}>{ellipseAddress(account.information.address, 10)}</span>
                   </div>
                   <div className="user-actions">
@@ -103,7 +103,7 @@ function LeftBar(): JSX.Element {
               </div>
 
               <div className="menu-list">
-                  {/*<Link href="#/portal/dashboard/funds">My Funds</Link>*/}
+                  {/*<Link href="#/portal/dashboard/pools">My Pools</Link>*/}
                   {/*<Link href="#/portal/dashboard/settings" color={"textPrimary"}>Settings</Link>*/}
                   <Link href="https://docs.fundstack.io" color={"textPrimary"} target={"_blank"}>
                       Documentation

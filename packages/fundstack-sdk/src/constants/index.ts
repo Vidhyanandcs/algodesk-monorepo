@@ -1,4 +1,4 @@
-export enum FUND_PHASE  {
+export enum POOL_PHASE  {
     BEFORE_REGISTRATION = 1,
     DURING_REGISTRATION = 2,
     BEFORE_SALE = 3,
@@ -8,8 +8,8 @@ export enum FUND_PHASE  {
     COMPLETED = 7
 }
 
-export enum FUND_OPERATIONS {
-    DEPLOY_FUND = 'deploy_fund',
+export enum POOL_OPERATIONS {
+    CREATE_POOL = 'create_pool',
     PUBLISH = 'publish',
     INVEST = 'invest',
     INVESTOR_CLAIM = 'investor_claim',
@@ -20,5 +20,5 @@ export enum FUND_OPERATIONS {
 }
 
 export enum PLATFORM_OPERATIONS {
-    VALIDATE_FUND = 'validate_fund'
+    VALIDATE_POOL = 'validate_pool'
 }

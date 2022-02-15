@@ -3,7 +3,7 @@
 import {Account, generateAccount, mnemonicToSecretKey} from "algosdk";
 import {A_CreateAssetParams, betanet, testnet, WalletSigner} from "@algodesk/core";
 import {Fundstack} from '../index';
-import {F_CompanyDetails, F_DeployFund} from "../src/types";
+import {F_CompanyDetails, F_CreatePool} from "../src/types";
 
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
 const dispenserAccount = mnemonicToSecretKey(mnemonic);//CJW7LXVNIHJDDLOVIPP4YABAGINXURO7HZEZQYUH27FTFCQ7QWKZ7GO4UQ
@@ -47,10 +47,10 @@ async function createAsset(account: Account, instance: Fundstack) {
     return pendingTransactionInfo;
 }
 
-async function deploy(instance: Fundstack, account: Account, assetId: number) {
+async function create(instance: Fundstack, account: Account, assetId: number) {
     const networkParams = await instance.algodesk.transactionClient.getSuggestedParams();
 
-    const fundParams: F_DeployFund = {
+    const poolParams: F_CreatePool = {
         from: account.addr,
         assetId: assetId,
         maxAllocation: 800,
@@ -71,17 +71,17 @@ async function deploy(instance: Fundstack, account: Account, assetId: number) {
         whitePaper: "https://google.com/1"
     };
 
-    console.log('deploying fund');
-    const {txId} = await instance.deploy(fundParams, companyDetails);
+    console.log('creating pool');
+    const {txId} = await instance.createPool(poolParams, companyDetails);
     await instance.algodesk.transactionClient.waitForConfirmation(txId);
     const pendingTransactionInfo = await instance.algodesk.transactionClient.pendingTransactionInformation(txId);
-    console.log("Fund ID: " + pendingTransactionInfo['application-index']);
+    console.log("Pool ID: " + pendingTransactionInfo['application-index']);
     return pendingTransactionInfo;
 }
 
 
 async function publish(instance: Fundstack, appId: number) {
-    console.log('publishing fund');
+    console.log('publishing pool');
     const {txId} = await instance.publish(appId);
     return await instance.algodesk.transactionClient.waitForConfirmation(txId);
 }
@@ -138,11 +138,11 @@ async function ownerWithdraw(instance: Fundstack, appId: number, saleEndsAt: num
 
 test('fundstack', async () => {
     try {
-        const fundRaiser = generateAccount();
-        const fWalletSigner = new WalletSigner(fundRaiser);
-        const fundRaiserInstance = new Fundstack(platformAppId, network, fWalletSigner);
-        await dispense(fundRaiser);
-        const asset = await createAsset(fundRaiser, fundRaiserInstance);
+        const poolOwner = generateAccount();
+        const fWalletSigner = new WalletSigner(poolOwner);
+        const poolOwnerInstance = new Fundstack(platformAppId, network, fWalletSigner);
+        await dispense(poolOwner);
+        const asset = await createAsset(poolOwner, poolOwnerInstance);
         const assetId = asset["asset-index"];
 
         const investor = generateAccount();
@@ -150,24 +150,24 @@ test('fundstack', async () => {
         const investorInstance = new Fundstack(platformAppId, network, iWalletSigner);
         await dispense(investor);
 
-        const appDetails = await deploy(fundRaiserInstance, fundRaiser, assetId);
+        const appDetails = await create(poolOwnerInstance, poolOwner, assetId);
         const appId = appDetails['application-index'];
 
-        await publish(fundRaiserInstance, appId);
+        await publish(poolOwnerInstance, appId);
 
-        const fundApp = await investorInstance.get(appId);
+        const poolApp = await investorInstance.getPool(appId);
 
-        await register(investorInstance, appId, investor,  fundApp.getRegStart());
+        await register(investorInstance, appId, investor,  poolApp.getRegStart());
 
-        await invest(investorInstance, appId, investor, fundApp.getSaleStart(), 0.6005);
+        await invest(investorInstance, appId, investor, poolApp.getSaleStart(), 0.6005);
 
-        await investorClaim(investorInstance, appId, investor, fundApp.getSaleEnd());
+        await investorClaim(investorInstance, appId, investor, poolApp.getSaleEnd());
 
-        await ownerClaim(fundRaiserInstance, appId, fundRaiser, fundApp.getSaleEnd());
+        await ownerClaim(poolOwnerInstance, appId, poolOwner, poolApp.getSaleEnd());
 
-        // await investorWithdraw(investorInstance, appId, investor, fundApp.getSaleEnd());
+        // await investorWithdraw(investorInstance, appId, investor, poolApp.getSaleEnd());
         //
-        // await ownerWithdraw(fundRaiserInstance, appId, fundApp.getSaleEnd());
+        // await ownerWithdraw(poolOwnerInstance, appId, poolApp.getSaleEnd());
 
 
         console.log('investor returning unspent balance');
@@ -175,9 +175,9 @@ test('fundstack', async () => {
         await investorInstance.algodesk.transactionClient.waitForConfirmation(invReturnTxId);
 
 
-        console.log('fundraiser returning unspent balance');
-        const {txId: ownerReturnTxId} = await fundRaiserInstance.algodesk.paymentClient.payment(fundRaiser.addr, dispenserAccount.addr, 1);
-        await fundRaiserInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
+        console.log('pool owner returning unspent balance');
+        const {txId: ownerReturnTxId} = await poolOwnerInstance.algodesk.paymentClient.payment(poolOwner.addr, dispenserAccount.addr, 1);
+        await poolOwnerInstance.algodesk.transactionClient.waitForConfirmation(ownerReturnTxId);
 
         console.log('flow completed');
     }

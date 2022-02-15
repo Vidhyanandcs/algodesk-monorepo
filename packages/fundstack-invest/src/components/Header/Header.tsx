@@ -8,7 +8,7 @@ import {ellipseAddress} from "@algodesk/core";
 import React from "react";
 import accountImg from '../../assets/images/user-logo-avatar.png';
 import {microalgosToAlgos} from "algosdk";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 import {logout} from "../../redux/actions/account";
 import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
@@ -59,7 +59,7 @@ function Header(): JSX.Element {
                                     <img src={accountImg} alt="address" className="avatar"/>
                                     <div className="addr">
                                         <span onClick={() => {
-                                            fundstackSdk.explorer.openAccount(account.information.address);
+                                            fSdk.explorer.openAccount(account.information.address);
                                         }}>{ellipseAddress(account.information.address, 8)}</span>
                                         <div className="bal">
                                             {microalgosToAlgos(account.information.amount)}

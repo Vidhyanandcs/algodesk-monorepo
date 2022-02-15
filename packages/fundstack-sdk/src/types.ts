@@ -1,6 +1,6 @@
 import {A_SearchTransaction} from "@algodesk/core";
 
-export interface F_DeployFund {
+export interface F_CreatePool {
     from: string
     name: string
     assetId: number
@@ -23,7 +23,7 @@ export type F_PhaseDetails = {
     durationReadable: string
 }
 
-export type F_FundStatus = {
+export type F_PoolStatus = {
     registration: F_PhaseDetails,
     sale: F_PhaseDetails,
     claim: F_PhaseDetails,
@@ -47,7 +47,7 @@ export interface F_AccountActivity extends A_SearchTransaction {
     label: string
 }
 
-export type F_DB_FUND =  {
+export type F_DB_POOL =  {
     _id: string,
     app_id: number,
     asset_id: number,

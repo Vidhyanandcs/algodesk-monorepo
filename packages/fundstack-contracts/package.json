@@ -17,11 +17,11 @@
     "compile-platform-contracts": "npm run build && node ./dist/cjs/app/compilePlatformContracts.js",
     "deploy-platform-contracts": "npm run build && node ./dist/cjs/app/deployPlatformContracts.js",
     "update-platform-contracts": "npm run build && node ./dist/cjs/app/updatePlatformContracts.js",
-    "transpile-fund-contracts": "python3 src/contracts/v1/fund/main.py",
-    "compile-fund-contracts": "npm run build && node ./dist/cjs/app/compileFundContracts.js",
+    "transpile-pool-contracts": "python3 src/contracts/v1/pool/main.py",
+    "compile-pool-contracts": "npm run build && node ./dist/cjs/app/compilePoolContracts.js",
     "process-platform-contracts": "npm run transpile-platform-contracts && npm run compile-platform-contracts && npm run update-platform-contracts",
-    "process-fund-contracts": "npm run transpile-fund-contracts && npm run compile-fund-contracts",
-    "process": "npm run process-platform-contracts && npm run process-fund-contracts"
+    "process-pool-contracts": "npm run transpile-pool-contracts && npm run compile-pool-contracts",
+    "process": "npm run process-platform-contracts && npm run process-pool-contracts"
   },
   "bugs": {
     "url": "https://github.com/algodesk-io/algodesk-monorepo/issues"

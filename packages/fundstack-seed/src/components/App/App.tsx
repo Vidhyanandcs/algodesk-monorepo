@@ -9,7 +9,7 @@ import Loader from "../Loader/Loader";
 import {NETWORKS} from "@algodesk/core";
 import SuccessModal from "../SuccessModal/SuccessModal";
 import {setSigner} from "../../redux/actions/signer";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 import {loadAccount} from "../../redux/actions/account";
 import {REACT_APP_NETWORK} from "../../env";
 
@@ -23,7 +23,7 @@ function App(): JSX.Element {
         const selectedAddress = localStorage.getItem("address");
         if(selectedSigner && selectedAddress) {
             dispatch(setSigner(selectedSigner));
-            fundstackSdk.changeSigner(selectedSigner);
+            fSdk.changeSigner(selectedSigner);
             dispatch(loadAccount(selectedAddress));
         }
     });

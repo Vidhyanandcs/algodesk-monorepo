@@ -4,7 +4,7 @@ import {RootState} from "../../redux/store";
 import {Link, makeStyles, Tab, Tabs, Tooltip} from "@material-ui/core";
 import React, {useState} from "react";
 import {ellipseAddress, formatNumWithDecimals} from "@algodesk/core";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 import {InfoOutlined} from "@material-ui/icons";
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
@@ -37,9 +37,9 @@ function getLink(url): JSX.Element {
 }
 
 function AssetDetailsTile(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
-    const {fund} = fundDetails;
-    const {asset, company} = fund;
+    const poolDetails = useSelector((state: RootState) => state.pool);
+    const {pool} = poolDetails;
+    const {asset, company} = pool;
     const {params} = asset;
     const {decimals} = params;
     const classes = useStyles();
@@ -73,7 +73,7 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getTotalAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fSdk.fs.getTotalAllocationInDecimals(pool), decimals) + " " + pool.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
@@ -82,7 +82,7 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getMinAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fSdk.fs.getMinAllocationInDecimals(pool), decimals) + " " + pool.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
@@ -91,22 +91,22 @@ function AssetDetailsTile(): JSX.Element {
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{formatNumWithDecimals(fundstackSdk.fundstack.getMaxAllocationInDecimals(fund), decimals) + " " + fund.asset.params["unit-name"]}</div>
+                          <div className="value">{formatNumWithDecimals(fSdk.fs.getMaxAllocationInDecimals(pool), decimals) + " " + pool.asset.params["unit-name"]}</div>
                       </div>
                       <div className="pair">
                           <div className="key">
                               Success criteria
-                              <Tooltip title="Fund raising is successful only if this percent of tokens are sold">
+                              <Tooltip title="Successful only if this percent of tokens are sold">
                                   <InfoOutlined fontSize={"small"}></InfoOutlined>
                               </Tooltip>
                           </div>
-                          <div className="value">{fundstackSdk.fundstack.getSuccessCriteriaPercentage(fund)}%</div>
+                          <div className="value">{fSdk.fs.getSuccessCriteriaPercentage(pool)}%</div>
                       </div>
                       <div className="pair">
                           <div className="key">
                               Price
                           </div>
-                          <div className="value">1 {fund.asset.params["unit-name"]} = {fundstackSdk.fundstack.getPrice(fund)}
+                          <div className="value">1 {pool.asset.params["unit-name"]} = {fSdk.fs.getPrice(pool)}
                               <img src={algoLogo} alt="Algo" className="algo-logo"/>
                           </div>
                       </div>
@@ -115,26 +115,26 @@ function AssetDetailsTile(): JSX.Element {
                       <div className="pair">
                           <div className="key">Asset ID</div>
                           <div className="value clickable" onClick={() => {
-                              fundstackSdk.explorer.openAsset(fund.asset.index);
-                          }}>{fund.asset.index}</div>
+                              fSdk.explorer.openAsset(pool.asset.index);
+                          }}>{pool.asset.index}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Name</div>
-                          <div className="value">{fund.asset.params.name}</div>
+                          <div className="value">{pool.asset.params.name}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Total supply</div>
-                          <div className="value">{fundstackSdk.fundstack.algodesk.assetClient.getTotalSupplyWithTicker(asset)}</div>
+                          <div className="value">{fSdk.fs.algodesk.assetClient.getTotalSupplyWithTicker(asset)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Creator</div>
                           <div className="value clickable" onClick={() => {
-                              fundstackSdk.explorer.openAccount(fund.asset.params.creator);
-                          }}>{ellipseAddress(fund.asset.params.creator, 8)}</div>
+                              fSdk.explorer.openAccount(pool.asset.params.creator);
+                          }}>{ellipseAddress(pool.asset.params.creator, 8)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Decimals</div>
-                          <div className="value">{fund.asset.params.decimals}</div>
+                          <div className="value">{pool.asset.params.decimals}</div>
                       </div>
                   </div> : ''}
                   {tab === 'company_information' ? <div className="tab-content">

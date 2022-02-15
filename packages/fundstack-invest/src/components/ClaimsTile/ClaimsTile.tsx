@@ -5,16 +5,16 @@ import React, {useEffect} from "react";
 import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {useParams} from "react-router-dom";
-import {setClaim} from "../../redux/actions/fund";
+import {setClaim} from "../../redux/actions/pool";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 
 function ClaimsTile(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
+    const poolDetails = useSelector((state: RootState) => state.pool);
     const account = useSelector((state: RootState) => state.account);
-    const {fund} = fundDetails;
-    const {status} = fund;
+    const {pool} = poolDetails;
+    const {status} = pool;
     const {claim} = status;
 
     const dispatch = useDispatch();
@@ -43,11 +43,11 @@ function ClaimsTile(): JSX.Element {
                             <div className="count">
                                 <div className="count-number">
                                     <span>
-                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_claims], 0)}
+                                        {formatNumWithDecimals(pool.globalState[globalStateKeys.no_of_claims], 0)}
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    {fund.globalState[globalStateKeys.no_of_claims] === 1 ? 'Claim' : 'Claims'}
+                                    {pool.globalState[globalStateKeys.no_of_claims] === 1 ? 'Claim' : 'Claims'}
                                 </div>
                             </div>
                         </Grid>

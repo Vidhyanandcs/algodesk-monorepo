@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {register, setAction} from "../../redux/actions/fund";
+import {register, setAction} from "../../redux/actions/pool";
 import {CancelOutlined} from "@material-ui/icons";
 import React from "react";
 import {getCommonStyles} from "../../utils/styles";
@@ -30,9 +30,9 @@ function RegistrationConfirmation(): JSX.Element {
 
     const dispatch = useDispatch();
 
-    const fundDetails = useSelector((state: RootState) => state.fund);
-    const {fund} = fundDetails;
-    const {action} = fundDetails;
+    const poolDetails = useSelector((state: RootState) => state.pool);
+    const {pool} = poolDetails;
+    const {action} = poolDetails;
     const show = action === 'registration_confirmation';
     const classes = useStyles();
 
@@ -67,7 +67,7 @@ function RegistrationConfirmation(): JSX.Element {
                                 <div className='fee'>
                                     Registration fee
                                     <div className="value">
-                                        {microalgosToAlgos(fund.globalState[globalStateKeys.platform_registration_fee])}
+                                        {microalgosToAlgos(pool.globalState[globalStateKeys.platform_registration_fee])}
                                         <img src={algoLogo} alt="Algo"/>
                                     </div>
 
@@ -82,7 +82,7 @@ function RegistrationConfirmation(): JSX.Element {
                                             className="custom-button"
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
-                                                dispatch(register(Number(fund.id)));
+                                                dispatch(register(Number(pool.id)));
                                             }}
                                     >Yes</Button>
                                 </div>

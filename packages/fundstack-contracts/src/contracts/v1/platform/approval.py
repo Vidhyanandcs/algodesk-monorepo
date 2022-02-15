@@ -1,7 +1,7 @@
 from pyteal import *
 from src.contracts.utils.utils import *
 import src.contracts.v1.platform.state.global_state as globalState
-import src.contracts.v1.fund.state.global_state as fundGlobalState
+import src.contracts.v1.pool.state.global_state as poolGlobalState
 
 
 def createApplication():
@@ -18,7 +18,7 @@ def createApplication():
     publishFee = Int(1000000)
     registrationFee = Int(1000000)
     successFee = Int(1)
-    fundEscrowMinTopUp = Int(2000000)
+    poolEscrowMinTopUp = Int(2000000)
     successCriteriaPercentage = Int(50)
 
     setState = [
@@ -29,7 +29,7 @@ def createApplication():
         App.globalPut(globalState.publish_fee, publishFee),
         App.globalPut(globalState.success_fee, successFee),
         App.globalPut(globalState.registration_fee, registrationFee),
-        App.globalPut(globalState.fund_escrow_min_top_up, fundEscrowMinTopUp),
+        App.globalPut(globalState.pool_escrow_min_top_up, poolEscrowMinTopUp),
         App.globalPut(globalState.success_criteria_percentage, successCriteriaPercentage)
     ]
 
@@ -38,7 +38,7 @@ def createApplication():
     block = Seq(conditions)
     return block
 
-def validateFund():
+def validatePool():
     gtxnAssertions = [
         Assert(Global.group_size() == Int(5)),
         Assert(Txn.group_index() == Int(1))
@@ -53,24 +53,24 @@ def validateFund():
         Assert(paymentTxn.amount() == App.globalGet(globalState.publish_fee))
     ]
 
-    fundPublishTxn = Gtxn[3]
-    fundPublishTxnArgs = fundPublishTxn.application_args
+    poolPublishTxn = Gtxn[3]
+    poolPublishTxnArgs = poolPublishTxn.application_args
 
-    fundAppAssertions = [
-        Assert(fundPublishTxn.type_enum() == TxnType.ApplicationCall),
-        Assert(fundPublishTxnArgs[0] == Bytes("publish")),
-        Assert(fundPublishTxn.application_id() == Txn.applications[1])
+    poolAppAssertions = [
+        Assert(poolPublishTxn.type_enum() == TxnType.ApplicationCall),
+        Assert(poolPublishTxnArgs[0] == Bytes("publish")),
+        Assert(poolPublishTxn.application_id() == Txn.applications[1])
     ]
 
     applicationAssertions = [
-        Assert(fundPublishTxn.sender() == Txn.sender())
+        Assert(poolPublishTxn.sender() == Txn.sender())
     ]
 
     setState = [
 
     ]
 
-    assetId = App.globalGetEx(Txn.applications[1], fundGlobalState.asset_id)
+    assetId = App.globalGetEx(Txn.applications[1], poolGlobalState.asset_id)
     assetIdValue = Seq([
         assetId,
         If(assetId.hasValue(), assetId.value(), Bytes("0"))
@@ -89,7 +89,7 @@ def validateFund():
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + paymentAssertions + fundAppAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + paymentAssertions + poolAppAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
 
     block = Seq(conditions)
     return block
@@ -169,7 +169,7 @@ def approvalProgram():
         [isCreate(), createApplication()],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), Return(allowOperation())],
-        [Txn.application_args[0] == Bytes("validate_fund"), validateFund()],
+        [Txn.application_args[0] == Bytes("validate_pool"), validatePool()],
         [Txn.application_args[0] == Bytes("claim_algos"), claimAlgos()],
         [Txn.application_args[0] == Bytes("claim_assets"), claimAssets()],
     )

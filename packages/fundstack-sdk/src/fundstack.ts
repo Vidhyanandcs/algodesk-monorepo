@@ -11,20 +11,20 @@ import {
     A_AccountInformation,
     A_Asset,
     durationBetweenBlocks,
-    A_OptInApplicationParams, A_DeleteApplicationParams, A_SearchTransaction, A_Application, isNumber
+    A_OptInApplicationParams, A_DeleteApplicationParams, A_Application, isNumber
 } from "@algodesk/core";
 import {
-    FUND_OPERATIONS,
-    FUND_PHASE,
+    POOL_OPERATIONS,
+    POOL_PHASE,
     PLATFORM_OPERATIONS,
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
-import {F_AccountActivity, F_CompanyDetails, F_DB_FUND, F_DeployFund, F_FundStatus, F_PhaseDetails} from "./types";
-import {Fund, getAccountState} from "./fund";
+import {F_AccountActivity, F_CompanyDetails, F_DB_POOL, F_CreatePool, F_PoolStatus, F_PhaseDetails} from "./types";
+import {Pool, getAccountState} from "./pool";
 import atob from 'atob';
 import {Platform} from "./platform";
-import {localStateKeys, globalStateKeys} from "./state/fund";
+import {localStateKeys, globalStateKeys} from "./state/pool";
 import humanizeDuration from 'humanize-duration';
 import axios from "axios";
 import isEmpty from 'is-empty';
@@ -55,8 +55,8 @@ export class Fundstack {
         this.network = network.name;
     }
 
-    validateDeployParams(deployParams: F_DeployFund, company: F_CompanyDetails): boolean {
-        const {name, assetId, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt} = deployParams;
+    validatePoolParams(poolParams: F_CreatePool, company: F_CompanyDetails): boolean {
+        const {name, assetId, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt} = poolParams;
         const {website, whitePaper, github, tokenomics, twitter} = company;
 
         if (isEmpty(name)) {
@@ -120,8 +120,8 @@ export class Fundstack {
         return true;
     }
 
-    async deploy(params: F_DeployFund, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
-        this.validateDeployParams(params, company);
+    async createPool(params: F_CreatePool, company: F_CompanyDetails): Promise<A_SendTxnResponse> {
+        this.validatePoolParams(params, company);
         const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
 
         const assetParams = await this.getAsset(params.assetId);
@@ -136,7 +136,7 @@ export class Fundstack {
 
         const appArgs = [params.name, ...intsUint];
 
-        const fundParams: A_CreateApplicationParams = {
+        const poolParams: A_CreateApplicationParams = {
             from: params.from,
             approvalProgram: getUintProgram(compiledApprovalProgram.result),
             clearProgram: getUintProgram(compiledClearProgram.result),
@@ -149,44 +149,44 @@ export class Fundstack {
             appArgs
         };
 
-        return await this.algodesk.applicationClient.create(fundParams, JSON.stringify(company));
+        return await this.algodesk.applicationClient.create(poolParams, JSON.stringify(company));
     }
 
-    async publish(fundId: number): Promise<A_SendTxnResponse> {
+    async publish(poolId: number): Promise<A_SendTxnResponse> {
         const platformApp = await this.algodesk.applicationClient.get(this.platformAppId);
         const platform = new Platform(platformApp);
         const platformEscrow = platform.getEscrow();
         console.log('platform escrow: ' + platformEscrow);
 
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const creator = fund.getCreator();
-        const escrow = fund.getEscrow();
-        const assetId = fund.getAssetId();
-        const totalAllocation = fund.getTotalAllocation();
-        console.log('fund escrow: ' + escrow);
+        const creator = pool.getCreator();
+        const escrow = pool.getEscrow();
+        const assetId = pool.getAssetId();
+        const totalAllocation = pool.getTotalAllocation();
+        console.log('pool escrow: ' + escrow);
 
         const assetDetails = await this.getAsset(assetId);
         const micros = Math.pow(10, assetDetails.params.decimals);
 
-        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(fund.getPlatformPublishFee()));
+        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(pool.getPlatformPublishFee()));
         const platformAppTxnParams: A_InvokeApplicationParams = {
             appId: <number>platform.getId(),
             from: creator,
-            foreignApps: [fundId],
+            foreignApps: [poolId],
             foreignAssets: [assetId],
-            appArgs: [PLATFORM_OPERATIONS.VALIDATE_FUND]
+            appArgs: [PLATFORM_OPERATIONS.VALIDATE_POOL]
         };
         const platformAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(platformAppTxnParams);
 
-        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, microalgosToAlgos(fund.getFundEscrowMinTopUp()));
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, microalgosToAlgos(pool.getPoolEscrowMinTopUp()));
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: creator,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.PUBLISH]
+            appArgs: [POOL_OPERATIONS.PUBLISH]
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
@@ -202,17 +202,17 @@ export class Fundstack {
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
-    async register(fundId: number, address: string): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async register(poolId: number, address: string): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const escrow = fund.getEscrow();
-        const regFee = fund.getPlatformRegistrationFee();
+        const escrow = pool.getEscrow();
+        const regFee = pool.getPlatformRegistrationFee();
 
         const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(address, escrow, microalgosToAlgos(regFee));
 
         const params: A_OptInApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: address
         };
         const optInTxn = await this.algodesk.applicationClient.prepareOptInTxn(params);
@@ -221,19 +221,19 @@ export class Fundstack {
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
-    async invest(fundId: number, address: string, amount: number): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async invest(poolId: number, address: string, amount: number): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const escrow = fund.getEscrow();
-        const assetId = fund.getAssetId();
+        const escrow = pool.getEscrow();
+        const assetId = pool.getAssetId();
 
         const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(address, escrow, amount);
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: address,
-            appArgs: [FUND_OPERATIONS.INVEST],
+            appArgs: [POOL_OPERATIONS.INVEST],
             foreignAssets: [assetId],
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
@@ -244,11 +244,11 @@ export class Fundstack {
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
-    async investorClaim(fundId: number, address: string): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async investorClaim(poolId: number, address: string): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const assetId = fund.getAssetId();
+        const assetId = pool.getAssetId();
 
         const params: A_TransferAssetParams = {
             from: address,
@@ -259,10 +259,10 @@ export class Fundstack {
         const assetXferTxn = await this.algodesk.assetClient.prepareTransferTxn(params);
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: address,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.INVESTOR_CLAIM]
+            appArgs: [POOL_OPERATIONS.INVESTOR_CLAIM]
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
@@ -271,16 +271,16 @@ export class Fundstack {
         return await this.algodesk.transactionClient.sendGroupTxns(txnGroup);
     }
 
-    async investorWithdraw(fundId: number, address: string): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async investorWithdraw(poolId: number, address: string): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const assetId = fund.getAssetId();
+        const assetId = pool.getAssetId();
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: address,
-            appArgs: [FUND_OPERATIONS.INVESTOR_WITHDRAW],
+            appArgs: [POOL_OPERATIONS.INVESTOR_WITHDRAW],
             foreignAssets: [assetId]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
@@ -288,22 +288,22 @@ export class Fundstack {
         return appCallTxn;
     }
 
-    async ownerClaim(fundId: number, unsoldAssetAction: string): Promise<A_SendTxnResponse> {
+    async ownerClaim(poolId: number, unsoldAssetAction: string): Promise<A_SendTxnResponse> {
         const platformApp = await this.algodesk.applicationClient.get(this.platformAppId);
         const platform = new Platform(platformApp);
         const platformEscrow = platform.getEscrow();
 
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const assetId = fund.getAssetId();
-        const creator = fund.getCreator();
+        const assetId = pool.getAssetId();
+        const creator = pool.getCreator();
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: creator,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
+            appArgs: [POOL_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
             foreignApps: [this.platformAppId],
             foreignAccounts: [platformEscrow]
         };
@@ -312,42 +312,42 @@ export class Fundstack {
         return appCallTxn;
     }
 
-    async ownerWithdraw(fundId: number): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async ownerWithdraw(poolId: number): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const assetId = fund.getAssetId();
-        const creator = fund.getCreator();
+        const assetId = pool.getAssetId();
+        const creator = pool.getCreator();
 
         const appTxnParams: A_InvokeApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: creator,
             foreignAssets: [assetId],
-            appArgs: [FUND_OPERATIONS.OWNER_WITHDRAW]
+            appArgs: [POOL_OPERATIONS.OWNER_WITHDRAW]
         };
         const appCallTxn = await this.algodesk.applicationClient.invoke(appTxnParams);
 
         return appCallTxn;
     }
 
-    async get(fundId: number): Promise<Fund> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async getPool(poolId: number): Promise<Pool> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        if (fund.valid) {
-            const assetId = fund.getAssetId();
-            const escrowAddress = fund.getEscrow();
-            const companyDetailsTxId = fund.getCompanyDetailsTxId();
+        if (pool.valid) {
+            const assetId = pool.getAssetId();
+            const escrowAddress = pool.getEscrow();
+            const companyDetailsTxId = pool.getCompanyDetailsTxId();
 
-            const [status, asset, escrow, company] = await Promise.all([this.getStatus(fund), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
+            const [status, asset, escrow, company] = await Promise.all([this.getStatus(pool), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getCompany(companyDetailsTxId)]);
 
-            fund.updateStatusDetails(status);
-            fund.updateAssetDetails(asset);
-            fund.updateEscrowDetails(escrow);
-            fund.updateCompanyDetails(company);
+            pool.updateStatusDetails(status);
+            pool.updateAssetDetails(asset);
+            pool.updateEscrowDetails(escrow);
+            pool.updateCompanyDetails(company);
         }
 
-        return fund;
+        return pool;
     }
 
     async getCompany(companyDetailsTxId: string): Promise<F_CompanyDetails> {
@@ -356,47 +356,47 @@ export class Fundstack {
         return JSON.parse(atob(note)) as F_CompanyDetails;
     }
 
-    async getStatus(fund: Fund): Promise<F_FundStatus> {
+    async getStatus(pool: Pool): Promise<F_PoolStatus> {
         const suggestedParams = await this.algodesk.transactionClient.getSuggestedParams();
         const currentRound = suggestedParams.firstRound;
 
-        const regStart = fund.getRegStart();
-        const regEnd = fund.getRegEnd();
+        const regStart = pool.getRegStart();
+        const regEnd = pool.getRegEnd();
 
-        const saleStart = fund.getSaleStart();
-        const saleEnd = fund.getSaleEnd();
+        const saleStart = pool.getSaleStart();
+        const saleEnd = pool.getSaleEnd();
 
-        const claimStart = fund.getClaimStart();
-        const claimEnd = fund.getClaimEnd();
+        const claimStart = pool.getClaimStart();
+        const claimEnd = pool.getClaimEnd();
 
         let phase = 0;
 
         if (currentRound < regStart) {
-            phase = FUND_PHASE.BEFORE_REGISTRATION;
+            phase = POOL_PHASE.BEFORE_REGISTRATION;
         }
         else if(currentRound >= regStart && currentRound <= regEnd) {
-            phase = FUND_PHASE.DURING_REGISTRATION;
+            phase = POOL_PHASE.DURING_REGISTRATION;
         }
         else if(currentRound > regEnd && currentRound < saleStart) {
-            phase = FUND_PHASE.BEFORE_SALE;
+            phase = POOL_PHASE.BEFORE_SALE;
         }
         else if(currentRound >= saleStart && currentRound <= saleEnd) {
-            phase = FUND_PHASE.DURING_SALE;
+            phase = POOL_PHASE.DURING_SALE;
         }
         else if(currentRound > saleEnd && currentRound < claimStart) {
-            phase = FUND_PHASE.BEFORE_CLAIM;
+            phase = POOL_PHASE.BEFORE_CLAIM;
         }
         else if(currentRound >= claimStart && currentRound <= claimEnd) {
-            phase = FUND_PHASE.DURING_CLAIM;
+            phase = POOL_PHASE.DURING_CLAIM;
         }
         else if(currentRound > claimEnd) {
-            phase = FUND_PHASE.COMPLETED;
+            phase = POOL_PHASE.COMPLETED;
         }
 
         const registration: F_PhaseDetails = {
-            pending: phase <= FUND_PHASE.BEFORE_REGISTRATION,
-            active: phase == FUND_PHASE.DURING_REGISTRATION,
-            completed: phase > FUND_PHASE.DURING_REGISTRATION,
+            pending: phase <= POOL_PHASE.BEFORE_REGISTRATION,
+            active: phase == POOL_PHASE.DURING_REGISTRATION,
+            completed: phase > POOL_PHASE.DURING_REGISTRATION,
             durationHumanize: "",
             durationReadable: "",
             durationMilliSeconds: 0,
@@ -418,9 +418,9 @@ export class Fundstack {
         }
 
         const sale: F_PhaseDetails = {
-            pending: phase <= FUND_PHASE.BEFORE_SALE,
-            active: phase == FUND_PHASE.DURING_SALE,
-            completed: phase > FUND_PHASE.DURING_SALE,
+            pending: phase <= POOL_PHASE.BEFORE_SALE,
+            active: phase == POOL_PHASE.DURING_SALE,
+            completed: phase > POOL_PHASE.DURING_SALE,
             durationHumanize: "",
             durationReadable: "",
             durationMilliSeconds: 0,
@@ -441,12 +441,12 @@ export class Fundstack {
             sale.durationReadable = sale.durationHumanize;
         }
 
-        const targetReached = this.isTargetReached(fund);
+        const targetReached = this.isTargetReached(pool);
 
         const claim: F_PhaseDetails = {
-            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
-            active: phase == FUND_PHASE.DURING_CLAIM && targetReached,
-            completed: phase > FUND_PHASE.DURING_CLAIM,
+            pending: phase <= POOL_PHASE.BEFORE_CLAIM,
+            active: phase == POOL_PHASE.DURING_CLAIM && targetReached,
+            completed: phase > POOL_PHASE.DURING_CLAIM,
             durationHumanize: "",
             durationReadable: "",
             durationMilliSeconds: 0,
@@ -468,9 +468,9 @@ export class Fundstack {
         }
         
         const withdraw: F_PhaseDetails = {
-            pending: phase <= FUND_PHASE.BEFORE_CLAIM,
-            active: phase == FUND_PHASE.DURING_CLAIM && !targetReached,
-            completed: phase > FUND_PHASE.DURING_CLAIM,
+            pending: phase <= POOL_PHASE.BEFORE_CLAIM,
+            active: phase == POOL_PHASE.DURING_CLAIM && !targetReached,
+            completed: phase > POOL_PHASE.DURING_CLAIM,
             durationHumanize: "",
             durationReadable: "",
             durationMilliSeconds: 0,
@@ -498,7 +498,7 @@ export class Fundstack {
             claim,
             withdraw,
             targetReached,
-            published: fund.isPublished(),
+            published: pool.isPublished(),
             date: Date.now()
         }
 
@@ -515,13 +515,13 @@ export class Fundstack {
         return asset;
     }
 
-    async delete(fundId: number): Promise<A_SendTxnResponse> {
-        const fundApp = await this.algodesk.applicationClient.get(fundId);
-        const fund = new Fund(fundApp, this.network);
+    async delete(poolId: number): Promise<A_SendTxnResponse> {
+        const poolApp = await this.algodesk.applicationClient.get(poolId);
+        const pool = new Pool(poolApp, this.network);
 
-        const creator = fund.getCreator();
+        const creator = pool.getCreator();
         const params: A_DeleteApplicationParams = {
-            appId: fundId,
+            appId: poolId,
             from: creator
         };
 
@@ -529,8 +529,8 @@ export class Fundstack {
         return deleteTxn;
     }
 
-    async getAccountFundActivity(fundId: number, address: string): Promise<F_AccountActivity[]> {
-        const {transactions} = await this.algodesk.applicationClient.getAccountTransactions(fundId, address);
+    async getAccountPoolActivity(poolId: number, address: string): Promise<F_AccountActivity[]> {
+        const {transactions} = await this.algodesk.applicationClient.getAccountTransactions(poolId, address);
 
         const activityTxs: F_AccountActivity[] = [];
 
@@ -553,18 +553,18 @@ export class Fundstack {
             let isValidOperation = false;
             if (createdAppId) {
                 isValidOperation = true;
-                activity.operation = FUND_OPERATIONS.DEPLOY_FUND;
-                activity.label = 'Deploy fund';
+                activity.operation = POOL_OPERATIONS.CREATE_POOL;
+                activity.label = 'Create pool';
             }
-            if (operation === FUND_OPERATIONS.PUBLISH) {
+            if (operation === POOL_OPERATIONS.PUBLISH) {
                 isValidOperation = true;
                 activity.label = 'Publish';
             }
-            if (operation === FUND_OPERATIONS.OWNER_WITHDRAW) {
+            if (operation === POOL_OPERATIONS.OWNER_WITHDRAW) {
                 isValidOperation = true;
                 activity.label = 'Assets withdraw';
             }
-            if (operation === FUND_OPERATIONS.OWNER_CLAIM) {
+            if (operation === POOL_OPERATIONS.OWNER_CLAIM) {
                 isValidOperation = true;
                 activity.label = 'Claim algos';
             }
@@ -572,18 +572,18 @@ export class Fundstack {
             const isRegister = !createdAppId && tx['application-transaction']['on-completion'] === 'optin';
             if (isRegister) {
                 isValidOperation = true;
-                activity.operation = FUND_OPERATIONS.REGISTER;
+                activity.operation = POOL_OPERATIONS.REGISTER;
                 activity.label = 'Registered';
             }
-            if (operation == FUND_OPERATIONS.INVEST) {
+            if (operation == POOL_OPERATIONS.INVEST) {
                 isValidOperation = true;
                 activity.label = 'Invested';
             }
-            if (operation == FUND_OPERATIONS.INVESTOR_CLAIM) {
+            if (operation == POOL_OPERATIONS.INVESTOR_CLAIM) {
                 isValidOperation = true;
                 activity.label = 'Claimed';
             }
-            if (operation == FUND_OPERATIONS.INVESTOR_WITHDRAW) {
+            if (operation == POOL_OPERATIONS.INVESTOR_WITHDRAW) {
                 isValidOperation = true;
                 activity.label = 'Withdrawn';
             }
@@ -595,17 +595,17 @@ export class Fundstack {
         return activityTxs;
     }
 
-    async getPublishedFunds(apiBaseUrl: string): Promise<F_DB_FUND[]> {
+    async getPublishedPools(apiBaseUrl: string): Promise<F_DB_POOL[]> {
         const response = await axios({
             method: 'get',
-            url: apiBaseUrl + '/v1/funds'
+            url: apiBaseUrl + '/v1/pools'
         });
 
         return response.data;
     }
 
-    getAccountFunds(accountInfo: A_AccountInformation): A_Application[] {
-        let funds:A_Application[] = [];
+    getAccountPools(accountInfo: A_AccountInformation): A_Application[] {
+        let pools:A_Application[] = [];
 
         const contracts = getContracts(this.network);
         const {compiledApprovalProgram, compiledClearProgram} = contracts;
@@ -616,28 +616,28 @@ export class Fundstack {
             const appClearProgram = app.params["clear-state-program"];
 
             if (appApprovalProgram === compiledApprovalProgram.result && appClearProgram === compiledClearProgram.result) {
-                funds.push(app);
+                pools.push(app);
             }
         });
 
-        funds = funds.sort((a, b) => {
+        pools = pools.sort((a, b) => {
             return b.id - a.id;
         });
 
-        return funds;
+        return pools;
     }
 
-    hasRegistered(accountInfo: A_AccountInformation, fundId: number): boolean {
-        return this.algodesk.applicationClient.hasOpted(accountInfo, fundId);
+    hasRegistered(accountInfo: A_AccountInformation, poolId: number): boolean {
+        return this.algodesk.applicationClient.hasOpted(accountInfo, poolId);
     }
 
-    hasInvested(accountInfo: A_AccountInformation, fundId: number): boolean {
+    hasInvested(accountInfo: A_AccountInformation, poolId: number): boolean {
         let invested = false;
 
-        if (this.hasRegistered(accountInfo, fundId)) {
+        if (this.hasRegistered(accountInfo, poolId)) {
             const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
             optedApps.forEach((app) => {
-                if (app.id == fundId) {
+                if (app.id == poolId) {
                     const accountState = getAccountState(app);
                     invested = accountState[localStateKeys.invested] === 1;
                 }
@@ -647,13 +647,13 @@ export class Fundstack {
         return invested;
     }
 
-    hasClaimed(accountInfo: A_AccountInformation, fundId: number): boolean {
+    hasClaimed(accountInfo: A_AccountInformation, poolId: number): boolean {
         let claimed = false;
 
-        if (this.hasRegistered(accountInfo, fundId)) {
+        if (this.hasRegistered(accountInfo, poolId)) {
             const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
             optedApps.forEach((app) => {
-                if (app.id == fundId) {
+                if (app.id == poolId) {
                     const accountState = getAccountState(app);
                     claimed = accountState[localStateKeys.claimed] === 1;
                 }
@@ -663,13 +663,13 @@ export class Fundstack {
         return claimed;
     }
 
-    hasWithDrawn(accountInfo: A_AccountInformation, fundId: number): boolean {
+    hasWithDrawn(accountInfo: A_AccountInformation, poolId: number): boolean {
         let withdrawn = false;
 
-        if (this.hasRegistered(accountInfo, fundId)) {
+        if (this.hasRegistered(accountInfo, poolId)) {
             const optedApps = this.algodesk.accountClient.getOptedApps(accountInfo);
             optedApps.forEach((app) => {
-                if (app.id == fundId) {
+                if (app.id == poolId) {
                     const accountState = getAccountState(app);
                     withdrawn = accountState[localStateKeys.withdrawn] === 1;
                 }
@@ -679,56 +679,56 @@ export class Fundstack {
         return withdrawn;
     }
 
-    calculatePayableAmount(amount: number, fund: Fund): number {
-        let price = fund.globalState[globalStateKeys.price];
+    calculatePayableAmount(amount: number, pool: Pool): number {
+        let price = pool.globalState[globalStateKeys.price];
         price = microalgosToAlgos(price);
 
         let payableAmount = parseFloat((amount * price).toString()).toFixed(6);
         return  parseFloat(payableAmount);
     }
 
-    getMinAllocationInDecimals(fund: Fund): number {
-        const minAllocation = fund.globalState[globalStateKeys.min_allocation];
-        const decimals = fund.asset.params.decimals
+    getMinAllocationInDecimals(pool: Pool): number {
+        const minAllocation = pool.globalState[globalStateKeys.min_allocation];
+        const decimals = pool.asset.params.decimals
         return minAllocation / Math.pow(10, decimals);
     }
 
-    getMaxAllocationInDecimals(fund: Fund): number {
-        const maxAllocation = fund.globalState[globalStateKeys.max_allocation];
-        const decimals = fund.asset.params.decimals
+    getMaxAllocationInDecimals(pool: Pool): number {
+        const maxAllocation = pool.globalState[globalStateKeys.max_allocation];
+        const decimals = pool.asset.params.decimals
         return maxAllocation / Math.pow(10, decimals);
     }
 
-    getTotalAllocationInDecimals(fund: Fund): number {
-        const totalAllocation = fund.globalState[globalStateKeys.total_allocation];
-        const decimals = fund.asset.params.decimals
+    getTotalAllocationInDecimals(pool: Pool): number {
+        const totalAllocation = pool.globalState[globalStateKeys.total_allocation];
+        const decimals = pool.asset.params.decimals
         return totalAllocation / Math.pow(10, decimals);
     }
 
-    getRemainingAllocationInDecimals(fund: Fund): number {
-        const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation];
-        const decimals = fund.asset.params.decimals
+    getRemainingAllocationInDecimals(pool: Pool): number {
+        const remainingAllocation = pool.globalState[globalStateKeys.remaining_allocation];
+        const decimals = pool.asset.params.decimals
         return remainingAllocation / Math.pow(10, decimals);
     }
 
-    getSoldAllocationInDecimals(fund: Fund): number {
-        return this.getTotalAllocationInDecimals(fund) - this.getRemainingAllocationInDecimals(fund);
+    getSoldAllocationInDecimals(pool: Pool): number {
+        return this.getTotalAllocationInDecimals(pool) - this.getRemainingAllocationInDecimals(pool);
     }
 
-    getPrice(fund: Fund): number {
-        const price = fund.globalState[globalStateKeys.price];
+    getPrice(pool: Pool): number {
+        const price = pool.globalState[globalStateKeys.price];
         return microalgosToAlgos(price);
     }
 
-    getTotalFundsRaised(fund: Fund): number {
-        return this.getSoldAllocationInDecimals(fund) * this.getPrice(fund);
+    getTotalAmountRaised(pool: Pool): number {
+        return this.getSoldAllocationInDecimals(pool) * this.getPrice(pool);
     }
 
-    getSuccessCriteriaPercentage(fund: Fund): number {
-        return  fund.globalState[globalStateKeys.platform_success_criteria_percentage];
+    getSuccessCriteriaPercentage(pool: Pool): number {
+        return  pool.globalState[globalStateKeys.platform_success_criteria_percentage];
     }
 
-    isTargetReached(fund: Fund): boolean {
-        return fund.globalState[globalStateKeys.target_reached] === 1;
+    isTargetReached(pool: Pool): boolean {
+        return pool.globalState[globalStateKeys.target_reached] === 1;
     }
 }

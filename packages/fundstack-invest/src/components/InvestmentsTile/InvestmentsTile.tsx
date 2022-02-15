@@ -4,7 +4,7 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
-import {setInvestment} from "../../redux/actions/fund";
+import {setInvestment} from "../../redux/actions/pool";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -12,10 +12,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 
 function InvestmentsTile(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
+    const poolDetails = useSelector((state: RootState) => state.pool);
     const account = useSelector((state: RootState) => state.account);
-    const {fund} = fundDetails;
-    const {status} = fund;
+    const {pool} = poolDetails;
+    const {status} = pool;
     const {sale} = status;
 
     const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function InvestmentsTile(): JSX.Element {
                     <div className="tile-name">
                         Investment
                     </div>
-                    {fund.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {pool.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
 
@@ -44,11 +44,11 @@ function InvestmentsTile(): JSX.Element {
                             <div className="count">
                                 <div className="count-number">
                                     <span>
-                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_investors], 0)}
+                                        {formatNumWithDecimals(pool.globalState[globalStateKeys.no_of_investors], 0)}
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    {fund.globalState[globalStateKeys.no_of_investors] === 1 ? 'Investor' : 'Investors'}
+                                    {pool.globalState[globalStateKeys.no_of_investors] === 1 ? 'Investor' : 'Investors'}
                                 </div>
                             </div>
                         </Grid>

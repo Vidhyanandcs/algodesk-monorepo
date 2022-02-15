@@ -13,14 +13,14 @@ const download = (url, dest, callback) => {
 }
 
 function downloadContracts(network, contractsUrl) {
-    download(contractsUrl + '/v1/fund/bytes/approval.json',  'src/contracts/' + network + '/v1/fund/bytes/approval.json', () => {
-        console.log('Downloaded ' + contractsUrl + '/v1/fund/bytes/approval.json')
+    download(contractsUrl + '/v1/pool/bytes/approval.json',  'src/contracts/' + network + '/v1/pool/bytes/approval.json', () => {
+        console.log('Downloaded ' + contractsUrl + '/v1/pool/bytes/approval.json')
     });
-    download(contractsUrl + '/v1/fund/bytes/clear.json',  'src/contracts/' + network + '/v1/fund/bytes/clear.json', () => {
-        console.log('Downloaded ' + contractsUrl + '/v1/fund/bytes/clear.json')
+    download(contractsUrl + '/v1/pool/bytes/clear.json',  'src/contracts/' + network + '/v1/pool/bytes/clear.json', () => {
+        console.log('Downloaded ' + contractsUrl + '/v1/pool/bytes/clear.json')
     });
 }
 
-downloadContracts('betanet', 'https://betanet.contracts.fundstack.io');
-downloadContracts('testnet', 'https://testnet.contracts.fundstack.io');
+downloadContracts('betanet', 'https://betanet-contracts-p4nsc39q3-fundstack.vercel.app');
+downloadContracts('testnet', 'https://testnet-contracts-7nbce948x-fundstack.vercel.app');
 
