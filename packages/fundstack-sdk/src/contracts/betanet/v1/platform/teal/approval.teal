@@ -1,0 +1,233 @@
+#pragma version 5
+callsub isCreate_2
+bnz main_l15
+callsub isUpdate_3
+bnz main_l14
+callsub isDelete_4
+bnz main_l13
+txna ApplicationArgs 0
+byte "validate_pool"
+==
+bnz main_l9
+txna ApplicationArgs 0
+byte "claim_algos"
+==
+bnz main_l8
+txna ApplicationArgs 0
+byte "claim_assets"
+==
+bnz main_l7
+err
+main_l7:
+global GroupSize
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Assets 0
+itxn_field XferAsset
+byte "c"
+app_global_get
+itxn_field AssetReceiver
+txna ApplicationArgs 1
+btoi
+int 0
+callsub getAssetMicros_5
+*
+itxn_field AssetAmount
+itxn_submit
+int 1
+return
+main_l8:
+global GroupSize
+int 1
+==
+assert
+txn Sender
+byte "c"
+app_global_get
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+byte "c"
+app_global_get
+itxn_field Receiver
+txna ApplicationArgs 1
+btoi
+callsub AlgoToMicroAlgo_7
+itxn_field Amount
+itxn_submit
+int 1
+return
+main_l9:
+global GroupSize
+int 5
+==
+assert
+txn GroupIndex
+int 1
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+assert
+gtxn 0 TypeEnum
+int pay
+==
+assert
+gtxn 0 Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxn 0 Amount
+byte "pf"
+app_global_get
+==
+assert
+gtxn 3 TypeEnum
+int appl
+==
+assert
+gtxna 3 ApplicationArgs 0
+byte "publish"
+==
+assert
+gtxn 3 ApplicationID
+txna Applications 1
+==
+assert
+gtxn 3 Sender
+txn Sender
+==
+assert
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Applications 1
+byte "aid"
+app_global_get_ex
+store 0
+store 1
+load 0
+bnz main_l12
+byte "0"
+main_l11:
+itxn_field XferAsset
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+itxn_submit
+int 1
+return
+main_l12:
+load 1
+b main_l11
+main_l13:
+callsub allowOperation_6
+return
+main_l14:
+callsub allowOperation_6
+return
+main_l15:
+global GroupSize
+int 1
+==
+assert
+byte "v"
+int 1
+app_global_put
+byte "c"
+txn Sender
+app_global_put
+byte "cat"
+global Round
+app_global_put
+byte "e"
+global CurrentApplicationAddress
+app_global_put
+byte "pf"
+int 1000000
+app_global_put
+byte "sf"
+int 1
+app_global_put
+byte "rf"
+int 1000000
+app_global_put
+byte "pemtu"
+int 2000000
+app_global_put
+byte "scp"
+int 50
+app_global_put
+int 1
+return
+
+// getAppId
+getAppId_0:
+txn ApplicationID
+retsub
+
+// getTxnAction
+getTxnAction_1:
+txn OnCompletion
+retsub
+
+// isCreate
+isCreate_2:
+callsub getAppId_0
+int 0
+==
+retsub
+
+// isUpdate
+isUpdate_3:
+callsub getTxnAction_1
+int UpdateApplication
+==
+retsub
+
+// isDelete
+isDelete_4:
+callsub getTxnAction_1
+int DeleteApplication
+==
+retsub
+
+// getAssetMicros
+getAssetMicros_5:
+store 2
+load 2
+asset_params_get AssetDecimals
+store 3
+store 4
+int 10
+load 4
+exp
+retsub
+
+// allowOperation
+allowOperation_6:
+int 1
+int 1
+==
+retsub
+
+// AlgoToMicroAlgo
+AlgoToMicroAlgo_7:
+store 5
+load 5
+int 1000000
+*
+retsub

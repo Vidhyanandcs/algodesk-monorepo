@@ -20,7 +20,7 @@
     "url": "git+https://github.com/algodesk-io/algodesk-monorepo.git"
   },
   "scripts": {
-    "build": "node download.js && npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:browser",
+    "build": "npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:browser",
     "build:clean": "rimraf dist/",
     "build:esm": "tsc -p ./tsconfig-esm.json",
     "build:cjs": "tsc -p ./tsconfig-cjs.json",
