@@ -2,7 +2,7 @@ import './Portal.scss';
 import Header from "../Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Grid} from "@material-ui/core";
-import Fund from "../Fund/Fund";
+import Pool from "../Pool/Pool";
 import Home from "../Home/Home";
 
 function Portal(): JSX.Element {
@@ -16,8 +16,8 @@ function Portal(): JSX.Element {
                   <Route exact path="/portal/home">
                       <Home></Home>
                   </Route>
-                  <Route exact path="/portal/fund/:id">
-                      <Fund></Fund>
+                  <Route exact path="/portal/pool/:id">
+                      <Pool></Pool>
                   </Route>
                   <Route exact path="/portal" render={() => <Redirect to="/portal/home" />} />
               </Switch>

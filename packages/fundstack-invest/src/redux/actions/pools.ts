@@ -1,32 +1,32 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import fundstackSdk from "../../utils/fundstackSdk";
-import {F_DB_FUND} from "@fundstack/sdk";
+import fSdk from "../../utils/fSdk";
+import {F_DB_POOL} from "@fundstack/sdk";
 import {REACT_APP_API_BASE_URL} from "../../env";
 
-export interface Funds {
+export interface Pools {
     loading: boolean,
-    list: F_DB_FUND[]
+    list: F_DB_POOL[]
 }
 
-const initialState: Funds = {
+const initialState: Pools = {
     loading: false,
     list: []
 }
 
-export const loadFunds = createAsyncThunk(
-    'funds/loadFunds',
+export const loadPools = createAsyncThunk(
+    'pools/loadPools',
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
             dispatch(setLoading(true));
-            let funds = await fundstackSdk.fundstack.getPublishedFunds(REACT_APP_API_BASE_URL);
-            funds = funds.sort((a, b) => {
+            let pools = await fSdk.fs.getPublishedPools(REACT_APP_API_BASE_URL);
+            pools = pools.sort((a, b) => {
                 return b.app_id - a.app_id;
             });
 
             dispatch(setLoading(false));
-            return funds;
+            return pools;
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -35,8 +35,8 @@ export const loadFunds = createAsyncThunk(
     }
 );
 
-export const fundsSlice = createSlice({
-    name: 'funds',
+export const poolsSlice = createSlice({
+    name: 'pools',
     initialState,
     reducers: {
         setLoading: (state , action: PayloadAction<boolean>) => {
@@ -44,11 +44,11 @@ export const fundsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadFunds.fulfilled, (state, action: PayloadAction<any>) => {
+        builder.addCase(loadPools.fulfilled, (state, action: PayloadAction<any>) => {
             state.list = action.payload;
         })
     },
 });
 
-export const { setLoading } = fundsSlice.actions
-export default fundsSlice.reducer
+export const { setLoading } = poolsSlice.actions
+export default poolsSlice.reducer

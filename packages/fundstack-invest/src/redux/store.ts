@@ -5,9 +5,9 @@ import networkReducer from "./actions/network";
 import loaderReducer from "./actions/loader";
 import signerReducer from "./actions/signer";
 import accountReducer from "./actions/account";
-import fundReducer from "./actions/fund";
+import poolReducer from "./actions/pool";
 import successModal from "./actions/successModal";
-import fundsReducer from './actions/funds';
+import poolsReducer from './actions/pools';
 
 export const store = configureStore({
     reducer: {
@@ -17,9 +17,9 @@ export const store = configureStore({
         loader: loaderReducer,
         signer: signerReducer,
         account: accountReducer,
-        fund: fundReducer,
+        pool: poolReducer,
         successModal: successModal,
-        funds: fundsReducer
+        pools: poolsReducer
     },
 });
 

@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import fundstackSdk from "../../utils/fundstackSdk";
-import {F_AccountActivity, Fund} from "@fundstack/sdk";
+import fSdk from "../../utils/fSdk";
+import {F_AccountActivity, Pool} from "@fundstack/sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
@@ -9,9 +9,9 @@ import {isNumber} from "util";
 import {showSnack} from "./snackbar";
 
 
-export interface FundDetails {
+export interface PoolDetails {
     loading: boolean,
-    fund?: Fund,
+    pool?: Pool,
     account: {
         registered: boolean,
         invested: boolean,
@@ -25,7 +25,7 @@ export interface FundDetails {
     action: string
 }
 
-const initialState: FundDetails = {
+const initialState: PoolDetails = {
     loading: false,
     account: {
         registered: false,
@@ -40,22 +40,22 @@ const initialState: FundDetails = {
     action: ''
 }
 
-export const loadFund = createAsyncThunk(
-    'fund/loadFund',
+export const loadPool = createAsyncThunk(
+    'pool/loadPool',
     async (id: number, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            dispatch(resetFund());
+            dispatch(resetPool());
             dispatch(setLoading(true));
-            const fund = await fundstackSdk.fundstack.get(id);
-            const fundInfo = JSON.parse(JSON.stringify(fund));
+            const pool = await fSdk.fs.getPool(id);
+            const poolInfo = JSON.parse(JSON.stringify(pool));
             dispatch(setRegistration(id));
             dispatch(setInvestment(id));
             dispatch(setClaim(id));
             dispatch(setWithdraw(id));
             dispatch(getAccountActivity(id));
             dispatch(setLoading(false));
-            return fundInfo;
+            return poolInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -65,23 +65,23 @@ export const loadFund = createAsyncThunk(
 );
 
 export const register = createAsyncThunk(
-    'fund/register',
-    async (fundId: number, thunkAPI) => {
+    'pool/register',
+    async (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
             dispatch(showLoader("Registering ..."));
-            const {txId} = await fundstackSdk.fundstack.register(fundId, address);
+            const {txId} = await fSdk.fs.register(poolId, address);
             dispatch(hideLoader());
             dispatch(showLoader("Waiting for confirmation ..."));
-            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(setAction(''));
             dispatch(showSuccessModal("Your registration is successful"));
             dispatch(loadAccount(address));
-            dispatch(loadFund(fundId));
+            dispatch(loadPool(poolId));
             return txId;
         }
         catch (e: any) {
@@ -92,14 +92,14 @@ export const register = createAsyncThunk(
 );
 
 export const setRegistration = createAsyncThunk(
-    'fund/setRegistration',
-     (fundId: number, thunkAPI) => {
+    'pool/setRegistration',
+     (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             if (account.loggedIn) {
-                return fundstackSdk.fundstack.hasRegistered(account.information, fundId);
+                return fSdk.fs.hasRegistered(account.information, poolId);
             }
 
             return false;
@@ -111,7 +111,7 @@ export const setRegistration = createAsyncThunk(
 );
 
 export const invest = createAsyncThunk(
-    'fund/invest',
+    'pool/invest',
     async (data: any, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
@@ -119,7 +119,7 @@ export const invest = createAsyncThunk(
             const {account} = appState;
             const {address} = account.information;
 
-            const {amount, fund} = data;
+            const {amount, pool} = data;
 
             if (amount === undefined || amount === null || !isNumber(amount)) {
                 dispatch(showSnack({
@@ -129,7 +129,7 @@ export const invest = createAsyncThunk(
                 return;
             }
 
-            const minAllocation = fundstackSdk.fundstack.getMinAllocationInDecimals(fund);
+            const minAllocation = fSdk.fs.getMinAllocationInDecimals(pool);
             if (amount < minAllocation) {
                 dispatch(showSnack({
                     severity: 'error',
@@ -138,7 +138,7 @@ export const invest = createAsyncThunk(
                 return;
             }
 
-            const maxAllocation = fundstackSdk.fundstack.getMaxAllocationInDecimals(fund);
+            const maxAllocation = fSdk.fs.getMaxAllocationInDecimals(pool);
             if (amount > maxAllocation) {
                 dispatch(showSnack({
                     severity: 'error',
@@ -147,17 +147,17 @@ export const invest = createAsyncThunk(
                 return;
             }
 
-            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+            const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
 
             dispatch(showLoader("Investing ..."));
-            const {txId} = await fundstackSdk.fundstack.invest(fund.id, address, payableAmount);
+            const {txId} = await fSdk.fs.invest(pool.id, address, payableAmount);
             dispatch(hideLoader());
             dispatch(showLoader("Waiting for confirmation ..."));
-            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(showSuccessModal("Your investment is successful"));
             dispatch(loadAccount(address));
-            dispatch(loadFund(fund.id));
+            dispatch(loadPool(pool.id));
             return txId;
         }
         catch (e: any) {
@@ -168,14 +168,14 @@ export const invest = createAsyncThunk(
 );
 
 export const setInvestment = createAsyncThunk(
-    'fund/setInvestment',
-    (fundId: number, thunkAPI) => {
+    'pool/setInvestment',
+    (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             if (account.loggedIn) {
-                return fundstackSdk.fundstack.hasInvested(account.information, fundId);
+                return fSdk.fs.hasInvested(account.information, poolId);
             }
 
             return false;
@@ -187,23 +187,23 @@ export const setInvestment = createAsyncThunk(
 );
 
 export const claimAssets = createAsyncThunk(
-    'fund/claimAssets',
-    async (fundId: number, thunkAPI) => {
+    'pool/claimAssets',
+    async (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
             dispatch(showLoader("Claiming assets ..."));
-            const {txId} = await fundstackSdk.fundstack.investorClaim(fundId, address);
+            const {txId} = await fSdk.fs.investorClaim(poolId, address);
             dispatch(hideLoader());
             dispatch(showLoader("Waiting for confirmation ..."));
-            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(setAction(''));
             dispatch(showSuccessModal("Your claim is successful"));
             dispatch(loadAccount(address));
-            dispatch(loadFund(fundId));
+            dispatch(loadPool(poolId));
             return txId;
         }
         catch (e: any) {
@@ -214,14 +214,14 @@ export const claimAssets = createAsyncThunk(
 );
 
 export const setClaim = createAsyncThunk(
-    'fund/setClaim',
-    (fundId: number, thunkAPI) => {
+    'pool/setClaim',
+    (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             if (account.loggedIn) {
-                return fundstackSdk.fundstack.hasClaimed(account.information, fundId);
+                return fSdk.fs.hasClaimed(account.information, poolId);
             }
 
             return false;
@@ -233,23 +233,23 @@ export const setClaim = createAsyncThunk(
 );
 
 export const withdrawInvestment = createAsyncThunk(
-    'fund/withdrawInvestment',
-    async (fundId: number, thunkAPI) => {
+    'pool/withdrawInvestment',
+    async (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
             dispatch(showLoader("withdrawing investment ..."));
-            const {txId} = await fundstackSdk.fundstack.investorWithdraw(fundId, address);
+            const {txId} = await fSdk.fs.investorWithdraw(poolId, address);
             dispatch(hideLoader());
             dispatch(showLoader("Waiting for confirmation ..."));
-            await fundstackSdk.fundstack.algodesk.transactionClient.waitForConfirmation(txId);
+            await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
             dispatch(setAction(''));
             dispatch(showSuccessModal("Your withdraw is successful"));
             dispatch(loadAccount(address));
-            dispatch(loadFund(fundId));
+            dispatch(loadPool(poolId));
             return txId;
         }
         catch (e: any) {
@@ -260,14 +260,14 @@ export const withdrawInvestment = createAsyncThunk(
 );
 
 export const setWithdraw = createAsyncThunk(
-    'fund/setWithdraw',
-    (fundId: number, thunkAPI) => {
+    'pool/setWithdraw',
+    (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             if (account.loggedIn) {
-                return fundstackSdk.fundstack.hasWithDrawn(account.information, fundId);
+                return fSdk.fs.hasWithDrawn(account.information, poolId);
             }
 
             return false;
@@ -279,15 +279,15 @@ export const setWithdraw = createAsyncThunk(
 );
 
 export const getAccountActivity = createAsyncThunk(
-    'fund/getAccountActivity',
-    async (fundId: number, thunkAPI) => {
+    'pool/getAccountActivity',
+    async (poolId: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             if (account.loggedIn) {
                 dispatch(setActivityLoading(true));
-                const list = await fundstackSdk.fundstack.getAccountFundActivity(fundId, account.information.address);
+                const list = await fSdk.fs.getAccountPoolActivity(poolId, account.information.address);
                 return list.reverse();
             }
         }
@@ -298,8 +298,8 @@ export const getAccountActivity = createAsyncThunk(
     }
 );
 
-export const fundSlice = createSlice({
-    name: 'fund',
+export const poolSlice = createSlice({
+    name: 'pool',
     initialState: {
         ...initialState
     },
@@ -313,11 +313,11 @@ export const fundSlice = createSlice({
         setActivityLoading: (state , action: PayloadAction<boolean>) => {
             state.account.activity.loading = action.payload;
         },
-        resetFund: state => initialState
+        resetPool: state => initialState
     },
     extraReducers: (builder) => {
-        builder.addCase(loadFund.fulfilled, (state, action: PayloadAction<any>) => {
-            state.fund = action.payload;
+        builder.addCase(loadPool.fulfilled, (state, action: PayloadAction<any>) => {
+            state.pool = action.payload;
         });
         builder.addCase(setRegistration.fulfilled, (state, action: PayloadAction<any>) => {
             state.account.registered = action.payload;
@@ -340,5 +340,5 @@ export const fundSlice = createSlice({
     },
 });
 
-export const {setLoading, resetFund, setAction, setActivityLoading} = fundSlice.actions
-export default fundSlice.reducer
+export const {setLoading, resetPool, setAction, setActivityLoading} = poolSlice.actions
+export default poolSlice.reducer

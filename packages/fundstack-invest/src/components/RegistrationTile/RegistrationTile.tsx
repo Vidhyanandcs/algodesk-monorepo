@@ -4,17 +4,17 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
-import {setRegistration} from "../../redux/actions/fund";
+import {setRegistration} from "../../redux/actions/pool";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 
 function RegistrationTile(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
+    const poolDetails = useSelector((state: RootState) => state.pool);
     const account = useSelector((state: RootState) => state.account);
-    const {fund} = fundDetails;
-    const {status} = fund;
+    const {pool} = poolDetails;
+    const {status} = pool;
     const {registration} = status;
     const dispatch = useDispatch();
 
@@ -42,11 +42,11 @@ function RegistrationTile(): JSX.Element {
                             <div className="count">
                                 <div className="count-number">
                                     <span>
-                                        {formatNumWithDecimals(fund.globalState[globalStateKeys.no_of_registrations], 0)}
+                                        {formatNumWithDecimals(pool.globalState[globalStateKeys.no_of_registrations], 0)}
                                     </span>
                                 </div>
                                 <div className="count-label">
-                                    {fund.globalState[globalStateKeys.no_of_registrations] === 1 ? 'Registration' : 'Registrations'}
+                                    {pool.globalState[globalStateKeys.no_of_registrations] === 1 ? 'Registration' : 'Registrations'}
                                 </div>
                             </div>
                         </Grid>

@@ -1,21 +1,21 @@
-import './MyFundActivity.scss';
+import './MyPoolActivity.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {useParams} from "react-router-dom";
 import React, {useEffect} from "react";
-import {getAccountActivity} from "../../redux/actions/fund";
+import {getAccountActivity} from "../../redux/actions/pool";
 import {ellipseAddress} from "@algodesk/core";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 import regNormal from '../../assets/images/resistered-normal.png';
 import invNormal from '../../assets/images/invested-normal.png';
 import claimNormal from '../../assets/images/claim-normal.png';
 import InfoIcon from "@material-ui/icons/Info";
 
 
-function MyFundActivity(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
+function MyPoolActivity(): JSX.Element {
+    const poolDetails = useSelector((state: RootState) => state.pool);
     const account = useSelector((state: RootState) => state.account);
-    const {activity} = fundDetails.account;
+    const {activity} = poolDetails.account;
 
     let {list: activityList} = activity;
 
@@ -33,15 +33,15 @@ function MyFundActivity(): JSX.Element {
     }, [dispatch, id, account]);
 
   return (
-      <div className="my-fund-activity-wrapper">
-          <div className="my-fund-activity-container">
+      <div className="my-pool-activity-wrapper">
+          <div className="my-pool-activity-container">
                 <div className="tile-name">My activity</div>
               {account.loggedIn ? <div>
                   {activity.loading ? <div className="loading">loading ...</div> : <div>
                       {activityList.length === 0 ? <div className="no-activity">
                           <div className="account-action-info">
                               <InfoIcon fontSize={"small"}></InfoIcon>
-                              <div className="text">Your wallet doesn't have any activity for this fund</div>
+                              <div className="text">Your wallet doesn't have any activity for this pool</div>
                           </div>
                       </div> : ''}
                       <div className="activity-list">
@@ -54,7 +54,7 @@ function MyFundActivity(): JSX.Element {
                                       {item.label}
                                   </div>
                                   <div className="txn-id" onClick={() => {
-                                      fundstackSdk.explorer.openTransaction(item.id);
+                                      fSdk.explorer.openTransaction(item.id);
                                   }}>
                                       Txn ID: {ellipseAddress(item.id, 8)}
                                   </div>
@@ -76,4 +76,4 @@ function MyFundActivity(): JSX.Element {
   );
 }
 
-export default MyFundActivity;
+export default MyPoolActivity;

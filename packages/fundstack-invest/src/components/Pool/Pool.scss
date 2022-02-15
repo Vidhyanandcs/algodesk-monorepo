@@ -1,9 +1,9 @@
 @import '../../assets/colors';
 
-.fund-wrapper {
-  .fund-container {
+.pool-wrapper {
+  .pool-container {
     margin-top: 50px;
-    .loading-fund {
+    .loading-pool {
       text-align: center;
       img {
         width: 200px;
@@ -15,8 +15,8 @@
         font-weight: bold;
       }
     }
-    .fund-header {
-      .fund-name {
+    .pool-header {
+      .pool-name {
         font-size: 22px;
         font-weight: 600;
       }
@@ -35,7 +35,7 @@
           cursor: pointer;
         }
       }
-      .fund-id {
+      .pool-id {
         font-size: 16px;
         font-family: MontserratLight !important;
         display: inline-block;
@@ -44,7 +44,7 @@
           text-decoration: underline;
         }
       }
-      .fund-creator {
+      .pool-creator {
         font-size: 15px;
         span {
           font-weight: bold;
@@ -55,7 +55,7 @@
         }
       }
     }
-    .fund-body-tiles {
+    .pool-body-tiles {
       margin-top: 20px;
       .tile {
         border-radius: 10px;

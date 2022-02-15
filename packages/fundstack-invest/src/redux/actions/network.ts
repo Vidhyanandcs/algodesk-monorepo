@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {NETWORKS} from "@algodesk/core";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 
 
 export interface Network {
@@ -17,7 +17,7 @@ export const networkSlice = createSlice({
     reducers: {
         setNetwork: (state, action: PayloadAction<any>) => {
             state.name = action.payload;
-            fundstackSdk.changeNetwork(action.payload);
+            fSdk.changeNetwork(action.payload);
         },
     },
 });

@@ -8,13 +8,13 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {invest, setAction} from "../../redux/actions/fund";
+import {invest, setAction} from "../../redux/actions/pool";
 import {CancelOutlined} from "@material-ui/icons";
 import React, {useState} from "react";
 import {getCommonStyles} from "../../utils/styles";
 import {globalStateKeys} from "@fundstack/sdk";
 import {microalgosToAlgos} from "algosdk";
-import fundstackSdk from "../../utils/fundstackSdk";
+import fSdk from "../../utils/fSdk";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -38,9 +38,9 @@ const initialState: InvestModalState = {
 
 function InvestModal(): JSX.Element {
     const dispatch = useDispatch();
-    const fundDetails = useSelector((state: RootState) => state.fund);
-    const {fund} = fundDetails;
-    const {action} = fundDetails;
+    const poolDetails = useSelector((state: RootState) => state.pool);
+    const {pool} = poolDetails;
+    const {action} = poolDetails;
     const show = action === 'invest';
     const classes = useStyles();
 
@@ -81,7 +81,7 @@ function InvestModal(): JSX.Element {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="exchange-ratio">
-                                    Price: 1 {fund.asset.params["unit-name"]} = {microalgosToAlgos(fund.globalState[globalStateKeys.price])} Algos
+                                    Price: 1 {pool.asset.params["unit-name"]} = {microalgosToAlgos(pool.globalState[globalStateKeys.price])} Algos
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -90,14 +90,14 @@ function InvestModal(): JSX.Element {
                                         You receive
 
                                         <div className="float-btn" onClick={() => {
-                                            const amount = fundstackSdk.fundstack.getMaxAllocationInDecimals(fund);
-                                            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                            const amount = fSdk.fs.getMaxAllocationInDecimals(pool);
+                                            const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
                                             setState(prevState => ({...prevState, amount, payableAmount}));
                                         }}>Max</div>
 
                                         <div className="float-btn" onClick={() => {
-                                            const amount = fundstackSdk.fundstack.getMinAllocationInDecimals(fund);
-                                            const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                            const amount = fSdk.fs.getMinAllocationInDecimals(pool);
+                                            const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
                                             setState(prevState => ({...prevState, amount, payableAmount}));
                                         }}>Min</div>
 
@@ -112,15 +112,15 @@ function InvestModal(): JSX.Element {
                                                        onChange={(ev) => {
                                                            let value: string = "0";
                                                            if(ev.target.value) {
-                                                               value = parseFloat(ev.target.value).toFixed(fund.asset.params.decimals);
+                                                               value = parseFloat(ev.target.value).toFixed(pool.asset.params.decimals);
                                                            }
                                                            const amount = parseFloat(value);
-                                                           const payableAmount = fundstackSdk.fundstack.calculatePayableAmount(amount, fund);
+                                                           const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
                                                            setState(prevState => ({...prevState, amount, payableAmount}));
                                                        }}
                                                        InputProps={{
                                                            endAdornment: <InputAdornment position="end" color="primary">
-                                                               {fund.asset.params["unit-name"]}
+                                                               {pool.asset.params["unit-name"]}
                                                            </InputAdornment>,
                                                        }}
                                             />
@@ -154,7 +154,7 @@ function InvestModal(): JSX.Element {
                                             className="custom-button"
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
-                                                dispatch(invest({fund, amount}));
+                                                dispatch(invest({pool, amount}));
                                             }}
                                     >Invest</Button>
                                 </div>

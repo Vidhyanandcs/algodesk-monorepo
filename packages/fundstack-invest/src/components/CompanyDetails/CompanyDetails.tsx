@@ -12,9 +12,9 @@ function getLink(url): JSX.Element {
 }
 
 function CompanyDetails(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
-    const {fund} = fundDetails;
-    const {company} = fund;
+    const poolDetails = useSelector((state: RootState) => state.pool);
+    const {pool} = poolDetails;
+    const {company} = pool;
 
   return (
       <div className="company-details-wrapper">

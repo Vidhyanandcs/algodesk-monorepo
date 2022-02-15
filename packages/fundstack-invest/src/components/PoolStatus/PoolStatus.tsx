@@ -1,11 +1,11 @@
-import './FundStatus.scss';
+import './PoolStatus.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@fundstack/sdk";
 import {Button, Chip, LinearProgress, withStyles} from "@material-ui/core";
 import React from "react";
 import {showSnack} from "../../redux/actions/snackbar";
-import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/fund";
+import {claimAssets, setAction, withdrawInvestment} from "../../redux/actions/pool";
 import RegistrationConfirmation from "../RegistrationConfirmation/RegistrationConfirmation";
 import InvestModal from "../InvestModal/InvestModal";
 import {showConnectWallet} from "../../redux/actions/connectWallet";
@@ -28,28 +28,28 @@ const BorderLinearProgress = withStyles((theme) => ({
 }))(LinearProgress);
 
 
-function FundStatus(): JSX.Element {
-    const fundDetails = useSelector((state: RootState) => state.fund);
+function PoolStatus(): JSX.Element {
+    const poolDetails = useSelector((state: RootState) => state.pool);
     const account = useSelector((state: RootState) => state.account);
-    const {fund} = fundDetails;
-    const {status} = fund;
+    const {pool} = poolDetails;
+    const {status} = pool;
     const {registration, sale, claim, withdraw}= status;
     const dispatch = useDispatch();
 
-    const totalAllocation = fund.globalState[globalStateKeys.total_allocation] / Math.pow(10, fund.asset.params.decimals);
-    const remainingAllocation = fund.globalState[globalStateKeys.remaining_allocation] / Math.pow(10, fund.asset.params.decimals);
+    const totalAllocation = pool.globalState[globalStateKeys.total_allocation] / Math.pow(10, pool.asset.params.decimals);
+    const remainingAllocation = pool.globalState[globalStateKeys.remaining_allocation] / Math.pow(10, pool.asset.params.decimals);
     const soldAllocation = totalAllocation - remainingAllocation;
 
     const remainingPerc = (remainingAllocation / totalAllocation) * 100;
     const soldPerc = (soldAllocation / totalAllocation) * 100;
 
   return (
-      <div className="fund-status-wrapper">
-          <div className="fund-status-container">
+      <div className="pool-status-wrapper">
+          <div className="pool-status-container">
                 <div className="tile-name">
-                    Fund status
+                    Pool status
                     {status.sale.completed ? <span style={{marginTop: -5}}>
-                        {fund.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} className="no-border-chip" variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} className="no-border-chip" variant={"outlined"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
+                        {pool.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} className="no-border-chip" variant={"outlined"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} className="no-border-chip" variant={"outlined"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
                     </span> : ''}
 
                 </div>
@@ -63,23 +63,23 @@ function FundStatus(): JSX.Element {
                             {parseFloat(remainingPerc + '').toFixed(0)}%
                         </div>
                     </div>
-                    {/*<div className="success-criteria" style={{left: fundstackSdk.fundstack.getSuccessCriteriaPercentage(fund) + "%"}}></div>*/}
+                    {/*<div className="success-criteria" style={{left: fSdk.fs.getSuccessCriteriaPercentage(pool) + "%"}}></div>*/}
                 </div>
               <div className="data">
                   <div className="items">
                       <div className="item key">Total</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{formatNumWithDecimals(totalAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
+                      <div className="item value">{formatNumWithDecimals(totalAllocation, pool.asset.params.decimals)} {pool.asset.params["unit-name"]}</div>
                   </div>
                   <div className="items">
                       <div className="item key">Sold</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{formatNumWithDecimals(soldAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
+                      <div className="item value">{formatNumWithDecimals(soldAllocation, pool.asset.params.decimals)} {pool.asset.params["unit-name"]}</div>
                   </div>
                   <div className="items">
                       <div className="item key">Remaining</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
-                      <div className="item value">{formatNumWithDecimals(remainingAllocation, fund.asset.params.decimals)} {fund.asset.params["unit-name"]}</div>
+                      <div className="item value">{formatNumWithDecimals(remainingAllocation, pool.asset.params.decimals)} {pool.asset.params["unit-name"]}</div>
                   </div>
               </div>
               <div className="user-actions">
@@ -91,7 +91,7 @@ function FundStatus(): JSX.Element {
                                                      className="custom-button"
                                                      onClick={() => {
                                                          if (account.loggedIn) {
-                                                             if (fundDetails.account.registered) {
+                                                             if (poolDetails.account.registered) {
                                                                  dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
                                                              }
                                                              else {
@@ -104,15 +104,15 @@ function FundStatus(): JSX.Element {
                                                      }}
                       >Register</Button> : ''}
                       {sale.active ? <div>
-                          {fundDetails.account.registered ? <Button variant={"contained"}
+                          {poolDetails.account.registered ? <Button variant={"contained"}
                                                                     color={"primary"}
                                                                     size={"large"}
                                                                     fullWidth
                                                                     className="custom-button"
                                                                     onClick={() => {
                                                                         if (account.loggedIn) {
-                                                                            if (fundDetails.account.registered) {
-                                                                                if (fundDetails.account.invested) {
+                                                                            if (poolDetails.account.registered) {
+                                                                                if (poolDetails.account.invested) {
                                                                                     dispatch(showSnack({severity: 'error', message: 'You have already invested'}));
                                                                                 }
                                                                                 else {
@@ -133,19 +133,19 @@ function FundStatus(): JSX.Element {
                           </div>}
                       </div> : ''}
                       {claim.active ? <div>
-                          {fundDetails.account.invested ? <Button variant={"contained"}
+                          {poolDetails.account.invested ? <Button variant={"contained"}
                                                                   color={"primary"}
                                                                   size={"large"}
                                                                   className="custom-button"
                                                                   fullWidth
                                                                   onClick={() => {
                                                                       if (account.loggedIn) {
-                                                                          if (fundDetails.account.invested) {
-                                                                              if (fundDetails.account.claimed) {
+                                                                          if (poolDetails.account.invested) {
+                                                                              if (poolDetails.account.claimed) {
                                                                                   dispatch(showSnack({severity: 'error', message: 'You have already claimed'}));
                                                                               }
                                                                               else {
-                                                                                  dispatch(claimAssets(Number(fund.id)));
+                                                                                  dispatch(claimAssets(Number(pool.id)));
                                                                               }
                                                                           }
                                                                           else {
@@ -163,19 +163,19 @@ function FundStatus(): JSX.Element {
 
                       </div> : ''}
                       {withdraw.active ? <div>
-                          {fundDetails.account.invested ? <Button variant={"contained"}
+                          {poolDetails.account.invested ? <Button variant={"contained"}
                                                                   color={"primary"}
                                                                   size={"large"}
                                                                   fullWidth
                                                                   className="custom-button"
                                                                   onClick={() => {
                                                                       if (account.loggedIn) {
-                                                                          if (fundDetails.account.invested) {
-                                                                              if (fundDetails.account.withdrawn) {
+                                                                          if (poolDetails.account.invested) {
+                                                                              if (poolDetails.account.withdrawn) {
                                                                                   dispatch(showSnack({severity: 'error', message: 'You have already withdrawn'}));
                                                                               }
                                                                               else {
-                                                                                  dispatch(withdrawInvestment(Number(fund.id)));
+                                                                                  dispatch(withdrawInvestment(Number(pool.id)));
                                                                               }
                                                                           }
                                                                           else {
@@ -212,4 +212,4 @@ function FundStatus(): JSX.Element {
   );
 }
 
-export default FundStatus;
+export default PoolStatus;

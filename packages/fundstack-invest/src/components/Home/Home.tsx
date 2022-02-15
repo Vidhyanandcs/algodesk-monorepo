@@ -1,7 +1,7 @@
 import './Home.scss';
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {loadFunds} from "../../redux/actions/funds";
+import {loadPools} from "../../redux/actions/pools";
 import {RootState} from "../../redux/store";
 import {Button, FormControlLabel, Grid, makeStyles, Radio, RadioGroup} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
@@ -32,7 +32,7 @@ const initialState: HomeState = {
 
 function Home(): JSX.Element {
 
-    const funds = useSelector((state: RootState) => state.funds);
+    const pools = useSelector((state: RootState) => state.pools);
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -43,15 +43,15 @@ function Home(): JSX.Element {
     ] = useState(initialState);
 
     useEffect(() => {
-        dispatch(loadFunds());
+        dispatch(loadPools());
     }, [dispatch]);
 
-    const renderedList = funds.list.filter((fund) => {
+    const renderedList = pools.list.filter((pool) => {
         if (status === "active") {
-            return fund.active;
+            return pool.active;
         }
         if (status === "completed") {
-            return !fund.active;
+            return !pool.active;
         }
         return true;
     });
@@ -72,8 +72,8 @@ function Home(): JSX.Element {
                   <Grid item xs={1} sm={1} md={1} lg={1} xl={1} className={classes.primaryText}>
                   </Grid>
                   <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-                      <div className="funds">
-                          <div className="funds-header">
+                      <div className="pools">
+                          <div className="pools-header">
                               <div className="list-title">Projects</div>
 
                               <div className="header-actions">
@@ -100,25 +100,25 @@ function Home(): JSX.Element {
                               </div>
                           </div>
 
-                          {!funds.loading && renderedList.length === 0 ? <div className="empty-funds">
+                          {!pools.loading && renderedList.length === 0 ? <div className="empty-pools">
                               <Alert color={"success"} icon={false} style={{borderRadius: 10}}>No projects</Alert>
                           </div> : ''}
                           <Grid container spacing={2}>
-                              {renderedList.map((fund) => {
-                                  return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={fund._id}>
-                                      <div className="fund">
-                                          <div className="fund-name">
-                                              {fund.name}
+                              {renderedList.map((pool) => {
+                                  return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
+                                      <div className="pool">
+                                          <div className="pool-name">
+                                              {pool.name}
                                           </div>
-                                          <div className="fund-id">
-                                              ID: {fund.app_id}
+                                          <div className="pool-id">
+                                              ID: {pool.app_id}
                                           </div>
-                                          <div className="fund-status">
+                                          <div className="pool-status">
                                               <Button variant={"contained"}
                                                       color={"primary"}
                                                       size={"small"}
                                                       onClick={() => {
-                                                          history.push('/portal/fund/' + fund.app_id);
+                                                          history.push('/portal/pool/' + pool.app_id);
                                                       }}
                                               >View</Button>
                                           </div>
@@ -129,7 +129,7 @@ function Home(): JSX.Element {
                                                       Total allocation
                                                   </div>
                                                   <div>
-                                                      {fund.total_allocation} ${fund.asset_unit}
+                                                      {pool.total_allocation} ${pool.asset_unit}
                                                   </div>
                                               </div>
                                               <div className="detail">
@@ -137,7 +137,7 @@ function Home(): JSX.Element {
                                                       Price
                                                   </div>
                                                   <div>
-                                                      {microalgosToAlgos(fund.price)}
+                                                      {microalgosToAlgos(pool.price)}
                                                       <img src={algoLogo} alt="Algo"/>
                                                   </div>
                                               </div>
