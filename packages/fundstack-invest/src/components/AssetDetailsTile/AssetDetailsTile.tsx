@@ -45,7 +45,9 @@ function AssetDetailsTile(): JSX.Element {
       <div className="asset-details-tile-wrapper">
           <div className="asset-details-tile-container">
               <div className="data">
-                  <Tabs value={tab} className="tabs" onChange={(event, newValue) => {
+                  <Tabs value={tab} className="tabs"
+                        variant={"fullWidth"}
+                        onChange={(event, newValue) => {
                       setState(prevState => ({ ...prevState, tab: newValue }));
                   }} indicatorColor="primary">
                       <Tab label="Pool information" value="pool_information" className={classes.tabLabel}/>

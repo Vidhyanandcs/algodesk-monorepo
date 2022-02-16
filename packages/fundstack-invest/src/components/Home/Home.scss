@@ -24,7 +24,7 @@
         .list-title {
           font-size: 25px;
           font-weight: 600;
-          margin-top: 12px;
+          margin-top: 8px;
         }
       }
 
@@ -53,6 +53,7 @@
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          line-height: 1.2;
         }
         .pool-id {
           margin-top: 10px;

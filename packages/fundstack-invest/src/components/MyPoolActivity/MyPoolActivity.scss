@@ -34,13 +34,8 @@
     .activity-list {
       margin-top: 25px;
       .activity {
-        margin: 15px 0px;
-        background: $color-light;
-        padding: 15px;
-        border-radius: 10px;
-        &:hover {
-          background: $color-light;
-        }
+        border-bottom: 1px solid $color-light;
+        padding: 15px 0px;
         img {
           float: left;
           margin-right: 10px;

@@ -12,6 +12,8 @@ import {showConnectWallet} from "../../redux/actions/connectWallet";
 import {formatNumWithDecimals} from "@algodesk/core";
 import {CheckCircle, Cancel} from "@material-ui/icons";
 import InfoIcon from '@material-ui/icons/Info';
+import fSdk from "../../utils/fSdk";
+import algoLogo from '../../assets/images/algo-logo.png';
 
 const BorderLinearProgress = withStyles((theme) => ({
     root: {
@@ -80,6 +82,14 @@ function PoolStatus(): JSX.Element {
                       <div className="item key">Remaining</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
                       <div className="item value">{formatNumWithDecimals(remainingAllocation, pool.asset.params.decimals)} {pool.asset.params["unit-name"]}</div>
+                  </div>
+                  <div className="items">
+                      <div className="item key">Raised</div>
+                      <div className="item" style={{textAlign: "center"}}>:</div>
+                      <div className="item value">
+                          {formatNumWithDecimals(fSdk.fs.getTotalAmountRaised(pool), 6)}
+                          <img src={algoLogo} alt="Algo" className="algo-logo"/>
+                      </div>
                   </div>
               </div>
               <div className="user-actions">

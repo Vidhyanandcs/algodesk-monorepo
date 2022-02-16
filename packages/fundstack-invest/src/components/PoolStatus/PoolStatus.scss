@@ -5,6 +5,11 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.4);
     padding: 30px;
+    .algo-logo {
+      display: inline-block;
+      margin-left: 5px;
+      width: 16px;
+    }
     .not-connected-message {
       color: $color-grey-dark;
       margin-top: 25px;

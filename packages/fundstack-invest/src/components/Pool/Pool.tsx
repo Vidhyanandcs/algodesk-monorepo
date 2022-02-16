@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadPool} from "../../redux/actions/pool";
 import {RootState} from "../../redux/store";
-import {Grid, Tooltip} from "@material-ui/core";
+import {Grid, Link, Tooltip} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {ellipseAddress} from "@algodesk/core";
 import PoolStatus from "../PoolStatus/PoolStatus";
@@ -14,7 +14,7 @@ import fSdk from "../../utils/fSdk";
 import RegistrationTile from "../RegistrationTile/RegistrationTile";
 import InvestmentsTile from "../InvestmentsTile/InvestmentsTile";
 import ClaimsTile from "../ClaimsTile/ClaimsTile";
-import {CachedRounded} from "@material-ui/icons";
+import {ArrowBack, CachedRounded} from "@material-ui/icons";
 import WithdrawTile from "../WithdrawTile/WithdrawTile";
 import MyPoolActivity from "../MyPoolActivity/MyPoolActivity";
 import {Alert} from "@material-ui/lab";
@@ -60,6 +60,9 @@ function Pool(): JSX.Element {
                                     <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
                                         <div className="pool-header">
                                             <div className="pool-name">
+                                                <Link underline="hover" color="inherit" href="#/portal/home">
+                                                    <ArrowBack fontSize={"medium"}></ArrowBack>
+                                                </Link>
                                                 {pool.globalState[globalStateKeys.name]}
                                             </div>
                                             <div className="items">
