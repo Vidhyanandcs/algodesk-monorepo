@@ -21,9 +21,10 @@ import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
 import { DateTimePicker } from "@material-ui/pickers";
-import {create} from "../../redux/actions/pool";
+import {create, setAction} from "../../redux/actions/pool";
 import {F_CompanyDetails, F_CreatePool} from "@fundstack/sdk";
 import {handleException} from "../../redux/actions/exception";
+import CreateAsset from "../CreateAsset/CreateAsset";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -196,6 +197,15 @@ function CreatePool(): JSX.Element {
 
                             <div className={classes.primaryText + " section-title"}>
                                 <span>Asset information</span>
+                                <Button
+                                    variant={"contained"}
+                                    size={"small"}
+                                    color={"primary"}
+                                    style={{position: "absolute", right: 0, top: -8}}
+                                    onClick={() => {
+                                        dispatch(setAction('create_asset'));
+                                    }}
+                                >Create asset</Button>
                             </div>
 
                             <Grid container spacing={2}>
@@ -472,8 +482,6 @@ function CreatePool(): JSX.Element {
                                             company
                                         }));
 
-                                        console.log(response);
-
                                         // @ts-ignore
                                         if (response.payload) {
                                             history.push('/portal/dashboard/pools/home');
@@ -493,7 +501,7 @@ function CreatePool(): JSX.Element {
             </div>
 
 
-
+        <CreateAsset></CreateAsset>
 
 
         </div>

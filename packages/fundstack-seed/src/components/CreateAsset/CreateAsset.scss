@@ -1,0 +1,27 @@
+@import '../../assets/colors';
+
+
+.create-asset-wrapper {
+  .create-asset-container {
+    padding: 0px 20px;
+    margin-top: -25px;
+
+    .address-field {
+      font-size: 15px;
+    }
+
+    .heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+    .enable-switch {
+      float: right;
+    }
+    .custom-tooltip {
+      margin-top: -10px;
+      float: right;
+    }
+  }
+}
