@@ -17,6 +17,7 @@ export type F_PoolGlobalState = {
     v: number
     p: number
     c: string
+    o: string
     cat: number
     n: string
     aid: number
@@ -57,7 +58,7 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
         const {value} = gStateProp;
 
         if (value.type == 1) {
-            if (key == globalStateKeys.creator || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
+            if (key == globalStateKeys.creator || key == globalStateKeys.owner || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else if (key == globalStateKeys.company_details) {
@@ -128,8 +129,8 @@ export class Pool {
         };
     }
 
-    getCreator(): string {
-        return this.globalState[globalStateKeys.creator];
+    getOwner(): string {
+        return this.globalState[globalStateKeys.owner];
     }
 
     getEscrow(): string {

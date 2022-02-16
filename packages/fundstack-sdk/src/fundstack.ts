@@ -161,7 +161,7 @@ export class Fundstack {
         const poolApp = await this.algodesk.applicationClient.get(poolId);
         const pool = new Pool(poolApp, this.network);
 
-        const creator = pool.getCreator();
+        const owner = pool.getOwner();
         const escrow = pool.getEscrow();
         const assetId = pool.getAssetId();
         const totalAllocation = pool.getTotalAllocation();
@@ -170,28 +170,28 @@ export class Fundstack {
         const assetDetails = await this.getAsset(assetId);
         const micros = Math.pow(10, assetDetails.params.decimals);
 
-        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, platformEscrow, microalgosToAlgos(pool.getPlatformPublishFee()));
+        const platformPaymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(owner, platformEscrow, microalgosToAlgos(pool.getPlatformPublishFee()));
         const platformAppTxnParams: A_InvokeApplicationParams = {
             appId: <number>platform.getId(),
-            from: creator,
+            from: owner,
             foreignApps: [poolId],
             foreignAssets: [assetId],
             appArgs: [PLATFORM_OPERATIONS.VALIDATE_POOL]
         };
         const platformAppCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(platformAppTxnParams);
 
-        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(creator, escrow, microalgosToAlgos(pool.getPoolEscrowMinTopUp()));
+        const paymentTxn = await this.algodesk.paymentClient.preparePaymentTxn(owner, escrow, microalgosToAlgos(pool.getPoolEscrowMinTopUp()));
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: poolId,
-            from: creator,
+            from: owner,
             foreignAssets: [assetId],
             appArgs: [POOL_OPERATIONS.PUBLISH]
         };
         const appCallTxn = await this.algodesk.applicationClient.prepareInvokeTxn(appTxnParams);
 
         const params: A_TransferAssetParams = {
-            from: creator,
+            from: owner,
             to: escrow,
             assetId,
             amount: totalAllocation / micros
@@ -297,11 +297,11 @@ export class Fundstack {
         const pool = new Pool(poolApp, this.network);
 
         const assetId = pool.getAssetId();
-        const creator = pool.getCreator();
+        const owner = pool.getOwner();
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: poolId,
-            from: creator,
+            from: owner,
             foreignAssets: [assetId],
             appArgs: [POOL_OPERATIONS.OWNER_CLAIM, unsoldAssetAction],
             foreignApps: [this.platformAppId],
@@ -317,11 +317,11 @@ export class Fundstack {
         const pool = new Pool(poolApp, this.network);
 
         const assetId = pool.getAssetId();
-        const creator = pool.getCreator();
+        const owner = pool.getOwner();
 
         const appTxnParams: A_InvokeApplicationParams = {
             appId: poolId,
-            from: creator,
+            from: owner,
             foreignAssets: [assetId],
             appArgs: [POOL_OPERATIONS.OWNER_WITHDRAW]
         };
@@ -519,10 +519,10 @@ export class Fundstack {
         const poolApp = await this.algodesk.applicationClient.get(poolId);
         const pool = new Pool(poolApp, this.network);
 
-        const creator = pool.getCreator();
+        const owner = pool.getOwner();
         const params: A_DeleteApplicationParams = {
             appId: poolId,
-            from: creator
+            from: owner
         };
 
         const deleteTxn = await this.algodesk.applicationClient.delete(params);

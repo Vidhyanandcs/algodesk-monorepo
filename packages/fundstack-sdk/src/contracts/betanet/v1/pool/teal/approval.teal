@@ -53,7 +53,7 @@ int 0
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -117,7 +117,7 @@ int 1
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -572,7 +572,7 @@ app_global_get
 ==
 assert
 gtxn 2 Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -594,7 +594,7 @@ app_global_get
 ==
 assert
 gtxn 4 Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -621,7 +621,7 @@ app_global_get
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -812,6 +812,9 @@ byte "p"
 int 0
 app_global_put
 byte "c"
+txn Sender
+app_global_put
+byte "o"
 txn Sender
 app_global_put
 byte "cat"

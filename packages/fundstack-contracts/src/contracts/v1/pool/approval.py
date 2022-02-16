@@ -7,7 +7,7 @@ import src.contracts.v1.platform.state.global_state as platformGlobalState
 
 
 
-def deployPool(platformAppId):
+def createPool(platformAppId):
     txnArgs = Txn.application_args
     currentRound = Global.round()
 
@@ -18,6 +18,7 @@ def deployPool(platformAppId):
     version = Int(1)
     published = Int(0)
     creator = Txn.sender()
+    owner = creator
     createdAt = currentRound
 
     name = txnArgs[0]
@@ -109,6 +110,7 @@ def deployPool(platformAppId):
         App.globalPut(globalState.version, version),
         App.globalPut(globalState.published, published),
         App.globalPut(globalState.creator, creator),
+        App.globalPut(globalState.owner, owner),
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.name, name),
         App.globalPut(globalState.company_details, companyDetails),
@@ -163,7 +165,7 @@ def publish(platformAppId):
     platformPoolEscrowMinTopUp = App.globalGet(globalState.platform_pool_escrow_min_top_up)
 
     paymentAssertions = [
-        Assert(paymentTxn.sender() == App.globalGet(globalState.creator)),
+        Assert(paymentTxn.sender() == App.globalGet(globalState.owner)),
         Assert(paymentTxn.sender() == Txn.sender()),
         Assert(paymentTxn.type_enum() == TxnType.Payment),
         Assert(paymentTxn.receiver() == Global.current_application_address()),
@@ -175,7 +177,7 @@ def publish(platformAppId):
     totalAllocation = App.globalGet(globalState.total_allocation)
 
     assetXferAssertions = [
-        Assert(assetXferTxn.sender() == App.globalGet(globalState.creator)),
+        Assert(assetXferTxn.sender() == App.globalGet(globalState.owner)),
         Assert(assetXferTxn.sender() == Txn.sender()),
         Assert(assetXferTxn.type_enum() == TxnType.AssetTransfer),
         Assert(assetXferTxn.asset_receiver() == Global.current_application_address()),
@@ -184,7 +186,7 @@ def publish(platformAppId):
     ]
 
     applicationAssertions = [
-        Assert(Txn.sender() == App.globalGet(globalState.creator)),
+        Assert(Txn.sender() == App.globalGet(globalState.owner)),
         Assert(currentRound < App.globalGet(globalState.reg_starts_at)),
         Assert(App.globalGet(globalState.published) == Int(0))
     ]
@@ -481,7 +483,7 @@ def ownerClaim():
         Assert(currentRound > App.globalGet(globalState.claim_after)),
         Assert(App.globalGet(globalState.published) == Int(1)),
         Assert(App.globalGet(globalState.target_reached) == Int(1)),
-        Assert(Txn.sender() == App.globalGet(globalState.creator)),
+        Assert(Txn.sender() == App.globalGet(globalState.owner)),
         Assert(App.globalGet(globalState.amount_claimed) == Int(0))
     ]
 
@@ -590,7 +592,7 @@ def ownerWithdraw():
     applicationAssertions = [
         Assert(currentRound > App.globalGet(globalState.claim_after)),
         Assert(App.globalGet(globalState.target_reached) == Int(0)),
-        Assert(Txn.sender() == App.globalGet(globalState.creator)),
+        Assert(Txn.sender() == App.globalGet(globalState.owner)),
         Assert(App.globalGet(globalState.assets_withdrawn) == Int(0)),
     ]
 
@@ -620,7 +622,7 @@ def ownerWithdraw():
 
 def approvalProgram(platformAppId):
     program = Cond(
-        [isCreate(), deployPool(platformAppId)],
+        [isCreate(), createPool(platformAppId)],
         [isUpdate(), Return(allowOperation())],
         [isDelete(), deletePool()],
         [isOptIn(), register()],

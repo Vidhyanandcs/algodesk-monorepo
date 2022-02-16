@@ -2,6 +2,7 @@ export enum globalStateKeys {
     version = "v",
     published = "p",
     creator = "c",
+    owner = "o",
     created_at = "cat",
     name = "n",
     asset_id = "aid",

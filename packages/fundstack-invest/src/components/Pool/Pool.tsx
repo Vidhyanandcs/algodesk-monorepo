@@ -82,10 +82,10 @@ function Pool(): JSX.Element {
 
                                                 </div>
                                                 <div className="item">
-                                                    <div className="pool-creator" onClick={() => {
-                                                        fSdk.explorer.openAccount(pool.globalState[globalStateKeys.creator]);
+                                                    <div className="pool-owner" onClick={() => {
+                                                        fSdk.explorer.openAccount(pool.globalState[globalStateKeys.owner]);
                                                     }}>
-                                                        <span>Owner: </span> {ellipseAddress(pool.globalState[globalStateKeys.creator], 10)}
+                                                        <span>Owner: </span> {ellipseAddress(pool.globalState[globalStateKeys.owner], 10)}
                                                     </div>
                                                 </div>
                                             </div>
