@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import fSdk from "../../utils/fSdk";
-import {F_AccountActivity, F_CompanyDetails, Pool, F_CreatePool} from "@fundstack/sdk";
+import {F_AccountActivity, Pool, F_CreatePool} from "@fundstack/sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
@@ -52,18 +52,15 @@ export const loadPool = createAsyncThunk(
 
 export const create = createAsyncThunk(
     'pool/create',
-    async (data: any, thunkAPI) => {
+    async (poolParams: F_CreatePool, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             const appState: any = getState();
             const {account} = appState;
             const {address} = account.information;
 
-            const poolParams: F_CreatePool = data.poolParams;
-            const company: F_CompanyDetails = data.company;
-
             dispatch(showLoader("Deploying ..."));
-            const {txId} = await fSdk.fs.createPool(poolParams, company);
+            const {txId} = await fSdk.fs.createPool(poolParams);
             dispatch(hideLoader());
 
             dispatch(showLoader("Waiting for confirmation ..."));

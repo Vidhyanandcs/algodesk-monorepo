@@ -13,18 +13,20 @@ import {
 import 'date-fns';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {A_Asset, getBlockByDate} from "@algodesk/core";
+import {A_Asset, getBlockByDate, uploadToIpfs} from "@algodesk/core";
 import React, {useState} from "react";
 import fSdk from "../../utils/fSdk";
-import {ArrowBack, DateRange} from "@material-ui/icons";
+import {ArrowBack, CancelOutlined, DateRange, PhotoSizeSelectActual} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
 import { DateTimePicker } from "@material-ui/pickers";
 import {create, setAction} from "../../redux/actions/pool";
-import {F_CompanyDetails, F_CreatePool} from "@fundstack/sdk";
+import {F_CreatePool, F_PoolMetaData} from "@fundstack/sdk";
 import {handleException} from "../../redux/actions/exception";
 import CreateAsset from "../CreateAsset/CreateAsset";
+import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
+
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -48,7 +50,9 @@ interface CreatePoolState{
     regStartsAt: Date,
     regEndsAt: Date,
     saleStartsAt: Date,
-    saleEndsAt: Date
+    saleEndsAt: Date,
+    file?: File,
+    fileData?: string,
 }
 
 const day = 60 * 60 * 24 * 1000;
@@ -80,7 +84,7 @@ function CreatePool(): JSX.Element {
     const createdAssets = fSdk.fs.algodesk.accountClient.getCreatedAssets(account.information);
 
     const [
-        { name, website, tokenomics, github, twitter, whitePaper, assetId, assetDetails, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt },
+        { name, website, tokenomics, github, twitter, whitePaper, assetId, assetDetails, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt, file, fileData },
         setState
     ] = useState(initialState);
 
@@ -109,6 +113,51 @@ function CreatePool(): JSX.Element {
                             </div>
 
                             <Grid container spacing={2}>
+
+                                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                    <div className="file-upload-wrapper">
+                                        <div className="file-upload-container">
+                                            {file ? <div className="file-content">
+                                                <img src={fileData} alt="File content"/>
+                                                <IconButton className="remove" style={{color: '#000'}} onClick={() => {
+                                                    setState(prevState => ({...prevState, fileData: '', file: undefined}));
+                                                }}>
+                                                    <CancelOutlined />
+                                                </IconButton>
+                                            </div> : <Button
+                                                className="upload-button"
+                                                color={"primary"}
+                                                variant="outlined"
+                                                startIcon={<PhotoSizeSelectActual></PhotoSizeSelectActual>}
+                                                component="label">
+                                                Choose File
+                                                <input
+                                                    type="file"
+                                                    hidden
+                                                    multiple={false}
+                                                    onChange={(ev) =>{
+                                                        const file = ev.target.files[0];
+                                                        setState(prevState => ({...prevState, file}));
+
+                                                        const reader = new FileReader();
+                                                        reader.addEventListener("load", function () {
+                                                            setState(prevState => ({...prevState, fileData: reader.result.toString()}));
+                                                        }, false);
+
+                                                        if (file) {
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    }
+                                                    }
+                                                />
+                                            </Button>}
+                                        </div>
+                                    </div>
+                                </Grid>
+
+
+                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}></Grid>
+
                                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                     <TextField
                                         name="name"
@@ -444,8 +493,28 @@ function CreatePool(): JSX.Element {
                                     className={"custom-button"}
                                     onClick={async () => {
                                         let currentRound: number;
+                                        let logoCid = '';
+                                        let metadataCid = '';
 
                                         try {
+                                            dispatch(showLoader('Uploading metadata to ipfs ...'));
+                                            logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
+                                            dispatch(hideLoader());
+
+                                            const metadata: F_PoolMetaData = {
+                                                github,
+                                                tokenomics,
+                                                twitter,
+                                                website,
+                                                whitePaper,
+                                                logoCid
+                                            };
+
+                                            const metadataBlob = new Blob([JSON.stringify(metadata)], { type: "application/json" })
+                                            const metadataFile = new File([metadataBlob], "metadata.json")
+                                            dispatch(showLoader('Uploading metadata to ipfs ...'));
+                                            metadataCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, metadataFile);
+
                                             dispatch(showLoader("Checking network status ..."));
                                             currentRound = await fSdk.fs.algodesk.transactionClient.getCurrentRound();
                                             dispatch(hideLoader());
@@ -467,20 +536,11 @@ function CreatePool(): JSX.Element {
                                             regEndsAt: getBlockByDate(regEndsAt, currentRound),
                                             saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
                                             saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
-                                            totalAllocation
-                                        };
-                                        const company: F_CompanyDetails = {
-                                            github,
-                                            tokenomics,
-                                            twitter,
-                                            website,
-                                            whitePaper
+                                            totalAllocation,
+                                            metadataCid
                                         };
 
-                                        const response = await dispatch(create({
-                                            poolParams,
-                                            company
-                                        }));
+                                        const response = await dispatch(create(poolParams));
 
                                         // @ts-ignore
                                         if (response.payload) {

@@ -39,7 +39,7 @@ function getLink(url): JSX.Element {
 function AssetDetailsTile(): JSX.Element {
     const poolDetails = useSelector((state: RootState) => state.pool);
     const {pool} = poolDetails;
-    const {asset, company} = pool;
+    const {asset, metadata} = pool;
     const {params} = asset;
     const {decimals} = params;
     const classes = useStyles();
@@ -140,23 +140,23 @@ function AssetDetailsTile(): JSX.Element {
                   {tab === 'company_information' ? <div className="tab-content">
                       <div className="pair">
                           <div className="key">Website</div>
-                          <div className="value">{getLink(company.website)}</div>
+                          <div className="value">{getLink(metadata.website)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Whitepaper</div>
-                          <div className="value">{getLink(company.whitePaper)}</div>
+                          <div className="value">{getLink(metadata.whitePaper)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Tokenomics</div>
-                          <div className="value">{getLink(company.tokenomics)}</div>
+                          <div className="value">{getLink(metadata.tokenomics)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Github</div>
-                          <div className="value">{getLink(company.github)}</div>
+                          <div className="value">{getLink(metadata.github)}</div>
                       </div>
                       <div className="pair">
                           <div className="key">Twitter</div>
-                          <div className="value">{getLink(company.twitter)}</div>
+                          <div className="value">{getLink(metadata.twitter)}</div>
                       </div>
                   </div> : ''}
               </div>

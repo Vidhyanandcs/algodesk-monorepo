@@ -24,7 +24,7 @@ def createPool(platformAppId):
     name = txnArgs[0]
     assetId = Btoi(txnArgs[1])
 
-    companyDetails = Txn.tx_id()
+    creationTxnId = Txn.tx_id()
     regStartsAt = Btoi(txnArgs[2])
     regEndsAt = Btoi(txnArgs[3])
 
@@ -38,6 +38,8 @@ def createPool(platformAppId):
     maxAllocation = Btoi(txnArgs[8])
 
     price = Btoi(txnArgs[9])
+    metadata = txnArgs[10]
+
     noOfRegistrations = Int(0)
     noOfInvestors = Int(0)
     noOfClaims = Int(0)
@@ -91,6 +93,7 @@ def createPool(platformAppId):
 
     deploymentAssertions = [
         Assert(name != Bytes("")),
+        Assert(metadata != Bytes("")),
 
         Assert(regStartsAt > createdAt),
         Assert(regEndsAt > regStartsAt),
@@ -113,7 +116,8 @@ def createPool(platformAppId):
         App.globalPut(globalState.owner, owner),
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.name, name),
-        App.globalPut(globalState.company_details, companyDetails),
+        App.globalPut(globalState.metadata, metadata),
+        App.globalPut(globalState.creation_txn_id, creationTxnId),
         App.globalPut(globalState.asset_id, assetId),
         App.globalPut(globalState.reg_starts_at, regStartsAt),
         App.globalPut(globalState.reg_ends_at, regEndsAt),
