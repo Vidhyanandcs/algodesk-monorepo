@@ -55,10 +55,6 @@ export class Platform {
         return this.id;
     }
 
-    getCreator(): string {
-        return this.globalState[platformGlobalStateKeys.creator];
-    }
-
     getEscrow(): string {
         return this.globalState[platformGlobalStateKeys.escrow];
     }

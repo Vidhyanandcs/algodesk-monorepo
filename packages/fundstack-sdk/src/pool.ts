@@ -2,7 +2,7 @@ import {globalStateKeys} from "./state/pool";
 import * as sdk from "algosdk";
 import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Application} from "@algodesk/core";
 import atob from 'atob';
-import {F_CompanyDetails, F_PoolStatus} from "./types";
+import {F_PoolMetaData, F_PoolStatus} from "./types";
 import {getContracts} from "./contracts";
 
 export type F_PoolLocalState = {
@@ -17,8 +17,10 @@ export type F_PoolGlobalState = {
     v: number
     p: number
     c: string
+    o: string
     cat: number
     n: string
+    md: string
     aid: number
     rsat: number
     reat: number
@@ -35,7 +37,7 @@ export type F_PoolGlobalState = {
     noc: number
     e: string
     ac: number
-    cd: string
+    cti: string
     tr: number
     aw: number
     rac: number
@@ -57,10 +59,10 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
         const {value} = gStateProp;
 
         if (value.type == 1) {
-            if (key == globalStateKeys.creator || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
+            if (key == globalStateKeys.creator || key == globalStateKeys.owner || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
-            else if (key == globalStateKeys.company_details) {
+            else if (key == globalStateKeys.creation_txn_id) {
                 globalState[key] = encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else {
@@ -101,7 +103,7 @@ export class Pool {
     status: F_PoolStatus;
     asset: A_Asset;
     escrow: A_AccountInformation;
-    company: F_CompanyDetails;
+    metadata: F_PoolMetaData;
     valid: boolean
     error: {
         message: string
@@ -128,8 +130,8 @@ export class Pool {
         };
     }
 
-    getCreator(): string {
-        return this.globalState[globalStateKeys.creator];
+    getOwner(): string {
+        return this.globalState[globalStateKeys.owner];
     }
 
     getEscrow(): string {
@@ -144,8 +146,8 @@ export class Pool {
         return this.globalState[globalStateKeys.total_allocation];
     }
 
-    getCompanyDetailsTxId(): string {
-        return this.globalState[globalStateKeys.company_details];
+    getMetaDataCId(): string {
+        return this.globalState[globalStateKeys.metadata];
     }
 
     getRegStart(): number {
@@ -209,8 +211,8 @@ export class Pool {
         this.escrow = escrow;
     }
 
-    updateCompanyDetails(company: F_CompanyDetails) {
-        this.company = company;
+    updateMetaDataDetails(metadata: F_PoolMetaData) {
+        this.metadata = metadata;
     }
 
     isPublished(): boolean {

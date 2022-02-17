@@ -11,7 +11,8 @@ export interface F_CreatePool {
     totalAllocation: number,
     minAllocation: number,
     maxAllocation: number,
-    price: number
+    price: number,
+    metadataCid: string
 }
 
 export type F_PhaseDetails = {
@@ -34,12 +35,13 @@ export type F_PoolStatus = {
     published: boolean
 }
 
-export type F_CompanyDetails =  {
+export type F_PoolMetaData =  {
     website: string,
     whitePaper: string,
     twitter: string,
     github: string,
-    tokenomics?: string
+    tokenomics?: string,
+    logoCid: string
 }
 
 export interface F_AccountActivity extends A_SearchTransaction {

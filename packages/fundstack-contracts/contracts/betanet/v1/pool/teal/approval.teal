@@ -53,7 +53,7 @@ int 0
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -117,7 +117,7 @@ int 1
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -572,7 +572,7 @@ app_global_get
 ==
 assert
 gtxn 2 Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -594,7 +594,7 @@ app_global_get
 ==
 assert
 gtxn 4 Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -621,7 +621,7 @@ app_global_get
 ==
 assert
 txn Sender
-byte "c"
+byte "o"
 app_global_get
 ==
 assert
@@ -760,6 +760,10 @@ txna ApplicationArgs 0
 byte ""
 !=
 assert
+txna ApplicationArgs 10
+byte ""
+!=
+assert
 txna ApplicationArgs 2
 btoi
 global Round
@@ -814,13 +818,19 @@ app_global_put
 byte "c"
 txn Sender
 app_global_put
+byte "o"
+txn Sender
+app_global_put
 byte "cat"
 global Round
 app_global_put
 byte "n"
 txna ApplicationArgs 0
 app_global_put
-byte "cd"
+byte "md"
+txna ApplicationArgs 10
+app_global_put
+byte "cti"
 txn TxID
 app_global_put
 byte "aid"
