@@ -87,7 +87,7 @@ function PoolStatus(): JSX.Element {
                       <div className="item key">Raised</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
                       <div className="item value">
-                          {formatNumWithDecimals(fSdk.fs.getTotalAmountRaised(pool), 6)}
+                          {fSdk.fs.getTotalAmountRaised(pool)}
                           <img src={algoLogo} alt="Algo" className="algo-logo"/>
                       </div>
                   </div>

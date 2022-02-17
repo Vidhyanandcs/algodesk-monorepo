@@ -44,7 +44,8 @@ function Header(): JSX.Element {
                         </div>
                         <div className="item">
                             <Link href={"#portal/home"} className={"menu-link " + classes.primaryColorOnHover}>Home</Link>
-                            <Link href="https://docs.fundstack.io" className={"menu-link " + classes.primaryColorOnHover} target="_blank">Docs</Link>
+                            {account.loggedIn ? <Link href={"#portal/investments"} className={"menu-link " + classes.primaryColorOnHover}>My investments</Link> : ''}
+
 
 
                             {!account.loggedIn ? <Button variant={"outlined"}
