@@ -633,6 +633,15 @@ export class Fundstack {
         return pools;
     }
 
+    async getInvestedPools(apiBaseUrl: string, address: string): Promise<F_DB_POOL[]> {
+        const response = await axios({
+            method: 'get',
+            url: apiBaseUrl + '/v1/account/' + address + '/pools'
+        });
+
+        return response.data;
+    }
+
     hasRegistered(accountInfo: A_AccountInformation, poolId: number): boolean {
         return this.algodesk.applicationClient.hasOpted(accountInfo, poolId);
     }

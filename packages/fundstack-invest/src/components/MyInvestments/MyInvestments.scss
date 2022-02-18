@@ -1,0 +1,70 @@
+@import '../../assets/colors';
+
+.my-investments-wrapper {
+  .my-investments-container {
+    .pools-header {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .pools {
+      margin-top: 60px;
+      .pools-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        .list-title {
+          font-size: 25px;
+          font-weight: 600;
+          margin-top: 8px;
+        }
+      }
+
+      .empty-pools {
+        text-align: center;
+        margin-top: 100px;
+      }
+
+      .pool {
+        border-radius: 10px;
+        border: 1px solid $color-grey-light;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        position: relative;
+        .pool-status {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .pool-name {
+          font-size: 20px;
+          font-weight: 600;
+          width: 80%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          line-height: 1.2;
+        }
+        .pool-id {
+          margin-top: 10px;
+          font-size: 16px;
+          color: $color-grey-dark;
+        }
+        .footer {
+          margin-top: 50px;
+          .detail {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            img {
+              display: inline-block;
+              width: 16px;
+              margin-left: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

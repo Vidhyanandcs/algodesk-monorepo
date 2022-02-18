@@ -177,7 +177,7 @@ function CreateAsset(): JSX.Element {
             clearState();
             dispatch(setAction(''));
             dispatch(loadAccount(information.address));
-            dispatch(showSuccessModal(txId));
+            dispatch(showSuccessModal('Asset created successfully'));
         }
         catch (e: any) {
             dispatch(handleException(e));
