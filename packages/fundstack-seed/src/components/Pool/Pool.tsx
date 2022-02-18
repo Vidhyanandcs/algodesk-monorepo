@@ -21,6 +21,7 @@ import PublishPool from "../PublishPool/PublishPool";
 import WithdrawAssets from "../WithdrawAssets/WithdrawAssets";
 import ClaimAmount from "../ClaimAmount/ClaimAmount";
 import {REACT_APP_INVESTOR_PORTAL} from "../../env";
+import DeletePool from "../DeletePool/DeletePool";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -100,6 +101,18 @@ function Pool(): JSX.Element {
 
                                   </section>
                                   <section style={{marginRight: 50}}>
+
+                                      {!pool.globalState[globalStateKeys.published] ? <Button
+                                          color={"secondary"}
+                                          variant={"outlined"}
+                                          size={"large"}
+                                          className="custom-button"
+                                          style={{marginRight: 15}}
+                                          onClick={() => {
+                                              dispatch(setAction('delete'));
+                                          }}
+                                      >Delete</Button> : ''}
+
                                       {!pool.globalState[globalStateKeys.published] ? <Button
                                           color={"primary"}
                                           variant={"contained"}
@@ -177,7 +190,8 @@ function Pool(): JSX.Element {
 
             <PublishPool></PublishPool>
             <WithdrawAssets></WithdrawAssets>
-              <ClaimAmount></ClaimAmount>
+            <ClaimAmount></ClaimAmount>
+            <DeletePool></DeletePool>
           </div>
       </div>
   );
