@@ -3,5 +3,14 @@
     border-radius: 10px;
     background: #F6FBF8;
     padding: 30px;
+    .timeline {
+      margin-left: -250px;
+      .MuiTimelineDot-root {
+        box-shadow: none !important;
+      }
+      .MuiTimelineContent-root {
+        margin-top: 10px;
+      }
+    }
   }
 }

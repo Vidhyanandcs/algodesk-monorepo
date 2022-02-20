@@ -55,15 +55,16 @@ function AssetDetailsTile(): JSX.Element {
               <div className="data">
                   <Tabs
                       value={tab}
-                      TabIndicatorProps={{style: {background: '#666'}}}
+                      variant={"fullWidth"}
+                      TabIndicatorProps={{style: {background: 'rgba(243,237,179,255)'}}}
                       className="tabs"
                         onChange={(event, newValue) => {
                             setState(prevState => ({ ...prevState, tab: newValue }));
                         }}
                       >
-                      <Tab label="Pool information" value="pool_information" className={classes.tabLabel}/>
-                      <Tab label="Asset information" value="asset_information" className={classes.tabLabel}/>
-                      <Tab label="Company information" value="company_information" className={classes.tabLabel}/>
+                      <Tab label="Pool details" value="pool_information" className={classes.tabLabel}/>
+                      <Tab label="Asset details" value="asset_information" className={classes.tabLabel}/>
+                      <Tab label="Company details" value="company_information" className={classes.tabLabel}/>
                   </Tabs>
                   {tab === 'pool_information' ? <div className="tab-content">
                       <div className="pair">

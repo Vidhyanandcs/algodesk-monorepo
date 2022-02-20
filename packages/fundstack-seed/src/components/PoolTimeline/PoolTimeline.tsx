@@ -8,7 +8,10 @@ import {
     TimelineSeparator
 } from "@material-ui/lab";
 
-import {CheckCircle} from '@material-ui/icons';
+import {
+    Check,
+    QueryBuilder
+} from '@material-ui/icons';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 
@@ -24,47 +27,47 @@ function PoolTimeline(): JSX.Element {
 
 
               <div className='timeline'>
-                  <Timeline align={"alternate"}>
+                  <Timeline align={"left"}>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle>
+                              <TimelineDot color={"primary"}>
+                                  <Check fontSize={"small"}></Check>
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
-                          <TimelineContent>Deploy</TimelineContent>
+                          <TimelineContent>Create pool</TimelineContent>
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status.published ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && status.published ? "primary" : 'grey'}>
+                                  {status && status.published ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector/>
                           </TimelineSeparator>
-                          <TimelineContent>Publish</TimelineContent>
+                          <TimelineContent>Publish pool</TimelineContent>
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && !status.registration.pending ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && !status.registration.pending ? "primary" : 'grey'}>
+                                  {status && !status.registration.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
-                          <TimelineContent>Reg start</TimelineContent>
+                          <TimelineContent>Registration start</TimelineContent>
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && status.registration.completed ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && status.registration.completed ? "primary" : 'grey'}>
+                                  {status && status.registration.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
-                          <TimelineContent>Reg end</TimelineContent>
+                          <TimelineContent>Registration end</TimelineContent>
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && !status.sale.pending ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && !status.sale.pending ? "primary" : 'grey'}>
+                                  {status && !status.sale.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -72,8 +75,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && status.sale.completed ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && status.sale.completed ? "primary" : 'grey'}>
+                                  {status && status.sale.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -82,8 +85,8 @@ function PoolTimeline(): JSX.Element {
 
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && !status.claim.pending ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot color={status && !status.claim.pending ? "primary" : 'grey'}>
+                                  {status && !status.claim.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -91,8 +94,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot variant={"outlined"}>
-                                  {status && status.claim.completed ? <CheckCircle color={"primary"} fontSize={"small"}></CheckCircle> : ''}
+                              <TimelineDot  color={status && status.claim.completed ? "primary" : 'grey'}>
+                                  {status && status.claim.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                           </TimelineSeparator>
                           <TimelineContent>Complete</TimelineContent>

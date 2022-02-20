@@ -4,6 +4,7 @@ import {RootState} from "../../redux/store";
 import React from "react";
 import fSdk from "../../utils/fSdk";
 import algoLogo from "../../assets/images/algo-logo.png";
+import {microalgosToAlgos} from "algosdk";
 
 function PoolEscrow(): JSX.Element {
     const poolDetails = useSelector((state: RootState) => state.pool);
@@ -24,15 +25,15 @@ function PoolEscrow(): JSX.Element {
                 </div>
               <div className="data">
                   <div className="items">
-                      <div className="item key">Amount raised</div>
+                      <div className="item key">Algo balance</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
                       <div className="item value">
-                          {fSdk.fs.getTotalAmountRaised(pool)}
+                          {microalgosToAlgos(pool.escrow.amount)}
                           <img src={algoLogo} alt="Algo"/>
                       </div>
                   </div>
                   <div className="items">
-                      <div className="item key">Asset ({pool.asset.params.name})</div>
+                      <div className="item key">Asset balance ({pool.asset.params.name})</div>
                       <div className="item" style={{textAlign: "center"}}>:</div>
                       <div className="item value">{fSdk.fs.algodesk.accountClient.getAssetBalWithTicker(pool.asset, pool.escrow)}</div>
                   </div>

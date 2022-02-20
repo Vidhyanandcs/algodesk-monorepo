@@ -5,10 +5,9 @@ import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
 import {loadPool, setAction} from "../../redux/actions/pool";
 import {Alert} from "@material-ui/lab";
-import {Button, Grid, Link, makeStyles, Tooltip} from "@material-ui/core";
+import {Button, Grid, Link, Tooltip} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import loadingLogo from '../../assets/images/logo-loading.gif';
-import {getCommonStyles} from "../../utils/styles";
 import fSdk from "../../utils/fSdk";
 import PoolStatus from "../PoolStatus/PoolStatus";
 import PoolEscrow from "../PoolEscrow/PoolEscrow";
@@ -23,22 +22,12 @@ import ClaimAmount from "../ClaimAmount/ClaimAmount";
 import {REACT_APP_INVESTOR_PORTAL} from "../../env";
 import DeletePool from "../DeletePool/DeletePool";
 
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme),
-        customDialog: {
-            position: "absolute",
-            top: 100
-        }
-    };
-});
 
 function Pool(): JSX.Element {
     const params = useParams();
     const dispatch = useDispatch();
     const poolDetails = useSelector((state: RootState) => state.pool);
     const {pool} = poolDetails;
-    const classes = useStyles();
 
     // @ts-ignore
     const id: number = params.id;
@@ -68,8 +57,8 @@ function Pool(): JSX.Element {
                           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                               <div className="pool-header">
                                   <section>
-                                      <div className={classes.primaryText + " pool-name"}>
-                                          <Link underline="hover" color="inherit" href="#/portal/dashboard/pools/home">
+                                      <div className={"pool-name"}>
+                                          <Link underline="hover" href="#/portal/dashboard/pools/home">
                                               <ArrowBack fontSize={"medium"}></ArrowBack>
                                           </Link>
 
@@ -82,18 +71,21 @@ function Pool(): JSX.Element {
                                           }>
                                               ID: {pool.id}
                                           </div>
+
+
                                           <Tooltip title="Refresh">
                                               <div className="reload" onClick={() => {
                                                   dispatch(loadPool(id));
                                               }}>
-                                                  <CachedRounded></CachedRounded>
+                                                  <CachedRounded fontSize={"small"}></CachedRounded>
                                               </div>
                                           </Tooltip>
+
                                           {pool.status.published ? <Tooltip title="Open in investor portal">
                                               <div className="open" onClick={() => {
                                                   window.open(REACT_APP_INVESTOR_PORTAL + '/#/portal/pool/' + pool.id, '_blank');
                                               }}>
-                                                  <Launch></Launch>
+                                                  <Launch fontSize={"small"}></Launch>
                                               </div>
                                           </Tooltip> : ''}
 

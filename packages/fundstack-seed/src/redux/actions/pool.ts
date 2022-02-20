@@ -59,7 +59,7 @@ export const create = createAsyncThunk(
             const {account} = appState;
             const {address} = account.information;
 
-            dispatch(showLoader("Deploying ..."));
+            dispatch(showLoader("Creating pool ..."));
             const {txId} = await fSdk.fs.createPool(poolParams);
             dispatch(hideLoader());
 
@@ -67,7 +67,7 @@ export const create = createAsyncThunk(
             await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
 
-            dispatch(showSuccessModal("Deployment successful"));
+            dispatch(showSuccessModal("Pool created successfully"));
             dispatch(loadAccount(address));
 
             return txId;
