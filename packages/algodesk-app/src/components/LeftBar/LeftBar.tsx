@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle,
     Grid,
-    IconButton, Link,
+    IconButton,
     makeStyles,
     Tooltip
 } from "@material-ui/core";
@@ -16,7 +16,14 @@ import React, {useState} from "react";
 import {microalgosToAlgos} from "algosdk";
 import algoLogo from "../../assets/images/algo-logo.png";
 import {logout} from "../../redux/actions/account";
-import {CancelOutlined, CompareArrows, CropFree, FileCopyOutlined, Launch, PowerSettingsNew} from "@material-ui/icons";
+import {
+    CancelOutlined,
+    CropFree,
+    FileCopyOutlined,
+    Launch,
+    PowerSettingsNew,
+    Repeat
+} from "@material-ui/icons";
 import copy from "copy-to-clipboard";
 import {getCommonStyles} from "../../utils/styles";
 import {RootState} from "../../redux/store";
@@ -98,6 +105,13 @@ function LeftBar(): JSX.Element {
                                       <CropFree fontSize={"small"}></CropFree>
                               </span>
                           </Tooltip>
+                          <Tooltip title="Switch wallet">
+                              <span className={'action ' + classes.primaryColorOnHover + ' ' + classes.primaryBorderOnHover} onClick={(ev) => {
+                                  dispatch(showConnectWallet());
+                              }}>
+                                      <Repeat fontSize={"small"}></Repeat>
+                              </span>
+                          </Tooltip>
                       </div>
                       <Button variant={"text"}
                               color={"primary"}
@@ -115,23 +129,8 @@ function LeftBar(): JSX.Element {
                   </div>
               </div>
 
-              <div className="menu-list">
-                  <Link href="https://developer.algorand.org/docs/get-details/asa/" color={"textPrimary"} target={"_blank"}>What is an Asset ?</Link>
-              </div>
-
               <div className="footer">
 
-
-                  <Button variant={"text"}
-                          color={"primary"}
-                          size={"large"}
-                          fullWidth
-                          className="custom-button"
-                          startIcon={<CompareArrows></CompareArrows>}
-                          onClick={() => {
-                              dispatch(showConnectWallet());
-                          }}
-                  >Switch wallet</Button>
                   <Button variant={"text"}
                           color={"secondary"}
                           size={"large"}

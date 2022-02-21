@@ -106,8 +106,8 @@ function Dashboard(): JSX.Element {
                               }
 
                           }}
-                          style={{alignItems: "flex-start"}}
-                          TabIndicatorProps={{style: {background:'#000'}}}
+                          indicatorColor={"primary"}
+                          textColor={"primary"}
                       >
                           <Tab value="created-assets" label="Created assets" className={classes.tabLabel}/>
                           <Tab value="opted-assets" label="Opted assets" className={classes.tabLabel}/>

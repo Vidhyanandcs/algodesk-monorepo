@@ -120,7 +120,7 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="footer">
                                     <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        By connecting, I accept Fundstack Terms of Service
+                                        By connecting, I accept Algodesk Terms of Service
                                     </Typography>
                                 </div>
                             </div>
