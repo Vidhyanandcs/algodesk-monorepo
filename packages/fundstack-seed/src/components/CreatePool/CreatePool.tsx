@@ -13,7 +13,7 @@ import {
 import 'date-fns';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {A_Asset, getBlockByDate, uploadToIpfs} from "@algodesk/core";
+import {A_Asset, getBlockByDate, isNumber, uploadToIpfs} from "@algodesk/core";
 import React, {useState} from "react";
 import fSdk from "../../utils/fSdk";
 import {ArrowBack, CancelOutlined, DateRange, PhotoSizeSelectActual} from "@material-ui/icons";
@@ -26,6 +26,9 @@ import {F_CreatePool, F_PoolMetaData} from "@fundstack/sdk";
 import {handleException} from "../../redux/actions/exception";
 import CreateAsset from "../CreateAsset/CreateAsset";
 import {REACT_APP_NFT_STORAGE_API_KEY} from "../../env";
+import {showSnack} from "../../redux/actions/snackbar";
+import isEmpty from 'is-empty';
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => {
@@ -43,10 +46,10 @@ interface CreatePoolState{
     tokenomics: string,
     assetId: number,
     assetDetails?: A_Asset,
-    totalAllocation: number,
-    minAllocation: number,
-    maxAllocation: number,
-    price: number,
+    totalAllocation: string,
+    minAllocation: string,
+    maxAllocation: string,
+    price: string,
     regStartsAt: Date,
     regEndsAt: Date,
     saleStartsAt: Date,
@@ -66,10 +69,10 @@ const initialState: CreatePoolState = {
     twitter: "http://google.com",
     tokenomics: "http://google.com",
     assetId: 0,
-    totalAllocation: 1000,
-    minAllocation: 100,
-    maxAllocation: 600,
-    price: 0.001,
+    totalAllocation: '1000',
+    minAllocation: '100',
+    maxAllocation: '600',
+    price: '0.001',
     regStartsAt: new Date(new Date().getTime() + 1 * day),
     regEndsAt: new Date(new Date().getTime() + 2 * day),
     saleStartsAt: new Date(new Date().getTime() + 3 * day),
@@ -114,7 +117,79 @@ function CreatePool(): JSX.Element {
 
                             <Grid container spacing={2}>
 
-                                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+
+
+
+                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="name"
+                                            required
+                                            fullWidth
+                                            label="Name"
+                                            variant={"outlined"}
+                                            autoFocus
+                                            value={name}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, name: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="website"
+                                            required
+                                            fullWidth
+                                            label="Website"
+                                            placeholder="https://mycompany.com"
+                                            variant={"outlined"}
+                                            value={website}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, website: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="white_paper"
+                                            required
+                                            fullWidth
+                                            label="White paper"
+                                            placeholder="https://mycompany.com/white_paper.html"
+                                            variant={"outlined"}
+                                            value={whitePaper}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, whitePaper: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="github"
+                                            required
+                                            fullWidth
+                                            label="Github"
+                                            placeholder="https://github.com/mycompany"
+                                            variant={"outlined"}
+                                            value={github}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, github: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
+
+
+
+
+
+
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                     <div className="file-upload-wrapper">
                                         <div className="file-upload-container">
                                             {file ? <div className="file-content">
@@ -130,7 +205,7 @@ function CreatePool(): JSX.Element {
                                                 variant="outlined"
                                                 startIcon={<PhotoSizeSelectActual></PhotoSizeSelectActual>}
                                                 component="label">
-                                                Choose File
+                                                Choose logo
                                                 <input
                                                     type="file"
                                                     hidden
@@ -156,64 +231,6 @@ function CreatePool(): JSX.Element {
                                 </Grid>
 
 
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}></Grid>
-
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="name"
-                                        required
-                                        fullWidth
-                                        label="Name"
-                                        variant={"outlined"}
-                                        autoFocus
-                                        value={name}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, name: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="website"
-                                        required
-                                        fullWidth
-                                        label="Website"
-                                        placeholder="https://mycompany.com"
-                                        variant={"outlined"}
-                                        value={website}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, website: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="white_paper"
-                                        required
-                                        fullWidth
-                                        label="White paper"
-                                        placeholder="https://mycompany.com/white_paper.html"
-                                        variant={"outlined"}
-                                        value={whitePaper}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, whitePaper: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="github"
-                                        required
-                                        fullWidth
-                                        label="Github"
-                                        placeholder="https://github.com/mycompany"
-                                        variant={"outlined"}
-                                        value={github}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, github: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
                                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                                     <TextField
                                         name="tokenomics"
@@ -294,14 +311,14 @@ function CreatePool(): JSX.Element {
                                         fullWidth
                                         label="Price"
                                         variant={"outlined"}
+                                        type={"number"}
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start">1 &nbsp; {assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""} &nbsp; = </InputAdornment>,
                                             endAdornment: <InputAdornment position="end" color="primary">Algo</InputAdornment>,
                                         }}
                                         value={price}
                                         onChange={(ev) => {
-                                            const price = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, price}));
+                                            setState(prevState => ({...prevState, price: ev.target.value + ""}));
                                         }}
                                     />
                                 </Grid>
@@ -318,8 +335,7 @@ function CreatePool(): JSX.Element {
                                         }}
                                         value={totalAllocation}
                                         onChange={(ev) => {
-                                            const totalAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, totalAllocation}));
+                                            setState(prevState => ({...prevState, totalAllocation: ev.target.value + ""}));
                                         }}
                                     />
                                 </Grid>
@@ -330,13 +346,13 @@ function CreatePool(): JSX.Element {
                                         fullWidth
                                         label="Minimum allocation"
                                         variant={"outlined"}
+                                        type={"number"}
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
                                         }}
                                         value={minAllocation}
                                         onChange={(ev) => {
-                                            const minAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, minAllocation}));
+                                            setState(prevState => ({...prevState, minAllocation: ev.target.value + ""}));
                                         }}
                                     />
                                 </Grid>
@@ -347,13 +363,13 @@ function CreatePool(): JSX.Element {
                                         fullWidth
                                         label="Max allocation"
                                         variant={"outlined"}
+                                        type={"number"}
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
                                         }}
                                         value={maxAllocation}
                                         onChange={(ev) => {
-                                            const maxAllocation = parseInt(ev.target.value + "");
-                                            setState(prevState => ({...prevState, maxAllocation}));
+                                            setState(prevState => ({...prevState, maxAllocation: ev.target.value + ""}));
                                         }}
                                     />
                                 </Grid>
@@ -495,6 +511,61 @@ function CreatePool(): JSX.Element {
                                         let currentRound: number;
                                         let logoCid = '';
                                         let metadataCid = '';
+                                        let message = '';
+
+                                        if (!file) {
+                                            message = 'Invalid logo';
+                                        }
+                                        else if (isEmpty(name)) {
+                                            message = 'Invalid name';
+                                        }
+                                        else if (isEmpty(assetId)) {
+                                            message = 'Invalid asset';
+                                        }
+                                        else if (isEmpty(totalAllocation)) {
+                                            message = 'Invalid totalAllocation';
+                                        }
+                                        else if (isEmpty(minAllocation)) {
+                                            message = 'Invalid minAllocation';
+                                        }
+                                        else if (isEmpty(maxAllocation)) {
+                                            message = 'Invalid maxAllocation';
+                                        }
+                                        else if (isEmpty(price) || !isNumber(price)) {
+                                            message = 'Invalid price';
+                                        }
+                                        else if (moment(regStartsAt) < moment()) {
+                                            message = 'Registration start date cannot be in the past';
+                                        }
+                                        else if (moment(regStartsAt) < moment()) {
+                                            message = 'Registration start date cannot be in the past';
+                                        }
+                                        else if (moment(regEndsAt) < moment()) {
+                                            message = 'Registration end date cannot be in the past';
+                                        }
+                                        else if (moment(saleStartsAt) < moment()) {
+                                            message = 'Sale start date cannot be in the past';
+                                        }
+                                        else if (moment(saleEndsAt) < moment()) {
+                                            message = 'Sale end date cannot be in the past';
+                                        }
+                                        else if (moment(regEndsAt) < moment(regStartsAt)) {
+                                            message = 'Registration end date should be greater that registration start date';
+                                        }
+                                        else if (moment(saleStartsAt) < moment(regEndsAt)) {
+                                            message = 'Sale start date should be greater that registration end date';
+                                        }
+                                        else if (moment(saleEndsAt) < moment(saleStartsAt)) {
+                                            message = 'Sale end date should be greater that sale start date';
+                                        }
+
+                                        if (message) {
+                                            dispatch(showSnack({
+                                                severity: 'error',
+                                                message
+                                            }));
+                                            return;
+                                        }
 
                                         try {
                                             dispatch(showLoader('Uploading metadata to ipfs ...'));
@@ -514,6 +585,7 @@ function CreatePool(): JSX.Element {
                                             const metadataFile = new File([metadataBlob], "metadata.json")
                                             dispatch(showLoader('Uploading metadata to ipfs ...'));
                                             metadataCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, metadataFile);
+                                            dispatch(hideLoader());
 
                                             dispatch(showLoader("Checking network status ..."));
                                             currentRound = await fSdk.fs.algodesk.transactionClient.getCurrentRound();
@@ -528,15 +600,15 @@ function CreatePool(): JSX.Element {
                                         const poolParams: F_CreatePool = {
                                             assetId,
                                             from: account.information.address,
-                                            maxAllocation,
-                                            minAllocation,
+                                            maxAllocation: Number(maxAllocation),
+                                            minAllocation: Number(minAllocation),
                                             name,
-                                            price,
+                                            price: Number(price),
                                             regStartsAt: getBlockByDate(regStartsAt, currentRound),
                                             regEndsAt: getBlockByDate(regEndsAt, currentRound),
                                             saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
                                             saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
-                                            totalAllocation,
+                                            totalAllocation: Number(totalAllocation),
                                             metadataCid
                                         };
 

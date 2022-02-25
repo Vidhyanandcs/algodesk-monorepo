@@ -83,19 +83,19 @@ export class Fundstack {
         if (isEmpty(metadataCid)) {
             throw Error('Invalid metadataCid');
         }
-        if (isEmpty(assetId) || !isNumber(assetId)) {
+        if (isEmpty(assetId)) {
             throw Error('Invalid asset');
         }
-        if (isEmpty(totalAllocation) || !isNumber(totalAllocation) || totalAllocation <= 0) {
+        if (isEmpty(totalAllocation)) {
             throw Error('Invalid totalAllocation');
         }
-        if (isEmpty(minAllocation) || !isNumber(minAllocation) || minAllocation <= 0) {
+        if (isEmpty(minAllocation)) {
             throw Error('Invalid minAllocation');
         }
-        if (isEmpty(maxAllocation) || !isNumber(maxAllocation) || maxAllocation <= 0) {
+        if (isEmpty(maxAllocation)) {
             throw Error('Invalid maxAllocation');
         }
-        if (isEmpty(price) || !isNumber(price)) {
+        if (isEmpty(price)) {
             throw Error('Invalid price');
         }
         if (regStartsAt < 0) {
@@ -134,7 +134,7 @@ export class Fundstack {
         const decimals = assetParams.params.decimals;
         const assetMicros = Math.pow(10, decimals);
 
-        const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation * assetMicros, params.minAllocation * assetMicros, params.maxAllocation * assetMicros, algosToMicroalgos(params.price)];
+        const ints: any [] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation * assetMicros, params.minAllocation * assetMicros, params.maxAllocation * assetMicros, algosToMicroalgos(params.price)];
         const intsUint = [];
         ints.forEach((item) => {
             intsUint.push(numToUint(parseInt(String(item))));
