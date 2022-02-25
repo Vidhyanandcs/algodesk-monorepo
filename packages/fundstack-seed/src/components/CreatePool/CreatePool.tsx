@@ -603,22 +603,22 @@ function CreatePool(): JSX.Element {
 
                                         try {
                                             dispatch(showLoader('Uploading metadata to ipfs ...'));
-                                            logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
-                                            dispatch(hideLoader());
 
                                             const metadata: F_PoolMetaData = {
                                                 github,
                                                 tokenomics,
                                                 twitter,
                                                 website,
-                                                whitePaper,
-                                                logoCid
+                                                whitePaper
                                             };
 
                                             const metadataBlob = new Blob([JSON.stringify(metadata)], { type: "application/json" })
                                             const metadataFile = new File([metadataBlob], "metadata.json")
-                                            dispatch(showLoader('Uploading metadata to ipfs ...'));
-                                            metadataCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, metadataFile);
+
+                                            const [logoCid1, metadataCid1] = await Promise.all([uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file), uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, metadataFile)]);
+                                            logoCid = logoCid1;
+                                            metadataCid = metadataCid1;
+
                                             dispatch(hideLoader());
 
                                             dispatch(showLoader("Checking network status ..."));
@@ -643,7 +643,8 @@ function CreatePool(): JSX.Element {
                                             saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
                                             saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
                                             totalAllocation: Number(totalAllocation),
-                                            metadataCid
+                                            metadataCid,
+                                            logoCid
                                         };
 
                                         const response = await dispatch(create(poolParams));

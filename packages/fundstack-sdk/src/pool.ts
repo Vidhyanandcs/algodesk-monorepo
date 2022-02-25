@@ -21,6 +21,7 @@ export type F_PoolGlobalState = {
     cat: number
     n: string
     md: string
+    l: string
     aid: number
     rsat: number
     reat: number

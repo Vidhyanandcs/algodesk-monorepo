@@ -39,6 +39,7 @@ def createPool(platformAppId):
 
     price = Btoi(txnArgs[9])
     metadata = txnArgs[10]
+    logo = txnArgs[11]
 
     noOfRegistrations = Int(0)
     noOfInvestors = Int(0)
@@ -94,6 +95,7 @@ def createPool(platformAppId):
     deploymentAssertions = [
         Assert(name != Bytes("")),
         Assert(metadata != Bytes("")),
+        Assert(logo != Bytes("")),
 
         Assert(regStartsAt > createdAt),
         Assert(regEndsAt > regStartsAt),
@@ -117,6 +119,7 @@ def createPool(platformAppId):
         App.globalPut(globalState.created_at, createdAt),
         App.globalPut(globalState.name, name),
         App.globalPut(globalState.metadata, metadata),
+        App.globalPut(globalState.logo, logo),
         App.globalPut(globalState.creation_txn_id, creationTxnId),
         App.globalPut(globalState.asset_id, assetId),
         App.globalPut(globalState.reg_starts_at, regStartsAt),

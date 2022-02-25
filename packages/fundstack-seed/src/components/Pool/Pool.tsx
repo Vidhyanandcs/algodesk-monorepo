@@ -62,34 +62,42 @@ function Pool(): JSX.Element {
                                               <ArrowBack fontSize={"medium"}></ArrowBack>
                                           </Link>
 
-                                          {pool.globalState[globalStateKeys.name]}
-                                      </div>
-                                      <div>
-                                          <div className={"pool-id"} onClick={() => {
-                                              fSdk.explorer.openApplication(pool.id);
-                                          }
-                                          }>
-                                              ID: {pool.id}
+                                          <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo"/>
+
+                                          <div style={{display: 'inline-block'}}>
+                                              <div>{pool.globalState[globalStateKeys.name]}</div>
+                                              <div>
+                                                  <div className={"pool-id"} onClick={() => {
+                                                      fSdk.explorer.openApplication(pool.id);
+                                                  }
+                                                  }>
+                                                      ID: {pool.id}
+                                                  </div>
+
+
+                                                  <Tooltip title="Refresh">
+                                                      <div className="reload" onClick={() => {
+                                                          dispatch(loadPool(id));
+                                                      }}>
+                                                          <CachedRounded fontSize={"small"}></CachedRounded>
+                                                      </div>
+                                                  </Tooltip>
+
+                                                  {pool.status.published ? <Tooltip title="Open in investor portal">
+                                                      <div className="open" onClick={() => {
+                                                          window.open(REACT_APP_INVESTOR_PORTAL + '/#/portal/pool/' + pool.id, '_blank');
+                                                      }}>
+                                                          <Launch fontSize={"small"}></Launch>
+                                                      </div>
+                                                  </Tooltip> : ''}
+
+                                              </div>
                                           </div>
 
 
-                                          <Tooltip title="Refresh">
-                                              <div className="reload" onClick={() => {
-                                                  dispatch(loadPool(id));
-                                              }}>
-                                                  <CachedRounded fontSize={"small"}></CachedRounded>
-                                              </div>
-                                          </Tooltip>
-
-                                          {pool.status.published ? <Tooltip title="Open in investor portal">
-                                              <div className="open" onClick={() => {
-                                                  window.open(REACT_APP_INVESTOR_PORTAL + '/#/portal/pool/' + pool.id, '_blank');
-                                              }}>
-                                                  <Launch fontSize={"small"}></Launch>
-                                              </div>
-                                          </Tooltip> : ''}
 
                                       </div>
+
 
                                   </section>
                                   <section style={{marginRight: 50}}>

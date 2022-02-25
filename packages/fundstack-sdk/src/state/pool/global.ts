@@ -6,6 +6,7 @@ export enum globalStateKeys {
     created_at = "cat",
     name = "n",
     metadata = "md",
+    logo = "l",
     asset_id = "aid",
     reg_starts_at = "rsat",
     reg_ends_at = "reat",

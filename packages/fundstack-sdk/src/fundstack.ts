@@ -16,7 +16,7 @@ import {
 import {
     POOL_OPERATIONS,
     POOL_PHASE,
-    PLATFORM_OPERATIONS,
+    PLATFORM_OPERATIONS, IPFS_SERVER,
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
@@ -74,7 +74,8 @@ export class Fundstack {
             regEndsAt,
             saleStartsAt,
             saleEndsAt,
-            metadataCid
+            metadataCid,
+            logoCid
         } = poolParams;
 
         if (isEmpty(name)) {
@@ -82,6 +83,9 @@ export class Fundstack {
         }
         if (isEmpty(metadataCid)) {
             throw Error('Invalid metadataCid');
+        }
+        if (isEmpty(logoCid)) {
+            throw Error('Invalid logoCid');
         }
         if (isEmpty(assetId)) {
             throw Error('Invalid asset');
@@ -140,7 +144,7 @@ export class Fundstack {
             intsUint.push(numToUint(parseInt(String(item))));
         });
 
-        const appArgs = [params.name, ...intsUint, params.metadataCid];
+        const appArgs = [params.name, ...intsUint, params.metadataCid, params.logoCid];
 
         const poolParams: A_CreateApplicationParams = {
             from: params.from,
@@ -357,7 +361,7 @@ export class Fundstack {
     }
 
     async getMetaData(metaDataCId: string): Promise<F_PoolMetaData> {
-        const url = 'https://ipfs.io/ipfs/' + metaDataCId;
+        const url = this.getIpfsLink(metaDataCId);
         const response = await axios.get(url);
         return response.data as F_PoolMetaData;
     }
@@ -745,5 +749,9 @@ export class Fundstack {
 
     isTargetReached(pool: Pool): boolean {
         return pool.globalState[globalStateKeys.target_reached] === 1;
+    }
+
+    getIpfsLink(cid: string): string {
+        return IPFS_SERVER + cid;
     }
 }

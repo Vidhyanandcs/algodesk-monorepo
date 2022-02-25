@@ -764,6 +764,10 @@ txna ApplicationArgs 10
 byte ""
 !=
 assert
+txna ApplicationArgs 11
+byte ""
+!=
+assert
 txna ApplicationArgs 2
 btoi
 global Round
@@ -829,6 +833,9 @@ txna ApplicationArgs 0
 app_global_put
 byte "md"
 txna ApplicationArgs 10
+app_global_put
+byte "l"
+txna ApplicationArgs 11
 app_global_put
 byte "cti"
 txn TxID
