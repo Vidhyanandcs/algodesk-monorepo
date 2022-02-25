@@ -62,17 +62,17 @@ const day = 60 * 60 * 24 * 1000;
 const minute = 60 * 1000;
 
 const initialState: CreatePoolState = {
-    name: "google",
-    website: "http://google.com",
-    whitePaper: "http://google.com",
-    github: "http://google.com",
-    twitter: "http://google.com",
-    tokenomics: "http://google.com",
+    name: "",
+    website: "",
+    whitePaper: "",
+    github: "",
+    twitter: "",
+    tokenomics: "",
     assetId: 0,
-    totalAllocation: '1000',
-    minAllocation: '100',
-    maxAllocation: '600',
-    price: '0.001',
+    totalAllocation: '',
+    minAllocation: '',
+    maxAllocation: '',
+    price: '',
     regStartsAt: new Date(new Date().getTime() + 1 * day),
     regEndsAt: new Date(new Date().getTime() + 2 * day),
     saleStartsAt: new Date(new Date().getTime() + 3 * day),
@@ -129,6 +129,10 @@ function CreatePool(): JSX.Element {
                                             label="Name"
                                             variant={"outlined"}
                                             autoFocus
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            placeholder="Company name"
                                             value={name}
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, name: ev.target.value}));
@@ -142,6 +146,9 @@ function CreatePool(): JSX.Element {
                                             required
                                             fullWidth
                                             label="Website"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
                                             placeholder="https://mycompany.com"
                                             variant={"outlined"}
                                             value={website}
@@ -157,7 +164,10 @@ function CreatePool(): JSX.Element {
                                             required
                                             fullWidth
                                             label="White paper"
-                                            placeholder="https://mycompany.com/white_paper.html"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            placeholder="https://mycompany.com/white-paper.html"
                                             variant={"outlined"}
                                             value={whitePaper}
                                             onChange={(ev) => {
@@ -172,6 +182,9 @@ function CreatePool(): JSX.Element {
                                             required
                                             fullWidth
                                             label="Github"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
                                             placeholder="https://github.com/mycompany"
                                             variant={"outlined"}
                                             value={github}
@@ -181,6 +194,41 @@ function CreatePool(): JSX.Element {
                                         />
                                     </div>
 
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="tokenomics"
+                                            required
+                                            fullWidth
+                                            label="Tokenomics"
+                                            placeholder="https://mycompany.com/tokenomics.html"
+                                            variant={"outlined"}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={tokenomics}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, tokenomics: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="com-detail-sec">
+                                        <TextField
+                                            name="twitter"
+                                            required
+                                            fullWidth
+                                            label="Twitter"
+                                            placeholder="https://twitter.com/mycompany"
+                                            variant={"outlined"}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={twitter}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, twitter: ev.target.value}));
+                                            }}
+                                        />
+                                    </div>
 
 
 
@@ -231,34 +279,7 @@ function CreatePool(): JSX.Element {
                                 </Grid>
 
 
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="tokenomics"
-                                        required
-                                        fullWidth
-                                        label="Tokenomics"
-                                        placeholder="https://mycompany.com/tokenomics.html"
-                                        variant={"outlined"}
-                                        value={tokenomics}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, tokenomics: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                    <TextField
-                                        name="twitter"
-                                        required
-                                        fullWidth
-                                        label="Twitter"
-                                        placeholder="https://twitter.com/mycompany"
-                                        variant={"outlined"}
-                                        value={twitter}
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, twitter: ev.target.value}));
-                                        }}
-                                    />
-                                </Grid>
+
                             </Grid>
 
                             <div className={classes.primaryText + " section-title"}>
@@ -312,6 +333,7 @@ function CreatePool(): JSX.Element {
                                         label="Price"
                                         variant={"outlined"}
                                         type={"number"}
+                                        placeholder="0.1"
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start">1 &nbsp; {assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""} &nbsp; = </InputAdornment>,
                                             endAdornment: <InputAdornment position="end" color="primary">Algo</InputAdornment>,
@@ -330,6 +352,10 @@ function CreatePool(): JSX.Element {
                                         label="Total allocation"
                                         variant={"outlined"}
                                         type={"number"}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        placeholder="1000000"
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
                                         }}
@@ -347,6 +373,10 @@ function CreatePool(): JSX.Element {
                                         label="Minimum allocation"
                                         variant={"outlined"}
                                         type={"number"}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        placeholder="100000"
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
                                         }}
@@ -364,6 +394,10 @@ function CreatePool(): JSX.Element {
                                         label="Max allocation"
                                         variant={"outlined"}
                                         type={"number"}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        placeholder="200000"
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end" color="primary">{assetDetails ? <span className={classes.primaryText}>{assetDetails.params['unit-name']}</span> : ""}</InputAdornment>,
                                         }}
