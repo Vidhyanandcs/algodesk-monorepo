@@ -41,6 +41,13 @@
         padding: 20px;
         background: #F6FBF8;
         position: relative;
+        img {
+          width: 60px;
+          border-radius: 10px;
+          display: inline;
+          vertical-align: text-bottom;
+          margin-right: 10px;
+        }
         .pool-status {
           position: absolute;
           top: 20px;
@@ -56,17 +63,19 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           min-height: 23px;
-        }
-        .pool-id {
-          margin-top: 10px;
-          font-size: 16px;
-          color: $color-grey-dark;
           display: inline-block;
-          &:hover {
-            cursor: pointer;
-            text-decoration: underline;
+          .pool-id {
+            margin-top: 10px;
+            font-size: 16px;
+            color: $color-grey-dark;
+            display: inline-block;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
         }
+
         .footer {
           margin-top: 50px;
           .detail {

@@ -22,15 +22,19 @@
         justify-content: space-between;
         margin-bottom: 30px;
         .list-title {
-          font-size: 25px;
+          font-size: 22px;
           font-weight: 600;
           margin-top: 8px;
+          font-family: MontserratBold !important;
         }
       }
 
       .empty-pools {
         text-align: center;
-        margin-top: 100px;
+        margin-top: 50px;
+        font-size: 19px;
+        font-weight: normal;
+        color: $color-grey-dark;
       }
 
       .pool {
@@ -39,6 +43,13 @@
         padding: 20px;
         background: rgba(255, 255, 255, 0.8);
         position: relative;
+        img.logo {
+          width: 60px;
+          border-radius: 10px;
+          display: inline;
+          vertical-align: text-bottom;
+          margin-right: 10px;
+        }
         .pool-status {
           position: absolute;
           top: 20px;
@@ -54,12 +65,14 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           line-height: 1.2;
+          display: inline-block;
+          .pool-id {
+            margin-top: 5px;
+            font-size: 16px;
+            color: $color-grey-dark;
+          }
         }
-        .pool-id {
-          margin-top: 10px;
-          font-size: 16px;
-          color: $color-grey-dark;
-        }
+
         .footer {
           margin-top: 50px;
           .detail {

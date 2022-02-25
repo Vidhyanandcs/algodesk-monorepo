@@ -12,7 +12,8 @@ export interface F_CreatePool {
     minAllocation: number,
     maxAllocation: number,
     price: number,
-    metadataCid: string
+    metadataCid: string,
+    logoCid: string
 }
 
 export type F_PhaseDetails = {
@@ -40,8 +41,7 @@ export type F_PoolMetaData =  {
     whitePaper: string,
     twitter: string,
     github: string,
-    tokenomics?: string,
-    logoCid: string
+    tokenomics?: string
 }
 
 export interface F_AccountActivity extends A_SearchTransaction {
@@ -60,5 +60,6 @@ export type F_DB_POOL =  {
     active: boolean,
     platform_app_id: number,
     approval_program: string,
-    clear_program: string
+    clear_program: string,
+    logo_cid: string
 }

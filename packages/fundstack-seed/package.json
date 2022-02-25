@@ -30,7 +30,9 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.1.6",
     "reset-css": "^5.0.1",
-    "typewriter-effect": "^2.18.2"
+    "typewriter-effect": "^2.18.2",
+    "is-empty": "^1.2.0",
+    "moment": "^2.29.1"
   },
   "scripts": {
     "start": "node_modules/.bin/react-scripts start",

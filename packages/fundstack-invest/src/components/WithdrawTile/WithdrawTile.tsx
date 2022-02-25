@@ -2,13 +2,19 @@ import './WithdrawTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip, Grid} from "@material-ui/core";
+import {Chip, Grid, makeStyles} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {useParams} from "react-router-dom";
 import {setWithdraw} from "../../redux/actions/pool";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import {getCommonStyles} from "../../utils/styles";
 
+const useStyles = makeStyles((theme) => {
+    return {
+        ...getCommonStyles(theme)
+    };
+});
 
 function WithdrawTile(): JSX.Element {
     const poolDetails = useSelector((state: RootState) => state.pool);
@@ -16,6 +22,7 @@ function WithdrawTile(): JSX.Element {
     const {pool} = poolDetails;
     const {status} = pool;
     const {withdraw} = status;
+    const classes = useStyles();
 
     const dispatch = useDispatch();
 
@@ -56,7 +63,7 @@ function WithdrawTile(): JSX.Element {
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                             {withdraw.completed ? <div className="lock">
                                 <div className="locker">
-                                    <LockOutlinedIcon className="lock-icon"></LockOutlinedIcon>
+                                    <LockOutlinedIcon className={"lock-icon " + classes.secondaryBorder} color={"secondary"}></LockOutlinedIcon>
                                 </div>
                                 <div className="lock-label">
                                     Closed

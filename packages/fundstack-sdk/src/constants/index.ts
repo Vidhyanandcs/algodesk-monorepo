@@ -22,3 +22,5 @@ export enum POOL_OPERATIONS {
 export enum PLATFORM_OPERATIONS {
     VALIDATE_POOL = 'validate_pool'
 }
+
+export const IPFS_SERVER = 'https://ipfs.io/ipfs/';

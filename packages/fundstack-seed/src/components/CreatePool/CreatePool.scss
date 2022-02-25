@@ -11,6 +11,9 @@
     }
     .form-container {
       margin-top: 25px;
+      .com-detail-sec {
+        margin-bottom: 25px;
+      }
       .section-title {
         margin-bottom: 25px;
         margin-top: 25px;
@@ -35,7 +38,6 @@
 
     .file-upload-wrapper {
       .file-upload-container {
-        border: 1px solid $color-grey-light;
         min-height: 310px;
         border-radius: 10px;
         text-align: center;

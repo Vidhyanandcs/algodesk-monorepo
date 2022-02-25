@@ -33,21 +33,32 @@
           font-size: 24px;
           font-weight: 700;
           display: inline-block;
+          img {
+            width: 60px;
+            border-radius: 10px;
+            display: inline;
+            vertical-align: text-bottom;
+            margin-right: 10px;
+          }
           svg {
             margin-right: 10px;
             color: $color-dark;
             vertical-align: middle;
           }
-        }
-        .pool-id {
-          margin-left: 35px;
-          margin-top: 5px;
-          display: inline-block;
-          &:hover {
-            cursor: pointer;
-            text-decoration: underline;
+
+          .pool-id {
+            margin-top: 5px;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: normal;
+            color: $color-grey-dark;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
         }
+
       }
     }
     .pool-body {

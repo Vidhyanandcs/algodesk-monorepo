@@ -10,8 +10,8 @@ import ReactPlayer from 'react-player';
 import explainer from '../../assets/images/explainer.m4v';
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
-import {Alert} from "@material-ui/lab";
 import {F_DB_POOL} from "@fundstack/sdk";
+import fSdk from "../../utils/fSdk";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -46,12 +46,18 @@ function Home(): JSX.Element {
     function renderPool(pool: F_DB_POOL) {
         return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
             <div className="pool">
+
+                <img src={fSdk.fs.getIpfsLink(pool.logo_cid)} alt="pool-logo" className="logo"/>
+
                 <div className="pool-name">
-                    {pool.name}
+                    <div>{pool.name}</div>
+
+                    <div className="pool-id">
+                        ID: {pool.app_id}
+                    </div>
+
                 </div>
-                <div className="pool-id">
-                    ID: {pool.app_id}
-                </div>
+
                 <div className="pool-status">
                     <Button variant={"contained"}
                             color={"primary"}
@@ -112,9 +118,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && activeList.length === 0 ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  No active pools
-                              </Alert>
+                              No active pools
                           </div> : ''}
                           <Grid container spacing={2}>
                               {activeList.map((pool) => {
@@ -136,9 +140,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && closedList.length === 0 ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  No closed pools
-                              </Alert>
+                              No closed pools
                           </div> : ''}
                           <Grid container spacing={2}>
                               {closedList.map((pool) => {

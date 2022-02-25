@@ -8,7 +8,6 @@ import {useHistory} from "react-router-dom";
 import {microalgosToAlgos} from "algosdk";
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
-import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -52,15 +51,11 @@ function MyInvestments(): JSX.Element {
                           </div>
 
                           {!accountInfo.loggedIn ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  Connect wallet to view your investments
-                              </Alert>
+                              Connect wallet to view your investments
                           </div> : ''}
 
                           {accountInfo.loggedIn && !investments.loading && pools.length === 0 ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  You don't have any invested pools
-                              </Alert>
+                              You don't have any invested pools
                           </div> : ''}
                           <Grid container spacing={2}>
                               {pools.map((pool) => {

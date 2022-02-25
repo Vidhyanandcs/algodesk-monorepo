@@ -16,7 +16,7 @@ import {
 import {
     POOL_OPERATIONS,
     POOL_PHASE,
-    PLATFORM_OPERATIONS,
+    PLATFORM_OPERATIONS, IPFS_SERVER,
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
@@ -74,7 +74,8 @@ export class Fundstack {
             regEndsAt,
             saleStartsAt,
             saleEndsAt,
-            metadataCid
+            metadataCid,
+            logoCid
         } = poolParams;
 
         if (isEmpty(name)) {
@@ -83,19 +84,22 @@ export class Fundstack {
         if (isEmpty(metadataCid)) {
             throw Error('Invalid metadataCid');
         }
-        if (isEmpty(assetId) || !isNumber(assetId)) {
+        if (isEmpty(logoCid)) {
+            throw Error('Invalid logoCid');
+        }
+        if (isEmpty(assetId)) {
             throw Error('Invalid asset');
         }
-        if (isEmpty(totalAllocation) || !isNumber(totalAllocation) || totalAllocation <= 0) {
+        if (isEmpty(totalAllocation)) {
             throw Error('Invalid totalAllocation');
         }
-        if (isEmpty(minAllocation) || !isNumber(minAllocation) || minAllocation <= 0) {
+        if (isEmpty(minAllocation)) {
             throw Error('Invalid minAllocation');
         }
-        if (isEmpty(maxAllocation) || !isNumber(maxAllocation) || maxAllocation <= 0) {
+        if (isEmpty(maxAllocation)) {
             throw Error('Invalid maxAllocation');
         }
-        if (isEmpty(price) || !isNumber(price)) {
+        if (isEmpty(price)) {
             throw Error('Invalid price');
         }
         if (regStartsAt < 0) {
@@ -134,13 +138,13 @@ export class Fundstack {
         const decimals = assetParams.params.decimals;
         const assetMicros = Math.pow(10, decimals);
 
-        const ints: number[] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation * assetMicros, params.minAllocation * assetMicros, params.maxAllocation * assetMicros, algosToMicroalgos(params.price)];
+        const ints: any [] = [params.assetId, params.regStartsAt, params.regEndsAt, params.saleStartsAt, params.saleEndsAt, params.totalAllocation * assetMicros, params.minAllocation * assetMicros, params.maxAllocation * assetMicros, algosToMicroalgos(params.price)];
         const intsUint = [];
         ints.forEach((item) => {
             intsUint.push(numToUint(parseInt(String(item))));
         });
 
-        const appArgs = [params.name, ...intsUint, params.metadataCid];
+        const appArgs = [params.name, ...intsUint, params.metadataCid, params.logoCid];
 
         const poolParams: A_CreateApplicationParams = {
             from: params.from,
@@ -357,7 +361,7 @@ export class Fundstack {
     }
 
     async getMetaData(metaDataCId: string): Promise<F_PoolMetaData> {
-        const url = 'https://ipfs.io/ipfs/' + metaDataCId;
+        const url = this.getIpfsLink(metaDataCId);
         const response = await axios.get(url);
         return response.data as F_PoolMetaData;
     }
@@ -745,5 +749,9 @@ export class Fundstack {
 
     isTargetReached(pool: Pool): boolean {
         return pool.globalState[globalStateKeys.target_reached] === 1;
+    }
+
+    getIpfsLink(cid: string): string {
+        return IPFS_SERVER + cid;
     }
 }
