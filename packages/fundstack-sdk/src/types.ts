@@ -60,5 +60,6 @@ export type F_DB_POOL =  {
     active: boolean,
     platform_app_id: number,
     approval_program: string,
-    clear_program: string
+    clear_program: string,
+    logo_cid: string
 }

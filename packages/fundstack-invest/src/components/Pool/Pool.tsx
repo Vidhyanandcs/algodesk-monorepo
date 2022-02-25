@@ -64,34 +64,43 @@ function Pool(): JSX.Element {
                                                 <Link underline="hover" color="inherit" href="#/portal/home">
                                                     <ArrowBack fontSize={"medium"}></ArrowBack>
                                                 </Link>
-                                                {/*<img src={"https://ipfs.io/ipfs/" + pool.metadata.logoCid} alt="Pool logo"/>*/}
+                                                <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo" className="logo"/>
 
-                                                {pool.globalState[globalStateKeys.name]}
+                                                <div style={{display: 'inline-block'}}>
+                                                    <div>
+                                                        {pool.globalState[globalStateKeys.name]}
+                                                    </div>
+                                                    <div>
+                                                        <div className="items">
+                                                            <div className="item">
+                                                                <div className="pool-id" onClick={() => {
+                                                                    fSdk.explorer.openApplication(pool.id);
+                                                                }}>
+                                                                    ID: {pool.id}
+                                                                </div>
+                                                                <Tooltip title="Refresh">
+                                                                    <div className="reload" onClick={() => {
+                                                                        dispatch(loadPool(id));
+                                                                    }}>
+                                                                        <CachedRounded style={{color: '#666'}}></CachedRounded>
+                                                                    </div>
+                                                                </Tooltip>
 
-                                                <div className="items">
-                                                    <div className="item">
-                                                        <div className="pool-id" onClick={() => {
-                                                            fSdk.explorer.openApplication(pool.id);
-                                                        }}>
-                                                            ID: {pool.id}
-                                                        </div>
-                                                        <Tooltip title="Refresh">
-                                                            <div className="reload" onClick={() => {
-                                                                dispatch(loadPool(id));
-                                                            }}>
-                                                                <CachedRounded style={{color: '#666'}}></CachedRounded>
                                                             </div>
-                                                        </Tooltip>
-
-                                                    </div>
-                                                    <div className="item">
-                                                        <div className="pool-owner" onClick={() => {
-                                                            fSdk.explorer.openAccount(pool.globalState[globalStateKeys.owner]);
-                                                        }}>
-                                                            <span>Owner: </span> {ellipseAddress(pool.globalState[globalStateKeys.owner], 10)}
+                                                            <div className="item">
+                                                                <div className="pool-owner" onClick={() => {
+                                                                    fSdk.explorer.openAccount(pool.globalState[globalStateKeys.owner]);
+                                                                }}>
+                                                                    <span>Owner: </span> {ellipseAddress(pool.globalState[globalStateKeys.owner], 10)}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
+
+
+
 
                                             </div>
 

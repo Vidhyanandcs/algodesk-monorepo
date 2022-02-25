@@ -19,9 +19,10 @@
       .pool-name {
         font-size: 22px;
         font-weight: 600;
-        img {
-          width: 100px;
+        img.logo {
+          width: 80px;
           border-radius: 10px;
+          display: inline;
           vertical-align: text-bottom;
           margin-right: 10px;
         }
@@ -31,15 +32,13 @@
         }
       }
       .items {
-        margin-top: 5px;
-        display: flex;
-        justify-content: space-between;
+
       }
       .reload {
         display: inline-block;
         margin-left: 15px;
         svg {
-          vertical-align: bottom;
+          vertical-align: middle;
         }
         &:hover {
           cursor: pointer;
@@ -47,6 +46,7 @@
       }
       .pool-id {
         font-size: 16px;
+        margin-top: 10px;
         font-family: MontserratLight !important;
         display: inline-block;
         &:hover {
@@ -56,9 +56,8 @@
       }
       .pool-owner {
         font-size: 15px;
-        span {
-          font-weight: bold;
-        }
+        font-family: MontserratLight !important;
+        margin-top: 5px;
         &:hover {
           cursor: pointer;
           text-decoration: underline;
