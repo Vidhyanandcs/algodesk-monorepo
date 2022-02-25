@@ -10,7 +10,6 @@ import ReactPlayer from 'react-player';
 import explainer from '../../assets/images/explainer.m4v';
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
-import {Alert} from "@material-ui/lab";
 import {F_DB_POOL} from "@fundstack/sdk";
 
 const useStyles = makeStyles((theme) => {
@@ -112,9 +111,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && activeList.length === 0 ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  No active pools
-                              </Alert>
+                              No active pools
                           </div> : ''}
                           <Grid container spacing={2}>
                               {activeList.map((pool) => {
@@ -136,9 +133,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && closedList.length === 0 ? <div className="empty-pools">
-                              <Alert icon={false} style={{borderRadius: 10}}>
-                                  No closed pools
-                              </Alert>
+                              No closed pools
                           </div> : ''}
                           <Grid container spacing={2}>
                               {closedList.map((pool) => {
