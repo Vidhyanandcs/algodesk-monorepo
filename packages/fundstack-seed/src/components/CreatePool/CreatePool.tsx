@@ -14,7 +14,7 @@ import 'date-fns';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {A_Asset, getBlockByDate, isNumber, uploadToIpfs} from "@algodesk/core";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import fSdk from "../../utils/fSdk";
 import {ArrowBack, CancelOutlined, DateRange, PhotoSizeSelectActual} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
@@ -58,7 +58,7 @@ interface CreatePoolState{
     fileData?: string,
 }
 
-const day = 60 * 60 * 24 * 1000;
+//const day = 60 * 60 * 24 * 1000;
 const minute = 60 * 1000;
 
 const initialState: CreatePoolState = {
@@ -73,10 +73,10 @@ const initialState: CreatePoolState = {
     minAllocation: '',
     maxAllocation: '',
     price: '',
-    regStartsAt: new Date(new Date().getTime() + 1 * day),
-    regEndsAt: new Date(new Date().getTime() + 2 * day),
-    saleStartsAt: new Date(new Date().getTime() + 3 * day),
-    saleEndsAt: new Date(new Date().getTime() + 4 * day + minute)
+    regStartsAt: new Date(new Date().getTime() + 5 * minute),
+    regEndsAt: new Date(new Date().getTime() + 10 * minute),
+    saleStartsAt: new Date(new Date().getTime() + 11 * minute),
+    saleEndsAt: new Date(new Date().getTime() + 16 * minute + minute)
 };
 
 function CreatePool(): JSX.Element {
@@ -86,10 +86,21 @@ function CreatePool(): JSX.Element {
     const classes = useStyles();
     const createdAssets = fSdk.fs.algodesk.accountClient.getCreatedAssets(account.information);
 
+
+
     const [
         { name, website, tokenomics, github, twitter, whitePaper, assetId, assetDetails, totalAllocation, minAllocation, maxAllocation, price, regStartsAt, regEndsAt, saleStartsAt, saleEndsAt, file, fileData },
         setState
     ] = useState(initialState);
+
+    useEffect(() => {
+        setState(prevState => ({...prevState,
+            regStartsAt: new Date(new Date().getTime() + 5 * minute),
+            regEndsAt: new Date(new Date().getTime() + 10 * minute),
+            saleStartsAt: new Date(new Date().getTime() + 11 * minute),
+            saleEndsAt: new Date(new Date().getTime() + 16 * minute + minute)
+        }));
+    }, []);
 
 
     return (<div className={"create-pool-wrapper"}>
@@ -253,7 +264,7 @@ function CreatePool(): JSX.Element {
                                                 variant="outlined"
                                                 startIcon={<PhotoSizeSelectActual></PhotoSizeSelectActual>}
                                                 component="label">
-                                                Choose logo
+                                                Upload logo
                                                 <input
                                                     type="file"
                                                     hidden
@@ -284,6 +295,7 @@ function CreatePool(): JSX.Element {
 
                             <div className={classes.primaryText + " section-title"}>
                                 <span>Asset information</span>
+                                <i>Don't have an asset ? </i>
                                 <Button
                                     variant={"contained"}
                                     size={"small"}
@@ -411,7 +423,7 @@ function CreatePool(): JSX.Element {
                             </Grid>
 
                             <div className={classes.primaryText + " section-title"}>
-                                <span>Registration information</span>
+                                <span>Registration & Sale schedule</span>
                             </div>
 
                             <Grid container spacing={2}>

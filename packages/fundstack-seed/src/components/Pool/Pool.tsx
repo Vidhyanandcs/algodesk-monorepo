@@ -155,6 +155,39 @@ function Pool(): JSX.Element {
                                       {!pool.status.published && !pool.status.registration.pending ? <div>
                                           <Alert severity={"error"} style={{borderRadius: 10}}>Pool not published before registration started. We cannot proceed further.</Alert>
                                       </div> : ''}
+
+                                      <div style={{marginTop: 10}}>
+                                          {pool.status.registration.pending ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Registration starts in {pool.status.registration.durationReadable}</Alert>
+                                          </div> : ''}
+                                          {pool.status.published && pool.status.registration.active ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Registration ends in {pool.status.registration.durationReadable}</Alert>
+                                          </div> : ''}
+
+
+                                          {pool.status.published && pool.status.registration.completed && pool.status.sale.pending ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Sale starts in {pool.status.sale.durationReadable}</Alert>
+                                          </div> : ''}
+                                          {pool.status.published && pool.status.registration.completed && pool.status.sale.active ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Sale ends in {pool.status.sale.durationReadable}</Alert>
+                                          </div> : ''}
+
+                                          {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.pending ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Claim starts in {pool.status.claim.durationReadable}</Alert>
+                                          </div> : ''}
+                                          {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.active ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Claim ends in {pool.status.claim.durationReadable}</Alert>
+                                          </div> : ''}
+
+                                          {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.pending ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Withdraw starts in {pool.status.withdraw.durationReadable}</Alert>
+                                          </div> : ''}
+                                          {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.active ? <div>
+                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Withdraw ends in {pool.status.withdraw.durationReadable}</Alert>
+                                          </div> : ''}
+                                      </div>
+
+
                                   </div>
                                   <PoolStrip></PoolStrip>
                                   <div style={{marginTop: 20}}>

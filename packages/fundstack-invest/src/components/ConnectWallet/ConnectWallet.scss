@@ -109,8 +109,9 @@
             border-radius: 10px;
             line-height: 1.4;
             &:hover {
-              box-shadow: 0 0 10px rgb(0 0 0 / 8%);
+              background: linear-gradient(249.61deg, #60DD8B -8.07%, #0BB68C 99.24%);
               cursor: pointer;
+              color: $color-light;
             }
           }
         }
