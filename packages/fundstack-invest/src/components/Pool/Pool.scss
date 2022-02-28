@@ -16,6 +16,7 @@
       }
     }
     .pool-header {
+      position: relative;
       .pool-name {
         font-size: 22px;
         font-weight: 600;
@@ -58,6 +59,9 @@
         font-size: 15px;
         font-family: MontserratLight !important;
         margin-top: 5px;
+        position: absolute;
+        right: 0px;
+        bottom: 5px;
         &:hover {
           cursor: pointer;
           text-decoration: underline;

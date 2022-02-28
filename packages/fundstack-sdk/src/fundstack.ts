@@ -568,15 +568,15 @@ export class Fundstack {
             }
             if (operation === POOL_OPERATIONS.PUBLISH) {
                 isValidOperation = true;
-                activity.label = 'Publish';
+                activity.label = 'Publish pool';
             }
             if (operation === POOL_OPERATIONS.OWNER_WITHDRAW) {
                 isValidOperation = true;
-                activity.label = 'Assets withdraw';
+                activity.label = 'Withdraw assets';
             }
             if (operation === POOL_OPERATIONS.OWNER_CLAIM) {
                 isValidOperation = true;
-                activity.label = 'Claim algos';
+                activity.label = 'Claim amount';
             }
 
             const isRegister = !createdAppId && tx['application-transaction']['on-completion'] === 'optin';

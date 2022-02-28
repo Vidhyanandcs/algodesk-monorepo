@@ -15,11 +15,15 @@
           display: inline-block;
           margin-right: 25px;
           font-size: 18px;
-          color: $color-dark;
           font-weight: normal;
           margin-top: 29px;
+          text-decoration: none;
+          &.active {
+            border-bottom: 2px solid #03B68C;
+          }
           &:hover {
             text-decoration: none;
+            border-bottom: 2px solid #03B68C;
           }
         }
         .logo {
@@ -38,7 +42,6 @@
           .user {
             .logout {
               margin-left: 25px;
-              margin-top: 15px;
               display: inline-block;
               &:hover {
                 cursor: pointer;
@@ -64,7 +67,7 @@
               display: inline-block;
               font-size: 15px;
               font-weight: 600;
-              margin-top: 15px;
+              margin-top: 18px;
               span {
                 &:hover {
                   cursor: pointer;

@@ -14,6 +14,7 @@ import {PowerSettingsNew} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -25,7 +26,20 @@ function Header(): JSX.Element {
     const dispatch = useDispatch();
     const account = useSelector((state: RootState) => state.account);
     const history = useHistory();
+    const location = useLocation();
     const classes = useStyles();
+
+    const homeCls = [classes.primaryColorOnHover];
+    const invCls = [classes.primaryColorOnHover];
+
+    if (location.pathname === '/portal/home') {
+        homeCls.push(classes.primaryText);
+        homeCls.push("active");
+    }
+    else if (location.pathname === '/portal/investments') {
+        invCls.push(classes.primaryText);
+        invCls.push("active");
+    }
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
@@ -43,8 +57,8 @@ function Header(): JSX.Element {
                             </div>
                         </div>
                         <div className="item">
-                            <Link href={"#portal/home"} className={"menu-link " + classes.primaryColorOnHover}>Home</Link>
-                            {account.loggedIn ? <Link href={"#portal/investments"} className={"menu-link " + classes.primaryColorOnHover}>My investments</Link> : ''}
+                            <Link href={"#portal/home"} className={"menu-link " + homeCls.join(" ")} color={"inherit"}>Home</Link>
+                            {account.loggedIn ? <Link href={"#portal/investments"} className={"menu-link " + invCls.join(" ")} color={"inherit"}>My investments</Link> : ''}
 
 
 
@@ -70,6 +84,7 @@ function Header(): JSX.Element {
                                     <Tooltip title="Logout">
                                           <span className="logout" onClick={(ev) => {
                                               dispatch(logout());
+                                              history.push('/portal/home');
                                           }}>
                                                   <PowerSettingsNew fontSize={"small"}></PowerSettingsNew>
                                           </span>

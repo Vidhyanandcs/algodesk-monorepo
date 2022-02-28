@@ -118,7 +118,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && activeList.length === 0 ? <div className="empty-pools">
-                              No active pools
+                              There are no active pools. please check back later
                           </div> : ''}
                           <Grid container spacing={2}>
                               {activeList.map((pool) => {
@@ -140,7 +140,7 @@ function Home(): JSX.Element {
                           </div>
 
                           {!pools.loading && closedList.length === 0 ? <div className="empty-pools">
-                              No closed pools
+                              There are no closed pools. please check back later
                           </div> : ''}
                           <Grid container spacing={2}>
                               {closedList.map((pool) => {
