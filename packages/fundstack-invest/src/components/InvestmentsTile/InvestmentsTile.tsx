@@ -21,7 +21,7 @@ function InvestmentsTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {pool} = poolDetails;
     const {status} = pool;
-    const {sale} = status;
+    const {sale, registration} = status;
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -42,6 +42,7 @@ function InvestmentsTile(): JSX.Element {
                         Investment
                     </div>
                     {pool.status.sale.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {registration.completed && sale.pending ? <Chip label={"Pending"} color={"secondary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
 

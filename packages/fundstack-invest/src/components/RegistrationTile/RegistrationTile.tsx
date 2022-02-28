@@ -41,6 +41,7 @@ function RegistrationTile(): JSX.Element {
                         Registration
                     </div>
                     {registration.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {registration.pending ? <Chip label={"Pending"} color={"secondary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
 

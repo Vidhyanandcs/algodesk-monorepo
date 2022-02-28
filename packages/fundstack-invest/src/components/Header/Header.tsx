@@ -84,7 +84,9 @@ function Header(): JSX.Element {
                                     <Tooltip title="Logout">
                                           <span className="logout" onClick={(ev) => {
                                               dispatch(logout());
-                                              history.push('/portal/home');
+                                              if (location.pathname === '/portal/investments') {
+                                                  history.push('/portal/home');
+                                              }
                                           }}>
                                                   <PowerSettingsNew fontSize={"small"}></PowerSettingsNew>
                                           </span>

@@ -94,27 +94,33 @@ function PoolStatus(): JSX.Element {
               </div>
               <div className="user-actions">
                   {account.loggedIn? <div>
-                      {registration.active ? <Button variant={"contained"}
-                                                     color={"primary"}
-                                                     size={"large"}
-                                                     fullWidth
-                                                     className="custom-button"
-                                                     onClick={() => {
-                                                         if (account.loggedIn) {
-                                                             if (poolDetails.account.registered) {
-                                                                 dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
-                                                             }
-                                                             else {
-                                                                 dispatch(setAction("registration_confirmation"));
-                                                             }
-                                                         }
-                                                         else {
-                                                             dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
-                                                         }
-                                                     }}
+                      {registration.active ?  poolDetails.account.registered ? <div className="account-action-info">
+                          <InfoIcon fontSize={"small"}></InfoIcon>
+                          <div className="text">You have registered</div>
+                      </div> : <Button variant={"contained"}
+                                                                                            color={"primary"}
+                                                                                            size={"large"}
+                                                                                            fullWidth
+                                                                                            className="custom-button"
+                                                                                            onClick={() => {
+                                                                                                if (account.loggedIn) {
+                                                                                                    if (poolDetails.account.registered) {
+                                                                                                        dispatch(showSnack({severity: 'error', message: 'You have already registered'}));
+                                                                                                    }
+                                                                                                    else {
+                                                                                                        dispatch(setAction("registration_confirmation"));
+                                                                                                    }
+                                                                                                }
+                                                                                                else {
+                                                                                                    dispatch(showSnack({severity: 'error', message: 'Please connect your wallet'}));
+                                                                                                }
+                                                                                            }}
                       >Register</Button> : ''}
                       {sale.active ? <div>
-                          {poolDetails.account.registered ? <Button variant={"contained"}
+                          {poolDetails.account.registered ? poolDetails.account.invested ?  <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">You have invested</div>
+                          </div> : <Button variant={"contained"}
                                                                     color={"primary"}
                                                                     size={"large"}
                                                                     fullWidth
@@ -143,7 +149,10 @@ function PoolStatus(): JSX.Element {
                           </div>}
                       </div> : ''}
                       {claim.active ? <div>
-                          {poolDetails.account.invested ? <Button variant={"contained"}
+                          {poolDetails.account.invested ? poolDetails.account.claimed ? <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">You have claimed your assets</div>
+                          </div> : <Button variant={"contained"}
                                                                   color={"primary"}
                                                                   size={"large"}
                                                                   className="custom-button"
@@ -173,7 +182,10 @@ function PoolStatus(): JSX.Element {
 
                       </div> : ''}
                       {withdraw.active ? <div>
-                          {poolDetails.account.invested ? <Button variant={"contained"}
+                          {poolDetails.account.invested ? poolDetails.account.withdrawn ? <div className="account-action-info">
+                              <InfoIcon fontSize={"small"}></InfoIcon>
+                              <div className="text">You have withdrawn your investment</div>
+                          </div> : <Button variant={"contained"}
                                                                   color={"primary"}
                                                                   size={"large"}
                                                                   fullWidth

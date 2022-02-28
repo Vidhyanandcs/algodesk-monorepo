@@ -21,7 +21,7 @@ function WithdrawTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {pool} = poolDetails;
     const {status} = pool;
-    const {withdraw} = status;
+    const {withdraw, sale} = status;
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -42,6 +42,7 @@ function WithdrawTile(): JSX.Element {
                         Withdraw
                     </div>
                     {withdraw.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {sale.completed && withdraw.pending ? <Chip label={"Pending"} color={"secondary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
 

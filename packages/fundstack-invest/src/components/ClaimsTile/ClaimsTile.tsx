@@ -22,7 +22,7 @@ function ClaimsTile(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {pool} = poolDetails;
     const {status} = pool;
-    const {claim} = status;
+    const {claim, sale} = status;
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -43,6 +43,7 @@ function ClaimsTile(): JSX.Element {
                         Claim
                     </div>
                     {claim.active ? <Chip label={"Active"} color={"primary"} size={"small"} className="custom-chip tile-status"/> : ''}
+                    {sale.completed && claim.pending ? <Chip label={"Pending"} color={"secondary"} size={"small"} className="custom-chip tile-status"/> : ''}
                 </div>
                 <div className="tile-body">
 
