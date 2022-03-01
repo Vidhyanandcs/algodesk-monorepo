@@ -62,7 +62,7 @@ export class Fundstack {
         this.network = network.name;
     }
 
-    validatePoolParams(poolParams: F_CreatePool): boolean {
+    validatePoolParams(poolParams: F_CreatePool, metadata: F_PoolMetaData): boolean {
         const {
             name,
             assetId,
@@ -74,15 +74,28 @@ export class Fundstack {
             regEndsAt,
             saleStartsAt,
             saleEndsAt,
-            metadataCid,
             logoCid
         } = poolParams;
+
+        const {website, whitePaper, github, tokenomics, twitter} = metadata;
 
         if (isEmpty(name)) {
             throw Error('Invalid name');
         }
-        if (isEmpty(metadataCid)) {
-            throw Error('Invalid metadataCid');
+        if (isEmpty(website)) {
+            throw Error('Invalid website');
+        }
+        if (isEmpty(whitePaper)) {
+            throw Error('Invalid whitePaper');
+        }
+        if (isEmpty(github)) {
+            throw Error('Invalid github');
+        }
+        if (isEmpty(tokenomics)) {
+            throw Error('Invalid tokenomics');
+        }
+        if (isEmpty(twitter)) {
+            throw Error('Invalid twitter');
         }
         if (isEmpty(logoCid)) {
             throw Error('Invalid logoCid');
@@ -130,8 +143,8 @@ export class Fundstack {
         return true;
     }
 
-    async createPool(params: F_CreatePool): Promise<A_SendTxnResponse> {
-        this.validatePoolParams(params);
+    async createPool(params: F_CreatePool, metadata: F_PoolMetaData): Promise<A_SendTxnResponse> {
+        this.validatePoolParams(params, metadata);
         const {compiledApprovalProgram, compiledClearProgram} = getContracts(this.network);
 
         const assetParams = await this.getAsset(params.assetId);
@@ -144,7 +157,7 @@ export class Fundstack {
             intsUint.push(numToUint(parseInt(String(item))));
         });
 
-        const appArgs = [params.name, ...intsUint, params.metadataCid, params.logoCid];
+        const appArgs = [params.name, ...intsUint, params.logoCid];
 
         const poolParams: A_CreateApplicationParams = {
             from: params.from,
@@ -159,7 +172,7 @@ export class Fundstack {
             appArgs
         };
 
-        return await this.algodesk.applicationClient.create(poolParams);
+        return await this.algodesk.applicationClient.create(poolParams, JSON.stringify(metadata));
     }
 
     async publish(poolId: number): Promise<A_SendTxnResponse> {
@@ -347,9 +360,9 @@ export class Fundstack {
         if (pool.valid) {
             const assetId = pool.getAssetId();
             const escrowAddress = pool.getEscrow();
-            const metaDataCId = pool.getMetaDataCId();
+            const metaDataTxnId = pool.getMetaDataTxnId();
 
-            const [status, asset, escrow, metadata] = await Promise.all([this.getStatus(pool), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getMetaData(metaDataCId)]);
+            const [status, asset, escrow, metadata] = await Promise.all([this.getStatus(pool), this.getAsset(assetId), this.getEscrow(escrowAddress), this.getMetaData(metaDataTxnId)]);
 
             pool.updateStatusDetails(status);
             pool.updateAssetDetails(asset);
@@ -360,10 +373,10 @@ export class Fundstack {
         return pool;
     }
 
-    async getMetaData(metaDataCId: string): Promise<F_PoolMetaData> {
-        const url = this.getIpfsLink(metaDataCId);
-        const response = await axios.get(url);
-        return response.data as F_PoolMetaData;
+    async getMetaData(metaDataTxnId: string): Promise<F_PoolMetaData> {
+        const tx = await this.algodesk.transactionClient.get(metaDataTxnId);
+        const {note} = tx;
+        return JSON.parse(atob(note)) as F_PoolMetaData;
     }
 
     async getStatus(pool: Pool): Promise<F_PoolStatus> {

@@ -63,7 +63,7 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
             if (key == globalStateKeys.creator || key == globalStateKeys.owner || key == globalStateKeys.escrow || key == globalStateKeys.platform_escrow) {
                 globalState[key] = sdk.encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
-            else if (key == globalStateKeys.creation_txn_id) {
+            else if (key == globalStateKeys.creation_txn_id || key == globalStateKeys.metadata) {
                 globalState[key] = encodeTxId(new Uint8Array(Buffer.from(value.bytes, "base64")));
             }
             else {
@@ -147,7 +147,7 @@ export class Pool {
         return this.globalState[globalStateKeys.total_allocation];
     }
 
-    getMetaDataCId(): string {
+    getMetaDataTxnId(): string {
         return this.globalState[globalStateKeys.metadata];
     }
 

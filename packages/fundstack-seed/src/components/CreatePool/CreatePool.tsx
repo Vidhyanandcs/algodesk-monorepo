@@ -556,7 +556,6 @@ function CreatePool(): JSX.Element {
                                     onClick={async () => {
                                         let currentRound: number;
                                         let logoCid = '';
-                                        let metadataCid = '';
                                         let message = '';
 
                                         if (!file) {
@@ -615,22 +614,7 @@ function CreatePool(): JSX.Element {
 
                                         try {
                                             dispatch(showLoader('Uploading metadata to ipfs ...'));
-
-                                            const metadata: F_PoolMetaData = {
-                                                github,
-                                                tokenomics,
-                                                twitter,
-                                                website,
-                                                whitePaper
-                                            };
-
-                                            const metadataBlob = new Blob([JSON.stringify(metadata)], { type: "application/json" })
-                                            const metadataFile = new File([metadataBlob], "metadata.json")
-
-                                            const [logoCid1, metadataCid1] = await Promise.all([uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file), uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, metadataFile)]);
-                                            logoCid = logoCid1;
-                                            metadataCid = metadataCid1;
-
+                                            logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
                                             dispatch(hideLoader());
 
                                             dispatch(showLoader("Checking network status ..."));
@@ -655,11 +639,21 @@ function CreatePool(): JSX.Element {
                                             saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
                                             saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
                                             totalAllocation: Number(totalAllocation),
-                                            metadataCid,
                                             logoCid
                                         };
 
-                                        const response = await dispatch(create(poolParams));
+                                        const metadata: F_PoolMetaData = {
+                                            github,
+                                            tokenomics,
+                                            twitter,
+                                            website,
+                                            whitePaper
+                                        };
+
+                                        const response = await dispatch(create({
+                                            poolParams,
+                                            metadata
+                                        }));
 
                                         // @ts-ignore
                                         if (response.payload) {

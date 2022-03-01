@@ -12,7 +12,6 @@ export interface F_CreatePool {
     minAllocation: number,
     maxAllocation: number,
     price: number,
-    metadataCid: string,
     logoCid: string
 }
 

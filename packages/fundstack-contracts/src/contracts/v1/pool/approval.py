@@ -38,8 +38,8 @@ def createPool(platformAppId):
     maxAllocation = Btoi(txnArgs[8])
 
     price = Btoi(txnArgs[9])
-    metadata = txnArgs[10]
-    logo = txnArgs[11]
+    metadata = creationTxnId
+    logo = txnArgs[10]
 
     noOfRegistrations = Int(0)
     noOfInvestors = Int(0)
@@ -94,7 +94,6 @@ def createPool(platformAppId):
 
     deploymentAssertions = [
         Assert(name != Bytes("")),
-        Assert(metadata != Bytes("")),
         Assert(logo != Bytes("")),
 
         Assert(regStartsAt > createdAt),
