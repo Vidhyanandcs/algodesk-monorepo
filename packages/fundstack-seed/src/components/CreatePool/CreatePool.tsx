@@ -555,7 +555,7 @@ function CreatePool(): JSX.Element {
                                     className={"custom-button"}
                                     onClick={async () => {
                                         let currentRound: number;
-                                        let logoCid = '';
+                                        let logo = '';
                                         let message = '';
 
                                         if (isEmpty(name)) {
@@ -612,7 +612,7 @@ function CreatePool(): JSX.Element {
                                         try {
                                             if (file) {
                                                 dispatch(showLoader('Uploading logo to ipfs ...'));
-                                                logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
+                                                logo = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
                                                 dispatch(hideLoader());
                                             }
 
@@ -638,7 +638,7 @@ function CreatePool(): JSX.Element {
                                             saleStartsAt: getBlockByDate(saleStartsAt, currentRound),
                                             saleEndsAt: getBlockByDate(saleEndsAt, currentRound),
                                             totalAllocation: Number(totalAllocation),
-                                            logoCid
+                                            logo
                                         };
 
                                         const metadata: F_PoolMetaData = {
