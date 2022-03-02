@@ -52,7 +52,7 @@ function DeletePool(): JSX.Element {
             dispatch(hideLoader());
             dispatch(setAction(''));
             dispatch(loadAccount(accountDetails.information.address));
-            dispatch(showSuccessModal('Delete successfully'));
+            dispatch(showSuccessModal('Pool deleted successfully'));
             history.push('/portal/dashboard/pools/home');
         }
         catch (e: any) {

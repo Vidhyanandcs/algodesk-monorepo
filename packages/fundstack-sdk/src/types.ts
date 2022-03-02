@@ -12,7 +12,7 @@ export interface F_CreatePool {
     minAllocation: number,
     maxAllocation: number,
     price: number,
-    logoCid: string
+    logo?: string
 }
 
 export type F_PhaseDetails = {
@@ -60,5 +60,5 @@ export type F_DB_POOL =  {
     platform_app_id: number,
     approval_program: string,
     clear_program: string,
-    logo_cid: string
+    logo: string
 }

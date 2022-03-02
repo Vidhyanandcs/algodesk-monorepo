@@ -558,10 +558,7 @@ function CreatePool(): JSX.Element {
                                         let logoCid = '';
                                         let message = '';
 
-                                        if (!file) {
-                                            message = 'Invalid logo';
-                                        }
-                                        else if (isEmpty(name)) {
+                                        if (isEmpty(name)) {
                                             message = 'Invalid name';
                                         }
                                         else if (isEmpty(assetId)) {
@@ -613,9 +610,11 @@ function CreatePool(): JSX.Element {
                                         }
 
                                         try {
-                                            dispatch(showLoader('Uploading metadata to ipfs ...'));
-                                            logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
-                                            dispatch(hideLoader());
+                                            if (file) {
+                                                dispatch(showLoader('Uploading logo to ipfs ...'));
+                                                logoCid = await uploadToIpfs(REACT_APP_NFT_STORAGE_API_KEY, file);
+                                                dispatch(hideLoader());
+                                            }
 
                                             dispatch(showLoader("Checking network status ..."));
                                             currentRound = await fSdk.fs.algodesk.transactionClient.getCurrentRound();

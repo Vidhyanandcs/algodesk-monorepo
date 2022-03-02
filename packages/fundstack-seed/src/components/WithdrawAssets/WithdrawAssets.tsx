@@ -59,7 +59,7 @@ function WithdrawAssets(): JSX.Element {
                         <div className="withdraw">
                             <header className={classes.primaryText}>Withdraw</header>
                             <div className="item">
-                                This project didn't meet the success criteria.
+                                This pool didn't meet the success criteria.
                                 You can withdraw your assets from escrow to your account.
                             </div>
 
