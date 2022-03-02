@@ -83,7 +83,7 @@ function PoolTimeline(): JSX.Element {
                           <TimelineContent>Sale end</TimelineContent>
                       </TimelineItem>
 
-                      <TimelineItem>
+                      {((status && !status.sale.completed) || (status && status.sale.completed && status.targetReached)) ? <TimelineItem>
                           <TimelineSeparator>
                               <TimelineDot color={status && !status.claim.pending ? "primary" : 'grey'}>
                                   {status && !status.claim.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
@@ -91,7 +91,20 @@ function PoolTimeline(): JSX.Element {
                               <TimelineConnector />
                           </TimelineSeparator>
                           <TimelineContent>Claim start</TimelineContent>
-                      </TimelineItem>
+                      </TimelineItem> : ''}
+
+
+                      {((status && status.sale.completed) || (status && status.sale.completed && !status.targetReached)) ? <TimelineItem>
+                          <TimelineSeparator>
+                              <TimelineDot color={status && !status.withdraw.pending ? "primary" : 'grey'}>
+                                  {status && !status.withdraw.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              </TimelineDot>
+                              <TimelineConnector />
+                          </TimelineSeparator>
+                          <TimelineContent>Withdraw start</TimelineContent>
+                      </TimelineItem> : ''}
+
+
                       <TimelineItem>
                           <TimelineSeparator>
                               <TimelineDot  color={status && status.claim.completed ? "primary" : 'grey'}>
