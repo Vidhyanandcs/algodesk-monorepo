@@ -24,3 +24,4 @@ export enum PLATFORM_OPERATIONS {
 }
 
 export const IPFS_SERVER = 'https://ipfs.io/ipfs/';
+export const DEFAULT_POOL_LOGO = 'bafkreiayzu7fihhhqciisyd3bduxjb5abju73d4b6sw3pw4pash7h3vtxu';

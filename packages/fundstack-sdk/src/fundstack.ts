@@ -16,7 +16,7 @@ import {
 import {
     POOL_OPERATIONS,
     POOL_PHASE,
-    PLATFORM_OPERATIONS, IPFS_SERVER,
+    PLATFORM_OPERATIONS, IPFS_SERVER, DEFAULT_POOL_LOGO,
 } from "./constants";
 import {getContracts} from "./contracts";
 import {OnApplicationComplete, microalgosToAlgos, algosToMicroalgos} from "algosdk";
@@ -73,8 +73,7 @@ export class Fundstack {
             regStartsAt,
             regEndsAt,
             saleStartsAt,
-            saleEndsAt,
-            logoCid
+            saleEndsAt
         } = poolParams;
 
         const {website, whitePaper, github, tokenomics, twitter} = metadata;
@@ -154,7 +153,7 @@ export class Fundstack {
             intsUint.push(numToUint(parseInt(String(item))));
         });
 
-        const appArgs = [params.name, ...intsUint, params.logoCid || ""];
+        const appArgs = [params.name, ...intsUint, params.logo || ""];
 
         const poolParams: A_CreateApplicationParams = {
             from: params.from,
@@ -621,7 +620,15 @@ export class Fundstack {
             url: apiBaseUrl + '/v1/pools'
         });
 
-        return response.data;
+        const pools = response.data;
+
+        pools.forEach((pool) => {
+            if (!pool.logo) {
+                pool.logo = DEFAULT_POOL_LOGO;
+            }
+        });
+
+        return pools;
     }
 
     getAccountPools(accountInfo: A_AccountInformation): A_Application[] {

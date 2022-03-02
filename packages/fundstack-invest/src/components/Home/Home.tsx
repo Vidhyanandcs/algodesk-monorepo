@@ -47,7 +47,7 @@ function Home(): JSX.Element {
         return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
             <div className="pool">
 
-                <img src={fSdk.fs.getIpfsLink(pool.logo_cid)} alt="pool-logo" className="logo"/>
+                <img src={fSdk.fs.getIpfsLink(pool.logo)} alt="pool-logo" className="logo"/>
 
                 <div className="pool-name">
                     <div>{pool.name}</div>

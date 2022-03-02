@@ -4,6 +4,7 @@ import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Applic
 import atob from 'atob';
 import {F_PoolMetaData, F_PoolStatus} from "./types";
 import {getContracts} from "./contracts";
+import {DEFAULT_POOL_LOGO} from "./constants";
 
 export type F_PoolLocalState = {
     r: number
@@ -76,7 +77,7 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
     });
 
     if (!globalState[globalStateKeys.logo]) {
-        globalState[globalStateKeys.logo] = 'bafkreiayzu7fihhhqciisyd3bduxjb5abju73d4b6sw3pw4pash7h3vtxu';
+        globalState[globalStateKeys.logo] = DEFAULT_POOL_LOGO;
     }
 
     return globalState as F_PoolGlobalState;
