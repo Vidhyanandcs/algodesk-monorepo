@@ -94,8 +94,6 @@ def createPool(platformAppId):
 
     deploymentAssertions = [
         Assert(name != Bytes("")),
-        Assert(logo != Bytes("")),
-
         Assert(regStartsAt > createdAt),
         Assert(regEndsAt > regStartsAt),
 

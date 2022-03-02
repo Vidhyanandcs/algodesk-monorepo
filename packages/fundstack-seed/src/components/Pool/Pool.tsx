@@ -59,7 +59,7 @@ function Pool(): JSX.Element {
                                   <section>
                                       <div className={"pool-name"}>
                                           <Link underline="hover" href="#/portal/dashboard/pools/home">
-                                              <ArrowBack fontSize={"medium"}></ArrowBack>
+                                              <ArrowBack fontSize={"medium"} className="back"></ArrowBack>
                                           </Link>
 
                                           <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo"/>
@@ -100,7 +100,7 @@ function Pool(): JSX.Element {
 
 
                                   </section>
-                                  <section style={{marginRight: 50}}>
+                                  <section style={{marginTop: 6}}>
 
                                       {!pool.globalState[globalStateKeys.published] ? <Button
                                           color={"secondary"}
@@ -113,7 +113,7 @@ function Pool(): JSX.Element {
                                           }}
                                       >Delete</Button> : ''}
 
-                                      {!pool.globalState[globalStateKeys.published] ? <Button
+                                      {!pool.status.published && pool.status.registration.pending ? <Button
                                           color={"primary"}
                                           variant={"contained"}
                                           size={"large"}
@@ -123,7 +123,7 @@ function Pool(): JSX.Element {
                                           }}
                                       >Publish</Button> : ''}
 
-                                      {pool.status.sale.completed && !pool.globalState[globalStateKeys.target_reached] && !pool.globalState[globalStateKeys.assets_withdrawn]? <Button
+                                      {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && !pool.globalState[globalStateKeys.assets_withdrawn]? <Button
                                           color={"primary"}
                                           variant={"contained"}
                                           size={"large"}
@@ -133,7 +133,7 @@ function Pool(): JSX.Element {
                                           }}
                                       >Withdraw</Button> : ''}
 
-                                      {pool.status.sale.completed && pool.globalState[globalStateKeys.target_reached] && !pool.globalState[globalStateKeys.amount_claimed]? <Button
+                                      {pool.status.published && pool.status.sale.completed && pool.status.targetReached && !pool.globalState[globalStateKeys.amount_claimed]? <Button
                                           color={"primary"}
                                           variant={"contained"}
                                           size={"large"}
@@ -155,40 +155,46 @@ function Pool(): JSX.Element {
                                       {!pool.status.published && !pool.status.registration.pending ? <div>
                                           <Alert severity={"error"} style={{borderRadius: 10}}>Pool not published before registration started. We cannot proceed further.</Alert>
                                       </div> : ''}
-
-                                      <div style={{marginTop: 10}}>
-                                          {pool.status.registration.pending ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Registration starts in {pool.status.registration.durationReadable}</Alert>
-                                          </div> : ''}
-                                          {pool.status.published && pool.status.registration.active ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Registration ends in {pool.status.registration.durationReadable}</Alert>
-                                          </div> : ''}
-
-
-                                          {pool.status.published && pool.status.registration.completed && pool.status.sale.pending ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Sale starts in {pool.status.sale.durationReadable}</Alert>
-                                          </div> : ''}
-                                          {pool.status.published && pool.status.registration.completed && pool.status.sale.active ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Sale ends in {pool.status.sale.durationReadable}</Alert>
-                                          </div> : ''}
-
-                                          {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.pending ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Claim starts in {pool.status.claim.durationReadable}</Alert>
-                                          </div> : ''}
-                                          {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.active ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Claim ends in {pool.status.claim.durationReadable}</Alert>
-                                          </div> : ''}
-
-                                          {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.pending ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Withdraw starts in {pool.status.withdraw.durationReadable}</Alert>
-                                          </div> : ''}
-                                          {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.active ? <div>
-                                              <Alert severity={"warning"} style={{borderRadius: 10}}>Withdraw ends in {pool.status.withdraw.durationReadable}</Alert>
-                                          </div> : ''}
-                                      </div>
-
-
                                   </div>
+
+                                  <div style={{marginTop: 15}}>
+                                      {!pool.status.published && !pool.status.registration.pending ? <div>
+                                          <div className="status-message">Not published</div>
+                                      </div> : ''}
+                                      {pool.status.registration.pending ? <div>
+                                          <div className="status-message">Registration starts in {pool.status.registration.durationReadable}</div>
+                                      </div> : ''}
+                                      {pool.status.published && pool.status.registration.active ? <div>
+                                          <div className="status-message">Registration ends in {pool.status.registration.durationReadable}</div>
+                                      </div> : ''}
+
+
+                                      {pool.status.published && pool.status.registration.completed && pool.status.sale.pending ? <div>
+                                          <div className="status-message">Sale starts in {pool.status.sale.durationReadable}</div>
+                                      </div> : ''}
+                                      {pool.status.published && pool.status.registration.completed && pool.status.sale.active ? <div>
+                                          <div className="status-message">Sale ends in {pool.status.sale.durationReadable}</div>
+                                      </div> : ''}
+
+                                      {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.pending ? <div>
+                                          <div className="status-message">Claim starts in {pool.status.claim.durationReadable}</div>
+                                      </div> : ''}
+                                      {pool.status.published && pool.status.sale.completed && pool.status.targetReached && pool.status.claim.active ? <div>
+                                          <div className="status-message">Claim ends in {pool.status.claim.durationReadable}</div>
+                                      </div> : ''}
+
+                                      {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.pending ? <div>
+                                          <div className="status-message">Withdraw starts in {pool.status.withdraw.durationReadable}</div>
+                                      </div> : ''}
+                                      {pool.status.published && pool.status.sale.completed && !pool.status.targetReached && pool.status.withdraw.active ? <div>
+                                          <div className="status-message">Withdraw ends in {pool.status.withdraw.durationReadable}</div>
+                                      </div> : ''}
+
+                                      {pool.status.published && (pool.status.claim.completed || pool.status.withdraw.completed) ? <div>
+                                          <div className="status-message">Completed</div>
+                                      </div> : ''}
+                                  </div>
+
                                   <PoolStrip></PoolStrip>
                                   <div style={{marginTop: 20}}>
                                       <Grid container spacing={2}>

@@ -75,6 +75,10 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
         }
     });
 
+    if (!globalState[globalStateKeys.logo]) {
+        globalState[globalStateKeys.logo] = 'bafkreiayzu7fihhhqciisyd3bduxjb5abju73d4b6sw3pw4pash7h3vtxu';
+    }
+
     return globalState as F_PoolGlobalState;
 }
 

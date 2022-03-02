@@ -67,7 +67,7 @@ function PublishPool(): JSX.Element {
                                     {microalgosToAlgos(pool.globalState[globalStateKeys.platform_publish_fee])} Algo
                                 </div>
                                 <div className="text">
-                                    Platform Base fee for creating pool on our platform. Charged while publishing your project.
+                                    Platform Base fee for creating pool on our platform. Charged while publishing your pool.
                                 </div>
                             </div>
                             <div className="item">
@@ -85,7 +85,7 @@ function PublishPool(): JSX.Element {
                                     {microalgosToAlgos(pool.globalState[globalStateKeys.platform_registration_fee])} Algo
                                 </div>
                                 <div className="text">
-                                    Platform user registration fee. Charged for the investors while registering for your project.
+                                    Platform user registration fee. Charged for the investors while registering for your pool.
                                 </div>
                             </div>
 

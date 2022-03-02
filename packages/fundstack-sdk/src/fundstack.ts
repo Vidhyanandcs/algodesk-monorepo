@@ -97,9 +97,6 @@ export class Fundstack {
         if (isEmpty(twitter)) {
             throw Error('Invalid twitter');
         }
-        if (isEmpty(logoCid)) {
-            throw Error('Invalid logoCid');
-        }
         if (isEmpty(assetId)) {
             throw Error('Invalid asset');
         }
@@ -157,7 +154,7 @@ export class Fundstack {
             intsUint.push(numToUint(parseInt(String(item))));
         });
 
-        const appArgs = [params.name, ...intsUint, params.logoCid];
+        const appArgs = [params.name, ...intsUint, params.logoCid || ""];
 
         const poolParams: A_CreateApplicationParams = {
             from: params.from,

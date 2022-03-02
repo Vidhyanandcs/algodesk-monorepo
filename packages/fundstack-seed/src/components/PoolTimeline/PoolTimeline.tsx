@@ -48,8 +48,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && !status.registration.pending ? "primary" : 'grey'}>
-                                  {status && !status.registration.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && !status.registration.pending ? "primary" : 'grey'}>
+                                  {status && status.published && !status.registration.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -57,8 +57,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && status.registration.completed ? "primary" : 'grey'}>
-                                  {status && status.registration.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && status.registration.completed ? "primary" : 'grey'}>
+                                  {status && status.published && status.registration.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -66,8 +66,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && !status.sale.pending ? "primary" : 'grey'}>
-                                  {status && !status.sale.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && !status.sale.pending ? "primary" : 'grey'}>
+                                  {status && status.published && !status.sale.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -75,8 +75,8 @@ function PoolTimeline(): JSX.Element {
                       </TimelineItem>
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && status.sale.completed ? "primary" : 'grey'}>
-                                  {status && status.sale.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && status.sale.completed ? "primary" : 'grey'}>
+                                  {status && status.published && status.sale.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -85,8 +85,8 @@ function PoolTimeline(): JSX.Element {
 
                       {((status && !status.sale.completed) || (status && status.sale.completed && status.targetReached)) ? <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && !status.claim.pending ? "primary" : 'grey'}>
-                                  {status && !status.claim.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && !status.claim.pending ? "primary" : 'grey'}>
+                                  {status && status.published && !status.claim.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -96,8 +96,8 @@ function PoolTimeline(): JSX.Element {
 
                       {((status && status.sale.completed) || (status && status.sale.completed && !status.targetReached)) ? <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot color={status && !status.withdraw.pending ? "primary" : 'grey'}>
-                                  {status && !status.withdraw.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot color={status && status.published && !status.withdraw.pending ? "primary" : 'grey'}>
+                                  {status && status.published && !status.withdraw.pending ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                               <TimelineConnector />
                           </TimelineSeparator>
@@ -107,8 +107,8 @@ function PoolTimeline(): JSX.Element {
 
                       <TimelineItem>
                           <TimelineSeparator>
-                              <TimelineDot  color={status && status.claim.completed ? "primary" : 'grey'}>
-                                  {status && status.claim.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
+                              <TimelineDot  color={status && status.published && status.claim.completed ? "primary" : 'grey'}>
+                                  {status && status.published && status.claim.completed ? <Check fontSize={"small"}></Check> : <QueryBuilder fontSize={"small"}></QueryBuilder>}
                               </TimelineDot>
                           </TimelineSeparator>
                           <TimelineContent>Complete</TimelineContent>

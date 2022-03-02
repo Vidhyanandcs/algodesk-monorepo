@@ -760,10 +760,6 @@ txna ApplicationArgs 0
 byte ""
 !=
 assert
-txna ApplicationArgs 10
-byte ""
-!=
-assert
 txna ApplicationArgs 2
 btoi
 global Round
