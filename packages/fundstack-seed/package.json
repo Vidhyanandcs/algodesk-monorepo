@@ -32,7 +32,8 @@
     "reset-css": "^5.0.1",
     "typewriter-effect": "^2.18.2",
     "is-empty": "^1.2.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "party-js": "^2.1.2"
   },
   "scripts": {
     "start": "node_modules/.bin/react-scripts start",
