@@ -62,7 +62,8 @@ function Pool(): JSX.Element {
                                               <ArrowBack fontSize={"medium"} className="back"></ArrowBack>
                                           </Link>
 
-                                          <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo"/>
+                                          {pool.globalState[globalStateKeys.logo] ? <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo"/> : ''}
+
 
                                           <div style={{display: 'inline-block'}}>
                                               <div>{pool.globalState[globalStateKeys.name]}</div>
