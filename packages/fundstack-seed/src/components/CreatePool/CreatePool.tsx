@@ -576,6 +576,15 @@ function CreatePool(): JSX.Element {
                                         else if (isEmpty(price) || !isNumber(price)) {
                                             message = 'Invalid price';
                                         }
+                                        else if (Number(minAllocation) < 0) {
+                                            message = 'Min allocation should be greater than 0';
+                                        }
+                                        else if (Number(minAllocation) > Number(maxAllocation)) {
+                                            message = 'Min allocation should be less than max allocation';
+                                        }
+                                        else if (Number(maxAllocation) > Number(totalAllocation)) {
+                                            message = 'Max allocation should be less than total allocation';
+                                        }
                                         else if (moment(regStartsAt) < moment()) {
                                             message = 'Registration start date cannot be in the past';
                                         }
@@ -599,6 +608,14 @@ function CreatePool(): JSX.Element {
                                         }
                                         else if (moment(saleEndsAt) < moment(saleStartsAt)) {
                                             message = 'Sale end date should be greater that sale start date';
+                                        }
+
+                                        if (!isEmpty(assetId)) {
+                                            const assetTotalSupply = fSdk.fs.algodesk.assetClient.getTotalSupply(assetDetails);
+
+                                            if (Number(totalAllocation) > assetTotalSupply) {
+                                                message = 'Total allocation cannot be greater than asset total supply';
+                                            }
                                         }
 
                                         if (message) {

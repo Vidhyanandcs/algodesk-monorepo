@@ -1,5 +1,5 @@
 import {encodeText, formatNumWithDecimals} from "../utils";
-import sdk, {Account, Algodv2, algosToMicroalgos, microalgosToAlgos, SuggestedParams, Transaction} from 'algosdk';
+import sdk, {Account, Algodv2, algosToMicroalgos, SuggestedParams, Transaction} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {TransactionClient} from "./transactionClient";
 import {
