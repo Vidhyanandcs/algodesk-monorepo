@@ -61,7 +61,7 @@ function Pool(): JSX.Element {
                                         <div className="pool-header">
 
                                             <div className="pool-name">
-                                                <Link underline="hover" color="inherit" href="#/portal/home">
+                                                <Link underline="hover" color="inherit" href="#/portal/pools">
                                                     <ArrowBack fontSize={"medium"}></ArrowBack>
                                                 </Link>
                                                 {pool.globalState[globalStateKeys.logo] ? <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo" className="logo"/> : ''}

@@ -1,4 +1,4 @@
-import './Home.scss';
+import './Pools.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loadPools} from "../../redux/actions/pools";
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 
-function Home(): JSX.Element {
+function Pools(): JSX.Element {
 
     const pools = useSelector((state: RootState) => state.pools);
     const dispatch = useDispatch();
@@ -93,8 +93,8 @@ function Home(): JSX.Element {
     }
 
   return (
-      <div className="home-wrapper">
-          <div className="home-container">
+      <div className="pools-wrapper">
+          <div className="pools-container">
               <div className="banner-wrapper">
                   <div className="banner-container">
                       <div className={"headline"}>
@@ -164,4 +164,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default Home;
+export default Pools;

@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Grid} from "@material-ui/core";
 import Pool from "../Pool/Pool";
-import Home from "../Home/Home";
+import Pools from "../Pools/Pools";
 import MyInvestments from "../MyInvestments/MyInvestments";
 
 function Portal(): JSX.Element {
@@ -14,8 +14,8 @@ function Portal(): JSX.Element {
               <Header></Header>
 
               <Switch>
-                  <Route exact path="/portal/home">
-                      <Home></Home>
+                  <Route exact path="/portal/pools">
+                      <Pools></Pools>
                   </Route>
                   <Route exact path="/portal/pool/:id">
                       <Pool></Pool>
@@ -23,7 +23,7 @@ function Portal(): JSX.Element {
                   <Route exact path="/portal/investments">
                       <MyInvestments></MyInvestments>
                   </Route>
-                  <Route exact path="/portal" render={() => <Redirect to="/portal/home" />} />
+                  <Route exact path="/portal" render={() => <Redirect to="/portal/pools" />} />
               </Switch>
 
               <Grid container spacing={2}>
