@@ -26,9 +26,9 @@ import {
     F_CreatePool,
     F_PoolStatus,
     F_PhaseDetails,
-    F_PoolMetaData
+    F_PoolMetaData, F_AccountInvestment
 } from "./types";
-import {Pool, getAccountState} from "./pool";
+import {Pool, getAccountState, F_PoolLocalState} from "./pool";
 import atob from 'atob';
 import {Platform} from "./platform";
 import {localStateKeys, globalStateKeys} from "./state/pool";
@@ -654,13 +654,28 @@ export class Fundstack {
         return pools;
     }
 
-    async getInvestedPools(apiBaseUrl: string, address: string): Promise<F_DB_POOL[]> {
+    async getInvestedPools(apiBaseUrl: string, accountInfo: A_AccountInformation): Promise<F_AccountInvestment[]> {
         const response = await axios({
             method: 'get',
-            url: apiBaseUrl + '/v1/account/' + address + '/pools'
+            url: apiBaseUrl + '/v1/account/' + accountInfo.address + '/pools'
         });
 
-        return response.data;
+        const pools: F_AccountInvestment[] = response.data;
+
+        pools.forEach((pool) => {
+            const poolId = pool.app_id;
+            const optedApp = this.algodesk.accountClient.getOptedApp(poolId, accountInfo);
+            const state = getAccountState(optedApp);
+            pool.localState = {
+                registered: state[localStateKeys.registered] === 1,
+                invested: state[localStateKeys.invested] === 1,
+                claimed: state[localStateKeys.claimed] === 1,
+                withdrawn: state[localStateKeys.withdrawn] === 1,
+                investedAmount: state[localStateKeys.invested_amount]
+            };
+        });
+
+        return pools;
     }
 
     hasRegistered(accountInfo: A_AccountInformation, poolId: number): boolean {

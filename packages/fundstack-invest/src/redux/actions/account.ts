@@ -7,15 +7,14 @@ import {showLoader, hideLoader} from './loader';
 import fSdk from "../../utils/fSdk";
 import {REACT_APP_API_BASE_URL} from "../../env";
 import {setLoading} from "./pools";
-import {F_DB_POOL} from "@fundstack/sdk";
-
+import {F_AccountInvestment} from "@fundstack/sdk";
 
 export interface Account {
     loggedIn: boolean
     information: A_AccountInformation
     investments: {
         loading: boolean,
-        pools: F_DB_POOL[]
+        pools: F_AccountInvestment[]
     }
 }
 
@@ -54,7 +53,7 @@ export const loadAccount = createAsyncThunk(
         try {
             dispatch(showLoader("Loading account information ..."));
             const accountInfo = await fSdk.fs.algodesk.accountClient.getAccountInformation(address);
-            dispatch(loadInvestedPools(accountInfo.address));
+            dispatch(loadInvestedPools(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -67,11 +66,11 @@ export const loadAccount = createAsyncThunk(
 
 export const loadInvestedPools = createAsyncThunk(
     'pools/loadInvestedPools',
-    async (address: string, thunkAPI) => {
+    async (accountInfo: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
             dispatch(setInvestmentsLoading(true));
-            let pools = await fSdk.fs.getInvestedPools(REACT_APP_API_BASE_URL, address);
+            let pools = await fSdk.fs.getInvestedPools(REACT_APP_API_BASE_URL, accountInfo);
             pools = pools.sort((a, b) => {
                 return b.app_id - a.app_id;
             });
@@ -107,7 +106,7 @@ export const accountSlice = createSlice({
             state.loggedIn = true;
             state.information = action.payload;
         });
-        builder.addCase(loadInvestedPools.fulfilled, (state, action: PayloadAction<F_DB_POOL[]>) => {
+        builder.addCase(loadInvestedPools.fulfilled, (state, action: PayloadAction<F_AccountInvestment[]>) => {
             state.investments.pools = action.payload;
         });
     },

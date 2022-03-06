@@ -59,6 +59,7 @@ function MyInvestments(): JSX.Element {
                           </div> : ''}
                           <Grid container spacing={2}>
                               {pools.map((pool) => {
+                                  console.log(pool);
                                   return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
                                       <div className="pool">
                                           <div className="pool-name">
@@ -80,10 +81,18 @@ function MyInvestments(): JSX.Element {
                                           <div className="footer">
                                               <div className="detail">
                                                   <div>
-                                                      Total allocation
+                                                      Registered
                                                   </div>
                                                   <div>
-                                                      {pool.total_allocation} ${pool.asset_unit}
+                                                      {pool.localState.registered ? 'Yes' : 'No'}
+                                                  </div>
+                                              </div>
+                                              <div className="detail">
+                                                  <div>
+                                                      Invested
+                                                  </div>
+                                                  <div>
+                                                      {pool.localState.invested ? 'Yes' : 'No'}
                                                   </div>
                                               </div>
                                               <div className="detail">

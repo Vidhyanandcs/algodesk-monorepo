@@ -1,6 +1,13 @@
 import {globalStateKeys} from "./state/pool";
 import * as sdk from "algosdk";
-import {A_AccountInformation, A_Asset, encodeTxId, A_ApplicationParams, A_Application} from "@algodesk/core";
+import {
+    A_AccountInformation,
+    A_Asset,
+    encodeTxId,
+    A_ApplicationParams,
+    A_Application,
+    A_AppsLocalState
+} from "@algodesk/core";
 import atob from 'atob';
 import {F_PoolMetaData, F_PoolStatus} from "./types";
 import {getContracts} from "./contracts";
@@ -83,7 +90,7 @@ export function getPoolState(pool: A_Application): F_PoolGlobalState {
     return globalState as F_PoolGlobalState;
 }
 
-export function getAccountState(localApp): F_PoolLocalState {
+export function getAccountState(localApp: A_AppsLocalState): F_PoolLocalState {
     const lState = localApp['key-value'];
     const localState = {};
 
