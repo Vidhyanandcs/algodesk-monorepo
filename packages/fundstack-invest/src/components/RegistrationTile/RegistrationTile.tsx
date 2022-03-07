@@ -2,19 +2,13 @@ import './RegistrationTile.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import React, {useEffect} from "react";
-import {Chip, Grid, makeStyles} from "@material-ui/core";
+import {Chip, Grid} from "@material-ui/core";
 import {globalStateKeys} from "@fundstack/sdk";
 import {setRegistration} from "../../redux/actions/pool";
 import {useParams} from "react-router-dom";
 import {formatNumWithDecimals} from "@algodesk/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {getCommonStyles} from "../../utils/styles";
 
-const useStyles = makeStyles((theme) => {
-    return {
-        ...getCommonStyles(theme)
-    };
-});
 
 function RegistrationTile(): JSX.Element {
     const poolDetails = useSelector((state: RootState) => state.pool);
@@ -23,7 +17,6 @@ function RegistrationTile(): JSX.Element {
     const {status} = pool;
     const {registration} = status;
     const dispatch = useDispatch();
-    const classes = useStyles();
 
     const params = useParams();
     // @ts-ignore
@@ -61,7 +54,7 @@ function RegistrationTile(): JSX.Element {
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                             {registration.completed ? <div className="lock">
                                 <div className="locker">
-                                    <LockOutlinedIcon className={"lock-icon " + classes.secondaryBorder} color={"secondary"}></LockOutlinedIcon>
+                                    <LockOutlinedIcon className={"lock-icon"}></LockOutlinedIcon>
                                 </div>
                                 <div className="lock-label">
                                     Closed

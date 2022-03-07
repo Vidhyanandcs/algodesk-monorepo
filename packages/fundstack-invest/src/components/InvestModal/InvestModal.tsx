@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface InvestModalState{
-    amount: number,
+    amount: string,
     payableAmount: number
 }
 
 const initialState: InvestModalState = {
-    amount: 0,
+    amount: '',
     payableAmount: 0
 };
 
@@ -92,13 +92,13 @@ function InvestModal(): JSX.Element {
                                         <div className="float-btn" onClick={() => {
                                             const amount = fSdk.fs.getMaxAllocationInDecimals(pool);
                                             const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
-                                            setState(prevState => ({...prevState, amount, payableAmount}));
+                                            setState(prevState => ({...prevState, amount: amount + '', payableAmount}));
                                         }}>Max</div>
 
                                         <div className="float-btn" onClick={() => {
                                             const amount = fSdk.fs.getMinAllocationInDecimals(pool);
                                             const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
-                                            setState(prevState => ({...prevState, amount, payableAmount}));
+                                            setState(prevState => ({...prevState, amount: amount + '', payableAmount}));
                                         }}>Min</div>
 
                                     </div>
@@ -110,13 +110,10 @@ function InvestModal(): JSX.Element {
                                                        value={amount}
                                                        type="number"
                                                        onChange={(ev) => {
-                                                           let value: string = "0";
-                                                           if(ev.target.value) {
-                                                               value = parseFloat(ev.target.value).toFixed(pool.asset.params.decimals);
-                                                           }
-                                                           const amount = parseFloat(value);
-                                                           const payableAmount = fSdk.fs.calculatePayableAmount(amount, pool);
-                                                           setState(prevState => ({...prevState, amount, payableAmount}));
+                                                           const val = ev.target.value;
+
+                                                           const payableAmount = fSdk.fs.calculatePayableAmount(val ? parseInt(val) : 0, pool);
+                                                           setState(prevState => ({...prevState, amount: val, payableAmount}));
                                                        }}
                                                        InputProps={{
                                                            endAdornment: <InputAdornment position="end" color="primary">
@@ -154,7 +151,7 @@ function InvestModal(): JSX.Element {
                                             className="custom-button"
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
-                                                dispatch(invest({pool, amount}));
+                                                dispatch(invest({pool, amount: parseInt(amount)}));
                                             }}
                                     >Invest</Button>
                                 </div>

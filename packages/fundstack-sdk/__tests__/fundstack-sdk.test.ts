@@ -3,16 +3,16 @@
 import {Account, generateAccount, mnemonicToSecretKey} from "algosdk";
 import {A_CreateAssetParams, betanet, testnet, WalletSigner} from "@algodesk/core";
 import {Fundstack} from '../index';
-import {F_CompanyDetails, F_CreatePool} from "../src/types";
+import {F_PoolMetaData, F_CreatePool} from "../src/types";
 
 const mnemonic = 'lazy reduce promote seat provide pottery setup focus below become quick immense steel there grunt undo hollow fragile bitter sick prefer asset man about foster';
 const dispenserAccount = mnemonicToSecretKey(mnemonic);//CJW7LXVNIHJDDLOVIPP4YABAGINXURO7HZEZQYUH27FTFCQ7QWKZ7GO4UQ
 
-const network = betanet;
-const platformAppId = 638672503;
+// const network = betanet;
+// const platformAppId = 638672503;
 
-// const network = testnet;
-// const platformAppId = 58162217;
+const network = testnet;
+const platformAppId = 58162217;
 
 async function dispense(account: Account, amount: number = 9) {
     const walletSigner = new WalletSigner(dispenserAccount);
@@ -28,7 +28,7 @@ async function createAsset(account: Account, instance: Fundstack) {
     const params: A_CreateAssetParams = {
         clawback: account.addr,
         creator: account.addr,
-        decimals: 1,
+        decimals: 0,
         defaultFrozen: false,
         freeze: account.addr,
         manager: account.addr,
@@ -53,22 +53,23 @@ async function create(instance: Fundstack, account: Account, assetId: number) {
     const poolParams: F_CreatePool = {
         from: account.addr,
         assetId: assetId,
-        maxAllocation: 800,
-        minAllocation: 100,
+        maxAllocation: 3,
+        minAllocation: 2,
         name: "Star Atlas " + Math.floor(Math.random()*(999-100+1)+100),
         regStartsAt: networkParams.firstRound + 10,
         regEndsAt: networkParams.firstRound + 45,
         saleStartsAt: networkParams.firstRound + 50,
         saleEndsAt: networkParams.firstRound + 85,
-        price: 0.001,
-        totalAllocation: 1000
+        price: 0.1,
+        totalAllocation: 10
     };
 
-    const companyDetails: F_CompanyDetails = {
+    const companyDetails: F_PoolMetaData = {
         github: "https://google.com/1",
         twitter: "https://google.com/1",
         website: "https://google.com/1",
-        whitePaper: "https://google.com/1"
+        whitePaper: "https://google.com/1",
+        tokenomics: 'https://google.com/1'
     };
 
     console.log('creating pool');
@@ -159,15 +160,15 @@ test('fundstack', async () => {
 
         await register(investorInstance, appId, investor,  poolApp.getRegStart());
 
-        await invest(investorInstance, appId, investor, poolApp.getSaleStart(), 0.6005);
+        await invest(investorInstance, appId, investor, poolApp.getSaleStart(), 0.3);
 
-        await investorClaim(investorInstance, appId, investor, poolApp.getSaleEnd());
-
-        await ownerClaim(poolOwnerInstance, appId, poolOwner, poolApp.getSaleEnd());
-
-        // await investorWithdraw(investorInstance, appId, investor, poolApp.getSaleEnd());
+        // await investorClaim(investorInstance, appId, investor, poolApp.getSaleEnd());
         //
-        // await ownerWithdraw(poolOwnerInstance, appId, poolApp.getSaleEnd());
+        // await ownerClaim(poolOwnerInstance, appId, poolOwner, poolApp.getSaleEnd());
+
+        await investorWithdraw(investorInstance, appId, investor, poolApp.getSaleEnd());
+
+        await ownerWithdraw(poolOwnerInstance, appId, poolApp.getSaleEnd());
 
 
         console.log('investor returning unspent balance');

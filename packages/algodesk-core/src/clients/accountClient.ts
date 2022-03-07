@@ -42,6 +42,15 @@ export class AccountClient{
         return optedApps;
     }
 
+    getOptedApp(appId: number, accountInfo: A_AccountInformation): A_AppsLocalState {
+        const apps = this.getOptedApps(accountInfo);
+        for (const app of apps) {
+            if (app.id === appId) {
+                return app;
+            }
+        }
+    }
+
     getHoldingAsset(assetId: number, accountInfo: A_AccountInformation): A_AssetHolding {
         const assets = this.getHoldingAssets(accountInfo);
         for (const asset of assets) {

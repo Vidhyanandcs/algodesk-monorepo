@@ -1,4 +1,5 @@
 import {A_SearchTransaction} from "@algodesk/core";
+import {localStateKeys} from "./state/pool";
 
 export interface F_CreatePool {
     from: string
@@ -61,4 +62,15 @@ export type F_DB_POOL =  {
     approval_program: string,
     clear_program: string,
     logo: string
+}
+
+export interface F_AccountInvestment extends F_DB_POOL {
+    localState: {
+        registered: boolean,
+        invested: boolean,
+        claimed: boolean,
+        withdrawn: boolean,
+        investedAmount: number,
+        claimableAssetAmount: number
+    }
 }

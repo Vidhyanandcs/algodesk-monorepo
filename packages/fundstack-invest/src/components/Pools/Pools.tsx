@@ -1,4 +1,4 @@
-import './Home.scss';
+import './Pools.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loadPools} from "../../redux/actions/pools";
@@ -12,6 +12,7 @@ import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
 import {F_DB_POOL} from "@fundstack/sdk";
 import fSdk from "../../utils/fSdk";
+import {setVisitedTab} from "../../redux/actions/app";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 
-function Home(): JSX.Element {
+function Pools(): JSX.Element {
 
     const pools = useSelector((state: RootState) => state.pools);
     const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function Home(): JSX.Element {
 
     useEffect(() => {
         dispatch(loadPools());
+        dispatch(setVisitedTab('pools'));
     }, [dispatch]);
 
     const activeList = pools.list.filter((pool) => {
@@ -47,7 +49,8 @@ function Home(): JSX.Element {
         return (<Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
             <div className="pool">
 
-                <img src={fSdk.fs.getIpfsLink(pool.logo)} alt="pool-logo" className="logo"/>
+                {pool.logo ? <img src={fSdk.fs.getIpfsLink(pool.logo)} alt="pool-logo" className="logo"/> : ''}
+
 
                 <div className="pool-name">
                     <div>{pool.name}</div>
@@ -92,8 +95,8 @@ function Home(): JSX.Element {
     }
 
   return (
-      <div className="home-wrapper">
-          <div className="home-container">
+      <div className="pools-wrapper">
+          <div className="pools-container">
               <div className="banner-wrapper">
                   <div className="banner-container">
                       <div className={"headline"}>
@@ -163,4 +166,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default Home;
+export default Pools;

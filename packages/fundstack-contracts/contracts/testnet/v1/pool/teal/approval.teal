@@ -291,12 +291,6 @@ itxn_field Receiver
 int 0
 byte "ia"
 app_local_get
-int 0
-callsub getAssetMicros_6
-/
-byte "price"
-app_global_get
-*
 itxn_field Amount
 itxn_submit
 byte "now"
@@ -388,7 +382,7 @@ itxn_field XferAsset
 txn Sender
 itxn_field AssetReceiver
 int 0
-byte "ia"
+byte "caa"
 app_local_get
 itxn_field AssetAmount
 itxn_submit
@@ -518,14 +512,6 @@ app_global_get
 byte "ra"
 app_global_get
 -
-gtxn 0 Amount
-int 0
-callsub getAssetMicros_6
-*
-byte "price"
-app_global_get
-/
-+
 int 100
 *
 byte "ta"
@@ -544,6 +530,10 @@ int 1
 app_local_put
 int 0
 byte "ia"
+gtxn 0 Amount
+app_local_put
+int 0
+byte "caa"
 gtxn 0 Amount
 int 0
 callsub getAssetMicros_6
@@ -736,6 +726,10 @@ int 0
 app_local_put
 int 0
 byte "ia"
+int 0
+app_local_put
+int 0
+byte "caa"
 int 0
 app_local_put
 int 1

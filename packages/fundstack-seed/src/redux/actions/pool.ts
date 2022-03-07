@@ -5,6 +5,7 @@ import {F_AccountActivity, Pool} from "@fundstack/sdk";
 import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
+import party from "party-js";
 
 
 export interface PoolDetails {
@@ -101,6 +102,10 @@ export const publish = createAsyncThunk(
             dispatch(loadAccount(address));
             dispatch(loadPool(poolId));
             dispatch(setAction(''));
+            party.confetti(document.querySelector('body'), {
+                count: party.variation.range(200, 300),
+                size: party.variation.range(1, 1.4),
+            });
 
             return txId;
         }

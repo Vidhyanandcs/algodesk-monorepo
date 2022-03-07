@@ -2,7 +2,7 @@ import './PoolStatus.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {globalStateKeys} from "@fundstack/sdk";
-import {Chip, LinearProgress, withStyles} from "@material-ui/core";
+import {Chip, LinearProgress, Tooltip, withStyles} from "@material-ui/core";
 import React from "react";
 import {formatNumWithDecimals} from "@algodesk/core";
 import {CheckCircle, Cancel} from "@material-ui/icons";
@@ -42,7 +42,7 @@ function PoolStatus(): JSX.Element {
                 <div className="tile-name">
                     Pool status
                     {status.sale.completed ? <span style={{marginTop: -5}}>
-                        {pool.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Chip label={"failed"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/> }
+                        {pool.globalState[globalStateKeys.target_reached] ? <Chip label={"success"} icon={<CheckCircle></CheckCircle>} color={"primary"} size={"small"}/>: <Tooltip title={"Did not meet the pool success criteria of " + pool.globalState[globalStateKeys.platform_success_criteria_percentage] + "%. This is considered as a failed attempt to raise funds. You can withdraw your assets from escrow."}><Chip label={"failed"} icon={<Cancel></Cancel>} color={"secondary"} size={"small"}/></Tooltip> }
                     </span> : ''}
 
                 </div>

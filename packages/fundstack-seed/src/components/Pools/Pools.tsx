@@ -60,7 +60,7 @@ function Pools(): JSX.Element {
                                           const poolInstance = new Pool(pool, network.name);
                                           return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool.id}>
                                               <div className="pool">
-                                                  <img src={fSdk.fs.getIpfsLink(poolInstance.globalState[globalStateKeys.logo])} alt="pool-logo"/>
+                                                  {poolInstance.globalState[globalStateKeys.logo] ? <img src={fSdk.fs.getIpfsLink(poolInstance.globalState[globalStateKeys.logo])} alt="pool-logo"/> : ''}
                                                   <div className="pool-name">
                                                       <div>{poolInstance.globalState[globalStateKeys.name]}</div>
                                                       <div className="pool-id" onClick={() => {

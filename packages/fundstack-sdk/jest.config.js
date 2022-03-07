@@ -9,6 +9,7 @@ module.exports = {
   globals: {
     Uint8Array: Uint8Array,
     ArrayBuffer: ArrayBuffer,
-    TextEncoder: TextEncoder
+    TextEncoder: TextEncoder,
+    TextDecoder: TextDecoder
   },
 };

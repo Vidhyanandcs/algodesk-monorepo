@@ -8,6 +8,8 @@ import {useHistory} from "react-router-dom";
 import {microalgosToAlgos} from "algosdk";
 import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
+import fSdk from "../../utils/fSdk";
+import {setVisitedTab} from "../../redux/actions/app";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -30,6 +32,7 @@ function MyInvestments(): JSX.Element {
 
     useEffect(() => {
         dispatch(loadPools());
+        dispatch(setVisitedTab('my_investments'));
     }, [dispatch]);
 
   return (
@@ -59,14 +62,20 @@ function MyInvestments(): JSX.Element {
                           </div> : ''}
                           <Grid container spacing={2}>
                               {pools.map((pool) => {
+                                  console.log(pool);
                                   return <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={pool._id}>
                                       <div className="pool">
+
+                                          {pool.logo ? <img src={fSdk.fs.getIpfsLink(pool.logo)} alt="pool-logo" className="logo"/> : ''}
+
                                           <div className="pool-name">
                                               {pool.name}
+
+                                              <div className="pool-id">
+                                                  ID: {pool.app_id}
+                                              </div>
                                           </div>
-                                          <div className="pool-id">
-                                              ID: {pool.app_id}
-                                          </div>
+
                                           <div className="pool-status">
                                               <Button variant={"contained"}
                                                       color={"primary"}
@@ -80,10 +89,18 @@ function MyInvestments(): JSX.Element {
                                           <div className="footer">
                                               <div className="detail">
                                                   <div>
-                                                      Total allocation
+                                                      Registered
                                                   </div>
                                                   <div>
-                                                      {pool.total_allocation} ${pool.asset_unit}
+                                                      {pool.localState.registered ? 'Yes' : 'No'}
+                                                  </div>
+                                              </div>
+                                              <div className="detail">
+                                                  <div>
+                                                      Invested
+                                                  </div>
+                                                  <div>
+                                                      {pool.localState.invested ? 'Yes' : 'No'}
                                                   </div>
                                               </div>
                                               <div className="detail">
@@ -92,6 +109,15 @@ function MyInvestments(): JSX.Element {
                                                   </div>
                                                   <div>
                                                       {microalgosToAlgos(pool.price)}
+                                                      <img src={algoLogo} alt="Algo"/>
+                                                  </div>
+                                              </div>
+                                              <div className="detail">
+                                                  <div>
+                                                      Invested amount
+                                                  </div>
+                                                  <div>
+                                                      {microalgosToAlgos(pool.localState.investedAmount)}
                                                       <img src={algoLogo} alt="Algo"/>
                                                   </div>
                                               </div>

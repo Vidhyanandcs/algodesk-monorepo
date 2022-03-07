@@ -20,6 +20,11 @@
       .pool-name {
         font-size: 22px;
         font-weight: 600;
+        a {
+          &:hover {
+            cursor: pointer;
+          }
+        }
         img.logo {
           width: 60px;
           height: 60px;
@@ -78,7 +83,7 @@
         .tile-header {
           .tile-name {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: bold;
           }
           .tile-status {
             float: right;
@@ -114,7 +119,8 @@
                 background: $color-light;
                 border-radius: 50%;
                 padding: 5px;
-                border: 2px solid #000;
+                border: 2px solid #E0D21F;
+                color: #E0D21F;
               }
             }
             .lock-label {

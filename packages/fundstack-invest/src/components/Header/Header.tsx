@@ -29,12 +29,12 @@ function Header(): JSX.Element {
     const location = useLocation();
     const classes = useStyles();
 
-    const homeCls = [classes.primaryColorOnHover];
+    const PoolsCls = [classes.primaryColorOnHover];
     const invCls = [classes.primaryColorOnHover];
 
-    if (location.pathname === '/portal/home') {
-        homeCls.push(classes.primaryText);
-        homeCls.push("active");
+    if (location.pathname === '/portal/pools') {
+        PoolsCls.push(classes.primaryText);
+        PoolsCls.push("active");
     }
     else if (location.pathname === '/portal/investments') {
         invCls.push(classes.primaryText);
@@ -50,14 +50,14 @@ function Header(): JSX.Element {
                     <div className="items">
                         <div className="item">
                             <div className={"logo"} onClick={() => {
-                                history.push('/portal/home');
+                                history.push('/portal/pools');
                                 }
                             }>
                                 <Logo></Logo>
                             </div>
                         </div>
                         <div className="item">
-                            <Link href={"#portal/home"} className={"menu-link " + homeCls.join(" ")} color={"inherit"}>Home</Link>
+                            <Link href={"#portal/pools"} className={"menu-link " + PoolsCls.join(" ")} color={"inherit"}>Pools</Link>
                             {account.loggedIn ? <Link href={"#portal/investments"} className={"menu-link " + invCls.join(" ")} color={"inherit"}>My investments</Link> : ''}
 
 
@@ -85,7 +85,7 @@ function Header(): JSX.Element {
                                           <span className="logout" onClick={(ev) => {
                                               dispatch(logout());
                                               if (location.pathname === '/portal/investments') {
-                                                  history.push('/portal/home');
+                                                  history.push('/portal/pools');
                                               }
                                           }}>
                                                   <PowerSettingsNew fontSize={"small"}></PowerSettingsNew>
