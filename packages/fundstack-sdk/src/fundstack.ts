@@ -772,7 +772,7 @@ export class Fundstack {
     }
 
     getTotalAmountRaised(pool: Pool): number {
-        return this.getSoldAllocationInDecimals(pool) * this.getPrice(pool);
+        return microalgosToAlgos(this.getSoldAllocationInDecimals(pool) * pool.globalState[globalStateKeys.price]);
     }
 
     getSuccessCriteriaPercentage(pool: Pool): number {
