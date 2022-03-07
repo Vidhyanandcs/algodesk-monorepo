@@ -19,6 +19,7 @@ export type F_PoolLocalState = {
     ia: number
     c: number
     w: number
+    caa: number
 };
 
 export type F_PoolGlobalState = {

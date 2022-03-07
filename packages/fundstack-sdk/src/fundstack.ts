@@ -671,7 +671,8 @@ export class Fundstack {
                 invested: state[localStateKeys.invested] === 1,
                 claimed: state[localStateKeys.claimed] === 1,
                 withdrawn: state[localStateKeys.withdrawn] === 1,
-                investedAmount: state[localStateKeys.invested_amount]
+                investedAmount: state[localStateKeys.invested_amount],
+                claimableAssetAmount: state[localStateKeys.claimable_asset_amount]
             };
         });
 

@@ -112,7 +112,7 @@ function InvestModal(): JSX.Element {
                                                        onChange={(ev) => {
                                                            const val = ev.target.value;
 
-                                                           const payableAmount = fSdk.fs.calculatePayableAmount(val ? Number(val) : 0, pool);
+                                                           const payableAmount = fSdk.fs.calculatePayableAmount(val ? parseInt(val) : 0, pool);
                                                            setState(prevState => ({...prevState, amount: val, payableAmount}));
                                                        }}
                                                        InputProps={{
@@ -151,7 +151,7 @@ function InvestModal(): JSX.Element {
                                             className="custom-button"
                                             variant={"contained"} size={"large"}
                                             onClick={() => {
-                                                dispatch(invest({pool, amount}));
+                                                dispatch(invest({pool, amount: parseInt(amount)}));
                                             }}
                                     >Invest</Button>
                                 </div>

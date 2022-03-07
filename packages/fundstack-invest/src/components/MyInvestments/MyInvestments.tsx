@@ -112,6 +112,15 @@ function MyInvestments(): JSX.Element {
                                                       <img src={algoLogo} alt="Algo"/>
                                                   </div>
                                               </div>
+                                              <div className="detail">
+                                                  <div>
+                                                      Invested amount
+                                                  </div>
+                                                  <div>
+                                                      {microalgosToAlgos(pool.localState.investedAmount)}
+                                                      <img src={algoLogo} alt="Algo"/>
+                                                  </div>
+                                              </div>
                                           </div>
                                       </div>
                                   </Grid>

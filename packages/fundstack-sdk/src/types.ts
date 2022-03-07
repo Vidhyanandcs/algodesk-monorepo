@@ -70,6 +70,7 @@ export interface F_AccountInvestment extends F_DB_POOL {
         invested: boolean,
         claimed: boolean,
         withdrawn: boolean,
-        investedAmount: number
+        investedAmount: number,
+        claimableAssetAmount: number
     }
 }
