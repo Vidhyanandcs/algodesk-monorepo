@@ -8,6 +8,7 @@ import accountReducer from "./actions/account";
 import poolReducer from "./actions/pool";
 import successModal from "./actions/successModal";
 import poolsReducer from './actions/pools';
+import appReducer from './actions/app';
 
 export const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
         account: accountReducer,
         pool: poolReducer,
         successModal: successModal,
-        pools: poolsReducer
+        pools: poolsReducer,
+        app: appReducer
     },
 });
 

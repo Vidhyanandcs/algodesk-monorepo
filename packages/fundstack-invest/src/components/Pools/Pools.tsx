@@ -12,6 +12,7 @@ import {getCommonStyles} from "../../utils/styles";
 import algoLogo from '../../assets/images/algo-logo.png';
 import {F_DB_POOL} from "@fundstack/sdk";
 import fSdk from "../../utils/fSdk";
+import {setVisitedTab} from "../../redux/actions/app";
 
 const useStyles = makeStyles((theme) => {
     return {
@@ -33,6 +34,7 @@ function Pools(): JSX.Element {
 
     useEffect(() => {
         dispatch(loadPools());
+        dispatch(setVisitedTab('pools'));
     }, [dispatch]);
 
     const activeList = pools.list.filter((pool) => {

@@ -1,6 +1,6 @@
 import './Pool.scss';
 import React, {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadPool} from "../../redux/actions/pool";
 import {RootState} from "../../redux/store";
@@ -25,7 +25,9 @@ function Pool(): JSX.Element {
     const params = useParams();
     const dispatch = useDispatch();
     const poolDetails = useSelector((state: RootState) => state.pool);
+    const app = useSelector((state: RootState) => state.app);
     const {pool} = poolDetails;
+    const history = useHistory();
 
     // @ts-ignore
     const id: number = params.id;
@@ -61,7 +63,15 @@ function Pool(): JSX.Element {
                                         <div className="pool-header">
 
                                             <div className="pool-name">
-                                                <Link underline="hover" color="inherit" href="#/portal/pools">
+                                                <Link underline="hover" color="inherit"  onClick={() => {
+                                                        const {visitedTab} = app;
+                                                        let url = '/portal/pools';
+                                                        if (visitedTab === 'my_investments') {
+                                                            url = '/portal/investments';
+                                                        }
+                                                        history.push(url);
+                                                    }
+                                                }>
                                                     <ArrowBack fontSize={"medium"}></ArrowBack>
                                                 </Link>
                                                 {pool.globalState[globalStateKeys.logo] ? <img src={fSdk.fs.getIpfsLink(pool.globalState[globalStateKeys.logo])} alt="pool-logo" className="logo"/> : ''}
