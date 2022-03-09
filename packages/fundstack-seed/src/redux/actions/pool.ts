@@ -6,6 +6,7 @@ import {hideLoader, showLoader} from "./loader";
 import {showSuccessModal} from "./successModal";
 import {loadAccount} from "./account";
 import party from "party-js";
+import {REACT_APP_INVESTOR_PORTAL} from "../../env";
 
 
 export interface PoolDetails {
@@ -98,7 +99,7 @@ export const publish = createAsyncThunk(
             await fSdk.fs.algodesk.transactionClient.waitForConfirmation(txId);
             dispatch(hideLoader());
 
-            dispatch(showSuccessModal("Published successfully"));
+            dispatch(showSuccessModal("Published successfully. Pool will be available for investors on the investor portal in some time. " + REACT_APP_INVESTOR_PORTAL));
             dispatch(loadAccount(address));
             dispatch(loadPool(poolId));
             dispatch(setAction(''));

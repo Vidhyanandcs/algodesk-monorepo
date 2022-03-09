@@ -73,10 +73,10 @@ const initialState: CreatePoolState = {
     minAllocation: '',
     maxAllocation: '',
     price: '',
-    regStartsAt: new Date(new Date().getTime() + 5 * minute),
-    regEndsAt: new Date(new Date().getTime() + 10 * minute),
-    saleStartsAt: new Date(new Date().getTime() + 11 * minute),
-    saleEndsAt: new Date(new Date().getTime() + 16 * minute + minute)
+    regStartsAt: new Date(new Date().getTime() + 1 * 60 * minute),
+    regEndsAt: new Date(new Date().getTime() + 25 * 60 *  minute),
+    saleStartsAt: new Date(new Date().getTime() + 26 * 60 * minute),
+    saleEndsAt: new Date(new Date().getTime() + 50 * 60 * minute)
 };
 
 function CreatePool(): JSX.Element {
@@ -95,10 +95,10 @@ function CreatePool(): JSX.Element {
 
     useEffect(() => {
         setState(prevState => ({...prevState,
-            regStartsAt: new Date(new Date().getTime() + 5 * minute),
-            regEndsAt: new Date(new Date().getTime() + 10 * minute),
-            saleStartsAt: new Date(new Date().getTime() + 11 * minute),
-            saleEndsAt: new Date(new Date().getTime() + 16 * minute + minute)
+            regStartsAt: new Date(new Date().getTime() + 1 * 60 * minute),
+            regEndsAt: new Date(new Date().getTime() + 25 * 60 *  minute),
+            saleStartsAt: new Date(new Date().getTime() + 26 * 60 * minute),
+            saleEndsAt: new Date(new Date().getTime() + 50 * 60 * minute)
         }));
     }, []);
 

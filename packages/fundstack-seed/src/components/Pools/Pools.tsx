@@ -15,6 +15,7 @@ function Pools(): JSX.Element {
     const network = useSelector((state: RootState) => state.network);
     const {pools} = account;
     const history = useHistory();
+
   return (
       <div className="pools-wrapper">
           <div className="pools-container">
@@ -37,6 +38,9 @@ function Pools(): JSX.Element {
                                           history.push('/portal/dashboard/pools/create');
                                       }}
                               >Create pool</Button>
+                          </div>
+                          <div className="no-pools-message">
+                              Your account doesn't have any fundraising pools.
                           </div>
                       </div> : ''}
 
