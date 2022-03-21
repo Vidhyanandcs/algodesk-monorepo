@@ -17,5 +17,5 @@ def compileContracts(network):
             f.write(compiledClearProgram)
 
 
-compileContracts('betanet')
+# compileContracts('betanet')
 compileContracts('testnet')

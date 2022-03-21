@@ -48,7 +48,7 @@ export async function deployPlatformContract(network: string) {
 }
 
 async function deployPlatformContracts() {
-    await deployPlatformContract(NETWORKS.BETANET);
+    //await deployPlatformContract(NETWORKS.BETANET);
     await deployPlatformContract(NETWORKS.TESTNET);
 }
 

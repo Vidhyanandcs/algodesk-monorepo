@@ -15,7 +15,7 @@ export async function compilePoolContracts(network: string) {
 }
 
 async function compilePoolContractsForNetworks() {
-    await compilePoolContracts(NETWORKS.BETANET);
+    //await compilePoolContracts(NETWORKS.BETANET);
     await compilePoolContracts(NETWORKS.TESTNET);
 }
 

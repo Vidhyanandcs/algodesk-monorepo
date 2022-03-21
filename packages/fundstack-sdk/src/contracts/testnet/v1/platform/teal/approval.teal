@@ -1,10 +1,10 @@
 #pragma version 5
 callsub isCreate_2
-bnz main_l15
+bnz main_l12
 callsub isUpdate_3
-bnz main_l14
+bnz main_l11
 callsub isDelete_4
-bnz main_l13
+bnz main_l10
 txna ApplicationArgs 0
 byte "validate_pool"
 ==
@@ -110,36 +110,15 @@ gtxn 3 Sender
 txn Sender
 ==
 assert
-itxn_begin
-int axfer
-itxn_field TypeEnum
-txna Applications 1
-byte "aid"
-app_global_get_ex
-store 4
-store 5
-load 4
-bnz main_l12
-byte "0"
-main_l11:
-itxn_field XferAsset
-global CurrentApplicationAddress
-itxn_field AssetReceiver
-int 0
-itxn_field AssetAmount
-itxn_submit
 int 1
 return
+main_l10:
+callsub allowOperation_6
+return
+main_l11:
+callsub allowOperation_6
+return
 main_l12:
-load 5
-b main_l11
-main_l13:
-callsub allowOperation_6
-return
-main_l14:
-callsub allowOperation_6
-return
-main_l15:
 global GroupSize
 int 1
 ==

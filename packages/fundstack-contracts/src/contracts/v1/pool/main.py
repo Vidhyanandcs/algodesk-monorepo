@@ -26,5 +26,5 @@ def compileContracts(network, platformAppId):
             f.write(compiledClearProgram)
 
 
-compileContracts('betanet', Int(apps["betanet"]))
+# compileContracts('betanet', Int(apps["betanet"]))
 compileContracts('testnet', Int(apps["testnet"]))

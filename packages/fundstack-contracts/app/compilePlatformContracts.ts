@@ -15,7 +15,7 @@ export async function compilePlatformContracts(network: string) {
 }
 
 async function compilePlatformContractsForNetworks() {
-    await compilePlatformContracts(NETWORKS.BETANET);
+    //await compilePlatformContracts(NETWORKS.BETANET);
     await compilePlatformContracts(NETWORKS.TESTNET);
 }
 

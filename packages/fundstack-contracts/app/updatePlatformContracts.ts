@@ -44,7 +44,7 @@ export async function updatePlatformContract(network: string, platformAppId: num
 }
 
 async function updatePlatformContracts() {
-    await updatePlatformContract(NETWORKS.BETANET, networkApps.betanet);
+    //await updatePlatformContract(NETWORKS.BETANET, networkApps.betanet);
     await updatePlatformContract(NETWORKS.TESTNET, networkApps.testnet);
 }
 

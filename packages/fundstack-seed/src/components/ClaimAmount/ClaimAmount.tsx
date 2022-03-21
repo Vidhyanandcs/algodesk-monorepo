@@ -113,7 +113,7 @@ function ClaimAmount(): JSX.Element {
                                         setState(prevState => ({ ...prevState, unsoldAssetAction: e.currentTarget.value }));
                                     }}>
                                         <FormControlLabel value="claim" control={<Radio color={"primary"}/>} label="Claim back"/>
-                                        <FormControlLabel value="donate" control={<Radio color={"primary"}/>} label="Donate to platform"/>
+                                        {/*<FormControlLabel value="donate" control={<Radio color={"primary"}/>} label="Donate to platform"/>*/}
                                         <FormControlLabel value="burn" control={<Radio color={"primary"}/>} label="Burn permanently"/>
                                     </RadioGroup>
                                 </FormControl>

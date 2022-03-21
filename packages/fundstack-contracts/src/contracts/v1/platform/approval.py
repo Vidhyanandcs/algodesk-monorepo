@@ -89,7 +89,7 @@ def validatePool():
         InnerTxnBuilder.Submit()
     ]
 
-    conditions = gtxnAssertions + paymentAssertions + poolAppAssertions + applicationAssertions + innerTransactions + setState + [Approve()]
+    conditions = gtxnAssertions + paymentAssertions + poolAppAssertions + applicationAssertions + setState + [Approve()]
 
     block = Seq(conditions)
     return block
