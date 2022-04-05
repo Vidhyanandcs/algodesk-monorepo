@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {RootState} from "../../redux/store";
 import logo from "../../assets/images/logo.png";
-import {getNetworks, setLocalNetwork} from "@algodesk/core";
+import {getNetworks, NETWORKS, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 
 
@@ -14,7 +14,11 @@ function Login(): JSX.Element {
     const dispatch = useDispatch();
     const account = useSelector((state: RootState) => state.account);
     const currentNetwork = useSelector((state: RootState) => state.network);
-    const networks = getNetworks();
+    let networks = getNetworks();
+
+    networks = networks.filter((network) => {
+        return network.name !== NETWORKS.BETANET;
+    });
 
     if (account.loggedIn) {
         return (<Redirect to='/portal'></Redirect>);
@@ -49,19 +53,22 @@ function Login(): JSX.Element {
                                           dispatch(selectNetwork(network));
                                       }}>
                                           {networks.map((network) => {
-                                              return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label}/>
+                                                return <FormControlLabel value={network.name} key={network.name} control={<Radio color={"primary"}/>} label={network.label}/>
                                           })}
                                       </RadioGroup>
                                   </FormControl>
 
-                                  <Button variant={"contained"}
-                                          color={"primary"}
-                                          size={"large"}
-                                          style={{marginTop: 30}}
-                                          onClick={() => {
-                                              dispatch(showConnectWallet());
-                                          }}
-                                  >Connect wallet</Button>
+                                  <div>
+                                      <Button variant={"contained"}
+                                              color={"primary"}
+                                              size={"large"}
+                                              style={{marginTop: 30}}
+                                              onClick={() => {
+                                                  dispatch(showConnectWallet());
+                                              }}
+                                      >Connect wallet</Button>
+                                  </div>
+
                               </div>
                           </div>
 

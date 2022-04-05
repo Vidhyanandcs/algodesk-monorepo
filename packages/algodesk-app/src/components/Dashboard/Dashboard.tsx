@@ -4,7 +4,7 @@ import CreatedAssets from "../CreatedAssets/CreatedAssets";
 import React, {useState} from "react";
 import {Button, ButtonGroup, makeStyles, Tab, Tabs} from "@material-ui/core";
 import algosdk from "../../utils/algosdk";
-import {getNetworks, setLocalNetwork} from "@algodesk/core";
+import {getNetworks, NETWORKS, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
 import {showSnack} from "../../redux/actions/snackbar";
@@ -45,6 +45,9 @@ const initialState: DashboardState = {
 
 function Dashboard(): JSX.Element {
     let networks = getNetworks();
+    networks = networks.filter((network) => {
+        return network.name !== NETWORKS.BETANET;
+    });
 
     const account = useSelector((state: RootState) => state.account);
     const {address} = account.information;

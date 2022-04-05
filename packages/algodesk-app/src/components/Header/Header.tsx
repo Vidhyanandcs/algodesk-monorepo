@@ -3,7 +3,7 @@ import {Box, Button, ButtonGroup, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Logo from "../Logo/Logo";
-import {getNetworks, setLocalNetwork} from "@algodesk/core";
+import {getNetworks, NETWORKS, setLocalNetwork} from "@algodesk/core";
 import {setNetwork as selectNetwork} from "../../redux/actions/network";
 import {loadAccount} from "../../redux/actions/account";
 import algosdk from "../../utils/algosdk";
@@ -12,6 +12,9 @@ import {showSnack} from "../../redux/actions/snackbar";
 
 function Header(): JSX.Element {
     let networks = getNetworks();
+    networks = networks.filter((network) => {
+        return network.name !== NETWORKS.BETANET;
+    });
 
     const account = useSelector((state: RootState) => state.account);
     const {address} = account.information;
@@ -33,6 +36,7 @@ function Header(): JSX.Element {
                         <Box p={1}>
                             <ButtonGroup variant="outlined" size="small" color="primary" style={{marginTop: 2}}>
                                 {networks.map((network) => {
+                                    console.log(network);
                                     return (<Button key={network.name} variant={currentNetwork.name === network.name ? 'contained' : 'outlined'} onClick={() => {
                                         const {name} = network;
                                         if (algosdk.signer.isNetworkSupported(name)) {

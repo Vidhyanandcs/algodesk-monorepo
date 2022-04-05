@@ -48,11 +48,9 @@ export const loadAccount = createAsyncThunk(
         try {
             dispatch(showLoader("Loading account information ..."));
             const accountInfo = await algosdk.algodesk.accountClient.getAccountInformation(address);
-            //dispatch(setAccountInformation(accountInfo));
             dispatch(resetNfts());
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
-            //dispatch(loadNfts(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -96,7 +94,7 @@ export const loadOptedAssets = createAsyncThunk(
             const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
             optedAssets.forEach((asset) => {
                 const isCreatedAsset = algosdk.algodesk.accountClient.isCreatedAsset(asset['asset-id'], accountInformation);
-                if (!isCreatedAsset && asset.creator) {
+                if (!isCreatedAsset) {
                     dispatch(loadOptedAsset(asset['asset-id']));
                 }
             });
@@ -124,25 +122,6 @@ export const loadOptedAsset = createAsyncThunk(
                 asset,
                 accountInformation: account.information
             };
-        }
-        catch (e: any) {
-            dispatch(handleException(e));
-        }
-    }
-);
-
-export const loadNfts = createAsyncThunk(
-    'account/loadNfts',
-    async (accountInformation: A_AccountInformation, thunkAPI) => {
-        const {dispatch} = thunkAPI;
-        try {
-            dispatch(resetNfts());
-            const optedAssets = algosdk.algodesk.accountClient.getHoldingAssets(accountInformation);
-            optedAssets.forEach((asset) => {
-                if (asset.creator && asset.amount > 0) {
-                    //dispatch(loadNft(asset['asset-id']));
-                }
-            });
         }
         catch (e: any) {
             dispatch(handleException(e));
